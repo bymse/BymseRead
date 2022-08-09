@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace BymseBooks;
+namespace BymseBooks.App;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

@@ -1,4 +1,4 @@
-﻿namespace BymseBooks;
+﻿namespace BymseBooks.App;
 
 public partial class MainPage : ContentPage
 {

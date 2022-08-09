@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace BymseBooks;
+namespace BymseBooks.App;
 
 [Application]
 public class MainApplication : MauiApplication

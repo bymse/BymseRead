@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace BymseBooks;
+namespace BymseBooks.App;
 
 public class Program
 {
