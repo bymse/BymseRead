@@ -1,9 +1,10 @@
-﻿namespace BymseBooks.App;
-
-public partial class AppShell : Shell
+﻿namespace BymseBooks.App
 {
-    public AppShell()
+    public partial class AppShell : Shell
     {
-        InitializeComponent();
+        public AppShell()
+        {
+            InitializeComponent();
+        }
     }
 }

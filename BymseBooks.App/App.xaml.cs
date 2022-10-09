@@ -1,11 +1,16 @@
-﻿namespace BymseBooks.App;
+﻿using Microsoft.Maui.Handlers;
 
-public partial class App : Application
+namespace BymseBooks.App
 {
-    public App()
+    public partial class App : Application
     {
-        InitializeComponent();
+        public App()
+        {
+            InitializeComponent();
 
-        MainPage = new AppShell();
+            UserAppTheme = AppTheme.Light;
+            
+            MainPage = new AppShell();
+        }
     }
 }
