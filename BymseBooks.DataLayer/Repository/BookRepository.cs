@@ -2,8 +2,7 @@ using System.Transactions;
 using BymseBooks.DataLayer.Database;
 using BymseBooks.DataLayer.Entity;
 using BymseBooks.DataLayer.Helpers;
-using BymseBooks.DataLayer.Models;
-using BymseBooks.DataLayer.Models.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Z.EntityFramework.Plus;
 
 namespace BymseBooks.DataLayer.Repository
@@ -17,77 +16,80 @@ namespace BymseBooks.DataLayer.Repository
             this.context = context;
         }
 
-        public IReadOnlyList<BookModel> GetBooks(int userId, out int booksCount,
+        public IReadOnlyList<Book> GetBooks(int userId, out int booksCount,
             int? takeCount = null, int? skipCount = null,
             IList<int>? tagsIds = null)
         {
-            using var transaction = new TransactionScope();
+            // using var transaction = new TransactionScope();
+            //
+            // IQueryable<Book> query;
+            //
+            // if (!tagsIds.IsNullOrEmpty())
+            //
+            // {
+            //     var booksIds = context.BookTagLinks
+            //         .Where(link => tagsIds!.Contains(link.TagId))
+            //         .GroupBy(r => r.BookId)
+            //         .Where(g => g.Count() == tagsIds!.Count)
+            //         .Select(r => r.Key);
+            //
+            //     query = GetUserBooks(userId).Where(r => booksIds.Contains(r.BookId));
+            // }
+            // else
+            // {
+            //     query = GetUserBooks(userId);
+            // }
+            //
+            // booksCount = query.Count();
+            //
+            // var models = query
+            //     .OrderBy(e => e.State == BookState.Active
+            //         ? 0
+            //         : e.State + 2)
+            //     .If(skipCount.HasValue, e => e.Skip(skipCount!.Value))
+            //     .If(takeCount.HasValue, e => e.Take(takeCount!.Value))
+            //     .OrderBy(e => e.State == BookState.Active
+            //         ? 0
+            //         : e.State + 2)
+            //     .Select(book => new BookModel
+            //     {
+            //         BookId = book.BookId,
+            //         AuthorName = book.AuthorName,
+            //         Title = book.Title,
+            //         TagsIds = book.BookTags.Select(tag => tag.TagId).ToList(),
+            //         Url = book.Url,
+            //         State = book.State,
+            //     })
+            //     .ToArray();
+            //
+            // transaction.Complete();
+            // return models;
+            throw new NotImplementedException();
+        }
 
-            IQueryable<Book> query;
-
-            if (!tagsIds.IsNullOrEmpty())
-
-            {
-                var booksIds = context.BookTagLinks
-                    .Where(link => tagsIds!.Contains(link.TagId))
-                    .GroupBy(r => r.BookId)
-                    .Where(g => g.Count() == tagsIds!.Count)
-                    .Select(r => r.Key);
-
-                query = GetUserBooks(userId).Where(r => booksIds.Contains(r.BookId));
-            }
-            else
-            {
-                query = GetUserBooks(userId);
-            }
-
-            booksCount = query.Count();
-
-            var models = query
-                .OrderBy(e => e.State == BookState.Active
-                    ? 0
-                    : e.State + 2)
-                .If(skipCount.HasValue, e => e.Skip(skipCount!.Value))
-                .If(takeCount.HasValue, e => e.Take(takeCount!.Value))
-                .OrderBy(e => e.State == BookState.Active
-                    ? 0
-                    : e.State + 2)
-                .Select(book => new BookModel
-                {
-                    BookId = book.BookId,
-                    AuthorName = book.AuthorName,
-                    Title = book.Title,
-                    TagsIds = book.BookTags.Select(tag => tag.TagId).ToList(),
-                    Url = book.Url,
-                    State = book.State,
-                })
+        public IReadOnlyList<Book> GetBooks(BookState state, int takeCount, int skipCount)
+        {
+            return context.Books
+                .Include(e => e.Bookmarks)
+                .Where(e => e.State == state)
+                .Skip(skipCount)
+                .Take(takeCount)
                 .ToArray();
-
-            transaction.Complete();
-            return models;
         }
 
 
-        public bool Exist(string title, string authorName, int userId) =>
-            GetUserBooks(userId)
-                .Any(e => e.Title == title && e.AuthorName == authorName);
+        public bool Exist(string title, string authorName) =>
+            context.Books.Any(e => e.Title == title && e.AuthorName == authorName);
 
         public bool Exist(int bookId, int userId)
         {
-            return GetUserBooks(userId).Any(e => e.BookId == bookId);
+            return context.Books.Any(e => e.BookId == bookId);
         }
 
-        public BookModel? FindBook(int bookId, int userId)
+        public Book? FindBook(int bookId, int userId)
         {
-            return GetUserBooks(userId)
-                .Where(e => e.BookId == bookId)
-                .ToModels()
-                .FirstOrDefault();
+            return context.Books.FirstOrDefault(e => e.BookId == bookId);
         }
-
-        private IQueryable<Book> GetUserBooks(int userId) => context
-            .Books
-            .Where(e => e.UserId == userId);
 
         public int Insert(Book book)
         {

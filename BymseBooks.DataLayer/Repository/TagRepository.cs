@@ -1,8 +1,6 @@
 using System.Transactions;
 using BymseBooks.DataLayer.Database;
 using BymseBooks.DataLayer.Entity;
-using BymseBooks.DataLayer.Models;
-using BymseBooks.DataLayer.Models.Extensions;
 
 namespace BymseBooks.DataLayer.Repository
 {
@@ -15,18 +13,14 @@ namespace BymseBooks.DataLayer.Repository
             this.context = context;
         }
 
-        public IList<TagModel> GetTags(int userId)
+        public IReadOnlyList<Tag> GetTags()
         {
-            return context.Tags
-                .Where(e => e.CreatorUserId == userId)
-                .ToModelsList();
+            return context.Tags.ToArray();
         }
 
-        public bool Exist(string title, int userId)
+        public bool Exist(string title)
         {
-            return context.Tags
-                .Where(e => e.Title == title)
-                .Any(e => e.CreatorUserId == userId);
+            return context.Tags.Any(e => e.Title == title);
         }
 
         public bool ExistAll(IList<int> ids)

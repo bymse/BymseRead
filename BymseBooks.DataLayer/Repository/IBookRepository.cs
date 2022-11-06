@@ -1,19 +1,20 @@
 using BymseBooks.DataLayer.Entity;
-using BymseBooks.DataLayer.Models;
 
 namespace BymseBooks.DataLayer.Repository
 {
     public interface IBookRepository
     {
-        IReadOnlyList<BookModel> GetBooks(int userId,
+        IReadOnlyList<Book> GetBooks(int userId,
             out int booksCount,
             int? takeCount = null, 
             int? skipCount = null, 
             IList<int>? tagsIds = null);
+
+        IReadOnlyList<Book> GetBooks(BookState state, int takeCount, int skipCount);
+
+        Book? FindBook(int bookId, int userId);
         
-        BookModel? FindBook(int bookId, int userId);
-        
-        bool Exist(string title, string authorName, int userId);
+        bool Exist(string title, string authorName);
         bool Exist(int bookId, int userId);
         
         int Insert(Book book);

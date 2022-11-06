@@ -11,12 +11,11 @@ namespace BymseBooks.DataLayer.Entity
         public Book()
         {
             BookTags = new HashSet<BookTagLink>();
-            Pages = new HashSet<Page>();
+            Bookmarks = new HashSet<Bookmark>();
         }
 
         public int BookId { get; set; }
-        public int UserId { get; set; }
-        
+
         [Required]
         [MaxLength(MAX_TITLE_LENGTH)]
         public string Title { get; set; } = null!;
@@ -32,8 +31,9 @@ namespace BymseBooks.DataLayer.Entity
         
         public DateTime CreatedDate { get; set; }
         
-        public User User { get; set; } = null!;
-        public ICollection<BookTagLink> BookTags { get; set; }
-        public ICollection<Page> Pages { get; private set; }
+        public int TotalPages { get; set; }
+        
+        public virtual ICollection<BookTagLink> BookTags { get; set; }
+        public virtual ICollection<Bookmark> Bookmarks { get; set; }
     }
 }

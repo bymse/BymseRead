@@ -18,12 +18,6 @@ namespace BymseBooks.DataLayer.Entity
         [MaxLength(MAX_TITLE_LENGTH)]
         public string Title { get; set; } = null!;
         
-        [Column("ColorCode", TypeName = "char(6)")]
-        public string ColorCode { get; set; } = null!;
-
-        public int? CreatorUserId { get; set; }
-        
-        public User? CreatorUser { get; set; }
         public ICollection<BookTagLink> BookTags { get; private set; }
     }
 }
