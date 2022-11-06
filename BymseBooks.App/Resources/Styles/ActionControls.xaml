@@ -3,11 +3,7 @@
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:app="using:BymseBooks.App">
-
-    <Style TargetType="app:HomeButton">
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Default={StaticResource Secondary}}" />
-    </Style>
+    xmlns:app="using:BymseBooks.App"
+>
 
 </ResourceDictionary>

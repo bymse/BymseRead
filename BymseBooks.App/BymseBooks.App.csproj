@@ -49,7 +49,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="HomeButton.xaml">
+	  <MauiXaml Update="TopBarActionsButton.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\LayoutStyles.xaml">
