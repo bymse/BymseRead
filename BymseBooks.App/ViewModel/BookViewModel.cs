@@ -1,8 +1,9 @@
 ﻿using BymseBooks.DataLayer.Entity;
+using CommunityToolkit.Mvvm.Input;
 
-namespace BymseBooks.App.Model;
+namespace BymseBooks.App.ViewModel;
 
-public class BookViewModel
+public partial class BookViewModel
 {
     public int BookId { get; init; }
     public string Title { get; init; }
@@ -10,4 +11,10 @@ public class BookViewModel
     public IReadOnlyList<string> Tags { get; init; }
     public BookState BookState { get; init; }
     public int? Percents { get; init; }
+
+    [RelayCommand]
+    public async Task GoToBookPage()
+    {
+        await Shell.Current.GoToAsync($"book?bookId={BookId}");
+    }
 }

@@ -3,7 +3,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:app="using:BymseBooks.App"
-             xmlns:viewmodel="using:BymseBooks.App.ViewModel"
+             xmlns:viewmodel="clr-namespace:BymseBooks.App.ViewModel"
              x:Class="BymseBooks.App.MainPage"
              x:DataType="viewmodel:MainPageViewModel">
 
@@ -14,11 +14,11 @@
     </Shell.TitleView>
 
     <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
-        </VerticalStackLayout>
+        <CollectionView
+            ItemsSource="{Binding Books}"
+            SelectedItem="None"
+            ItemTemplate="{StaticResource BookCardTemplate}">
+        </CollectionView>
     </ScrollView>
 
 </ContentPage>

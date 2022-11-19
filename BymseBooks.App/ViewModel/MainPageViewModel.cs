@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using BymseBooks.App.Model;
 using BymseBooks.App.Service;
 using BymseBooks.DataLayer.Entity;
 using CommunityToolkit.Mvvm.Input;

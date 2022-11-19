@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using BymseBooks.App.Service;
+using BymseBooks.App.ViewModel;
+using BymseBooks.DataLayer.Database;
+using BymseBooks.DataLayer.Repository;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
 
 namespace BymseBooks.App
@@ -23,6 +27,11 @@ namespace BymseBooks.App
             builder.Configuration.AddJsonFile("appsettings.Debug.json");
 #endif
 
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddTransient<MainPageViewModel>();
+            builder.Services.AddTransient<IBookRepository, BookRepository>();
+            builder.Services.AddTransient<BooksDbContext>();
+            
             return builder.Build();
         }
     }

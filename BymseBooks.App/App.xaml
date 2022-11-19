@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
                 <ResourceDictionary Source="Resources/Styles/LayoutStyles.xaml" />
                 <ResourceDictionary Source="Resources/Styles/ActionControls.xaml" />
+                <ResourceDictionary Source="View/Resources/BookCardTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
