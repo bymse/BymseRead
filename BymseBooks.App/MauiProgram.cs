@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.LifecycleEvents;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Maui.LifecycleEvents;
 
 namespace BymseBooks.App
 {
@@ -15,6 +16,12 @@ namespace BymseBooks.App
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 })
                 ;
+
+            builder.Configuration.AddJsonFile("appsettings.json");
+
+#if DEBUG
+            builder.Configuration.AddJsonFile("appsettings.Debug.json");
+#endif
 
             return builder.Build();
         }

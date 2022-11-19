@@ -235,3 +235,5 @@ _Pvt_Extensions
 .idea
 logs/
 *.orig
+
+**/appsettings.Debug.json

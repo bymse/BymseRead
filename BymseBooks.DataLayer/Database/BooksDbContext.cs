@@ -7,14 +7,7 @@ namespace BymseBooks.DataLayer.Database
 {
     public partial class BooksDbContext : DbContext
     {
-        private readonly string? connectionString;
-
-        public BooksDbContext(string connectionString)
-        {
-            this.connectionString = connectionString;
-        }
-
-        public const string DB_NAME = "Books";
+        private const string DB_NAME = "Sqlite:Books";
 
         private readonly IConfiguration config;
 
@@ -24,8 +17,7 @@ namespace BymseBooks.DataLayer.Database
         }
 
         private string ConnectionString =>
-            connectionString
-            ?? config.GetConnectionString(DB_NAME)
+            config.GetConnectionString(DB_NAME)
             ?? throw new InvalidOperationException($"No connection string available for {DB_NAME}");
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

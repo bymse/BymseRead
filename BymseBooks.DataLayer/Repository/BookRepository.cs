@@ -3,7 +3,6 @@ using BymseBooks.DataLayer.Database;
 using BymseBooks.DataLayer.Entity;
 using BymseBooks.DataLayer.Helpers;
 using Microsoft.EntityFrameworkCore;
-using Z.EntityFramework.Plus;
 
 namespace BymseBooks.DataLayer.Repository
 {
@@ -108,7 +107,7 @@ namespace BymseBooks.DataLayer.Repository
 
             if (!tags.IsNullOrEmpty())
             {
-                context.BookTagLinks.Where(e => e.BookId == bookId).Delete();
+                context.BookTagLinks.Where(e => e.BookId == bookId).ExecuteDelete();
                 book.BookTags = tags!.Select(e => new BookTagLink
                 {
                     BookId = bookId,
@@ -121,12 +120,13 @@ namespace BymseBooks.DataLayer.Repository
 
         public void Update(int bookId, BookState state)
         {
-            context.Books.Where(r => r.BookId == bookId).Update(r => new Book()
-            {
-                State = state
-            });
+            context.Books
+                .Where(r => r.BookId == bookId)
+                .ExecuteUpdate(
+                    r => r.SetProperty(e => e.State, state)
+                );
         }
 
-        public void Delete(int bookId) => context.Books.Where(e => e.BookId == bookId).Delete();
+        public void Delete(int bookId) => context.Books.Where(e => e.BookId == bookId).ExecuteDelete();
     }
 }
