@@ -31,7 +31,8 @@ namespace BymseBooks.App
             builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<IBookRepository, BookRepository>();
             builder.Services.AddTransient<BooksDbContext>();
-            
+            builder.Services.AddTransient<BooksService>();
+
             return builder.Build();
         }
     }

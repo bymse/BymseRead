@@ -7,9 +7,16 @@ namespace BymseBooks.DataLayer.Database
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Book>()
-                .HasIndex(e => new {e.Title, e.AuthorName})
-                .IsUnique();
+            modelBuilder.Entity<Book>(r =>
+            {
+                r
+                    .HasIndex(e => new { e.Title, e.AuthorName })
+                    .IsUnique();
+
+                r
+                    .Property(e => e.CreatedDate)
+                    .HasConversion<long>();
+            });
         }
     }
 }
