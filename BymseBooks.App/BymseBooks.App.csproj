@@ -55,7 +55,7 @@
 	  <MauiXaml Update="Resources\Styles\LayoutStyles.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
-	  <MauiXaml Update="Resources\Styles\ActionControls.xaml">
+	  <MauiXaml Update="Resources\Styles\CustomControls.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
 	  <MauiXaml Update="View\TopBarActionsButton.xaml">

@@ -8,14 +8,13 @@
     xmlns:viewModel="clr-namespace:BymseBooks.App.ViewModel"
     x:DataType="viewModel:BookViewModel">
     <DataTemplate x:Key="BookCardTemplate">
-        <Frame>
-            <Frame.GestureRecognizers>
-                <ClickGestureRecognizer Command="{Binding GoToBookPageCommand}" />
-            </Frame.GestureRecognizers>
-            <VerticalStackLayout>
-                <Label Text="{Binding Title}" />
-                <Label Text="{Binding Author}" />
-            </VerticalStackLayout>
-        </Frame>
+        <Border Style="{StaticResource BookCardBorder}">
+            <Frame Style="{StaticResource BookCardWrapper}">
+                <VerticalStackLayout Style="{StaticResource BookCard}">
+                    <Label Text="{Binding Title}" Style="{StaticResource BookCardTitle}" />
+                    <Label Text="{Binding Author}" Style="{StaticResource BookCardAuthor}" />
+                </VerticalStackLayout>
+            </Frame>
+        </Border>
     </DataTemplate>
 </ResourceDictionary>

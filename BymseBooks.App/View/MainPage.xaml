@@ -13,7 +13,7 @@
         </HorizontalStackLayout>
     </Shell.TitleView>
 
-    <ScrollView>
+    <ScrollView Style="{StaticResource BookCardsGridContainer}">
         <CollectionView
             ItemsSource="{Binding Books}"
             SelectedItem="None"

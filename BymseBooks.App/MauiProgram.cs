@@ -18,6 +18,10 @@ namespace BymseBooks.App
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    
+                    fonts.AddFont("Cormorant-Bold.ttf", "CormorantBold");
+                    fonts.AddFont("Cormorant-Italic.ttf", "CormorantItalic");
+                    fonts.AddFont("Cormorant-Regular.ttf", "CormorantRegular");
                 })
                 ;
 

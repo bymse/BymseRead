@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xaml-comp compile="true" ?>
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="using:BymseBooks.App">
+
+    <Style TargetType="ScrollView" x:Key="BookCardsGridContainer">
+        <Setter Property="Padding" Value="175,72" />
+    </Style>
+    
+    <Style TargetType="Border" x:Key="BookCardBorder">
+        <Setter Property="StrokeThickness" Value="2"/>
+        <Setter Property="Stroke">
+            <Setter.Value>
+                <RadialGradientBrush Radius="1">
+                    <GradientStop Offset="1.0" Color="{StaticResource White}"/>
+                    <GradientStop Offset="0.1" Color="{StaticResource Gray100}"/>
+                </RadialGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Frame" x:Key="BookCardWrapper">
+        <Setter Property="BorderColor" Value="Transparent" />
+        <Setter Property="BackgroundColor" Value="White" />
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="CornerRadius" Value="0"/>
+    </Style>
+
+    <Style TargetType="VerticalStackLayout" x:Key="BookCard">
+        <Setter Property="Padding" Value="12,32,12,8" />
+        <Setter Property="BackgroundColor" Value="White" />
+        <Setter Property="WidthRequest" Value="200" />
+        <Setter Property="HeightRequest" Value="250" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="BookCardTitle">
+        <Setter Property="TextDecorations" Value="Underline" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="CormorantBold"/>
+        <Setter Property="TextColor" Value="{StaticResource Dark}"/>
+    </Style>
+
+    <Style TargetType="Label" x:Key="BookCardAuthor">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="TextColor" Value="{StaticResource Dark}"/>
+        <Setter Property="Margin" Value="0,8,0,0"/>
+    </Style>
+</ResourceDictionary>
