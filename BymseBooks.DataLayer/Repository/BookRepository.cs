@@ -69,7 +69,8 @@ namespace BymseBooks.DataLayer.Repository
         public IReadOnlyList<Book> GetBooks(BookState state, int takeCount, int skipCount)
         {
             return context.Books
-                .Include(e => e.Bookmarks)
+                .Include(e => e.BookTags)
+                .ThenInclude(e => e.Tag)
                 .Where(e => e.State == state)
                 .Skip(skipCount)
                 .Take(takeCount)

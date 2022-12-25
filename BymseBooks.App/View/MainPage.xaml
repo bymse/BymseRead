@@ -17,7 +17,11 @@
         <CollectionView
             ItemsSource="{Binding Books}"
             SelectedItem="None"
-            ItemTemplate="{StaticResource BookCardTemplate}">
+            ItemTemplate="{StaticResource BookCardTemplate}"
+            >
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="4" />
+            </CollectionView.ItemsLayout>
         </CollectionView>
     </ScrollView>
 

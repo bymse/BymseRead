@@ -10,10 +10,13 @@
     <DataTemplate x:Key="BookCardTemplate">
         <Border Style="{StaticResource BookCardBorder}">
             <Frame Style="{StaticResource BookCardWrapper}">
-                <VerticalStackLayout Style="{StaticResource BookCard}">
+                <FlexLayout Style="{StaticResource BookCard}" Direction="Column">
                     <Label Text="{Binding Title}" Style="{StaticResource BookCardTitle}" />
-                    <Label Text="{Binding Author}" Style="{StaticResource BookCardAuthor}" />
-                </VerticalStackLayout>
+                    <Label FlexLayout.Grow="1"
+                           Text="{Binding Author}"
+                           Style="{StaticResource BookCardAuthor}" />
+                    <Label Text="{Binding Tags}" Style="{StaticResource BookCardTags}" />
+                </FlexLayout>
             </Frame>
         </Border>
     </DataTemplate>

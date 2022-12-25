@@ -8,9 +8,9 @@ public partial class BookViewModel
     public int BookId { get; init; }
     public string Title { get; init; }
     public string Author { get; init; }
-    public IReadOnlyList<string> Tags { get; init; }
+    public string Tags { get; init; }
     public BookState BookState { get; init; }
-    public int? Percents { get; init; }
+    public int Percents { get; init; }
 
     [RelayCommand]
     public async Task GoToBookPage()

@@ -1,5 +1,6 @@
 ﻿using BymseBooks.App.ViewModel;
 using BymseBooks.DataLayer.Entity;
+using BymseBooks.DataLayer.Helpers;
 using BymseBooks.DataLayer.Repository;
 
 namespace BymseBooks.App.Service;
@@ -27,19 +28,20 @@ public class BooksService
                     Title = e.Title,
                     BookId = e.BookId,
                     BookState = e.State,
-                    Percents = GetPercents(lastPage, e.TotalPages)
+                    Percents = GetPercents(lastPage, e.TotalPages),
+                    Tags = e.BookTags.Select(r => $"#{r.Tag.Title}").JoinStrings(" ")
                 };
             })
             .ToArray();
     }
 
-    private static int? GetPercents(int? lastPage, int totalPages)
+    private static int GetPercents(int? lastPage, int totalPages)
     {
         if (!lastPage.HasValue)
         {
-            return null;
+            return 0;
         }
         
-        return (int?)(Math.Round(((double) lastPage) / totalPages, 2) * 100);
+        return (int)(Math.Round(((double) lastPage) / totalPages, 2) * 100);
     }
 }
