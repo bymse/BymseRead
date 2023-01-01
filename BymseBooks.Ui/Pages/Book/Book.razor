@@ -1,0 +1,7 @@
+﻿@page "/Book/{BookId}"
+<h3>Book: @BookId</h3>
+
+@code {
+    [Parameter]
+    public int BookId { get; set; }
+}

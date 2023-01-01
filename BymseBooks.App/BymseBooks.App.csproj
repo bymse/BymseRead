@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
@@ -31,6 +31,7 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
+		<MauiAsset Include="wwwroot\index.html" />
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
@@ -68,6 +69,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\BymseBooks.DataLayer\BymseBooks.DataLayer.csproj" />
+	  <ProjectReference Include="..\BymseBooks.Ui\BymseBooks.Ui.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -2,27 +2,12 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:app="using:BymseBooks.App"
-             xmlns:viewmodel="clr-namespace:BymseBooks.App.ViewModel"
-             x:Class="BymseBooks.App.MainPage"
-             x:DataType="viewmodel:MainPageViewModel">
+             xmlns:ui="clr-namespace:BymseBooks.Ui;assembly=BymseBooks.Ui"
+             x:Class="BymseBooks.App.MainPage">
 
-    <Shell.TitleView>
-        <HorizontalStackLayout>
-            <app:TopBarActionsButton />
-        </HorizontalStackLayout>
-    </Shell.TitleView>
-
-    <ScrollView Style="{StaticResource BookCardsGridContainer}">
-        <CollectionView
-            ItemsSource="{Binding Books}"
-            SelectedItem="None"
-            ItemTemplate="{StaticResource BookCardTemplate}"
-            >
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="4" />
-            </CollectionView.ItemsLayout>
-        </CollectionView>
-    </ScrollView>
-
+    <BlazorWebView HostPage="">
+        <BlazorWebView.RootComponents>
+            <RootComponent Selector="#app" ComponentType="{x:Type ui:EntryPoint}" />
+        </BlazorWebView.RootComponents>
+    </BlazorWebView>
 </ContentPage>

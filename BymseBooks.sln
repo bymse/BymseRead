@@ -5,7 +5,11 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BymseBooks.DataLayer", "BymseBooks.DataLayer\BymseBooks.DataLayer.csproj", "{B1237EBE-11A0-4548-99D6-F8F56F1FE54F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BymseBooks.App", "BymseBooks.App\BymseBooks.App.csproj", "{3409FBEE-02C6-495F-AF86-B7A7EFC3715C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BymseBooks.App", "BymseBooks.App\BymseBooks.App.csproj", "{3409FBEE-02C6-495F-AF86-B7A7EFC3715C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BymseBooks.Ui", "BymseBooks.Ui\BymseBooks.Ui.csproj", "{F6D0D9FB-E56B-48CD-84E1-A56F61E5CAD2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BymseBooks.Core", "BymseBooks.Core\BymseBooks.Core.csproj", "{BA850E4D-199B-41E4-9126-C9865C791144}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +27,14 @@ Global
 		{3409FBEE-02C6-495F-AF86-B7A7EFC3715C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3409FBEE-02C6-495F-AF86-B7A7EFC3715C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3409FBEE-02C6-495F-AF86-B7A7EFC3715C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F6D0D9FB-E56B-48CD-84E1-A56F61E5CAD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D0D9FB-E56B-48CD-84E1-A56F61E5CAD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D0D9FB-E56B-48CD-84E1-A56F61E5CAD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D0D9FB-E56B-48CD-84E1-A56F61E5CAD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA850E4D-199B-41E4-9126-C9865C791144}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA850E4D-199B-41E4-9126-C9865C791144}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA850E4D-199B-41E4-9126-C9865C791144}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA850E4D-199B-41E4-9126-C9865C791144}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

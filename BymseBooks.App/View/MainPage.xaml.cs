@@ -4,10 +4,9 @@ namespace BymseBooks.App
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage(MainPageViewModel viewModel)
+        public MainPage()
         {
             InitializeComponent();
-            BindingContext = viewModel;
         }
     }
 }
