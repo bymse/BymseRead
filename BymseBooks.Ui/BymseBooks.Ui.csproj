@@ -5,7 +5,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RazorLangVersion>3.0</RazorLangVersion>
-        <DefaultItemExcludes>$(DefaultItemExcludes);front\**;</DefaultItemExcludes>
+        <DefaultItemExcludes>$(DefaultItemExcludes);node_modules\**;</DefaultItemExcludes>
+        <ExcludeFoldersFromDeployment>front</ExcludeFoldersFromDeployment>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,4 +14,10 @@
       <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.12" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Update="front\*.*">
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        </Content>
+    </ItemGroup>
+    
 </Project>

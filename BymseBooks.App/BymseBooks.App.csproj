@@ -57,4 +57,10 @@
 	  </None>
 	</ItemGroup>
 
+	<ItemGroup>
+		<Content Update="front\*.*">
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+	
 </Project>

@@ -237,3 +237,5 @@ logs/
 *.orig
 
 **/appsettings.Debug.json
+
+**/wwwroot
