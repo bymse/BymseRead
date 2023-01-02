@@ -5,6 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RazorLangVersion>3.0</RazorLangVersion>
+        <DefaultItemExcludes>$(DefaultItemExcludes);front\**;</DefaultItemExcludes>
     </PropertyGroup>
 
     <ItemGroup>

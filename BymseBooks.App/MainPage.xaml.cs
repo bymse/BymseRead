@@ -1,6 +1,4 @@
-﻿using BymseBooks.App.ViewModel;
-
-namespace BymseBooks.App
+﻿namespace BymseBooks.App
 {
     public partial class MainPage : ContentPage
     {

@@ -1,6 +1,4 @@
-﻿using BymseBooks.App.Service;
-using BymseBooks.App.ViewModel;
-using BymseBooks.DataLayer.Database;
+﻿using BymseBooks.DataLayer.Database;
 using BymseBooks.DataLayer.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
@@ -25,17 +23,13 @@ namespace BymseBooks.App
                 })
                 ;
 
+            builder.Services.AddMauiBlazorWebView();
             builder.Configuration.AddJsonFile("appsettings.json");
 
 #if DEBUG
             builder.Configuration.AddJsonFile("appsettings.Debug.json");
+            builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
-
-            builder.Services.AddSingleton<MainPage>();
-            builder.Services.AddTransient<MainPageViewModel>();
-            builder.Services.AddTransient<IBookRepository, BookRepository>();
-            builder.Services.AddTransient<BooksDbContext>();
-            builder.Services.AddTransient<BooksService>();
 
             return builder.Build();
         }
