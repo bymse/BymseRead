@@ -4,13 +4,7 @@ namespace BymseBooks.DataLayer.Repository
 {
     public interface IBookRepository
     {
-        IReadOnlyList<Book> GetBooks(int userId,
-            out int booksCount,
-            int? takeCount = null, 
-            int? skipCount = null, 
-            IList<int>? tagsIds = null);
-
-        IReadOnlyList<Book> GetBooks(BookState state, int takeCount, int skipCount);
+        IReadOnlyList<Book> GetBooks(BookState state, int? takeCount, int? skipCount);
 
         Book? FindBook(int bookId, int userId);
         

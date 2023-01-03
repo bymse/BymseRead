@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Features" />
+      <ProjectReference Include="..\BymseBooks.DataLayer\BymseBooks.DataLayer.csproj" />
     </ItemGroup>
 
 </Project>

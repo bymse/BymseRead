@@ -1,4 +1,5 @@
-﻿using BymseBooks.DataLayer.Database;
+﻿using BymseBooks.Core;
+using BymseBooks.DataLayer.Database;
 using BymseBooks.DataLayer.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
@@ -30,6 +31,8 @@ namespace BymseBooks.App
             builder.Configuration.AddJsonFile("appsettings.Debug.json");
             builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
+
+            builder.Services.AddCoreServices();
 
             return builder.Build();
         }

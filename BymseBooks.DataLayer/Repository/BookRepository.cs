@@ -66,15 +66,15 @@ namespace BymseBooks.DataLayer.Repository
             throw new NotImplementedException();
         }
 
-        public IReadOnlyList<Book> GetBooks(BookState state, int takeCount, int skipCount)
+        public IReadOnlyList<Book> GetBooks(BookState state, int? takeCount, int? skipCount)
         {
             return context.Books
                 .Include(e => e.Bookmarks)
                 .Include(e => e.BookTags)
                 .ThenInclude(e => e.Tag)
                 .Where(e => e.State == state)
-                .Skip(skipCount)
-                .Take(takeCount)
+                .If(skipCount.HasValue, e => e.Skip(skipCount!.Value))
+                .If(takeCount.HasValue, e => e.Take(takeCount!.Value))
                 .ToArray();
         }
 
