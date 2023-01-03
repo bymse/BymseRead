@@ -1,0 +1,17 @@
+﻿:root {
+    --color-background: #B2D3BE;
+    --color-background-o5: rgba(178, 211, 190, 0.5);
+    --color-primary: #5E6073;
+    --color-secondary: #FDFAF6;
+    --color-tertiary: #89A3B2;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+#app {
+    height: 100%;
+    background: var(--color-background);
+}
