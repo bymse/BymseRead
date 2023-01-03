@@ -1,7 +1,12 @@
 ﻿:root {
     --color-background: #B2D3BE;
     --color-background-o5: rgba(178, 211, 190, 0.5);
+    --color-background-o25: rgba(178, 211, 190, 0.25);
+    
     --color-primary: #5E6073;
+    --color-primary-o2: rgba(94, 96, 115, 0.2);
+    --color-primary-o3: rgba(94, 96, 115, 0.3);
+    
     --color-secondary: #FDFAF6;
     --color-tertiary: #89A3B2;
 }
@@ -13,5 +18,7 @@ html, body {
 
 #app {
     height: 100%;
-    background: var(--color-background);
+    background: var(--color-background-o25);
 }
+
+@import "top-bar";

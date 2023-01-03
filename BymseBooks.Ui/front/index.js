@@ -1,2 +1,2 @@
-import "./src/styles/common.scss"
-import "./src/styles/grid.scss"
+import "./src/styles/common/index.scss"
+import "./src/styles/grid/index.scss"

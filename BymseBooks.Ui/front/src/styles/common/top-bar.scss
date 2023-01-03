@@ -1,0 +1,28 @@
+﻿.top-bar {
+    background: var(--color-tertiary);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+    
+    & .top-bar_menu-button {
+        background-color: var(--color-primary-o2);
+        background-image: url("data:image/svg+xml,%3Csvg width='29' height='16' viewBox='0 0 29 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 16V15.1287H29V16H0ZM0 8.43564V7.56436H29V8.43564H0ZM0 0.871288V0H29V0.871288H0Z' fill='%235E6073'/%3E%3C/svg%3E%0A");
+        background-repeat: no-repeat;
+        background-size: 29px 16px;
+        background-position: center;
+        height: 100%;
+        border: none;
+        width: 50px;
+        
+        &:hover {
+            cursor: pointer;
+        }
+        
+        &:active {
+            background-color: var(--color-primary-o3);
+        }
+    }
+}
