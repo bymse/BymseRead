@@ -1,7 +1,22 @@
 ﻿@page "/"
 @page "/Grid"
-<h3 class="test">Grid</h3>
+@using BymseBooks.Core.Features.BooksList
+@using BymseBooks.DataLayer.Entity
+@inject BooksService BooksService
+
+<section class="books-grid">
+    @foreach(var book in Books)
+    {
+        <BookCard Book="book" />
+    }
+</section>
+
 
 @code {
-    
+    private List<BookModel> Books { get; } = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        Books.AddRange(BooksService.GetBooks(BookState.Active));
+    }
 }

@@ -19,5 +19,9 @@
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </Content>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BymseBooks.Core\BymseBooks.Core.csproj" />
+    </ItemGroup>
     
 </Project>

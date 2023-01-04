@@ -11,9 +11,28 @@
     --color-tertiary: #89A3B2;
 }
 
+@font-face {
+    font-family: "Cormorant";
+    src: url("../../fonts/Cormorant-Bold.ttf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Cormorant";
+    src: url("../../fonts/Cormorant-Italic.ttf");
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Cormorant";
+    src: url("../../fonts/Cormorant-Regular.ttf");
+}
+
 html, body {
     margin: 0;
     height: 100%;
+    color: var(--color-primary);
+    font-family: "Cormorant", sans-serif;
 }
 
 #app {

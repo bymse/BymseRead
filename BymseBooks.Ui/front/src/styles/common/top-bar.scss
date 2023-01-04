@@ -1,6 +1,6 @@
 ﻿.top-bar {
     background: var(--color-tertiary);
-    height: 50px;
+    height: 3em;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -15,7 +15,8 @@
         background-position: center;
         height: 100%;
         border: none;
-        width: 50px;
+        width: 3.6em;
+        padding: 0;
         
         &:hover {
             cursor: pointer;

@@ -12,7 +12,7 @@ public class BooksService
         this.bookRepository = bookRepository;
     }
 
-    public BookModel[] GetBooks(BookState state, int? takeCount, int? skipCount)
+    public BookModel[] GetBooks(BookState state, int? takeCount = null, int? skipCount = null)
     {
         var books = bookRepository.GetBooks(state, takeCount, skipCount);
         return books.Select(b =>

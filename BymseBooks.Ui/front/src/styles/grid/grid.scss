@@ -1,0 +1,76 @@
+.books-grid {
+    display: grid;
+    padding: 4% 3% 0;
+    row-gap: 3em;
+    column-gap: 3em;
+    grid-template-columns: repeat(auto-fit, min(13em, 100%));
+    grid-auto-rows: 15em;
+    justify-content: center;
+}
+
+.book-card {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+
+    background: var(--color-secondary);
+    text-align: center;
+    padding: 1.4em 0.6em 0.4em;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+
+    & .book-card__title {
+        font-size: 1.6em;
+        font-weight: bold;
+        text-decoration: underline;
+        display: flex;
+        flex: 0 0 2.6em;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    & .book-card__author {
+        margin-top: 0.4em;
+        flex: 0 0 4.4em;
+        overflow: hidden;
+    }
+
+    & .book-card__tags {
+        flex: 0 0 2em;
+        display: flex;
+        align-items: flex-end;
+        margin-top: auto;
+        column-gap: 0.2em;
+        & span {
+            font-weight: bold;
+        }
+    }
+    
+    & .book-card__progress {
+        display: flex;
+        width: 100%;
+        align-items: baseline;
+    }
+
+    .book-card__progress_title {
+        margin-right: 0.4em;
+    }
+
+    .book-card__progress-bar {
+        width: 100%;
+        border: 1px solid var(--color-primary);
+        display: flex;
+        height: 0.2em;
+    }
+    
+    .book-card__progress-bar_done {
+        background: var(--color-primary);
+    }
+    
+    .book-card__progress-bar_todo {
+        border: 1px solid var(--color-primary);
+        flex: 1 1 100%;
+        height: 0.2em;
+    }
+}

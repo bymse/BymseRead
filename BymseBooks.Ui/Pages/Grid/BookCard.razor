@@ -1,0 +1,31 @@
+﻿@using BymseBooks.Core.Features.BooksList
+
+<div class="book-card">
+    <div class="book-card__title">
+        @Book.Title
+    </div>
+    <div class="book-card__author">
+        @Book.Author
+    </div>
+    <div class="book-card__tags">
+        @foreach (var tag in Book.Tags)
+        {
+            <span>#@tag</span>
+        }
+    </div>
+
+    <div class="book-card__progress">
+        <span class="book-card__progress_title">@Book.Percents%</span>
+        <div class="book-card__progress-bar">
+            <span style="width: @Book.Percents%" class="book-card__progress-bar_done"></span>
+        </div>
+    </div>
+</div>
+
+@code {
+    //todo: detect overflow and add ellipsis
+
+    [Parameter]
+    public BookModel Book { get; set; }
+
+}
