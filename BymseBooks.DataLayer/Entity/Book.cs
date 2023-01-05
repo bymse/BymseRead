@@ -31,7 +31,7 @@ namespace BymseBooks.DataLayer.Entity
         
         public DateTime CreatedDate { get; set; }
         
-        public int TotalPages { get; set; }
+        public int? TotalPages { get; set; }
         
         public virtual ICollection<BookTagLink> BookTags { get; set; }
         public virtual ICollection<Bookmark> Bookmarks { get; set; }

@@ -17,6 +17,13 @@ namespace BymseBooks.DataLayer.Database
                     .Property(e => e.CreatedDate)
                     .HasConversion<long>();
             });
+            
+            modelBuilder.Entity<Bookmark>(r =>
+            {
+                r
+                    .Property(e => e.CreatedDate)
+                    .HasConversion<long>();
+            });
         }
     }
 }
