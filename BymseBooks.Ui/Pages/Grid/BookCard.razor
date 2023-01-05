@@ -1,12 +1,11 @@
 ﻿@using BymseBooks.Core.Features.BooksList
+@using BymseBooks.DataLayer.Entity
 
 <div class="book-card">
     <div class="book-card__title">
         @Book.Title
     </div>
-    <div class="book-card__author">
-        @Book.Author
-    </div>
+
     <div class="book-card__tags">
         @foreach (var tag in Book.Tags)
         {
@@ -14,15 +13,22 @@
         }
     </div>
 
-    @if(Book.Percents.HasValue)
+    @if (Book.State == BookState.Paused)
     {
-        <div class="book-card__progress">
+        <div class="book-card__paused">
+            <span>paused</span>
+        </div>
+    }
+    
+    <div class="book-card__progress">
+        @if (Book.Percents.HasValue)
+        {
             <span class="book-card__progress_title">@Book.Percents%</span>
             <div class="book-card__progress-bar">
                 <span style="width: @Book.Percents%" class="book-card__progress-bar_done"></span>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
 
 @code {

@@ -26,14 +26,24 @@ public class BooksService
                 Title = b.Title,
                 Author = b.AuthorName,
                 State = b.State,
-                Percents = GetPercents(lastPage, b.TotalPages),
+                Percents = GetPercents(lastPage, b.TotalPages, b.State),
                 Tags = b.BookTags.Select(e => e.Tag.Title).ToArray()
             };
         }).ToArray();
     }
     
-    private static int? GetPercents(int? lastPage, int? totalPages)
+    private static int? GetPercents(int? lastPage, int? totalPages, BookState state)
     {
+        if (state == BookState.New)
+        {
+            return 0;
+        }
+        
+        if (state == BookState.Finished)
+        {
+            return 100;
+        }
+        
         if (!totalPages.HasValue)
         {
             return null;
