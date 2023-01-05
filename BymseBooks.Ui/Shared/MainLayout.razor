@@ -1,5 +1,11 @@
-﻿@inherits LayoutComponentBase
+﻿@using BymseBooks.Ui.Models
+@inherits LayoutComponentBase
+<CascadingValue Value="@this">
+    <TopBar Items="@Items"/>
+    @Body
+</CascadingValue>
 
-<TopBar></TopBar>
-
-@Body
+@code
+{
+    public IList<ITopBarItem> Items { get; } = new List<ITopBarItem>();
+}

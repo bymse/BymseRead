@@ -1,7 +1,30 @@
 ﻿@page "/Book/{BookId:int}"
+@implements IDisposable
+@using BymseBooks.Ui.Models
 <h3>Book: @BookId</h3>
 
 @code {
     [Parameter]
     public int BookId { get; set; }
+    
+    [CascadingParameter]
+    public MainLayout MainLayout { get; set; }
+
+    private ITopBarItem topBarItem;
+
+    protected override void OnInitialized()
+    {
+        topBarItem = new LinkTopBarItem
+        {
+            Url = "/",
+            Css = "top-bar__back-button"
+        };
+        MainLayout.Items.Add(topBarItem);
+    }
+
+    public void Dispose()
+    {
+        MainLayout.Items.Remove(topBarItem);
+    }
+
 }

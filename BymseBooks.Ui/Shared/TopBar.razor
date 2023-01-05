@@ -1,7 +1,23 @@
-﻿<div class="top-bar">
-    <button type="button" class="top-bar_menu-button"></button>
+﻿@using BymseBooks.Ui.Models
+<div class="top-bar">
+    <button type="button" class="top-bar__menu-button"></button>
+    @foreach (var topBarItem in Items)
+    {
+        switch (topBarItem.Type)
+        {
+            case ItemType.Link:
+                var item = (LinkTopBarItem) topBarItem;
+                <a href="@item.Url" class="@item.Css">@item.Text</a>
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
 </div>
 
 @code {
+
+    [Parameter]
+    public IEnumerable<ITopBarItem> Items { get; set; }
 
 }
