@@ -1,7 +1,7 @@
 ﻿@using BymseBooks.Core.Features.BooksList
 @using BymseBooks.DataLayer.Entity
 
-<div class="book-card">
+<a class="book-card" href="/Book/@Book.Id">
     <div class="book-card__title">
         @Book.Title
     </div>
@@ -29,7 +29,7 @@
             </div>
         }
     </div>
-</div>
+</a>
 
 @code {
     //todo: detect overflow and add ellipsis
