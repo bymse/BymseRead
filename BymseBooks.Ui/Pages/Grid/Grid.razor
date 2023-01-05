@@ -3,6 +3,7 @@
 @using BymseBooks.Core.Features.BooksList
 @using BymseBooks.DataLayer.Entity
 @inject BooksService BooksService
+@inject IJSRuntime JsRuntime
 
 <section class="books-grid__container">
     <div class="books-grid">
@@ -11,14 +12,15 @@
             <BookCard Book="book"/>
         }
     </div>
-    <div class="books-grid__load-more">
+    <div class="load-more">
         @if (ShowLoadMore)
         {
-            <button type="button" title="Load more" class="books-grid__load-more_btn" @onclick="LoadBooks"></button>
+            <button type="button" title="Load more" class="load-more__btn" @onclick="LoadBooks"></button>
         }
         else
         {
-            <span class="books-grid__load-more_loaded">All books are here</span>
+            <span class="load-more__text">All books are here</span>
+            <button type="button" class="load-more__btn load-more__btn_up" @onclick="ScrollUp"></button>
         }
     </div>
 </section>
@@ -55,6 +57,8 @@
 
         Books.AddRange(books);
     }
+    
+    private async Task ScrollUp() => await JsRuntime.InvokeAsync<object>("scrollToTop");
 
     private static BookState? GetNextState(BookState current)
     {
