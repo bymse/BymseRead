@@ -10,16 +10,19 @@
     <div class="book-card__tags">
         @foreach (var tag in Book.Tags)
         {
-            <span>#@tag</span>
+            <span>#@tag.Replace(" ", "")</span>
         }
     </div>
 
-    <div class="book-card__progress">
-        <span class="book-card__progress_title">@Book.Percents%</span>
-        <div class="book-card__progress-bar">
-            <span style="width: @Book.Percents%" class="book-card__progress-bar_done"></span>
+    @if(Book.Percents.HasValue)
+    {
+        <div class="book-card__progress">
+            <span class="book-card__progress_title">@Book.Percents%</span>
+            <div class="book-card__progress-bar">
+                <span style="width: @Book.Percents%" class="book-card__progress-bar_done"></span>
+            </div>
         </div>
-    </div>
+    }
 </div>
 
 @code {

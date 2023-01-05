@@ -11,14 +11,16 @@
             <BookCard Book="book"/>
         }
     </div>
-    @if (ShowLoadMore)
-    {
-        <button class="books-grid_load-more" @onclick="LoadBooks"></button>
-    }
-    else
-    {
-        <span class="books-grid_all-loaded">All books are here</span>
-    }
+    <div class="books-grid__load-more">
+        @if (ShowLoadMore)
+        {
+            <button type="button" title="Load more" class="books-grid__load-more_btn" @onclick="LoadBooks"></button>
+        }
+        else
+        {
+            <span class="books-grid__load-more_loaded">All books are here</span>
+        }
+    </div>
 </section>
 
 
@@ -41,10 +43,10 @@
         {
             return;
         }
-        
+
         var books = BooksService.GetBooks(nextState!.Value);
         nextState = GetNextState(nextState.Value);
-        
+
         if (books.Length == 0)
         {
             LoadBooks();
@@ -64,7 +66,7 @@
             BookState.New => BookState.Finished,
             BookState.Finished => null,
             _ => null
-        };
+            };
     }
 
 }

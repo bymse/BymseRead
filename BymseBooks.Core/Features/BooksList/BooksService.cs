@@ -32,9 +32,14 @@ public class BooksService
         }).ToArray();
     }
     
-    private static int GetPercents(int? lastPage, int? totalPages)
+    private static int? GetPercents(int? lastPage, int? totalPages)
     {
-        if (!lastPage.HasValue || !totalPages.HasValue)
+        if (!totalPages.HasValue)
+        {
+            return null;
+        }
+        
+        if (!lastPage.HasValue)
         {
             return 0;
         }
