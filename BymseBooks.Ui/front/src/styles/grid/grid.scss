@@ -1,3 +1,9 @@
+.books-grid__container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 3em;
+}
+
 .books-grid {
     display: grid;
     padding: 4% 3% 0;
@@ -8,69 +14,29 @@
     justify-content: center;
 }
 
-.book-card {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: center;
-
-    background: var(--color-secondary);
-    text-align: center;
-    padding: 1.4em 0.6em 0.4em;
-
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-
-    & .book-card__title {
-        font-size: 1.6em;
-        font-weight: bold;
-        text-decoration: underline;
-        display: flex;
-        flex: 0 0 2.6em;
-        align-items: center;
-        overflow: hidden;
-    }
-
-    & .book-card__author {
-        margin-top: 0.4em;
-        flex: 0 0 4.4em;
-        overflow: hidden;
-    }
-
-    & .book-card__tags {
-        flex: 0 0 2em;
-        display: flex;
-        align-items: flex-end;
-        margin-top: auto;
-        column-gap: 0.2em;
-        & span {
-            font-weight: bold;
-        }
-    }
+.books-grid_load-more {
+    border: none;
+    background-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M26.0729 35.0417L34.75 26.4375L33.6562 25.3437L26.875 32.125V16.8854H25.1979V32.125L18.4167 25.3437L17.3229 26.4375L26.0729 35.0417ZM26 51.375C22.5 51.375 19.2187 50.7066 16.1562 49.3698C13.0937 48.033 10.408 46.2101 8.09896 43.901C5.78993 41.592 3.96701 38.9062 2.63021 35.8437C1.2934 32.7812 0.625 29.5 0.625 26C0.625 22.5 1.2934 19.2066 2.63021 16.1198C3.96701 13.033 5.78993 10.3472 8.09896 8.0625C10.408 5.77778 13.0937 3.96701 16.1562 2.63021C19.2187 1.2934 22.5 0.625 26 0.625C29.5 0.625 32.7934 1.2934 35.8802 2.63021C38.967 3.96701 41.6528 5.77778 43.9375 8.0625C46.2222 10.3472 48.033 13.033 49.3698 16.1198C50.7066 19.2066 51.375 22.5 51.375 26C51.375 29.5 50.7066 32.7812 49.3698 35.8437C48.033 38.9062 46.2222 41.592 43.9375 43.901C41.6528 46.2101 38.967 48.033 35.8802 49.3698C32.7934 50.7066 29.5 51.375 26 51.375ZM26 49.7708C32.6111 49.7708 38.2257 47.4618 42.8437 42.8437C47.4618 38.2257 49.7708 32.6111 49.7708 26C49.7708 19.3889 47.4618 13.7743 42.8437 9.15625C38.2257 4.53819 32.6111 2.22917 26 2.22917C19.3889 2.22917 13.7743 4.53819 9.15625 9.15625C4.53819 13.7743 2.22917 19.3889 2.22917 26C2.22917 32.6111 4.53819 38.2257 9.15625 42.8437C13.7743 47.4618 19.3889 49.7708 26 49.7708Z' fill='%235E6073'/%3E%3C/svg%3E%0A");
+    height: 52px;
+    width: 52px;
+    align-self: center;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0;
     
-    & .book-card__progress {
-        display: flex;
-        width: 100%;
-        align-items: baseline;
-    }
-
-    .book-card__progress_title {
-        margin-right: 0.4em;
-    }
-
-    .book-card__progress-bar {
-        width: 100%;
-        border: 1px solid var(--color-primary);
-        display: flex;
-        height: 0.2em;
-    }
-    
-    .book-card__progress-bar_done {
-        background: var(--color-primary);
-    }
-    
-    .book-card__progress-bar_todo {
-        border: 1px solid var(--color-primary);
-        flex: 1 1 100%;
-        height: 0.2em;
+    &:active {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
     }
 }
+
+.books-grid_all-loaded {
+    font-size: 1.2em;
+    font-weight: bold;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    height: 52px;
+}
+
+@import "card";

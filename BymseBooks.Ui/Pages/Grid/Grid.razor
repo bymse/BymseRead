@@ -4,19 +4,67 @@
 @using BymseBooks.DataLayer.Entity
 @inject BooksService BooksService
 
-<section class="books-grid">
-    @foreach(var book in Books)
+<section class="books-grid__container">
+    <div class="books-grid">
+        @foreach (var book in Books)
+        {
+            <BookCard Book="book"/>
+        }
+    </div>
+    @if (ShowLoadMore)
     {
-        <BookCard Book="book" />
+        <button class="books-grid_load-more" @onclick="LoadBooks"></button>
+    }
+    else
+    {
+        <span class="books-grid_all-loaded">All books are here</span>
     }
 </section>
 
 
 @code {
+
+    private BookState? nextState = BookState.Active;
+
+    private bool ShowLoadMore => nextState != null;
+
     private List<BookModel> Books { get; } = new();
 
     protected async override Task OnInitializedAsync()
     {
-        Books.AddRange(BooksService.GetBooks(BookState.Active));
+        LoadBooks();
     }
+
+    private void LoadBooks()
+    {
+        if (!ShowLoadMore)
+        {
+            return;
+        }
+        
+        var books = BooksService.GetBooks(nextState!.Value);
+        nextState = GetNextState(nextState.Value);
+        
+        if (books.Length == 0)
+        {
+            LoadBooks();
+            return;
+        }
+
+        Books.AddRange(books);
+    }
+
+    private static BookState? GetNextState(BookState current)
+    {
+        return current switch 
+        {
+            
+            BookState.Active => BookState.Paused,
+            BookState.Paused => BookState.New,
+            BookState.New => BookState.Finished,
+            BookState.Finished => null,
+            _ => null
+        };
+    }
+
 }
