@@ -1,6 +1,6 @@
 ﻿using BymseBooks.DataLayer.Entity;
 
-namespace BymseBooks.Core.Features.BooksList;
+namespace BymseBooks.Core.Models;
 
 public class BookModel
 {

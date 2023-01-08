@@ -6,7 +6,7 @@ namespace BymseBooks.DataLayer.Repository
     {
         IReadOnlyList<Book> GetBooks(BookState state, int? takeCount, int? skipCount);
 
-        Book? FindBook(int bookId, int userId);
+        Book? FindBook(int bookId);
         
         bool Exist(string title, string authorName);
         bool Exist(int bookId, int userId);

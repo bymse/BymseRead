@@ -87,7 +87,7 @@ namespace BymseBooks.DataLayer.Repository
             return context.Books.Any(e => e.BookId == bookId);
         }
 
-        public Book? FindBook(int bookId, int userId)
+        public Book? FindBook(int bookId)
         {
             return context.Books.FirstOrDefault(e => e.BookId == bookId);
         }
