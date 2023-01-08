@@ -2,11 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ui="clr-namespace:BymseBooks.Ui;assembly=BymseBooks.Ui"
+             xmlns:app="using:BymseBooks.App"
              x:Class="BymseBooks.App.MainPage">
 
-    <BlazorWebView x:Name="BlazorWebView" HostPage="wwwroot/index.html">
-        <BlazorWebView.RootComponents>
+    <app:CustomBlazorWebView x:Name="BlazorWebView" HostPage="wwwroot/index.html">
+        <app:CustomBlazorWebView.RootComponents>
             <RootComponent Selector="#app" ComponentType="{x:Type ui:EntryPoint}" />
-        </BlazorWebView.RootComponents>
-    </BlazorWebView>
+        </app:CustomBlazorWebView.RootComponents>
+    </app:CustomBlazorWebView>
 </ContentPage>

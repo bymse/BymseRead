@@ -1,3 +1,6 @@
 import "./src/styles/common/common.scss"
 import "./src/styles/grid/grid.scss"
+import "./src/styles/book/book.scss"
 import "./src/js/scrollToTop.js"
+import "./src/js/pdfViewer.js"
+import "pdfjs-dist/web/pdf_viewer.css"

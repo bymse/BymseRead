@@ -1,5 +1,5 @@
 ﻿@using BymseBooks.Ui.Models
-<div class="top-bar">
+<header class="top-bar">
     <button type="button" class="top-bar__menu-button"></button>
     @foreach (var topBarItem in Items)
     {
@@ -13,7 +13,7 @@
                 throw new ArgumentOutOfRangeException();
         }
     }
-</div>
+</header>
 
 @code {
 

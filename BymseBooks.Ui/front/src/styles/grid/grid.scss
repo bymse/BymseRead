@@ -3,6 +3,9 @@
     flex-direction: column;
     row-gap: 2em;
     padding: 4% 3% 0;
+    background: var(--color-background-o25);
+    height: 100%;
+    overflow: auto;
 }
 
 .books-grid {

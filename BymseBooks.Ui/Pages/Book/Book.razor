@@ -1,14 +1,35 @@
 ﻿@page "/Book/{BookId:int}"
 @implements IDisposable
 @using BymseBooks.Ui.Models
-<h3>Book: @BookId</h3>
+@using BymseBooks.Core.Models
+@using BymseBooks.Core
+@using System.Net
+@inject BooksService BooksService
+@inject IJSRuntime JsRuntime
+
+<div class="book-page-container">
+    <div class="control-panel">
+
+    </div>
+    <div class="book-wrapper">
+        <div id="pdf-viewer-container" data-pdf-src="@GetUrl()">
+            <div id="pdf-viewer" class="pdfViewer"></div>
+        </div>
+    </div>
+    <div class="action-buttons">
+
+    </div>
+</div>
 
 @code {
+
     [Parameter]
     public int BookId { get; set; }
-    
+
     [CascadingParameter]
     public MainLayout MainLayout { get; set; }
+
+    private BookExModel BookModel { get; set; }
 
     private ITopBarItem topBarItem;
 
@@ -20,7 +41,19 @@
             Css = "top-bar__back-button"
         };
         MainLayout.Items.Add(topBarItem);
+
+        BookModel = BooksService.FindBook(BookId);
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime.InvokeVoidAsync("PdfViewer.initialize");
+        }
+    }
+
+    private string GetUrl() => $"/user-file/{WebUtility.UrlEncode(new Uri(BookModel.Url).AbsolutePath)}";
 
     public void Dispose()
     {

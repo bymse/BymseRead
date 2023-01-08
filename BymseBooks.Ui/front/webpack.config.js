@@ -14,6 +14,10 @@ module.exports = function (outDir) {
     module: {
       rules: [
         {
+          test: /\.css$/i,
+          use: ["style-loader", "css-loader"],
+        },
+        {
           test: /\.s[ac]ss$/i,
           use: [
             // Creates `style` nodes from JS strings
@@ -36,7 +40,7 @@ module.exports = function (outDir) {
     },
     resolve: {
       modules: [
-        'node_modules/bymse-books-front/node_modules'
+        path.resolve(__dirname, "node_modules"),
       ],
     },
   }
