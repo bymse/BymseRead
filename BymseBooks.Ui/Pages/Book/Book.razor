@@ -9,7 +9,21 @@
 
 <div class="book-page-container">
     <div class="control-panel">
-
+        <div class="control-panel__left">
+            <button class="control-panel__bookmarks-list-btn" type="button"></button>
+            <div class="control-panel__title" title="@Title">@Title</div>
+        </div>
+        <div class="control-panel__center">
+            <div class="control-panel__pages">37 / 256</div>
+        </div>
+        <div class="control-panel__right">
+            <div class="control-panel__scale">
+                <button type="button">+</button>
+                <span class="control-panel__scale_sep"></span>
+                <button type="button">-</button>
+            </div>
+            <button class="control-panel__bookmarks-btn control-panel__bookmarks-btn_add"></button>
+        </div>
     </div>
     <div class="book-wrapper">
         <div id="pdf-viewer-container" data-pdf-src="@GetUrl()">
@@ -30,6 +44,8 @@
     public MainLayout MainLayout { get; set; }
 
     private BookExModel BookModel { get; set; }
+
+    private string Title => $"{BookModel.Book.Title} by {BookModel.Book.Author}";
 
     private ITopBarItem topBarItem;
 
