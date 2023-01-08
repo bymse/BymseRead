@@ -26,9 +26,18 @@
         </div>
     </div>
     <div class="book-wrapper">
-        <div id="pdf-viewer-container" data-pdf-src="@GetUrl()">
-            <div id="pdf-viewer" class="pdfViewer"></div>
-        </div>
+        @if (ShowCover)
+        {
+            <div class="book-cover" onclick="@OnCoverClick">
+                <BookCard Book="@BookModel.Book" ShowAuthor="true" NoLink="true"/>
+            </div>
+        }
+        else
+        {
+            <div id="pdf-viewer-container" data-pdf-src="@GetUrl()">
+                <div id="pdf-viewer" class="pdfViewer"></div>
+            </div>
+        }
     </div>
     <div class="action-buttons">
 
@@ -47,6 +56,15 @@
 
     private string Title => $"{BookModel.Book.Title} by {BookModel.Book.Author}";
 
+    private bool ShowCover { get; set; } = true;
+
+    private async Task OnCoverClick()
+    {
+        ShowCover = false;
+        await Task.Delay(1);
+        await JsRuntime.InvokeVoidAsync("PdfViewer.initialize");
+    }
+
     private ITopBarItem topBarItem;
 
     protected override void OnInitialized()
@@ -59,14 +77,6 @@
         MainLayout.Items.Add(topBarItem);
 
         BookModel = BooksService.FindBook(BookId);
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await JsRuntime.InvokeVoidAsync("PdfViewer.initialize");
-        }
     }
 
     private string GetUrl() => $"/user-file/{WebUtility.UrlEncode(new Uri(BookModel.Url).AbsolutePath)}";

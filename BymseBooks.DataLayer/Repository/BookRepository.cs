@@ -89,7 +89,11 @@ namespace BymseBooks.DataLayer.Repository
 
         public Book? FindBook(int bookId)
         {
-            return context.Books.FirstOrDefault(e => e.BookId == bookId);
+            return context.Books
+                .Include(e => e.Bookmarks)
+                .Include(e => e.BookTags)
+                .ThenInclude(e => e.Tag)
+                .FirstOrDefault(e => e.BookId == bookId);
         }
 
         public int Insert(Book book)

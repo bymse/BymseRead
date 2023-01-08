@@ -6,7 +6,7 @@
 @inject BooksService BooksService
 @inject IJSRuntime JsRuntime
 
-<section class="books-grid__container">
+<section class="books-grid__container" id="books-grid">
     <div class="books-grid">
         @foreach (var book in Books)
         {
@@ -59,7 +59,7 @@
         Books.AddRange(books);
     }
     
-    private async Task ScrollUp() => await JsRuntime.InvokeAsync<object>("scrollToTop");
+    private async Task ScrollUp() => await JsRuntime.InvokeAsync<object>("scrollGridTop");
 
     private static BookState? GetNextState(BookState current)
     {

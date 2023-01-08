@@ -1,10 +1,18 @@
 ﻿@using BymseBooks.Core.Models
 @using BymseBooks.DataLayer.Entity
+@using BymseBooks.DataLayer.Helpers
 
-<a class="book-card" href="/Book/@Book.Id">
+<a class="book-card @(NoLink ? "book-card_no-link" : null)" href="@(NoLink ? null : $"/Book/{Book.Id}")">
     <div class="book-card__title">
         @Book.Title
     </div>
+    
+    @if(ShowAuthor && !Book.Author.IsNullOrEmpty())
+    {
+        <div class="book-card__author">
+            @Book.Author
+        </div>
+    }
 
     <div class="book-card__tags">
         @foreach (var tag in Book.Tags)
@@ -36,5 +44,11 @@
 
     [Parameter]
     public BookModel Book { get; set; }
+    
+    [Parameter]
+    public bool ShowAuthor { get; set; }
+    
+    [Parameter]
+    public bool NoLink { get; set; }
 
 }

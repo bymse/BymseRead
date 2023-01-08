@@ -7,7 +7,17 @@
 }
 
 .book-wrapper {
-  
+  padding-top: 1em;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.book-cover {
+  height: min(90%, 750px);
+  width: 33%;
+  font-size: 36px;
+  border: 9px solid transparent;
 }
 
 #pdf-viewer-container {
