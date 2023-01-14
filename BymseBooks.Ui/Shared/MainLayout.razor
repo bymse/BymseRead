@@ -9,5 +9,12 @@
 
 @code
 {
-    public IList<ITopBarItem> Items { get; } = new List<ITopBarItem>();
+    public ICollection<ITopBarItem> Items { get; } = new List<ITopBarItem>
+    {
+        new LinkTopBarItem
+        {
+            Css = "top-bar__menu-button",
+            Url = "/"
+        }
+    };
 }
