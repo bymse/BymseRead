@@ -6,11 +6,15 @@
     --color-primary: #5E6073;
     --color-primary-o2: rgba(94, 96, 115, 0.2);
     --color-primary-o3: rgba(94, 96, 115, 0.3);
+    --color-primary-o5: rgba(94, 96, 115, 0.5);
+    --color-primary-o6: rgba(94, 96, 115, 0.6);
     
     --color-secondary: #FDFAF6;
-    --color-secondary-o5: rgba(253, 250, 246, 0.5);;
+    --color-secondary-o5: rgba(253, 250, 246, 0.5);
     --color-tertiary: #89A3B2;
-    --color-tertiary-o5: rgba(137, 163, 178, 0.5);;
+    --color-tertiary-o5: rgba(137, 163, 178, 0.5);
+    
+    --color-error: #C84361;
 }
 
 @font-face {
@@ -41,6 +45,11 @@ html, body {
     font-family: "Cormorant", sans-serif;
 }
 
+input, button {
+    color: var(--color-primary);
+    font-family: "Cormorant", sans-serif;
+}
+
 #app {
     height: 100%;
 }
@@ -51,4 +60,5 @@ html, body {
 }
 
 @import "top-bar";
-@import "book-card";
+@import "modal";
+@import "book-form";

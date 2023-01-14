@@ -5,6 +5,7 @@
 @using BymseBooks.Core
 @using System.Net
 @using BymseBooks.DataLayer.Entity
+@using BookForm = BymseBooks.Core.Models.BookFormModel
 @inject BooksService BooksService
 @inject IJSRuntime JsRuntime
 
@@ -42,10 +43,15 @@
     </div>
     <div class="side-buttons">
         <button type="button" class="side-buttons__delete"></button>
-        <button type="button" class="side-buttons__edit"></button>
+        <button type="button" class="side-buttons__edit" onclick="@OnEditClick"></button>
         <button type="button" class="side-buttons__full-size"></button>
     </div>
 </div>
+
+@if (OpenEditForm)
+{
+    <BookForm Title="Edit book" Form="@Form" OnClose="@OnClose" />
+}
 
 @code {
 
@@ -60,6 +66,17 @@
     private string GetUrl() => $"/user-file/{WebUtility.UrlEncode(new Uri(BookModel.Url).AbsolutePath)}";
     private string Title => $"{BookModel.Book.Title} by {BookModel.Book.Author}";
     private int CurrentPage { get; set; }
+    private bool OpenEditForm { get; set; }
+
+    private void OnClose() => OpenEditForm = false;
+    
+    private BookFormModel Form => new()
+    {
+        Title = BookModel.Book.Title,
+        Author = BookModel.Book.Author,
+        Tags = BookModel.Book.Tags,
+        Url = BookModel.Url
+    };
 
     private DotNetObjectReference<Book>? objectRef;
     private ITopBarItem? topBarItem;
@@ -86,6 +103,11 @@
             objectRef = DotNetObjectReference.Create(this);
             await JsRuntime.InvokeVoidAsync("PdfViewer.initialize", objectRef, CurrentPage);
         }
+    }
+
+    private void OnEditClick()
+    {
+        OpenEditForm = true;
     }
 
     [JSInvokable]

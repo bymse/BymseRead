@@ -1,0 +1,16 @@
+﻿<div class="modal__overlay" onclick="@OnClose">
+    <div class="modal" @onclick:stopPropagation="true">
+        <div class="modal__content">
+            @ChildContent
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public Action OnClose { get; set; }
+}

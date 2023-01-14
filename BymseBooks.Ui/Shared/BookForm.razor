@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Components
+@using BymseBooks.Core.Models
+<Modal OnClose="OnClose">
+    <EditForm class="book-form" Model="@Form">
+        <h2 class="book-form__title">@Title</h2>
+        <InputText @bind-Value="@Form.Title" placeholder="Title..." type="text" class="book-form__text-input"/>
+        <InputText @bind-Value="@Form.Author" placeholder="Author..." type="text" class="book-form__text-input"/>
+        <div class="book-form__buttons">
+            <button type="button" class="book-form__button">Submit</button>
+            <button type="button" class="book-form__button" onclick="@OnClose">Cancel</button>
+        </div>
+    </EditForm>
+</Modal>
+
+@code {
+
+    [Parameter]
+    public BookFormModel Form { get; set; } = new();
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public Action OnClose { get; set; }
+
+}
