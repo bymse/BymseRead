@@ -15,7 +15,7 @@
             <div class="control-panel__title" title="@Title">@Title</div>
         </div>
         <div class="control-panel__center">
-            @if(BookModel.Book.TotalPages.HasValue)
+            @if (BookModel.Book.TotalPages.HasValue)
             {
                 <div class="control-panel__pages">@CurrentPage / @BookModel.Book.TotalPages</div>
             }
@@ -30,18 +30,9 @@
         </div>
     </div>
     <div class="book-wrapper">
-        @if (ShowCover)
-        {
-            <div class="book-cover" onclick="@OnCoverClick">
-                <BookCard Book="@BookModel.Book" ShowAuthor="true" NoLink="true"/>
-            </div>
-        }
-        else
-        {
-            <div id="pdf-viewer-container" data-pdf-src="@GetUrl()">
-                <div id="pdf-viewer" class="pdfViewer"></div>
-            </div>
-        }
+        <div id="pdf-viewer-container" data-pdf-src="@GetUrl()">
+            <div id="pdf-viewer" class="pdfViewer"></div>
+        </div>
     </div>
     <div class="side-buttons">
         <button type="button" class="side-buttons__delete"></button>
@@ -60,15 +51,13 @@
 
     private BookExModel BookModel { get; set; }
 
-    private bool ShowCover { get; set; } = true;
-
     private string GetUrl() => $"/user-file/{WebUtility.UrlEncode(new Uri(BookModel.Url).AbsolutePath)}";
     private string Title => $"{BookModel.Book.Title} by {BookModel.Book.Author}";
     private int CurrentPage { get; set; }
-    
+
     private DotNetObjectReference<Book>? objectRef;
     private ITopBarItem? topBarItem;
-    
+
     protected override void OnInitialized()
     {
         topBarItem = new LinkTopBarItem
@@ -84,26 +73,22 @@
             ?.Page ?? 0;
     }
 
-    private async Task OnCoverClick()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!ShowCover)
+        if (firstRender)
         {
-            return;
+            objectRef = DotNetObjectReference.Create(this);
+            await JsRuntime.InvokeVoidAsync("PdfViewer.initialize", objectRef, CurrentPage);
         }
-        
-        ShowCover = false;
-        await Task.Delay(1);
-        objectRef = DotNetObjectReference.Create(this);
-        await JsRuntime.InvokeVoidAsync("PdfViewer.initialize", objectRef, CurrentPage);
     }
-    
+
     [JSInvokable]
     public void OnPdfViewerInitialized(int totalPages)
     {
         BooksService.UpdateTotalPages(BookId, totalPages);
         BookModel.Book.TotalPages = totalPages;
     }
-    
+
     [JSInvokable]
     public void OnCurrentPageChanged(int page)
     {
