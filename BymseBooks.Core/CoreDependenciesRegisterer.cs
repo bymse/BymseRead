@@ -10,6 +10,7 @@ public static class CoreDependenciesRegisterer
     {
         services.AddDbContext<BooksDbContext>();
         services.AddTransient<IBookRepository, BookRepository>();
+        services.AddTransient<IBookmarksRepository, BookmarksRepository>();
 
         services.AddTransient<BooksService>();
         

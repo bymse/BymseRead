@@ -134,5 +134,14 @@ namespace BymseBooks.DataLayer.Repository
         }
 
         public void Delete(int bookId) => context.Books.Where(e => e.BookId == bookId).ExecuteDelete();
+
+        public void UpdateTotalPages(int bookId, int totalPages)
+        {
+            context.Books
+                .Where(e => e.BookId == bookId)
+                .ExecuteUpdate(
+                    e => e.SetProperty(r => r.TotalPages, totalPages)
+                );
+        }
     }
 }

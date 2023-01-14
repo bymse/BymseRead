@@ -15,5 +15,6 @@ namespace BymseBooks.DataLayer.Repository
         void Update(int bookId, string? title, string? author, string? url, IList<int>? tags);
         void Update(int bookId, BookState state);
         void Delete(int bookId);
+        void UpdateTotalPages(int bookId, int totalPages);
     }
 }

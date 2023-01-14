@@ -1,4 +1,6 @@
-﻿namespace BymseBooks.Core.Models;
+﻿using BymseBooks.DataLayer.Entity;
+
+namespace BymseBooks.Core.Models;
 
 public class BookExModel
 {

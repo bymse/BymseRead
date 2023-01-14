@@ -8,4 +8,5 @@ public class BookmarkModel
     public string? Title { get; init; }
     public BookmarkType Type { get; init; }
     public DateTime Date { get; init; }
+    public int Page { get; init; }
 }

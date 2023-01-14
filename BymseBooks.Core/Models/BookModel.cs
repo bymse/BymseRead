@@ -10,4 +10,5 @@ public class BookModel
     public string Author { get; init; }
     public int? Percents { get; init; }
     public BookState State { get; init; }
+    public int? TotalPages { get; set; }
 }
