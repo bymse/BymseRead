@@ -71,6 +71,13 @@
     padding: 0 0.2em;
     border-bottom: 1px solid var(--color-primary);
   }
+  
+  & .control-panel__tags {
+    max-width: 30%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
   & .control-panel__scale {
     display: flex;
@@ -93,6 +100,7 @@
   & .control-panel__bookmarks-btn {
     &.control-panel__bookmarks-btn_add {
       background-image: url("data:image/svg+xml,%3Csvg width='24' height='25' viewBox='0 0 24 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.799805 24.6667V2.25C0.799805 1.63889 1.01508 1.11111 1.44564 0.666667C1.87619 0.222222 2.41092 0 3.0498 0H12.3415V0.916667H3.0498C2.71647 0.916667 2.41092 1.05556 2.13314 1.33333C1.85536 1.61111 1.71647 1.91667 1.71647 2.25V23.2083L10.2998 19.5417L18.8831 23.2083V10.9167H19.7998V24.6667L10.2998 20.5833L0.799805 24.6667ZM1.71647 0.916667H12.3415H10.2998H1.71647ZM18.8831 7.83333V4.375H15.4248V3.45833H18.8831V0H19.7998V3.45833H23.2581V4.375H19.7998V7.83333H18.8831Z' fill='%235E6073'/%3E%3C/svg%3E%0A");
+      background-position-x: 10px;
     }
 
     & .control-panel__bookmarks-btn_added {

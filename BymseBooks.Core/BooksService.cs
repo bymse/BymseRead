@@ -61,7 +61,7 @@ public class BooksService
             Author = b.AuthorName,
             State = b.State,
             Percents = GetPercents(lastPage, b.TotalPages, b.State),
-            Tags = b.BookTags.Select(e => e.Tag.Title).ToArray(),
+            Tags = b.BookTags.Select(e => "#" + e.Tag.Title.Replace(" ", "")).ToArray(),
             TotalPages = b.TotalPages,
         };
     }

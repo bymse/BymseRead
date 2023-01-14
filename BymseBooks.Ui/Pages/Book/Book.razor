@@ -21,6 +21,12 @@
             }
         </div>
         <div class="control-panel__right">
+            <div class="control-panel__tags">
+                @foreach (var tag in BookModel.Book.Tags)
+                {
+                    <span>@tag</span>
+                }
+            </div>
             <div class="control-panel__scale">
                 <button type="button">+</button>
                 <span class="control-panel__scale_sep"></span>
