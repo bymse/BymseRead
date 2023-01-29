@@ -24,12 +24,14 @@
   }
 }
 
-.book-form__file-input {
-
-}
-
-.book-form__tags-input {
-
+.book-form__file-wrapper {
+  display: flex;
+  gap: 0.6em;
+  
+  & .book-form__text-input {
+    flex: 1;
+    text-overflow: ellipsis;
+  }
 }
 
 .book-form__buttons {

@@ -1,12 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Components
 @using BymseBooks.Core.Models
+@using BymseBooks.DataLayer.Helpers
+@using BymseBooks.Ui.Abstractions
+@inject IFilePickHandler FilePickHandler
+
 <Modal OnClose="OnClose">
     <EditForm class="book-form" Model="@Form">
         <h2 class="book-form__title">@Title</h2>
         <InputText @bind-Value="@Form.Title" placeholder="Title..." type="text" class="book-form__text-input"/>
         <InputText @bind-Value="@Form.Author" placeholder="Author..." type="text" class="book-form__text-input"/>
+        <div class="book-form__file-wrapper">
+            <InputText @bind-Value="@File" placeholder="File..." class="book-form__text-input"/>
+            <button type="submit" class="book-form__button" onclick="@SelectFileAsync">Select file</button>
+        </div>
         <div class="book-form__buttons">
-            <button type="button" class="book-form__button">Submit</button>
+            <button type="submit" class="book-form__button">Submit</button>
             <button type="button" class="book-form__button" onclick="@OnClose">Cancel</button>
         </div>
     </EditForm>
@@ -23,4 +31,23 @@
     [Parameter]
     public Action OnClose { get; set; }
 
+    private string? File
+    {
+        get => Form.Url.IfNotNullOrEmpty(e => new Uri(e).LocalPath);
+        set => Form.Url = new UriBuilder()
+        {
+            Path = value,
+            Scheme = Uri.UriSchemeFile,
+            Host = null
+        }.Uri.ToString();
+    }
+
+    private async Task SelectFileAsync()
+    {
+        var fullPath = await FilePickHandler.HandleAsync();
+        if (!fullPath.IsNullOrEmpty())
+        {
+            File = fullPath;
+        }
+    }
 }

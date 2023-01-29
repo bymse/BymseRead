@@ -6,4 +6,5 @@ public class BookFormModel
     public string? Author { get; set; }
     public string[] Tags { get; set; }
     public string? Url { get; set; }
+    public int? BookId { get; set; }
 }

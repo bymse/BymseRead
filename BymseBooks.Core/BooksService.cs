@@ -46,6 +46,11 @@ public class BooksService
         };
     }
 
+    public void UpdateBook(BookFormModel form)
+    {
+        
+    }
+
     public void UpdateTotalPages(int bookId, int totalPages) => bookRepository.UpdateTotalPages(bookId, totalPages);
     public void UpdateLastPage(int bookId, int currentPage) => bookmarksRepository.SetLastPage(bookId, currentPage);
 

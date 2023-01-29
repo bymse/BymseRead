@@ -1,6 +1,8 @@
-﻿using BymseBooks.Core;
+﻿using BymseBooks.App.Models;
+using BymseBooks.Core;
 using BymseBooks.DataLayer.Database;
 using BymseBooks.DataLayer.Repository;
+using BymseBooks.Ui.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
 
@@ -32,7 +34,10 @@ namespace BymseBooks.App
             builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
 
-            builder.Services.AddCoreServices();
+            builder.Services
+                .AddCoreServices()
+                .AddSingleton<IFilePickHandler, MauiFilePickHandler>()
+                ;
 
             return builder.Build();
         }

@@ -49,7 +49,7 @@ namespace BymseBooks.DataLayer.Helpers
         public static string Replace(this string str, Regex regex, string replaceVal) => regex.Replace(str, replaceVal);
 
         public static string FallbackWith(this string src, string fallback) => src.IsNullOrEmpty() ? fallback : src;
-        public static string IfNotNullOrEmpty(this string src, Func<string, string> @do, Func<string, string>? @else = null)
+        public static string IfNotNullOrEmpty(this string? src, Func<string, string> @do, Func<string, string>? @else = null)
         {
             return src.IsNullOrEmpty() ? (@else ?? (s => s))(src) : @do(src);
         }
