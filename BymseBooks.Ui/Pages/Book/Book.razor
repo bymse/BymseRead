@@ -74,7 +74,7 @@
     {
         Title = BookModel.Book.Title,
         Author = BookModel.Book.Author,
-        Tags = BookModel.Book.Tags,
+        Tags = BookModel.Book.Tags.ToList(),
         Url = BookModel.Url,
         BookId = BookModel.Book.Id
     };

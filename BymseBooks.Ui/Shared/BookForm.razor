@@ -11,8 +11,9 @@
         <InputText @bind-Value="@Form.Author" placeholder="Author..." type="text" class="book-form__text-input"/>
         <div class="book-form__file-wrapper">
             <InputText @bind-Value="@File" placeholder="File..." class="book-form__text-input"/>
-            <button type="submit" class="book-form__button" onclick="@SelectFileAsync">Select file</button>
+            <button type="button" class="book-form__button" onclick="@SelectFileAsync">Select file</button>
         </div>
+        <TagsInput Tags="@Form.Tags"/>
         <div class="book-form__buttons">
             <button type="submit" class="book-form__button">Submit</button>
             <button type="button" class="book-form__button" onclick="@OnClose">Cancel</button>

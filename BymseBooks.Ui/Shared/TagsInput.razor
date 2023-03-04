@@ -1,0 +1,67 @@
+﻿@using BymseBooks.Core
+@using BymseBooks.DataLayer.Helpers
+@inject TagsService TagsService
+@inject IJSRuntime JsRuntime
+
+<div class="book-form__tags">
+    <div id="tag-width-measurer"/>
+    @for (var i = 0; i < TagInputs.Count; i++)
+    {
+        var tag = TagInputs[i];
+        <InputText class="book-form__tag-input" data-tag-input @bind-Value="@tag.Value"/>
+    }
+    <input type="text"
+           class="book-form__tag-input"
+           data-tag-input
+           style="@GetWidth(null)"
+           @bind="@NewTag"
+           @onkeydown="@OnNewTagKeyDown"
+           placeholder="Enter tag"/>
+</div>
+
+@code {
+
+    [Parameter]
+    public IList<string> Tags { get; set; }
+
+    private IList<TagWrapper> TagInputs { get; set; }
+    private string NewTag { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        TagInputs = Tags.Select(e => new TagWrapper(e)).ToList();
+        await Task.Delay(1);
+        await JsRuntime.InvokeVoidAsync("inputAutoResize", "#tag-width-measurer", "[data-tag-input]");
+    }
+
+    class TagWrapper
+    {
+        public TagWrapper(string value)
+        {
+            Value = value;
+        }
+
+        public string Value { get; set; }
+    }
+
+    private string GetWidth(TagWrapper? wrapper)
+    {
+        if (wrapper == null)
+        {
+            return "width: 1ch";
+        }
+        
+        return $"width: {wrapper.Value.Length}ch";
+    }
+
+    private void OnNewTagKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Code == "Enter")
+        {
+            TagInputs.Add(new TagWrapper(NewTag));
+            NewTag = "";
+            StateHasChanged();
+        }
+    }
+
+}
