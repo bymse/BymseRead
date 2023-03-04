@@ -4,19 +4,25 @@
 @inject IJSRuntime JsRuntime
 
 <div class="book-form__tags">
-    <div id="tag-width-measurer"/>
-    @for (var i = 0; i < TagInputs.Count; i++)
+    <div id="tag-width-measurer"></div>
+    @foreach (var tag in TagInputs)
     {
-        var tag = TagInputs[i];
-        <InputText class="book-form__tag-input" data-tag-input @bind-Value="@tag.Value"/>
+        <input 
+            class="book-form__tag-input"
+            data-tag-input
+            @bind="@tag.Value"
+            placeholder="@tag.OriginalValue"
+            />
     }
     <input type="text"
            class="book-form__tag-input"
            data-tag-input
-           style="@GetWidth(null)"
-           @bind="@NewTag"
-           @onkeydown="@OnNewTagKeyDown"
-           placeholder="Enter tag"/>
+           style="min-width: 80px;"
+           @bind-value="NewTag"
+           @bind-value:event="oninput"
+           @onkeydown="OnNewTagKeyDown"
+           placeholder="#newtag"
+    />
 </div>
 
 @code {
@@ -25,23 +31,23 @@
     public IList<string> Tags { get; set; }
 
     private IList<TagWrapper> TagInputs { get; set; }
-    private string NewTag { get; set; }
+    private string NewTag { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
         TagInputs = Tags.Select(e => new TagWrapper(e)).ToList();
-        await Task.Delay(1);
-        await JsRuntime.InvokeVoidAsync("inputAutoResize", "#tag-width-measurer", "[data-tag-input]");
+        await InitAutoResize();
     }
 
     class TagWrapper
     {
         public TagWrapper(string value)
         {
-            Value = value;
+            OriginalValue = Value = value;
         }
 
         public string Value { get; set; }
+        public string OriginalValue { get; set; }
     }
 
     private string GetWidth(TagWrapper? wrapper)
@@ -54,14 +60,22 @@
         return $"width: {wrapper.Value.Length}ch";
     }
 
-    private void OnNewTagKeyDown(KeyboardEventArgs args)
+    private async Task OnNewTagKeyDown(KeyboardEventArgs args)
     {
-        if (args.Code == "Enter")
+        if (args.Key == "Enter")
         {
-            TagInputs.Add(new TagWrapper(NewTag));
+            var tagToAdd = NewTag.StartsWith('#') ? NewTag : "#" + NewTag;
+            TagInputs.Add(new TagWrapper(tagToAdd));
             NewTag = "";
             StateHasChanged();
+            await InitAutoResize();
         }
+    }
+    
+    private async Task InitAutoResize()
+    {
+        await Task.Delay(1);
+        await JsRuntime.InvokeVoidAsync("inputAutoResize", "#tag-width-measurer", "[data-tag-input]");
     }
 
 }
