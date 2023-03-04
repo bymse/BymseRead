@@ -11,7 +11,7 @@
             class="book-form__tag-input"
             data-tag-input
             @bind="@tag.Value"
-            placeholder="@tag.OriginalValue"
+            placeholder="@tag.Placeholder"
             />
     }
     <input type="text"
@@ -35,29 +35,20 @@
 
     protected override async Task OnInitializedAsync()
     {
-        TagInputs = Tags.Select(e => new TagWrapper(e)).ToList();
+        TagInputs = Tags.Select(e => new TagWrapper(e, e)).ToList();
         await InitAutoResize();
     }
 
     class TagWrapper
     {
-        public TagWrapper(string value)
+        public TagWrapper(string value, string placeholder)
         {
-            OriginalValue = Value = value;
+            Placeholder = placeholder;
+            Value = value;
         }
 
         public string Value { get; set; }
-        public string OriginalValue { get; set; }
-    }
-
-    private string GetWidth(TagWrapper? wrapper)
-    {
-        if (wrapper == null)
-        {
-            return "width: 1ch";
-        }
-        
-        return $"width: {wrapper.Value.Length}ch";
+        public string Placeholder { get; set; }
     }
 
     private async Task OnNewTagKeyDown(KeyboardEventArgs args)
@@ -65,7 +56,7 @@
         if (args.Key == "Enter")
         {
             var tagToAdd = NewTag.StartsWith('#') ? NewTag : "#" + NewTag;
-            TagInputs.Add(new TagWrapper(tagToAdd));
+            TagInputs.Add(new TagWrapper(tagToAdd, ""));
             NewTag = "";
             StateHasChanged();
             await InitAutoResize();
@@ -75,7 +66,7 @@
     private async Task InitAutoResize()
     {
         await Task.Delay(1);
-        await JsRuntime.InvokeVoidAsync("inputAutoResize", "#tag-width-measurer", "[data-tag-input]");
+        await JsRuntime.InvokeVoidAsync("initializeTagsInputs");
     }
 
 }

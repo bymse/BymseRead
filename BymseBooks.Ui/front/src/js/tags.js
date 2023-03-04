@@ -1,8 +1,8 @@
 ﻿
 
-window.inputAutoResize = (measurerSelector, selector) => {
-  const measurer = document.querySelector(measurerSelector);
-  const elements = document.querySelectorAll(selector);
+window.initializeTagsInputs = () => {
+  const measurer = document.querySelector("#tag-width-measurer");
+  const elements = document.querySelectorAll("[data-tag-input]");
   for (let element of elements) {
     setWidth(measurer, element);
     element.addEventListener('input', () => {
@@ -12,6 +12,6 @@ window.inputAutoResize = (measurerSelector, selector) => {
 }
 
 function setWidth(measurer, element) {
-  measurer.textContent = element.value;
+  measurer.textContent = element.value || element.placeholder;
   element.style.width = `${measurer.clientWidth + 4}px`;
 }
