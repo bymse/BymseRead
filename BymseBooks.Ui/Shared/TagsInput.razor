@@ -7,12 +7,14 @@
     <div id="tag-width-measurer"></div>
     @foreach (var tag in TagInputs)
     {
-        <input 
+        <input
             class="book-form__tag-input"
             data-tag-input
-            @bind="@tag.Value"
-            placeholder="@tag.Placeholder"
-            />
+            @bind-value="@tag.Value"
+            @bind-value:event="oninput"
+            placeholder="@tag.OriginalValue"
+            @onkeydown="args => OnTagKeyDown(args, tag)"
+        />
     }
     <input type="text"
            class="book-form__tag-input"
@@ -41,14 +43,14 @@
 
     class TagWrapper
     {
-        public TagWrapper(string value, string placeholder)
+        public TagWrapper(string value, string originalValue)
         {
-            Placeholder = placeholder;
+            OriginalValue = originalValue;
             Value = value;
         }
 
         public string Value { get; set; }
-        public string Placeholder { get; set; }
+        public string OriginalValue { get; set; }
     }
 
     private async Task OnNewTagKeyDown(KeyboardEventArgs args)
@@ -62,7 +64,16 @@
             await InitAutoResize();
         }
     }
-    
+
+    private async Task OnTagKeyDown(KeyboardEventArgs args, TagWrapper tag)
+    {
+        if (args.Key == "Backspace" && tag.OriginalValue.IsNullOrEmpty())
+        {
+            TagInputs.Remove(tag);
+            StateHasChanged();
+        }
+    }
+
     private async Task InitAutoResize()
     {
         await Task.Delay(1);
