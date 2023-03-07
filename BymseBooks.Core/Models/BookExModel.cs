@@ -8,5 +8,5 @@ public class BookExModel
     
     public BookmarkModel[] Bookmarks { get; init; }
     
-    public string? Url { get; init; }
+    public string? Url { get; set; }
 }

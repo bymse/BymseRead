@@ -8,5 +8,7 @@ namespace BymseBooks.DataLayer.Repository
 
         Book? FindBook(int bookId);
         void UpdateTotalPages(int bookId, int totalPages);
+
+        void SaveChanges();
     }
 }

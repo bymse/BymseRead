@@ -5,17 +5,17 @@
 @inject IFilePickHandler FilePickHandler
 
 <Modal OnClose="OnClose">
-    <EditForm class="book-form" Model="@Form">
+    <EditForm class="book-form" Model="@Model.Book">
         <h2 class="book-form__title">@Title</h2>
-        <InputText @bind-Value="@Form.Title" placeholder="Title..." type="text" class="book-form__text-input"/>
-        <InputText @bind-Value="@Form.Author" placeholder="Author..." type="text" class="book-form__text-input"/>
+        <InputText @bind-Value="@Model.Book.Title" placeholder="Title..." type="text" class="book-form__text-input"/>
+        <InputText @bind-Value="@Model.Book.Author" placeholder="Author..." type="text" class="book-form__text-input"/>
         <div class="book-form__file-wrapper">
             <InputText @bind-Value="@File" placeholder="File..." class="book-form__text-input"/>
             <button type="button" class="book-form__button" onclick="@SelectFileAsync">Select file</button>
         </div>
-        <TagsInput Tags="@Form.Tags"/>
+        <TagsInput Tags="@Model.Book.Tags"/>
         <div class="book-form__buttons">
-            <button type="submit" class="book-form__button">Submit</button>
+            <button type="submit" class="book-form__button" onclick="@OnSubmit">Submit</button>
             <button type="button" class="book-form__button" onclick="@OnClose">Cancel</button>
         </div>
     </EditForm>
@@ -24,18 +24,21 @@
 @code {
 
     [Parameter]
-    public BookFormModel Form { get; set; } = new();
+    public BookExModel Model { get; set; } = new();
 
     [Parameter]
     public string Title { get; set; }
 
     [Parameter]
     public Action OnClose { get; set; }
+    
+    [Parameter]
+    public Action OnSubmit { get; set; }
 
     private string? File
     {
-        get => Form.Url.IfNotNullOrEmpty(e => new Uri(e).LocalPath);
-        set => Form.Url = new UriBuilder()
+        get => Model.Url.IfNotNullOrEmpty(e => new Uri(e).LocalPath);
+        set => Model.Url = new UriBuilder()
         {
             Path = value,
             Scheme = Uri.UriSchemeFile,

@@ -13,7 +13,7 @@ window.initializeTagsInputs = () => {
 }
 
 function setWidth(measurer, element) {
-  measurer.textContent = element.value || element.placeholder;
+  measurer.textContent = element.value;
   element.style.width = `${measurer.clientWidth + 4}px`;
 }
 

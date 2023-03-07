@@ -50,7 +50,7 @@
 
 @if (OpenEditForm)
 {
-    <BookForm Title="Edit book" Form="@Form" OnClose="@OnClose" />
+    <BookForm Title="Edit book" Model="@BookModel" OnClose="@OnClose" OnSubmit="@OnFormSubmit" />
 }
 
 @code {
@@ -69,15 +69,6 @@
     private bool OpenEditForm { get; set; }
 
     private void OnClose() => OpenEditForm = false;
-    
-    private BookFormModel Form => new()
-    {
-        Title = BookModel.Book.Title,
-        Author = BookModel.Book.Author,
-        Tags = BookModel.Book.Tags.ToList(),
-        Url = BookModel.Url,
-        BookId = BookModel.Book.Id
-    };
 
     private DotNetObjectReference<Book>? objectRef;
     private ITopBarItem? topBarItem;
@@ -109,6 +100,13 @@
     private void OnEditClick()
     {
         OpenEditForm = true;
+    }
+    
+    private void OnFormSubmit()
+    {
+        BookModel = BooksService.UpdateBook(BookModel);
+        OpenEditForm = false;
+        StateHasChanged();
     }
 
     [JSInvokable]

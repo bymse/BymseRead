@@ -1,6 +1,7 @@
 using System.Transactions;
 using BymseBooks.DataLayer.Database;
 using BymseBooks.DataLayer.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BymseBooks.DataLayer.Repository
 {
@@ -13,12 +14,32 @@ namespace BymseBooks.DataLayer.Repository
             this.context = context;
         }
 
-
-        public IReadOnlyList<Tag> Search(string query)
+        public Tag[] Search(string query)
         {
             return context.Tags
                 .Where(t => t.Title.StartsWith(query))
                 .ToArray();
+        }
+
+        public Tag[] FindTagsByName(IEnumerable<string> names)
+        {
+            return context.Tags
+                .AsNoTracking()
+                .Where(e => names.Contains(e.Title))
+                .ToArray();
+        }
+
+        public Tag[] CreateTags(IEnumerable<string> names)
+        {
+            var tags = names.Select(e => new Tag
+            {
+                Title = e
+            }).ToArray();
+            
+            context.Tags.AddRange(tags);
+            context.SaveChanges();
+
+            return tags;
         }
     }
 }

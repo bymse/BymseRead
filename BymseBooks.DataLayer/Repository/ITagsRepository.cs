@@ -4,6 +4,8 @@ namespace BymseBooks.DataLayer.Repository
 {
     public interface ITagsRepository
     {
-        IReadOnlyList<Tag> Search(string query);
+        Tag[] Search(string query);
+        Tag[] FindTagsByName(IEnumerable<string> names);
+        Tag[] CreateTags(IEnumerable<string> names);
     }
 }

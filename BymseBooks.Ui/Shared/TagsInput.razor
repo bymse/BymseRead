@@ -12,7 +12,6 @@
             data-tag-input
             @bind-value="@tag.Value"
             @bind-value:event="oninput"
-            placeholder="@tag.OriginalValue"
             @onkeydown="args => OnTagKeyDown(args, tag)"
         />
     }
