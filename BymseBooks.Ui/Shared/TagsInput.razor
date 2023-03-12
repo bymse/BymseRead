@@ -76,6 +76,7 @@
         {
             TagInputs.Remove(tag);
             StateHasChanged();
+            await InitTags();
             await UpdateSourceTagsAsync();
         }
     }

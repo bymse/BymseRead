@@ -1,21 +1,15 @@
 ﻿const TAG_INPUTS_SELECTOR = "[data-tag-input]";
 
-const initializedTags = [];
-
 window.initializeTagsInputs = () => {
   const measurer = document.querySelector("#tag-width-measurer");
   const elements = document.querySelectorAll(TAG_INPUTS_SELECTOR);
   for (let element of elements) {
-    if (initializedTags.includes(element)) {
-      continue;
-    }
 
     setWidth(measurer, element);
     element.addEventListener('input', () => {
       setWidth(measurer, element);
     });
     element.addEventListener('keydown', handleKeyDown);
-    initializedTags.push(element);
   }
 }
 

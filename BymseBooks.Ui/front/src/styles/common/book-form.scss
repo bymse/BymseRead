@@ -93,6 +93,11 @@
     background-color: var(--color-primary-o6);
     outline: none;
   }
+  
+  &.book-form__button-small {
+    font-size: 1.4em;
+    padding: 4px 16px;
+  }
 }
 
 #tag-width-measurer {
