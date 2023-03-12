@@ -15,6 +15,7 @@ window.initializeTagsInputs = () => {
       setWidth(measurer, element);
     });
     element.addEventListener('keydown', handleKeyDown);
+    initializedTags.push(element);
   }
 }
 
@@ -29,9 +30,14 @@ function handleKeyDown(event) {
   if (isLeft || isRight) {
     moveTagInputFocus(event, isLeft);
   }
+
+  const isBackspace = event.keyCode === 8;
+  if (isBackspace) {
+    moveTagInputFocus(event, true);
+  }
 }
 
-window.moveTagInputFocus = (event, isLeft) => {
+const moveTagInputFocus = (event, isLeft) => {
   const activeElement = event.target;
   const elements = document.querySelectorAll(TAG_INPUTS_SELECTOR);
   const index = Array.from(elements).indexOf(activeElement);

@@ -7,18 +7,17 @@
     <div id="tag-width-measurer"></div>
     @foreach (var tag in TagInputs)
     {
-        <span class="book-form_tag">
-            <span class="book-form_tag-prefix">#</span>
+        <span class="book-form__tag">
             <input
                 class="book-form__tag-input"
                 data-tag-input
                 @bind-value="@tag.Value"
                 @bind-value:event="oninput"
                 @onkeydown="args => OnTagKeyDown(args, tag)"/>
+            <span class="book-form__tag-prefix">#</span>
         </span>
     }
-    <span class="book-form_tag">
-        <span class="book-form_tag-prefix">#</span>
+    <span class="book-form__tag book-form__tag-new">
         <input type="text"
                class="book-form__tag-input"
                data-tag-input
@@ -27,6 +26,7 @@
                @bind-value:event="oninput"
                @onkeydown="OnNewTagKeyDown"
                placeholder="newtag"/>
+        <span class="book-form__tag-prefix">#</span>
     </span>
 </div>
 

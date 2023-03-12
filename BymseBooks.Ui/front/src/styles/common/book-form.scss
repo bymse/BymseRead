@@ -41,11 +41,12 @@
   padding: 2px 8px;
   flex-wrap: wrap;
   
-  & .book-form_tag {
+  & .book-form__tag {
     display: flex;
+    flex-direction: row-reverse;
   }
   
-  & .book-form_tag-prefix {
+  & .book-form__tag-prefix {
     
   }
   
@@ -59,6 +60,14 @@
     
     &:focus, &:active {
       outline: none;
+    }
+    
+    &::placeholder {
+      color: var(--color-primary-o5);
+    }
+    
+    &:placeholder-shown + .book-form__tag-prefix {
+      color: var(--color-primary-o5);
     }
   }
 }
