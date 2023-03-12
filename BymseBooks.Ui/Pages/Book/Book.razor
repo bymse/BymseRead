@@ -93,8 +93,7 @@
     {
         if (firstRender)
         {
-            objectRef = DotNetObjectReference.Create(this);
-            await JsRuntime.InvokeVoidAsync("PdfViewer.initialize", objectRef, CurrentPage);
+            await InitializePdfViewerAsync();
         }
     }
 
@@ -103,11 +102,20 @@
         OpenEditForm = true;
     }
     
-    private void OnFormSubmit()
+    private async Task OnFormSubmit()
     {
         BookModel = BooksService.UpdateBook(BookModel);
         OpenEditForm = false;
         StateHasChanged();
+        await Task.Delay(1);
+        await InitializePdfViewerAsync();
+    }
+    
+    private async Task InitializePdfViewerAsync()
+    {
+        objectRef?.Dispose();
+        objectRef = DotNetObjectReference.Create(this);
+        await JsRuntime.InvokeVoidAsync("PdfViewer.initialize", objectRef, CurrentPage);
     }
 
     [JSInvokable]

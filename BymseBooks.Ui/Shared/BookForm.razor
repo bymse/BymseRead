@@ -33,7 +33,7 @@
     public Action OnClose { get; set; }
     
     [Parameter]
-    public Action OnSubmit { get; set; }
+    public Func<Task> OnSubmit { get; set; }
     
     private string BookTitle { get; set; }
     private string BookAuthor { get; set; }
@@ -57,7 +57,7 @@
         }
     }
 
-    private void Submit()
+    private async Task Submit()
     {
         Model.Book.Title = BookTitle;
         Model.Book.Author = BookAuthor;
@@ -71,6 +71,6 @@
 
         Model.Book.Tags = BookTags;
         
-        OnSubmit();
+        await OnSubmit();
     }
 }
