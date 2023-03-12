@@ -1,4 +1,8 @@
 ﻿@inject IJSRuntime JsRuntime
+@inject BooksService BooksService
+@inject NavigationManager Navigation
+@using BymseBooks.Core
+@using BymseBooks.Core.Models
 @implements IDisposable
 
 <button data-top-menu class="top-bar__menu-button" type="button" @onclick="ToggleMenu"></button>
@@ -6,15 +10,24 @@
 @if (ShowMenu)
 {
     <div class="top-menu" data-top-menu>
-        <button class="top-menu__item">Add new book +</button>
+        <button class="top-menu__item" @onclick="OnAddBook">Add new book +</button>
         <a class="top-menu__item" href="/Settings">Settings</a>
         <a class="top-menu__item" href="/Feedback">Feedback</a>
     </div>
 }
 
+@if (ShowForm)
+{
+    <BookForm OnClose="CloseForm" OnSubmit="OnSubmit" Model="@BookExModel"/>
+}
+
 @code {
 
     private bool ShowMenu { get; set; }
+    
+    private bool ShowForm { get; set; }
+
+    private BookExModel BookExModel { get; } = new();
 
     private DotNetObjectReference<TopMenu> objectRef;
     
@@ -27,6 +40,24 @@
     private void ToggleMenu()
     {
         ShowMenu = !ShowMenu;
+    }
+
+    private void OnAddBook()
+    {
+        ShowMenu = false;
+        ShowForm = true;
+    }
+
+    private void CloseForm()
+    {
+        ShowForm = false;
+    }
+
+    private async Task OnSubmit()
+    {
+        ShowForm = false;
+        var result = BooksService.SaveBook(BookExModel);
+        Navigation.NavigateTo($"/Book/{result.Book.Id}");
     }
 
     [JSInvokable]

@@ -4,6 +4,15 @@ namespace BymseBooks.Core.Models;
 
 public class BookExModel
 {
+    public BookExModel()
+    {
+        Book = new BookModel
+        {
+            Tags = Array.Empty<string>()
+        };
+        Bookmarks = Array.Empty<BookmarkModel>();
+    }
+    
     public BookModel Book { get; init; }
     
     public BookmarkModel[] Bookmarks { get; init; }

@@ -26,7 +26,7 @@ namespace BymseBooks.DataLayer.Repository
                 .If(takeCount.HasValue, e => e.Take(takeCount!.Value))
                 .ToArray();
         }
-        
+
 
         public Book? FindBook(int bookId)
         {
@@ -48,8 +48,13 @@ namespace BymseBooks.DataLayer.Repository
                 );
         }
 
-        public void SaveChanges()
+        public void SaveBook(Book book)
         {
+            if (book.BookId == 0)
+            {
+                context.Books.Add(book);
+            }
+
             context.SaveChanges();
         }
     }

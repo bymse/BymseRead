@@ -38,20 +38,18 @@ public class BooksService
         return BookModelMapper.ToExModel(book);
     }
 
-    public BookExModel UpdateBook(BookExModel bookExModel)
+    public BookExModel SaveBook(BookExModel bookExModel)
     {
-        var model = bookExModel.Book;
-        var book = bookRepository.FindBook(model.Id)!;
-        book.Title = model.Title;
-        book.AuthorName = model.Author;
-        book.Url = bookExModel.Url;
-        book.BookTags = GetTags(bookExModel.Book.Tags)
-            .Select(e => new BookTagLink
+        var book = bookExModel.Book.Id != 0
+            ? bookRepository.FindBook(bookExModel.Book.Id)!
+            : new Book
             {
-                Tag = e
-            }).ToList();
+                Bookmarks = new List<Bookmark>(),
+                CreatedDate = DateTime.UtcNow
+            };
+        BookModelMapper.ToBook(book, bookExModel, GetTags(bookExModel.Book.Tags));
+        bookRepository.SaveBook(book);
 
-        bookRepository.SaveChanges();
         return BookModelMapper.ToExModel(book);
     }
 

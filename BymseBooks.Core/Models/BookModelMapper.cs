@@ -22,7 +22,7 @@ public static class BookModelMapper
                 }).ToArray()
         };
     }
-    
+
     public static BookModel ToModel(Book b)
     {
         var lastPage = b.Bookmarks
@@ -63,5 +63,17 @@ public static class BookModelMapper
         }
 
         return (int)(Math.Round(((double)lastPage.Value) / totalPages.Value, 2) * 100);
+    }
+
+    public static void ToBook(Book book, BookExModel exModel, Tag[] tags)
+    {
+        var model = exModel.Book;
+        book.Title = model.Title;
+        book.AuthorName = model.Author;
+        book.Url = exModel.Url;
+        book.BookTags = tags.Select(e => new BookTagLink
+        {
+            Tag = e
+        }).ToList();
     }
 }

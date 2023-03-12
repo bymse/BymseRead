@@ -104,7 +104,7 @@
     
     private async Task OnFormSubmit()
     {
-        BookModel = BooksService.UpdateBook(BookModel);
+        BookModel = BooksService.SaveBook(BookModel);
         OpenEditForm = false;
         StateHasChanged();
         await Task.Delay(1);
