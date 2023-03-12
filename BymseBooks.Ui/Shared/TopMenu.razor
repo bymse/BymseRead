@@ -1,0 +1,44 @@
+﻿@inject IJSRuntime JsRuntime
+@implements IDisposable
+
+<button data-top-menu class="top-bar__menu-button" type="button" @onclick="ToggleMenu"></button>
+
+@if (ShowMenu)
+{
+    <div class="top-menu" data-top-menu>
+        <button class="top-menu__item">Add new book +</button>
+        <a class="top-menu__item" href="/Settings">Settings</a>
+        <a class="top-menu__item" href="/Feedback">Feedback</a>
+    </div>
+}
+
+@code {
+
+    private bool ShowMenu { get; set; }
+
+    private DotNetObjectReference<TopMenu> objectRef;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        objectRef = DotNetObjectReference.Create(this);
+        await JsRuntime.InvokeVoidAsync("handleOutsideClick", objectRef);
+    }
+    
+    private void ToggleMenu()
+    {
+        ShowMenu = !ShowMenu;
+    }
+
+    [JSInvokable]
+    public void OnOutsideClick()
+    {
+        ShowMenu = false;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        objectRef.Dispose();
+    }
+
+}

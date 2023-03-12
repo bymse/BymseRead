@@ -1,11 +1,12 @@
 ﻿@using BymseBooks.Ui.Models
 <header class="top-bar">
+    <TopMenu />
     @foreach (var topBarItem in Items)
     {
         switch (topBarItem.Type)
         {
             case ItemType.Link:
-                var item = (LinkTopBarItem) topBarItem;
+                var item = (LinkTopBarItem)topBarItem;
                 <a href="@item.Url" class="@item.Css">@item.Text</a>
                 break;
             default:
@@ -19,4 +20,13 @@
     [Parameter]
     public IEnumerable<ITopBarItem> Items { get; set; }
 
+    private void CloseMenu()
+    {
+        ShowMenu = false;
+        StateHasChanged();
+    }
+    
+
+
+    private bool ShowMenu { get; set; }
 }
