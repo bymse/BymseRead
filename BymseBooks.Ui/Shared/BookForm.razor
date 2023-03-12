@@ -5,17 +5,17 @@
 @inject IFilePickHandler FilePickHandler
 
 <Modal OnClose="OnClose">
-    <EditForm class="book-form" Model="@Model.Book">
-        <h2 class="book-form__title">@Title</h2>
-        <InputText @bind-Value="@Model.Book.Title" placeholder="Title..." type="text" class="book-form__text-input"/>
-        <InputText @bind-Value="@Model.Book.Author" placeholder="Author..." type="text" class="book-form__text-input"/>
+    <EditForm class="book-form" Model="@this">
+        <h2 class="book-form__title">@FormTitle</h2>
+        <InputText @bind-Value="@BookTitle" placeholder="Title..." type="text" class="book-form__text-input"/>
+        <InputText @bind-Value="@BookAuthor" placeholder="Author..." type="text" class="book-form__text-input"/>
         <div class="book-form__file-wrapper">
-            <InputText @bind-Value="@File" placeholder="File..." class="book-form__text-input"/>
+            <InputText @bind-Value="@BookFile" placeholder="File..." class="book-form__text-input"/>
             <button type="button" class="book-form__button" onclick="@SelectFileAsync">Select file</button>
         </div>
-        <TagsInput @bind-Tags="@Model.Book.Tags"/>
+        <TagsInput @bind-Tags="@BookTags"/>
         <div class="book-form__buttons">
-            <button type="button" class="book-form__button" onclick="@OnSubmit">Submit</button>
+            <button type="button" class="book-form__button" onclick="@Submit">Submit</button>
             <button type="button" class="book-form__button" onclick="@OnClose">Cancel</button>
         </div>
     </EditForm>
@@ -27,31 +27,50 @@
     public BookExModel Model { get; set; } = new();
 
     [Parameter]
-    public string Title { get; set; }
+    public string FormTitle { get; init; }
 
     [Parameter]
     public Action OnClose { get; set; }
     
     [Parameter]
     public Action OnSubmit { get; set; }
+    
+    private string BookTitle { get; set; }
+    private string BookAuthor { get; set; }
+    private string BookFile { get; set; }
+    private string[] BookTags { get; set; }
 
-    private string? File
+    protected override void OnInitialized()
     {
-        get => Model.Url.IfNotNullOrEmpty(e => new Uri(e).LocalPath);
-        set => Model.Url = new UriBuilder()
-        {
-            Path = value,
-            Scheme = Uri.UriSchemeFile,
-            Host = null
-        }.Uri.ToString();
+        BookTitle = Model.Book.Title;
+        BookAuthor = Model.Book.Author;
+        BookFile = Model.Url.IfNotNullOrEmpty(e => new Uri(e).LocalPath);
+        BookTags = Model.Book.Tags;
     }
-
+    
     private async Task SelectFileAsync()
     {
         var fullPath = await FilePickHandler.HandleAsync();
         if (!fullPath.IsNullOrEmpty())
         {
-            File = fullPath;
+            BookFile = fullPath;
         }
+    }
+
+    private void Submit()
+    {
+        Model.Book.Title = BookTitle;
+        Model.Book.Author = BookAuthor;
+        Model.Book.Tags = BookTags;
+        Model.Url = new UriBuilder()
+        {
+            Path = BookFile,
+            Scheme = Uri.UriSchemeFile,
+            Host = null
+        }.Uri.ToString();
+
+        Model.Book.Tags = BookTags;
+        
+        OnSubmit();
     }
 }

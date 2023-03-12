@@ -1,9 +1,15 @@
 ﻿const TAG_INPUTS_SELECTOR = "[data-tag-input]";
 
+const initializedTags = [];
+
 window.initializeTagsInputs = () => {
   const measurer = document.querySelector("#tag-width-measurer");
   const elements = document.querySelectorAll(TAG_INPUTS_SELECTOR);
   for (let element of elements) {
+    if (initializedTags.includes(element)) {
+      continue;
+    }
+
     setWidth(measurer, element);
     element.addEventListener('input', () => {
       setWidth(measurer, element);
@@ -32,7 +38,7 @@ window.moveTagInputFocus = (event, isLeft) => {
   if (index < 0) {
     return;
   }
-  
+
   let newIndex = -1;
   let movedToLeft = false;
   if (activeElement.value.length === 0) {
@@ -45,7 +51,7 @@ window.moveTagInputFocus = (event, isLeft) => {
     newIndex = isLeft ? index - 1 : newIndex;
     movedToLeft = true;
   }
-  
+
   if (newIndex >= 0 && newIndex < elements.length) {
     event.preventDefault();
     elements[newIndex].focus();

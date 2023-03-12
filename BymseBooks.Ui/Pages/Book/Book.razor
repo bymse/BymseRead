@@ -5,6 +5,7 @@
 @using BymseBooks.Core
 @using System.Net
 @using BymseBooks.DataLayer.Entity
+@using BymseBooks.DataLayer.Helpers
 @using BookForm = BymseBooks.Core.Models.BookFormModel
 @inject BooksService BooksService
 @inject IJSRuntime JsRuntime
@@ -22,7 +23,7 @@
             }
         </div>
         <div class="control-panel__right">
-            <div class="control-panel__tags">
+            <div class="control-panel__tags" title="@BookModel.Book.TagsWithHashes.JoinStrings(" ")">
                 @foreach (var tag in BookModel.Book.TagsWithHashes)
                 {
                     <span>@tag</span>
@@ -50,7 +51,7 @@
 
 @if (OpenEditForm)
 {
-    <BookForm Title="Edit book" Model="@BookModel" OnClose="@OnClose" OnSubmit="@OnFormSubmit" />
+    <BookForm FormTitle="Edit book" Model="@BookModel" OnClose="@OnClose" OnSubmit="@OnFormSubmit" />
 }
 
 @code {

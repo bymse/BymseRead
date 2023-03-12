@@ -44,7 +44,7 @@
     protected override async Task OnInitializedAsync()
     {
         TagInputs = Tags.Select(e => new TagWrapper(e)).ToList();
-        await InitAutoResize();
+        await InitTags();
     }
 
     class TagWrapper
@@ -65,14 +65,14 @@
             TagInputs.Add(new TagWrapper(tagToAdd));
             NewTag = "";
             StateHasChanged();
-            await InitAutoResize();
+            await InitTags();
             await UpdateSourceTagsAsync();
         }
     }
 
     private async Task OnTagKeyDown(KeyboardEventArgs args, TagWrapper tag)
     {
-        if (args.Key == "Backspace")
+        if (args.Key == "Backspace" && tag.Value.IsNullOrEmpty())
         {
             TagInputs.Remove(tag);
             StateHasChanged();
@@ -89,7 +89,7 @@
         await TagsChanged.InvokeAsync(tags);
     }
 
-    private async Task InitAutoResize()
+    private async Task InitTags()
     {
         await Task.Delay(1);
         await JsRuntime.InvokeVoidAsync("initializeTagsInputs");

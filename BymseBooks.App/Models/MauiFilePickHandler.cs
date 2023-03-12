@@ -12,11 +12,6 @@ public class MauiFilePickHandler : IFilePickHandler
             FileTypes = FilePickerFileType.Pdf
         });
 
-        if (result != null)
-        {
-            return result.FullPath;
-        }
-
-        return null;
+        return result?.FullPath;
     }
 }
