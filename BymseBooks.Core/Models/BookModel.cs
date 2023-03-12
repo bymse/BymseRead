@@ -11,4 +11,6 @@ public class BookModel
     public int? Percents { get; init; }
     public BookState State { get; init; }
     public int? TotalPages { get; set; }
+    
+    public string[] TagsWithHashes => Tags.Select(e => $"#{e}").ToArray();
 }

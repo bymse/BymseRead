@@ -7,79 +7,86 @@
     <div id="tag-width-measurer"></div>
     @foreach (var tag in TagInputs)
     {
-        <input
-            class="book-form__tag-input"
-            data-tag-input
-            @bind-value="@tag.Value"
-            @bind-value:event="oninput"
-            @onkeydown="args => OnTagKeyDown(args, tag)"
-        />
+        <span class="book-form_tag">
+            <span class="book-form_tag-prefix">#</span>
+            <input
+                class="book-form__tag-input"
+                data-tag-input
+                @bind-value="@tag.Value"
+                @bind-value:event="oninput"
+                @onkeydown="args => OnTagKeyDown(args, tag)"/>
+        </span>
     }
-    <input type="text"
-           class="book-form__tag-input"
-           data-tag-input
-           style="min-width: 80px;"
-           @bind-value="NewTag"
-           @bind-value:event="oninput"
-           @onkeydown="OnNewTagKeyDown"
-           placeholder="#newtag"
-    />
+    <span class="book-form_tag">
+        <span class="book-form_tag-prefix">#</span>
+        <input type="text"
+               class="book-form__tag-input"
+               data-tag-input
+               style="min-width: 80px;"
+               @bind-value="NewTag"
+               @bind-value:event="oninput"
+               @onkeydown="OnNewTagKeyDown"
+               placeholder="newtag"/>
+    </span>
 </div>
 
 @code {
 
     [Parameter]
-    public IList<string> Tags { get; set; }
+    public string[] Tags { get; set; }
+    
+    [Parameter]
+    public EventCallback<string[]> TagsChanged { get; set; }
 
     private IList<TagWrapper> TagInputs { get; set; }
     private string NewTag { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
-        TagInputs = Tags.Select(e => new TagWrapper(e, e)).ToList();
+        TagInputs = Tags.Select(e => new TagWrapper(e)).ToList();
         await InitAutoResize();
     }
 
     class TagWrapper
     {
-        public TagWrapper(string value, string originalValue)
+        public TagWrapper(string value)
         {
-            OriginalValue = originalValue;
             Value = value;
         }
 
         public string Value { get; set; }
-        public string OriginalValue { get; set; }
     }
 
     private async Task OnNewTagKeyDown(KeyboardEventArgs args)
     {
         if (args.Key == "Enter")
         {
-            var tagToAdd = NewTag.StartsWith('#') ? NewTag : "#" + NewTag;
-            TagInputs.Add(new TagWrapper(tagToAdd, ""));
+            var tagToAdd = NewTag.StartsWith('#') ? NewTag.TrimStart('#') : NewTag;
+            TagInputs.Add(new TagWrapper(tagToAdd));
             NewTag = "";
             StateHasChanged();
             await InitAutoResize();
-            UpdateSourceTags();
+            await UpdateSourceTagsAsync();
         }
     }
 
     private async Task OnTagKeyDown(KeyboardEventArgs args, TagWrapper tag)
     {
-        if (args.Key == "Backspace" && tag.OriginalValue.IsNullOrEmpty())
+        if (args.Key == "Backspace")
         {
             TagInputs.Remove(tag);
             StateHasChanged();
-            UpdateSourceTags();
+            await UpdateSourceTagsAsync();
         }
     }
-    
-    private void UpdateSourceTags()
+
+    private async Task UpdateSourceTagsAsync()
     {
-        Tags = TagInputs
+        var tags = TagInputs
             .Select(e => e.Value)
-            .Where(e => !e.IsNullOrEmpty()).ToList();
+            .Where(e => !e.IsNullOrEmpty())
+            .ToArray();
+        await TagsChanged.InvokeAsync(tags);
     }
 
     private async Task InitAutoResize()

@@ -15,7 +15,7 @@
     }
 
     <div class="book-card__tags">
-        @foreach (var tag in Book.Tags)
+        @foreach (var tag in Book.TagsWithHashes)
         {
             <span>@tag</span>
         }

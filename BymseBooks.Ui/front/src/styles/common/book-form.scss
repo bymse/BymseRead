@@ -41,12 +41,20 @@
   padding: 2px 8px;
   flex-wrap: wrap;
   
+  & .book-form_tag {
+    display: flex;
+  }
+  
+  & .book-form_tag-prefix {
+    
+  }
+  
   & .book-form__tag-input {
     border: none;
     font-size: 1em;
     background: transparent;
 
-    padding: 0 2px;
+    padding: 0 2px 0 0;
     width: 0;
     
     &:focus, &:active {

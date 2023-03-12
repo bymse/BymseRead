@@ -23,7 +23,7 @@
         </div>
         <div class="control-panel__right">
             <div class="control-panel__tags">
-                @foreach (var tag in BookModel.Book.Tags)
+                @foreach (var tag in BookModel.Book.TagsWithHashes)
                 {
                     <span>@tag</span>
                 }

@@ -24,7 +24,6 @@ namespace BymseBooks.DataLayer.Repository
         public Tag[] FindTagsByName(IEnumerable<string> names)
         {
             return context.Tags
-                .AsNoTracking()
                 .Where(e => names.Contains(e.Title))
                 .ToArray();
         }

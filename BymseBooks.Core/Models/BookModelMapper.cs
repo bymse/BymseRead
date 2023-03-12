@@ -35,7 +35,7 @@ public static class BookModelMapper
             Author = b.AuthorName,
             State = b.State,
             Percents = GetPercents(lastPage, b.TotalPages, b.State),
-            Tags = b.BookTags.Select(e => "#" + e.Tag.Title.Replace(" ", "")).ToArray(),
+            Tags = b.BookTags.Select(e => e.Tag.Title).ToArray(),
             TotalPages = b.TotalPages,
         };
     }

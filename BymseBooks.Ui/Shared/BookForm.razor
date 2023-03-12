@@ -13,9 +13,9 @@
             <InputText @bind-Value="@File" placeholder="File..." class="book-form__text-input"/>
             <button type="button" class="book-form__button" onclick="@SelectFileAsync">Select file</button>
         </div>
-        <TagsInput Tags="@Model.Book.Tags"/>
+        <TagsInput @bind-Tags="@Model.Book.Tags"/>
         <div class="book-form__buttons">
-            <button type="submit" class="book-form__button" onclick="@OnSubmit">Submit</button>
+            <button type="button" class="book-form__button" onclick="@OnSubmit">Submit</button>
             <button type="button" class="book-form__button" onclick="@OnClose">Cancel</button>
         </div>
     </EditForm>
