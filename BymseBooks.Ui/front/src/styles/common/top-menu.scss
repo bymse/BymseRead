@@ -17,6 +17,9 @@
     text-decoration: none;
     padding: 8px 24px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     
     &:hover {
       background: var(--color-tertiary-o5);
@@ -26,5 +29,12 @@
     &:focus, &:active {
       outline: none;
     }
+  }
+  
+  & .top-menu__item-plus {
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.65354 16V8.34646H0V7.65354H7.65354V0H8.34646V7.65354H16V8.34646H8.34646V16H7.65354Z' fill='%235E6073'/%3E%3C/svg%3E%0A");
+    width: 16px;
+    height: 16px;
+    margin-left: 16px;
   }
 }

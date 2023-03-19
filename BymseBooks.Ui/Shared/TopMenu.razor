@@ -10,7 +10,7 @@
 @if (ShowMenu)
 {
     <div class="top-menu" data-top-menu>
-        <button class="top-menu__item" @onclick="OnAddBook">Add new book +</button>
+        <button class="top-menu__item" @onclick="OnAddBook">Add new book<div class="top-menu__item-plus"></div></button>
         <a class="top-menu__item" href="/Settings">Settings</a>
         <a class="top-menu__item" href="/Feedback">Feedback</a>
     </div>
@@ -18,7 +18,7 @@
 
 @if (ShowForm)
 {
-    <BookForm OnClose="CloseForm" OnSubmit="OnSubmit" Model="@BookExModel"/>
+    <BookForm FormTitle="New book" OnClose="CloseForm" OnSubmit="OnSubmit" Model="@BookExModel"/>
 }
 
 @code {
