@@ -1,11 +1,12 @@
 ﻿import * as pdfjsLib from "pdfjs-dist/webpack"
 import * as pdfjsViewer from "pdfjs-dist/web/pdf_viewer"
+import {fixElementWidth} from "./inputAutoWidth";
 
 
 class PdfViewer {
   #pdfViewer;
   #dotNetHelper;
-  
+
   async initialize(dotNetHelper, currentPage) {
     this.#dotNetHelper = dotNetHelper;
     const container = document.getElementById("pdf-viewer-container");
@@ -55,6 +56,10 @@ class PdfViewer {
 
   async #onPageChanged(pageNumber) {
     await this.#dotNetHelper.invokeMethodAsync("OnCurrentPageChanged", pageNumber);
+  }
+
+  setCurrentPage(currentPage) {
+    this.#pdfViewer.currentPageNumber = currentPage
   }
 }
 

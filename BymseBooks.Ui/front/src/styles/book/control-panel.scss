@@ -5,6 +5,12 @@
   width: 0;
 }
 
+#pages-input-measurer {
+  appearance: none;
+  visibility: hidden;
+  position: absolute;
+}
+
 .control-panel {
   background: var(--color-secondary-o5);
   height: 2.6em;
@@ -70,8 +76,20 @@
   & .control-panel__pages {
     padding: 0 0.2em;
     border-bottom: 1px solid var(--color-primary);
+    display: flex;
+    gap: 0.2em;
   }
-  
+
+  & .control-panel__pages-input {
+    border: none;
+    background: transparent;
+    font-size: inherit;
+
+    &:focus, &:active {
+      outline: none;
+    }
+  }
+
   & .control-panel__tags {
     max-width: 30%;
     white-space: nowrap;

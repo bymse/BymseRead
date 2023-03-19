@@ -1,21 +1,14 @@
-﻿const TAG_INPUTS_SELECTOR = "[data-tag-input]";
+﻿import {initializeInputAutoWidth} from "./inputAutoWidth";
+
+const TAG_INPUTS_SELECTOR = "[data-tag-input]";
 
 window.initializeTagsInputs = () => {
   const measurer = document.querySelector("#tag-width-measurer");
   const elements = document.querySelectorAll(TAG_INPUTS_SELECTOR);
   for (let element of elements) {
-
-    setWidth(measurer, element);
-    element.addEventListener('input', () => {
-      setWidth(measurer, element);
-    });
+    initializeInputAutoWidth(measurer, element);
     element.addEventListener('keydown', handleKeyDown);
   }
-}
-
-function setWidth(measurer, element) {
-  measurer.textContent = element.value;
-  element.style.width = `${measurer.clientWidth + 4}px`;
 }
 
 function handleKeyDown(event) {

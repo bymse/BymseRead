@@ -4,7 +4,7 @@
   "scripts": {
     "build": "webpack --mode development",
     "build-production": "webpack --mode production",
-    "watch": "webpack --watch --mode development --env output=bin/Debug/net6.0-windows10.0.19041.0/win10-x64/AppX/wwwroot"
+    "watch": "webpack --watch --mode development --env output=bin/Debug/net7.0-windows10.0.22621.0/win10-x64/AppX/wwwroot"
   },
   "dependencies": {
     "bymse-books-front": "file:../../BymseBooks.Ui/front"

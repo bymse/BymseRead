@@ -19,7 +19,17 @@
         <div class="control-panel__center">
             @if (BookModel.Book.TotalPages.HasValue)
             {
-                <div class="control-panel__pages">@CurrentPage / @BookModel.Book.TotalPages</div>
+                <div class="control-panel__pages">
+                    <input
+                        class="control-panel__pages-input"
+                        type="text"
+                        data-page-input
+                        @bind-value="@CurrentPageInput"
+                        @bind-value:after="@OnCurrentPageSet"/>
+                    <span>/</span>
+                    <span>@BookModel.Book.TotalPages</span>
+                    <div id="pages-input-measurer"></div>
+                </div>
             }
         </div>
         <div class="control-panel__right">
@@ -51,7 +61,7 @@
 
 @if (OpenEditForm)
 {
-    <BookForm FormTitle="Edit book" Model="@BookModel" OnClose="@OnClose" OnSubmit="@OnFormSubmit" />
+    <BookForm FormTitle="Edit book" Model="@BookModel" OnClose="@OnClose" OnSubmit="@OnFormSubmit"/>
 }
 
 @code {
@@ -64,9 +74,19 @@
 
     private BookExModel BookModel { get; set; }
 
+   private const string CURRENT_PAGE_INPUT_SELECTOR = "[data-page-input]";
+   private const string CURRENT_PAGE_INPUT_MEASURER_SELECTOR = "#pages-input-measurer";
+
     private string GetUrl() => $"/user-file/{WebUtility.UrlEncode(new Uri(BookModel.Url).AbsolutePath)}";
     private string Title => $"{BookModel.Book.Title} by {BookModel.Book.Author}";
-    private int CurrentPage { get; set; }
+    private int currentPage;
+
+    private string CurrentPageInput
+    {
+        get => currentPage.ToString();
+        set => currentPage = int.Parse(value);
+    }
+
     private bool OpenEditForm { get; set; }
 
     private void OnClose() => OpenEditForm = false;
@@ -74,7 +94,8 @@
     private DotNetObjectReference<Book>? objectRef;
     private ITopBarItem? topBarItem;
 
-    protected override void OnInitialized()
+
+    protected override async Task OnInitializedAsync()
     {
         topBarItem = new LinkTopBarItem
         {
@@ -84,7 +105,7 @@
         MainLayout.Items.Add(topBarItem);
 
         BookModel = BooksService.FindBook(BookId);
-        CurrentPage = BookModel.Bookmarks
+        currentPage = BookModel.Bookmarks
             .LastOrDefault(e => e.Type == BookmarkType.LastPage)
             ?.Page ?? 0;
     }
@@ -93,6 +114,11 @@
     {
         if (firstRender)
         {
+            await JsRuntime.InvokeVoidAsync(
+                "initializeInputsAutoWidth",
+                CURRENT_PAGE_INPUT_MEASURER_SELECTOR,
+                CURRENT_PAGE_INPUT_SELECTOR
+                );
             await InitializePdfViewerAsync();
         }
     }
@@ -101,7 +127,7 @@
     {
         OpenEditForm = true;
     }
-    
+
     private async Task OnFormSubmit()
     {
         BookModel = BooksService.SaveBook(BookModel);
@@ -110,12 +136,12 @@
         await Task.Delay(1);
         await InitializePdfViewerAsync();
     }
-    
+
     private async Task InitializePdfViewerAsync()
     {
         objectRef?.Dispose();
         objectRef = DotNetObjectReference.Create(this);
-        await JsRuntime.InvokeVoidAsync("PdfViewer.initialize", objectRef, CurrentPage);
+        await JsRuntime.InvokeVoidAsync("PdfViewer.initialize", objectRef, currentPage);
     }
 
     [JSInvokable]
@@ -125,12 +151,24 @@
         BookModel.Book.TotalPages = totalPages;
     }
 
-    [JSInvokable]
-    public void OnCurrentPageChanged(int page)
+    private async Task OnCurrentPageSet()
     {
-        CurrentPage = page;
-        BooksService.UpdateLastPage(BookId, CurrentPage);
+        BooksService.UpdateLastPage(BookId, currentPage);
+        await JsRuntime.InvokeVoidAsync("PdfViewer.setCurrentPage", currentPage);
+    }
+
+    [JSInvokable]
+    public async Task OnCurrentPageChanged(int page)
+    {
+        currentPage = page;
+        BooksService.UpdateLastPage(BookId, currentPage);
         StateHasChanged();
+        await Task.Delay(1);
+        await JsRuntime.InvokeVoidAsync(
+            "fixElementWidth",
+            CURRENT_PAGE_INPUT_MEASURER_SELECTOR,
+            CURRENT_PAGE_INPUT_SELECTOR
+            );
     }
 
     public void Dispose()
