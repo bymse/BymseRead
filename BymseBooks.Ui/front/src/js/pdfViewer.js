@@ -7,7 +7,6 @@ class PdfViewer {
   #dotNetHelper;
 
   async initialize(dotNetHelper, currentPage) {
-    console.log("PdfViewer.initialize");
     this.#dotNetHelper = dotNetHelper;
     const container = document.getElementById("pdf-viewer-container");
 
