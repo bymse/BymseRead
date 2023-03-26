@@ -57,5 +57,15 @@ namespace BymseBooks.DataLayer.Repository
 
             context.SaveChanges();
         }
+
+        public void DeleteBook(int bookId)
+        {
+            var book = context.Books.Find(bookId);
+            if (book != null)
+            {
+                context.Books.Remove(book);
+                context.SaveChanges();
+            }
+        }
     }
 }

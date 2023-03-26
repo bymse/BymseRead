@@ -53,7 +53,7 @@
         </div>
     </div>
     <div class="side-buttons">
-        <button type="button" class="side-buttons__delete"></button>
+        <DeleteButton Book="BookModel"/>
         <button type="button" class="side-buttons__edit" onclick="@OnEditClick"></button>
         <button type="button" class="side-buttons__full-size"></button>
     </div>
@@ -74,10 +74,12 @@
 
     private BookExModel BookModel { get; set; }
 
-   private const string CURRENT_PAGE_INPUT_SELECTOR = "[data-page-input]";
-   private const string CURRENT_PAGE_INPUT_MEASURER_SELECTOR = "#pages-input-measurer";
+        private const string CURRENT_PAGE_INPUT_SELECTOR = "[data-page-input]";
+        private const string CURRENT_PAGE_INPUT_MEASURER_SELECTOR = "#pages-input-measurer";
 
-    private string GetUrl() => $"/user-file/{WebUtility.UrlEncode(new Uri(BookModel.Url).AbsolutePath)}";
+    private string GetUrl() => BookModel.Url.IsNullOrEmpty() 
+        ? ""
+        : $"/user-file/{WebUtility.UrlEncode(new Uri(BookModel.Url!).AbsolutePath)}";
     private string Title => $"{BookModel.Book.Title} by {BookModel.Book.Author}";
     private int currentPage;
 
@@ -140,8 +142,11 @@
     private async Task InitializePdfViewerAsync()
     {
         objectRef?.Dispose();
-        objectRef = DotNetObjectReference.Create(this);
-        await JsRuntime.InvokeVoidAsync("PdfViewer.initialize", objectRef, currentPage);
+        if (!BookModel.Url.IsNullOrEmpty())
+        {
+            objectRef = DotNetObjectReference.Create(this);
+            await JsRuntime.InvokeVoidAsync("PdfViewer.initialize", objectRef, currentPage);
+        }
     }
 
     [JSInvokable]

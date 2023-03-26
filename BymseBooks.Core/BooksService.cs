@@ -53,6 +53,11 @@ public class BooksService
         return BookModelMapper.ToExModel(book);
     }
 
+    public void DeleteBook(BookExModel bookExModel)
+    {
+        bookRepository.DeleteBook(bookExModel.Book.Id);
+    }
+
     public void UpdateTotalPages(int bookId, int totalPages) => bookRepository.UpdateTotalPages(bookId, totalPages);
     public void UpdateLastPage(int bookId, int currentPage) => bookmarksRepository.SetLastPage(bookId, currentPage);
 

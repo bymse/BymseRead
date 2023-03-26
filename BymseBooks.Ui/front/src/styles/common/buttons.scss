@@ -1,0 +1,33 @@
+﻿
+.button {
+  border: none;
+  background: var(--color-tertiary);
+  color: var(--color-secondary);
+  cursor: pointer;
+  font-size: 1.6em;
+  padding: 8px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+
+  &:active {
+    background-color: var(--color-primary-o6);
+    outline: none;
+  }
+
+  &.button_small {
+    font-size: 1.4em;
+    padding: 4px 16px;
+  }
+  
+  &.button_red {
+    color: var(--color-error);
+  }
+}
+
+.buttons-line {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 16px;
+  width: 100%;
+}

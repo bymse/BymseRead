@@ -11,12 +11,12 @@
         <InputText @bind-Value="@BookAuthor" placeholder="Author..." type="text" class="book-form__text-input"/>
         <div class="book-form__file-wrapper">
             <InputText @bind-Value="@BookFile" placeholder="File..." class="book-form__text-input"/>
-            <button type="button" class="book-form__button book-form__button-small" onclick="@SelectFileAsync">Select file</button>
+            <button type="button" class="button button_small" onclick="@SelectFileAsync">Select file</button>
         </div>
         <TagsInput @bind-Tags="@BookTags"/>
-        <div class="book-form__buttons">
-            <button type="button" class="book-form__button" onclick="@Submit">Submit</button>
-            <button type="button" class="book-form__button" onclick="@OnClose">Cancel</button>
+        <div class="buttons-line">
+            <button type="button" class="button" onclick="@Submit">Submit</button>
+            <button type="button" class="button" onclick="@OnClose">Cancel</button>
         </div>
     </EditForm>
 </Modal>
@@ -62,12 +62,15 @@
         Model.Book.Title = BookTitle;
         Model.Book.Author = BookAuthor;
         Model.Book.Tags = BookTags;
-        Model.Url = new UriBuilder()
+        if (!BookFile.IsNullOrEmpty())
         {
-            Path = BookFile,
-            Scheme = Uri.UriSchemeFile,
-            Host = null
-        }.Uri.ToString();
+            Model.Url = new UriBuilder()
+            {
+                Path = BookFile,
+                Scheme = Uri.UriSchemeFile,
+                Host = null
+            }.Uri.ToString();
+        }
 
         Model.Book.Tags = BookTags;
         

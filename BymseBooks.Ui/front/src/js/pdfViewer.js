@@ -1,6 +1,5 @@
 ﻿import * as pdfjsLib from "pdfjs-dist/webpack"
 import * as pdfjsViewer from "pdfjs-dist/web/pdf_viewer"
-import {fixElementWidth} from "./inputAutoWidth";
 
 
 class PdfViewer {
@@ -8,6 +7,7 @@ class PdfViewer {
   #dotNetHelper;
 
   async initialize(dotNetHelper, currentPage) {
+    console.log("PdfViewer.initialize");
     this.#dotNetHelper = dotNetHelper;
     const container = document.getElementById("pdf-viewer-container");
 

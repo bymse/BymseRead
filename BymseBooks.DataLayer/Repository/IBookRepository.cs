@@ -10,5 +10,6 @@ namespace BymseBooks.DataLayer.Repository
         void UpdateTotalPages(int bookId, int totalPages);
 
         void SaveBook(Book book);
+        void DeleteBook(int bookId);
     }
 }
