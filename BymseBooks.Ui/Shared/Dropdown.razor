@@ -1,0 +1,53 @@
+﻿@inject IJSRuntime JsRuntime
+@using System.Collections.Concurrent
+@implements IAsyncDisposable
+
+<button data-dropdown-id="@DropdownId" class="@ButtonClass" type="button" @onclick="ToggleMenu"></button>
+<div class="dropdown">
+    @if (ShowMenu)
+    {
+        @ChildContent
+    }
+</div>
+
+@code {
+
+    [Parameter]
+    public string DropdownId { get; init; }
+
+    [Parameter]
+    public string ButtonClass { get; init; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; init; }
+
+    private string DropdownSelector => $"[data-dropdown-id=\"{DropdownId}\"]";
+
+    private DotNetObjectReference<Dropdown> objectRef;
+
+    protected override async Task OnInitializedAsync()
+    {
+        objectRef = DotNetObjectReference.Create(this);
+        await JsRuntime.InvokeVoidAsync("dropdown.handleOutsideClick", DropdownSelector, objectRef);
+    }
+
+    private bool ShowMenu { get; set; }
+
+    private void ToggleMenu()
+    {
+        ShowMenu = !ShowMenu;
+    }
+
+    [JSInvokable]
+    public void OnOutsideClick()
+    {
+        ShowMenu = false;
+        StateHasChanged();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        objectRef.Dispose();
+        await JsRuntime.InvokeVoidAsync("dropdown.dispose", DropdownSelector);
+    }
+}
