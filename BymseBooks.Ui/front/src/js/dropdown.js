@@ -8,10 +8,10 @@ window.dropdown = {
 
 function handleOutsideClick(dropdownSelector, dotnetHelper) {
   if (!wasInitialized) {
-    window.addEventListener('click', e => {
+    window.addEventListener('click', async e => {
       for (const selector in selectorsToDotnetHelpers) {
         if (!e.target.closest(selector)) {
-          selectorsToDotnetHelpers[selector].invokeMethodAsync("OnOutsideClick");
+          await selectorsToDotnetHelpers[selector].invokeMethodAsync("OnOutsideClick");
         }
       }
     });
