@@ -7,10 +7,10 @@
 @if (ShowModal)
 {
     <Modal OnClose="ToggleModal">
-        <h2>Do you want to delete book named "@Book.Book.Title" by @Book.Book.Author?</h2>
+        <h3>Do you want to delete book named "@Book.Book.Title" by @Book.Book.Author?</h3>
         <div class="buttons-line">
             <button type="button" class="button button_red" @onclick="DeleteBook">Delete</button>
-            <button type="button" class="button">Cancel</button>
+            <button type="button" class="button" @onclick="() => ShowModal = false">Cancel</button>
         </div>
     </Modal>
 }
