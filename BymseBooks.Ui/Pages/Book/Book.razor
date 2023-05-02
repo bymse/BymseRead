@@ -39,12 +39,9 @@
                     <span>@tag</span>
                 }
             </div>
-            <div class="control-panel__scale">
-                <button type="button">+</button>
-                <span class="control-panel__scale_sep"></span>
-                <button type="button">-</button>
-            </div>
-            <button class="control-panel__bookmarks-btn control-panel__bookmarks-btn_add"></button>
+            @* <button class="control-panel__bookmarks-btn control-panel__bookmarks-btn_add"></button> *@
+            <button type="button" class="control-panel__edit" onclick="@OnEditClick"></button>
+            <DeleteButton Book="BookModel"/>
         </div>
     </div>
     <div class="book-container">
@@ -59,8 +56,6 @@
         </div>
     </div>
     <div class="side-buttons">
-        <DeleteButton Book="BookModel"/>
-        <button type="button" class="side-buttons__edit" onclick="@OnEditClick"></button>
         <button type="button" class="side-buttons__full-size"></button>
     </div>
 </div>
