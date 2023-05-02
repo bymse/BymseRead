@@ -1,0 +1,25 @@
+﻿@using System.Collections.Concurrent
+
+<button data-dropdown-id="@DropdownId" class="@ButtonClass" type="button" @onclick="ShowMenu"></button>
+<Dropdown ShowMenu="@showMenu" DropdownId="@DropdownId">
+    @ChildContent
+</Dropdown>
+
+@code {
+
+    [Parameter]
+    public string DropdownId { get; init; }
+
+    [Parameter]
+    public string ButtonClass { get; init; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; init; }
+
+    private bool showMenu;
+
+    private void ShowMenu()
+    {
+        showMenu = true;
+    }
+}

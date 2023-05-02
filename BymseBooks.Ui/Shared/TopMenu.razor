@@ -4,7 +4,7 @@
 @using BymseBooks.Core
 @using BymseBooks.Core.Models
 
-<Dropdown DropdownId="top-menu" ButtonClass="top-bar__menu-button">
+<DropdownButton DropdownId="top-menu" ButtonClass="top-bar__menu-button">
     <div class="top-menu">
         <button class="top-menu__item" @onclick="OnAddBook">
             Add new book
@@ -13,7 +13,7 @@
         <a class="top-menu__item" href="/Settings">Settings</a>
         <a class="top-menu__item" href="/Feedback">Feedback</a>
     </div>
-</Dropdown>
+</DropdownButton>
 
 @if (ShowForm)
 {

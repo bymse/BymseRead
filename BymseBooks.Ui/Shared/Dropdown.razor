@@ -1,8 +1,6 @@
 ﻿@inject IJSRuntime JsRuntime
-@using System.Collections.Concurrent
 @implements IAsyncDisposable
 
-<button data-dropdown-id="@DropdownId" class="@ButtonClass" type="button" @onclick="ToggleMenu"></button>
 <div class="dropdown">
     @if (ShowMenu)
     {
@@ -13,10 +11,10 @@
 @code {
 
     [Parameter]
-    public string DropdownId { get; init; }
+    public bool ShowMenu { get; set; }
 
     [Parameter]
-    public string ButtonClass { get; init; }
+    public string DropdownId { get; set; }
 
     [Parameter]
     public RenderFragment ChildContent { get; init; }
@@ -28,14 +26,11 @@
     protected override async Task OnInitializedAsync()
     {
         objectRef = DotNetObjectReference.Create(this);
-        await JsRuntime.InvokeVoidAsync("dropdown.handleOutsideClick", DropdownSelector, objectRef);
-    }
-
-    private bool ShowMenu { get; set; }
-
-    private void ToggleMenu()
-    {
-        ShowMenu = !ShowMenu;
+        await JsRuntime.InvokeVoidAsync(
+            "dropdown.handleOutsideClick",
+            DropdownSelector,
+            objectRef
+        );
     }
 
     [JSInvokable]
@@ -50,4 +45,5 @@
         objectRef.Dispose();
         await JsRuntime.InvokeVoidAsync("dropdown.dispose", DropdownSelector);
     }
+
 }
