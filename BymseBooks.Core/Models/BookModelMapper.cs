@@ -75,5 +75,6 @@ public static class BookModelMapper
         {
             Tag = e
         }).ToList();
+        book.State = model.State;
     }
 }

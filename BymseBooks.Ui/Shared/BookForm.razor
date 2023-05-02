@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components
 @using BymseBooks.Core.Models
+@using BymseBooks.DataLayer.Entity
 @using BymseBooks.DataLayer.Helpers
 @using BymseBooks.Ui.Abstractions
 @inject IFilePickHandler FilePickHandler
@@ -13,6 +14,7 @@
             <InputText @bind-Value="@BookFile" placeholder="File..." class="book-form__text-input"/>
             <button type="button" class="button button_small" onclick="@SelectFileAsync">Select file</button>
         </div>
+        <Select @bind-Value="@Model.Book.State" Options="@(Enum.GetValues<BookState>())"></Select>
         <TagsInput @bind-Tags="@BookTags"/>
         <div class="buttons-line">
             <button type="button" class="button" onclick="@Submit">Submit</button>

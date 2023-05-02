@@ -1,7 +1,8 @@
 ﻿@inject IJSRuntime JsRuntime
+@using System.Linq.Expressions
 @implements IAsyncDisposable
 
-<div class="dropdown">
+<div class="dropdown @Class" id="dropdown-@DropdownId">
     @if (ShowMenu)
     {
         @ChildContent
@@ -9,12 +10,21 @@
 </div>
 
 @code {
+    
+    [Parameter]
+    public EventCallback<bool> ShowMenuChanged { get; set; }
 
     [Parameter]
-    public bool ShowMenu { get; set; }
+    public Expression<Func<bool>> ShowMenuExpression { get; set; }
+
+    [Parameter]
+    public virtual bool ShowMenu { get; set; }
 
     [Parameter]
     public string DropdownId { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = "";
 
     [Parameter]
     public RenderFragment ChildContent { get; init; }
@@ -34,9 +44,10 @@
     }
 
     [JSInvokable]
-    public void OnOutsideClick()
+    public async Task OnOutsideClick()
     {
         ShowMenu = false;
+        await ShowMenuChanged.InvokeAsync(ShowMenu);
         StateHasChanged();
     }
 

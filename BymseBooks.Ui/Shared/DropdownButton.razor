@@ -1,7 +1,7 @@
 ﻿@using System.Collections.Concurrent
 
 <button data-dropdown-id="@DropdownId" class="@ButtonClass" type="button" @onclick="ShowMenu"></button>
-<Dropdown ShowMenu="@showMenu" DropdownId="@DropdownId">
+<Dropdown @bind-ShowMenu="@showMenu" DropdownId="@DropdownId">
     @ChildContent
 </Dropdown>
 
