@@ -6,10 +6,15 @@
   background: var(--color-primary-o3);
 }
 
+.book-container {
+  display: flex;
+}
+
 .book-wrapper {
   display: flex;
   justify-content: center;
   height: 100%;
+  width: 100%;
 }
 
 #pdf-viewer-container {
@@ -26,3 +31,4 @@
 
 @import "control-panel";
 @import "side-buttons";
+@import "bookmarks";

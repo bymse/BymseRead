@@ -13,7 +13,7 @@
 <div class="book-page-container">
     <div class="control-panel">
         <div class="control-panel__left">
-            <button class="control-panel__bookmarks-list-btn" type="button"></button>
+            <button class="control-panel__bookmarks-list-btn" type="button" @onclick="ToggleBookmarks"></button>
             <div class="control-panel__title" title="@Title">@Title</div>
         </div>
         <div class="control-panel__center">
@@ -47,9 +47,15 @@
             <button class="control-panel__bookmarks-btn control-panel__bookmarks-btn_add"></button>
         </div>
     </div>
-    <div class="book-wrapper">
-        <div id="pdf-viewer-container" data-pdf-src="@GetUrl()">
-            <div id="pdf-viewer" class="pdfViewer"></div>
+    <div class="book-container">
+        @if (OpenBookmarksList)
+        {
+            <Bookmarks Model="BookModel"/>
+        }
+        <div class="book-wrapper">
+            <div id="pdf-viewer-container" data-pdf-src="@GetUrl()">
+                <div id="pdf-viewer" class="pdfViewer"></div>
+            </div>
         </div>
     </div>
     <div class="side-buttons">
@@ -77,9 +83,10 @@
         private const string CURRENT_PAGE_INPUT_SELECTOR = "[data-page-input]";
         private const string CURRENT_PAGE_INPUT_MEASURER_SELECTOR = "#pages-input-measurer";
 
-    private string GetUrl() => BookModel.Url.IsNullOrEmpty() 
+    private string GetUrl() => BookModel.Url.IsNullOrEmpty()
         ? ""
         : $"/user-file/{WebUtility.UrlEncode(new Uri(BookModel.Url!).AbsolutePath)}";
+
     private string Title => $"{BookModel.Book.Title} by {BookModel.Book.Author}";
     private int currentPage;
 
@@ -90,6 +97,7 @@
     }
 
     private bool OpenEditForm { get; set; }
+    private bool OpenBookmarksList { get; set; }
 
     private void OnClose() => OpenEditForm = false;
 
@@ -129,6 +137,8 @@
     {
         OpenEditForm = true;
     }
+
+    private void ToggleBookmarks() => OpenBookmarksList = !OpenBookmarksList;
 
     private async Task OnFormSubmit()
     {
