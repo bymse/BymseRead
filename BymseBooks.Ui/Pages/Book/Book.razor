@@ -44,7 +44,7 @@
             <DeleteButton Book="BookModel"/>
         </div>
     </div>
-    <div class="book-container">
+    <div class="book-content" id="book-content">
         @if (OpenBookmarksList)
         {
             <Bookmarks Model="BookModel"/>
@@ -54,9 +54,9 @@
                 <div id="pdf-viewer" class="pdfViewer"></div>
             </div>
         </div>
-    </div>
-    <div class="side-buttons">
-        <button type="button" class="side-buttons__full-size"></button>
+        @* <div class="side-buttons"> *@
+        @*     <button type="button" class="@(IsFullscreen ? "side-buttons__full-size_full" : "side-buttons__full-size")" @onclick="ToggleFullscreen"></button> *@
+        @* </div> *@
     </div>
 </div>
 
@@ -93,6 +93,7 @@
 
     private bool OpenEditForm { get; set; }
     private bool OpenBookmarksList { get; set; }
+    private bool IsFullscreen { get; set; }
 
     private void OnClose() => OpenEditForm = false;
 
@@ -159,6 +160,19 @@
     {
         BooksService.UpdateTotalPages(BookId, totalPages);
         BookModel.Book.TotalPages = totalPages;
+    }
+
+    private async Task ToggleFullscreen()
+    {
+        IsFullscreen = !IsFullscreen;
+        if (IsFullscreen)
+        {
+            await JsRuntime.InvokeVoidAsync("openFullscreen", "#book-content");
+        }
+        else
+        {
+            await JsRuntime.InvokeVoidAsync("exitFullscreen");
+        }
     }
 
     private async Task OnCurrentPageSet()
