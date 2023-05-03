@@ -63,11 +63,11 @@
     }
     
     &::placeholder {
-      color: var(--color-primary-o5);
+      color: var(--color-primary-o2);
     }
     
     &:placeholder-shown + .book-form__tag-prefix {
-      color: var(--color-primary-o5);
+      color: var(--color-primary-o2);
     }
   }
 }

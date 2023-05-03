@@ -20,8 +20,7 @@
   }
   
   &.button_red {
-    color: var(--color-error);
-    font-weight: bold;
+    background: var(--color-error);
   }
 }
 
@@ -31,4 +30,8 @@
   align-items: center;
   margin-top: 16px;
   width: 100%;
+  
+  &.buttons-line_small {
+    width: 60%;
+  }
 }
