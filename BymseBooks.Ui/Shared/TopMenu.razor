@@ -49,6 +49,7 @@
     private async Task OnSubmit()
     {
         ShowForm = false;
+        StateHasChanged();
         var result = BooksService.SaveBook(BookExModel);
         Navigation.NavigateTo($"/Book/{result.Book.Id}");
     }
