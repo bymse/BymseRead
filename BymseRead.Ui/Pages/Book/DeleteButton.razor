@@ -1,0 +1,36 @@
+﻿@using BymseRead.Core.Models
+@using BymseRead.Core
+@inject BooksService BooksService
+@inject NavigationManager Navigation
+<button type="button" class="control-panel__delete" @onclick="ToggleModal"></button>
+
+@if (ShowModal)
+{
+    <Modal OnClose="ToggleModal">
+        <h3>Do you want to delete book named "@Book.Book.Title" by @Book.Book.Author?</h3>
+        <div class="buttons-line buttons-line_small">
+            <button type="button" class="button button_red" @onclick="DeleteBook">Delete</button>
+            <button type="button" class="button" @onclick="() => ShowModal = false">Cancel</button>
+        </div>
+    </Modal>
+}
+
+@code {
+
+    [Parameter]
+    public BookExModel Book { get; set; }
+
+    private bool ShowModal { get; set; }
+    
+    private void ToggleModal()
+    {
+        ShowModal = !ShowModal;
+    }
+
+    private void DeleteBook()
+    {
+        BooksService.DeleteBook(Book);
+        ShowModal = false;
+        Navigation.NavigateTo("/");
+    }
+}

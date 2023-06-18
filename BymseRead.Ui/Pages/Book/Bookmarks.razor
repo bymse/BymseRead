@@ -1,0 +1,30 @@
+﻿@using BymseRead.Core.Models
+<ul class="bookmarks" data-dropdown-id="bookmarks">
+    @foreach (var bookmark in Model.Bookmarks)
+    {
+        <li class="bookmark">
+            <span class="bookmark__icon"></span>
+            <div class="bookmark__content">
+                <span class="bookmark__title">
+                    @(bookmark.Title ?? bookmark.Date.ToString("yyyy.MM.dd"))
+                </span>
+                <div class="bookmark__bottom">
+                    <div class="bookmark__page">
+                        @bookmark.Page / @Model.Book.TotalPages
+                    </div>
+                    <div class="bookmark__date">
+                        @bookmark.Date.ToString("yyyy.MM.dd")
+                    </div>
+                </div>
+            </div>
+            <span class="bookmark__close"></span>
+        </li>
+    }
+</ul>
+
+
+@code {
+
+    [Parameter]
+    public BookExModel Model { get; set; }
+}

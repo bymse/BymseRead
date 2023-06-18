@@ -1,0 +1,207 @@
+﻿@page "/Book/{BookId:int}"
+@implements IDisposable
+@using BymseRead.Ui.Models
+@using BymseRead.Core.Models
+@using BymseRead.Core
+@using System.Net
+@using BymseRead.DataLayer.Entity
+@using BymseRead.DataLayer.Helpers
+@using BookForm = BymseRead.Core.Models.BookFormModel
+@inject BooksService BooksService
+@inject IJSRuntime JsRuntime
+
+<div class="book-page-container">
+    <div class="control-panel">
+        <div class="control-panel__left">
+            @* <button class="control-panel__bookmarks-list-btn" type="button" @onclick="ToggleBookmarks"></button> *@
+            <div class="control-panel__title" title="@Title">@Title</div>
+        </div>
+        <div class="control-panel__center">
+            @if (BookModel.Book.TotalPages.HasValue)
+            {
+                <div class="control-panel__pages">
+                    <input
+                        class="control-panel__pages-input"
+                        type="text"
+                        data-page-input
+                        @bind-value="@CurrentPageInput"
+                        @bind-value:after="@OnCurrentPageSet"/>
+                    <span>/</span>
+                    <span>@BookModel.Book.TotalPages</span>
+                    <div id="pages-input-measurer"></div>
+                </div>
+            }
+        </div>
+        <div class="control-panel__right">
+            <div class="control-panel__tags" title="@BookModel.Book.TagsWithHashes.JoinStrings(" ")">
+                @foreach (var tag in BookModel.Book.TagsWithHashes)
+                {
+                    <span>@tag</span>
+                }
+            </div>
+            @* <button class="control-panel__bookmarks-btn control-panel__bookmarks-btn_add"></button> *@
+            <button type="button" class="control-panel__edit" onclick="@OnEditClick"></button>
+            <DeleteButton Book="BookModel"/>
+        </div>
+    </div>
+    <div class="book-content" id="book-content">
+        @if (OpenBookmarksList)
+        {
+            <Bookmarks Model="BookModel"/>
+        }
+        <div class="book-wrapper">
+            <div id="pdf-viewer-container" data-pdf-src="@GetUrl()">
+                <div id="pdf-viewer" class="pdfViewer"></div>
+            </div>
+        </div>
+        @* <div class="side-buttons"> *@
+        @*     <button type="button" class="@(IsFullscreen ? "side-buttons__full-size_full" : "side-buttons__full-size")" @onclick="ToggleFullscreen"></button> *@
+        @* </div> *@
+    </div>
+</div>
+
+@if (OpenEditForm)
+{
+    <BookForm FormTitle="Edit book" Model="@BookModel" OnClose="@OnClose" OnSubmit="@OnFormSubmit"/>
+}
+
+@code {
+
+    [Parameter]
+    public int BookId { get; set; }
+
+    [CascadingParameter]
+    public MainLayout MainLayout { get; set; }
+
+    private BookExModel BookModel { get; set; }
+
+        private const string CURRENT_PAGE_INPUT_SELECTOR = "[data-page-input]";
+        private const string CURRENT_PAGE_INPUT_MEASURER_SELECTOR = "#pages-input-measurer";
+
+    private string GetUrl() => BookModel.Url.IsNullOrEmpty()
+        ? ""
+        : $"/user-file/{WebUtility.UrlEncode(new Uri(BookModel.Url!).AbsolutePath)}";
+
+    private string Title => $"{BookModel.Book.Title} by {BookModel.Book.Author}";
+    private int currentPage;
+
+    private string CurrentPageInput
+    {
+        get => currentPage.ToString();
+        set => currentPage = int.Parse(value);
+    }
+
+    private bool OpenEditForm { get; set; }
+    private bool OpenBookmarksList { get; set; }
+    private bool IsFullscreen { get; set; }
+
+    private void OnClose() => OpenEditForm = false;
+
+    private DotNetObjectReference<Book>? objectRef;
+    private ITopBarItem? topBarItem;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        topBarItem = new LinkTopBarItem
+        {
+            Url = "/",
+            Css = "top-bar__back-button"
+        };
+        MainLayout.Items.Add(topBarItem);
+
+        BookModel = BooksService.FindBook(BookId);
+        currentPage = BookModel.Bookmarks
+            .LastOrDefault(e => e.Type == BookmarkType.LastPage)
+            ?.Page ?? 0;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime.InvokeVoidAsync(
+                "initializeInputsAutoWidth",
+                CURRENT_PAGE_INPUT_MEASURER_SELECTOR,
+                CURRENT_PAGE_INPUT_SELECTOR
+                );
+            await InitializePdfViewerAsync();
+        }
+    }
+
+    private void OnEditClick()
+    {
+        OpenEditForm = true;
+    }
+
+    private void ToggleBookmarks() => OpenBookmarksList = !OpenBookmarksList;
+
+    private async Task OnFormSubmit()
+    {
+        BookModel = BooksService.SaveBook(BookModel);
+        OpenEditForm = false;
+        StateHasChanged();
+        await Task.Delay(1);
+        await InitializePdfViewerAsync();
+    }
+
+    private async Task InitializePdfViewerAsync()
+    {
+        objectRef?.Dispose();
+        if (!BookModel.Url.IsNullOrEmpty())
+        {
+            objectRef = DotNetObjectReference.Create(this);
+            await JsRuntime.InvokeVoidAsync("PdfViewer.initialize", objectRef, currentPage);
+        }
+    }
+
+    [JSInvokable]
+    public void OnPdfViewerInitialized(int totalPages)
+    {
+        BooksService.UpdateTotalPages(BookId, totalPages);
+        BookModel.Book.TotalPages = totalPages;
+    }
+
+    private async Task ToggleFullscreen()
+    {
+        IsFullscreen = !IsFullscreen;
+        if (IsFullscreen)
+        {
+            await JsRuntime.InvokeVoidAsync("openFullscreen", "#book-content");
+        }
+        else
+        {
+            await JsRuntime.InvokeVoidAsync("exitFullscreen");
+        }
+    }
+
+    private async Task OnCurrentPageSet()
+    {
+        BooksService.UpdateLastPage(BookId, currentPage);
+        await JsRuntime.InvokeVoidAsync("PdfViewer.setCurrentPage", currentPage);
+    }
+
+    [JSInvokable]
+    public async Task OnCurrentPageChanged(int page)
+    {
+        currentPage = page;
+        BooksService.UpdateLastPage(BookId, currentPage);
+        StateHasChanged();
+        await Task.Delay(1);
+        await JsRuntime.InvokeVoidAsync(
+            "fixElementWidth",
+            CURRENT_PAGE_INPUT_MEASURER_SELECTOR,
+            CURRENT_PAGE_INPUT_SELECTOR
+            );
+    }
+
+    public void Dispose()
+    {
+        if (topBarItem != null)
+        {
+            MainLayout.Items.Remove(topBarItem);
+        }
+        objectRef?.Dispose();
+    }
+
+}

@@ -1,0 +1,13 @@
+﻿@using BymseRead.Ui.Models
+@inherits LayoutComponentBase
+<CascadingValue Value="@this">
+    <TopBar Items="@Items"/>
+    <main class="container">
+        @Body
+    </main>
+</CascadingValue>
+
+@code
+{
+    public ICollection<ITopBarItem> Items { get; } = new List<ITopBarItem>();
+}
