@@ -60,4 +60,11 @@
     }
 }
 
+.no-books {
+    font-size: 1.5em;
+    align-self: center;
+    display: flex;
+    align-items: center;
+}
+
 @import "book-card";
