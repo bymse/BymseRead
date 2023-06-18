@@ -3,6 +3,7 @@ using BymseBooks.Core;
 using BymseBooks.DataLayer.Database;
 using BymseBooks.DataLayer.Repository;
 using BymseBooks.Ui.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
 
@@ -26,20 +27,19 @@ namespace BymseBooks.App
                 })
                 ;
 
+            ConfigurationSetup.Configure(builder.Configuration);
             builder.Services.AddMauiBlazorWebView();
-            builder.Configuration.AddJsonFile("appsettings.json");
-
-#if DEBUG
-            builder.Configuration.AddJsonFile("appsettings.Debug.json");
             builder.Services.AddBlazorWebViewDeveloperTools();
-#endif
 
             builder.Services
                 .AddCoreServices()
                 .AddSingleton<IFilePickHandler, MauiFilePickHandler>()
                 ;
 
-            return builder.Build();
+            var app = builder.Build();
+            app.Services.GetService<BooksDbContext>().Database.Migrate();
+
+            return app;
         }
     }
 }
