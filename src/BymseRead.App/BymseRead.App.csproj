@@ -39,6 +39,16 @@
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
+	
+	<ItemGroup Condition="'$(Configuration)'=='Debug'">
+		<AppxManifest Remove="Platforms\Windows\Package.appxmanifest"/>
+		<AppxManifest Include="Platforms\Windows\Package-DEBUG.appxmanifest" SubType="Designer" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'!='Debug'">
+		<AppxManifest Include="Platforms\Windows\Package.appxmanifest" SubType="Designer"/>
+		<AppxManifest Remove="Platforms\Windows\Package-DEBUG.appxmanifest" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\BymseRead.DataLayer\BymseRead.DataLayer.csproj" />

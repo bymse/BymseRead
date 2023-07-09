@@ -11,12 +11,13 @@ public static class ConfigurationSetup
 
 #if DEBUG
         configuration.AddJsonFile("appsettings.Debug.json");
-#endif
+#else
 
         var dbPath = Path.Combine(FileSystem.Current.AppDataDirectory, "books.db");
         configuration.AddInMemoryCollection(new Dictionary<string, string>()
         {
             {$"ConnectionStrings:{BooksDbContext.DB_NAME_KEY}", $"Data Source={dbPath}"}
         });
+#endif
     }
 }
