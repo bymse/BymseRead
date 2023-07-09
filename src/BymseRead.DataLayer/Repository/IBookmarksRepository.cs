@@ -2,5 +2,5 @@
 
 public interface IBookmarksRepository
 {
-    void SetLastPage(int bookId, int currentPage);
+    void SetLastViewedPage(int bookId, int currentPage);
 }

@@ -2,6 +2,7 @@
 
 public enum BookmarkType
 {
-    LastPage,
-    Custom
+    LastViewedPage = 0,
+    LastPage = 1,
+    Custom = 2
 }

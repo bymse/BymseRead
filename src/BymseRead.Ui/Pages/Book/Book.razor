@@ -112,7 +112,7 @@
 
         BookModel = BooksService.FindBook(BookId);
         currentPage = BookModel.Bookmarks
-            .LastOrDefault(e => e.Type == BookmarkType.LastPage)
+            .LastOrDefault(e => e.Type == BookmarkType.LastViewedPage)
             ?.Page ?? 0;
     }
 
@@ -177,7 +177,7 @@
 
     private async Task OnCurrentPageSet()
     {
-        BooksService.UpdateLastPage(BookId, currentPage);
+        BooksService.UpdateLastViewedPage(BookId, currentPage);
         await JsRuntime.InvokeVoidAsync("PdfViewer.setCurrentPage", currentPage);
     }
 
@@ -185,7 +185,7 @@
     public async Task OnCurrentPageChanged(int page)
     {
         currentPage = page;
-        BooksService.UpdateLastPage(BookId, currentPage);
+        BooksService.UpdateLastViewedPage(BookId, currentPage);
         StateHasChanged();
         await Task.Delay(1);
         await JsRuntime.InvokeVoidAsync(

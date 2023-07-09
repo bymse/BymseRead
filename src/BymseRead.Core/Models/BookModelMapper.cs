@@ -26,7 +26,7 @@ public static class BookModelMapper
     public static BookModel ToModel(Book b)
     {
         var lastPage = b.Bookmarks
-            .LastOrDefault(r => r.BookmarkType == BookmarkType.LastPage)?
+            .LastOrDefault(r => r.BookmarkType == BookmarkType.LastViewedPage)?
             .PageNumber;
         return new BookModel
         {
