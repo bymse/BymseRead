@@ -20,9 +20,6 @@ window.initializeInputsAutoWidth = (measurerSelector, inputsSelector) => {
   const measurer = document.querySelector(measurerSelector);
   const elements = document.querySelectorAll(inputsSelector);
   for (let element of elements) {
-    setWidth(measurer, element);
-    element.addEventListener('input', () => {
-      setWidth(measurer, element);
-    });
+    initializeInputAutoWidth(measurer, element);
   }
 }

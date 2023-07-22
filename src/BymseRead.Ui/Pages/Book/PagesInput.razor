@@ -13,8 +13,8 @@
 
 @code {
 
-        private const string PAGES_INPUT_MEASURER_ID = "pages-input-measurer";
-        private const string PAGE_INPUT_ID = "pages-input";
+    private const string PAGES_INPUT_MEASURER_ID = "pages-input-measurer";
+    private const string PAGE_INPUT_ID = "pages-input";
 
     [Parameter]
     public int InitialCurrentPage { get; set; }
@@ -53,15 +53,16 @@
     private async Task BookPagesFacadeOnPageChanged(IBookPagesFacade sender, PageChangeEventArgs e)
     {
         currentPage = e.NewPage;
+        StateHasChanged();
+        await Task.Delay(1);
         await JsRuntime.InvokeVoidAsync(
             "fixElementWidth",
             $"#{PAGES_INPUT_MEASURER_ID}", $"#{PAGE_INPUT_ID}"
             );
     }
-
+    
     private async Task OnCurrentPageSet()
     {
         await BookPagesFacade.SetPageAsync(currentPage);
     }
-
 }

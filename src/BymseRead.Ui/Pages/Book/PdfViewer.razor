@@ -1,0 +1,86 @@
+@using BymseRead.Ui.Abstractions
+@using BymseRead.DataLayer.Helpers
+@using System.Net
+@implements BymseRead.Ui.Abstractions.IBookViewerFacade, IDisposable
+@inject IJSRuntime JsRuntime
+
+<div id="pdf-viewer-container" data-pdf-src="@GetUrl()">
+    <div id="pdf-viewer" class="pdfViewer"></div>
+</div>
+
+@code {
+
+    [Parameter]
+    public string BookUrl { get; set; }
+
+    [Parameter]
+    public int InitialCurrentPage { get; set; }
+
+
+    private string GetUrl() => BookUrl.IsNullOrEmpty()
+        ? ""
+        : $"/user-file/{WebUtility.UrlEncode(new Uri(BookUrl).AbsolutePath)}";
+
+    private DotNetObjectReference<PdfViewer>? objectRef;
+
+    public async Task SetPageAsync(int page)
+    {
+        await JsRuntime.InvokeVoidAsync("PdfViewer.setCurrentPage", page);
+    }
+
+    public event PageChangeEventHandler? PageChanged;
+    public event ViewerInitializedEventHandler? ViewerInitialized;
+
+    [JSInvokable]
+    public async Task OnCurrentPageChanged(int page)
+    {
+        if (PageChanged == null)
+        {
+            return;
+        }
+
+        await PageChanged.Invoke(this, new PageChangeEventArgs
+        {
+            NewPage = page
+        });
+    }
+
+    [JSInvokable]
+    public async Task OnPdfViewerInitialized(int totalPages)
+    {
+        if (ViewerInitialized == null)
+        {
+            return;
+        }
+
+        await ViewerInitialized.Invoke(this, new ViewerInitializedEventArgs
+        {
+            TotalPages = totalPages
+        });
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InitializePdfViewerAsync();
+        }
+    }
+
+
+    private async Task InitializePdfViewerAsync()
+    {
+        objectRef?.Dispose();
+        if (!BookUrl.IsNullOrEmpty())
+        {
+            objectRef = DotNetObjectReference.Create(this);
+            await JsRuntime.InvokeVoidAsync("PdfViewer.initialize", objectRef, InitialCurrentPage);
+        }
+    }
+
+    public void Dispose()
+    {
+        objectRef?.Dispose();
+    }
+
+}
