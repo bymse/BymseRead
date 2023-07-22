@@ -7,17 +7,15 @@ namespace BymseRead.Core;
 public class BooksService
 {
     private readonly IBookRepository bookRepository;
-    private readonly IBookmarksRepository bookmarksRepository;
+    
     private readonly ITagsRepository tagsRepository;
 
     public BooksService(
         IBookRepository bookRepository,
-        IBookmarksRepository bookmarksRepository,
         ITagsRepository tagsRepository
     )
     {
         this.bookRepository = bookRepository;
-        this.bookmarksRepository = bookmarksRepository;
         this.tagsRepository = tagsRepository;
     }
 
@@ -59,7 +57,6 @@ public class BooksService
     }
 
     public void UpdateTotalPages(int bookId, int totalPages) => bookRepository.UpdateTotalPages(bookId, totalPages);
-    public void UpdateLastViewedPage(int bookId, int currentPage) => bookmarksRepository.SetLastViewedPage(bookId, currentPage);
 
     private Tag[] GetTags(IList<string> tags)
     {

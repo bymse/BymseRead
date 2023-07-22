@@ -14,6 +14,7 @@ public static class CoreDependenciesRegisterer
         services.AddTransient<IBookmarksRepository, BookmarksRepository>();
 
         services.AddTransient<BooksService>();
+        services.AddTransient<BookmarksService>();
         services.AddTransient<TagsService>();
         
         return services;

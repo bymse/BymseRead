@@ -1,9 +1,9 @@
 ﻿@page "/Book/{BookId:int}"
 @implements IDisposable
 @using BymseRead.Ui.Models
+@using BymseRead.Ui.Pages.Book.Bookmarks
 @using BymseRead.Core.Models
 @using BymseRead.Core
-@using System.Net
 @using BymseRead.DataLayer.Entity
 @using BymseRead.DataLayer.Helpers
 @using BymseRead.Ui.Abstractions
@@ -14,7 +14,7 @@
 <div class="book-page-container">
     <div class="control-panel">
         <div class="control-panel__left">
-            @* <button class="control-panel__bookmarks-list-btn" type="button" @onclick="ToggleBookmarks"></button> *@
+            <button class="control-panel__bookmarks-list-btn" type="button" @onclick="ToggleBookmarks"></button>
             <div class="control-panel__title" title="@Title">@Title</div>
         </div>
         <div class="control-panel__center">
@@ -41,10 +41,7 @@
         </div>
     </div>
     <div class="book-content" id="book-content">
-        @if (OpenBookmarksList)
-        {
-            <Bookmarks Model="BookModel"/>
-        }
+        <Bookmarks BookModel="BookModel" ShowList="OpenBookmarksList" BookPagesFacade="bookPdfViewerFacade"/>
         <div class="book-wrapper">
             <PdfViewer @ref="bookPdfViewerFacade.PdfViewerRef" InitialCurrentPage="initialCurrentPage" BookUrl="@BookModel.Url"></PdfViewer>
         </div>
@@ -68,7 +65,7 @@
     public MainLayout MainLayout { get; set; }
 
     private BookExModel BookModel { get; set; }
-    
+
 
     private string Title => $"{BookModel.Book.Title} by {BookModel.Book.Author}";
     private int initialCurrentPage;
@@ -78,7 +75,7 @@
     private bool IsFullscreen { get; set; }
 
     private void OnClose() => OpenEditForm = false;
-    
+
     private readonly BookPdfViewerFacade bookPdfViewerFacade = new();
     private ITopBarItem? topBarItem;
 
@@ -96,9 +93,8 @@
         initialCurrentPage = BookModel.Bookmarks
             .LastOrDefault(e => e.Type == BookmarkType.LastViewedPage)
             ?.Page ?? 0;
-        
+
         bookPdfViewerFacade.ViewerInitialized += OnBookPdfViewerFacadeInitialized;
-        bookPdfViewerFacade.PageChanged += OnCurrentPageChanged;
     }
 
     private void OnEditClick()
@@ -114,7 +110,7 @@
         OpenEditForm = false;
         StateHasChanged();
         await Task.Delay(1);
-        //await InitializePdfViewerAsync();
+    //await InitializePdfViewerAsync();
     }
 
     private Task OnBookPdfViewerFacadeInitialized(object sender, ViewerInitializedEventArgs e)
@@ -135,11 +131,6 @@
         {
             await JsRuntime.InvokeVoidAsync("exitFullscreen");
         }
-    }
-
-    private async Task OnCurrentPageChanged(object sender, PageChangeEventArgs e)
-    {
-        BooksService.UpdateLastViewedPage(BookId, e.NewPage);
     }
 
     public void Dispose()

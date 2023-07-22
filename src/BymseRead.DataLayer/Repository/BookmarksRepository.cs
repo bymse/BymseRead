@@ -15,9 +15,10 @@ public class BookmarksRepository : IBookmarksRepository
     public void SetLastViewedPage(int bookId, int currentPage)
     {
         var bookmark = booksDbContext.Bookmarks
+            .Where(e => e.BookId == bookId)
             .Where(e => e.BookmarkType == BookmarkType.LastViewedPage)
             .OrderBy(e => e.CreatedDate)
-            .LastOrDefault(e => e.BookId == bookId);
+            .LastOrDefault();
 
         if (bookmark == null)
         {
