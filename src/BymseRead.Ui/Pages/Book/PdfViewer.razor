@@ -1,7 +1,8 @@
 @using BymseRead.Ui.Abstractions
 @using BymseRead.DataLayer.Helpers
 @using System.Net
-@implements BymseRead.Ui.Abstractions.IBookViewerFacade, IDisposable
+@implements BymseRead.Ui.Abstractions.IBookViewerFacade
+@implements IDisposable
 @inject IJSRuntime JsRuntime
 
 <div id="pdf-viewer-container" data-pdf-src="@GetUrl()">
