@@ -1,0 +1,67 @@
+@using BymseRead.Ui.Abstractions
+@inject IJSRuntime JsRuntime
+
+<input
+    class="control-panel__pages-input"
+    type="text"
+    id="@PAGE_INPUT_ID"
+    @bind-value="@CurrentPageInput"
+    @bind-value:after="@OnCurrentPageSet"/>
+<span>/</span>
+<span>@TotalPages</span>
+<div id="@PAGES_INPUT_MEASURER_ID"></div>
+
+@code {
+
+        private const string PAGES_INPUT_MEASURER_ID = "pages-input-measurer";
+        private const string PAGE_INPUT_ID = "pages-input";
+
+    [Parameter]
+    public int InitialCurrentPage { get; set; }
+
+    [Parameter]
+    public int TotalPages { get; set; }
+
+    [Parameter]
+    public IBookPagesFacade BookPagesFacade { get; set; }
+
+    private int currentPage;
+
+    private string CurrentPageInput
+    {
+        get => currentPage.ToString();
+        set => currentPage = int.Parse(value);
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        currentPage = InitialCurrentPage;
+        BookPagesFacade.PageChanged += BookPagesFacadeOnPageChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime.InvokeVoidAsync(
+                "initializeInputsAutoWidth",
+                $"#{PAGES_INPUT_MEASURER_ID}", $"#{PAGE_INPUT_ID}"
+                );
+        }
+    }
+
+    private async Task BookPagesFacadeOnPageChanged(IBookPagesFacade sender, PageChangeEventArgs e)
+    {
+        currentPage = e.NewPage;
+        await JsRuntime.InvokeVoidAsync(
+            "fixElementWidth",
+            $"#{PAGES_INPUT_MEASURER_ID}", $"#{PAGE_INPUT_ID}"
+            );
+    }
+
+    private async Task OnCurrentPageSet()
+    {
+        await BookPagesFacade.SetPageAsync(currentPage);
+    }
+
+}
