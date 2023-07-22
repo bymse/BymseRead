@@ -1,6 +1,6 @@
 namespace BymseRead.Ui.Abstractions;
 
-public delegate Task ViewerInitializedEventHandler(IBookViewerFacade sender, ViewerInitializedEventArgs e);
+public delegate Task ViewerInitializedEventHandler(object sender, ViewerInitializedEventArgs e);
 
 public class ViewerInitializedEventArgs
 {

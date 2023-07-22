@@ -1,6 +1,6 @@
 namespace BymseRead.Ui.Abstractions;
 
-public delegate Task PageChangeEventHandler(IBookPagesFacade sender, PageChangeEventArgs e);
+public delegate Task PageChangeEventHandler(object sender, PageChangeEventArgs e);
 
 public class PageChangeEventArgs
 {

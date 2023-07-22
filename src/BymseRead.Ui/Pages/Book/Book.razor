@@ -24,7 +24,7 @@
                     <PagesInput
                         TotalPages="@BookModel.Book.TotalPages.Value"
                         InitialCurrentPage="initialCurrentPage"
-                        BookPagesFacade="pdfViewerContainer"/>
+                        BookPagesFacade="bookPdfViewerFacade"/>
                 </div>
             }
         </div>
@@ -46,7 +46,7 @@
             <Bookmarks Model="BookModel"/>
         }
         <div class="book-wrapper">
-            <PdfViewer @ref="pdfViewerContainer.PdfViewer" InitialCurrentPage="initialCurrentPage" BookUrl="@BookModel.Url"></PdfViewer>
+            <PdfViewer @ref="bookPdfViewerFacade.PdfViewerRef" InitialCurrentPage="initialCurrentPage" BookUrl="@BookModel.Url"></PdfViewer>
         </div>
         @* <div class="side-buttons"> *@
         @*     <button type="button" class="@(IsFullscreen ? "side-buttons__full-size_full" : "side-buttons__full-size")" @onclick="ToggleFullscreen"></button> *@
@@ -79,7 +79,7 @@
 
     private void OnClose() => OpenEditForm = false;
     
-    private readonly PdfViewerContainer pdfViewerContainer = new();
+    private readonly BookPdfViewerFacade bookPdfViewerFacade = new();
     private ITopBarItem? topBarItem;
 
 
@@ -97,8 +97,8 @@
             .LastOrDefault(e => e.Type == BookmarkType.LastViewedPage)
             ?.Page ?? 0;
         
-        pdfViewerContainer.ViewerInitialized += OnPdfViewerContainerInitialized;
-        pdfViewerContainer.PageChanged += OnCurrentPageChanged;
+        bookPdfViewerFacade.ViewerInitialized += OnBookPdfViewerFacadeInitialized;
+        bookPdfViewerFacade.PageChanged += OnCurrentPageChanged;
     }
 
     private void OnEditClick()
@@ -117,7 +117,7 @@
         //await InitializePdfViewerAsync();
     }
 
-    private Task OnPdfViewerContainerInitialized(IBookViewerFacade sender, ViewerInitializedEventArgs e)
+    private Task OnBookPdfViewerFacadeInitialized(object sender, ViewerInitializedEventArgs e)
     {
         BooksService.UpdateTotalPages(BookId, e.TotalPages);
         BookModel.Book.TotalPages = e.TotalPages;
@@ -137,7 +137,7 @@
         }
     }
 
-    private async Task OnCurrentPageChanged(IBookPagesFacade sender, PageChangeEventArgs e)
+    private async Task OnCurrentPageChanged(object sender, PageChangeEventArgs e)
     {
         BooksService.UpdateLastViewedPage(BookId, e.NewPage);
     }
@@ -148,7 +148,7 @@
         {
             MainLayout.Items.Remove(topBarItem);
         }
-        pdfViewerContainer.Dispose();
+        bookPdfViewerFacade.Dispose();
     }
 
 }

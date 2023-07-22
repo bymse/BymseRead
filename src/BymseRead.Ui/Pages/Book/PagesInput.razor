@@ -50,7 +50,7 @@
         }
     }
 
-    private async Task BookPagesFacadeOnPageChanged(IBookPagesFacade sender, PageChangeEventArgs e)
+    private async Task BookPagesFacadeOnPageChanged(object sender, PageChangeEventArgs e)
     {
         currentPage = e.NewPage;
         StateHasChanged();

@@ -2,11 +2,11 @@ using BymseRead.Ui.Abstractions;
 
 namespace BymseRead.Ui.Pages.Book;
 
-public class PdfViewerContainer : IBookViewerFacade, IDisposable
+public class BookPdfViewerFacade : IBookViewerFacade, IDisposable
 {
     private PdfViewer pdfViewer;
 
-    public PdfViewer PdfViewer
+    public PdfViewer PdfViewerRef
     {
         set
         {
