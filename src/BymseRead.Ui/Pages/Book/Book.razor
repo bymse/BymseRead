@@ -10,6 +10,7 @@
 @using BookForm = BymseRead.Core.Models.BookFormModel
 @inject BooksService BooksService
 @inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
 
 <div class="book-page-container">
     <div class="control-panel">
@@ -41,7 +42,7 @@
         </div>
     </div>
     <div class="book-content" id="book-content">
-        <Bookmarks BookModel="BookModel" ShowList="OpenBookmarksList" BookPagesFacade="bookPdfViewerFacade"/>
+        <Bookmarks BookModel="BookModel" Show="OpenBookmarks" BookPagesFacade="bookPdfViewerFacade"/>
         <div class="book-wrapper">
             <PdfViewer @ref="bookPdfViewerFacade.PdfViewerRef" InitialCurrentPage="initialCurrentPage" BookUrl="@BookModel.Url"></PdfViewer>
         </div>
@@ -71,7 +72,7 @@
     private int initialCurrentPage;
 
     private bool OpenEditForm { get; set; }
-    private bool OpenBookmarksList { get; set; }
+    private bool OpenBookmarks { get; set; }
     private bool IsFullscreen { get; set; }
 
     private void OnClose() => OpenEditForm = false;
@@ -102,7 +103,7 @@
         OpenEditForm = true;
     }
 
-    private void ToggleBookmarks() => OpenBookmarksList = !OpenBookmarksList;
+    private void ToggleBookmarks() => OpenBookmarks = !OpenBookmarks;
 
     private async Task OnFormSubmit()
     {

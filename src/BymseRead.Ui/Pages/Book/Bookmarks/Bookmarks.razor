@@ -3,14 +3,26 @@
 @using BymseRead.Core
 @inject BookmarksService BookmarksService
 
+@if (Show)
+{
+    <section class="bookmarks">
+        <h2 class="bookmarks__title">Bookmarks</h2>
+        <div class="bookmarks__buttons">
+            <button class="bookmarks__button bookmarks__button_add">New bookmark</button>
+            <button class="bookmarks__button bookmarks__button_last-page">Mark as last page</button>
+        </div>
+        <BookmarksList Bookmarks="BookModel.Bookmarks"/>
+    </section>
+}
+
 @code {
 
     [Parameter]
     public BookExModel BookModel { get; set; }
-    
+
     [Parameter]
-    public bool ShowList { get; set; }
-    
+    public bool Show { get; set; }
+
     [Parameter]
     public IBookPagesFacade BookPagesFacade { get; set; }
 
