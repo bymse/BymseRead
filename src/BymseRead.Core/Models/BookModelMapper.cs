@@ -11,17 +11,32 @@ public static class BookModelMapper
             Book = ToModel(book),
             Url = book.Url,
             Bookmarks = book.Bookmarks
-                .OrderBy(e => e.PageNumber)
-                .Select(e => new BookmarkModel
-                {
-                    Id = e.BookmarkId,
-                    Type = e.BookmarkType,
-                    Title = e.Title,
-                    Date = e.CreatedDate,
-                    Page = e.PageNumber
-                }).ToArray()
+                .Where(e => e.BookmarkType != BookmarkType.LastViewedPage)
+                .OrderBy(e => e.BookmarkType == BookmarkType.LastPage ? 0 : 1)
+                .ThenBy(e => e.PageNumber)
+                .Select(ToModel)
+                .ToArray(),
+
+            LastViewedPage = book
+                .Bookmarks
+                .Where(e => e.BookmarkType == BookmarkType.LastViewedPage)
+                .MaxBy(e => e.PageNumber)?
+                .ToModel()
         };
     }
+
+    private static BookmarkModel ToModel(this Bookmark bookmark)
+    {
+        return new BookmarkModel
+        {
+            Id = bookmark.BookmarkId,
+            Type = bookmark.BookmarkType,
+            Title = bookmark.Title,
+            Date = bookmark.CreatedDate,
+            Page = bookmark.PageNumber
+        };
+    }
+
 
     public static BookModel ToModel(Book b)
     {

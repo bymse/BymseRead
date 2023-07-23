@@ -17,5 +17,7 @@ public class BookExModel
     
     public BookmarkModel[] Bookmarks { get; init; }
     
+    public BookmarkModel? LastViewedPage { get; init; }
+    
     public string? Url { get; set; }
 }

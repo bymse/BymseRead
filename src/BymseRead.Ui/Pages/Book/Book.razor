@@ -90,10 +90,8 @@
         };
         MainLayout.Items.Add(topBarItem);
 
-        BookModel = BooksService.FindBook(BookId);
-        initialCurrentPage = BookModel.Bookmarks
-            .LastOrDefault(e => e.Type == BookmarkType.LastViewedPage)
-            ?.Page ?? 0;
+        BookModel = BooksService.FindBook(BookId)!;
+        initialCurrentPage = BookModel.LastViewedPage?.Page ?? 1;
 
         bookPdfViewerFacade.ViewerInitialized += OnBookPdfViewerFacadeInitialized;
     }
