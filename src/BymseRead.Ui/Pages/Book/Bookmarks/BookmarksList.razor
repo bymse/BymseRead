@@ -1,18 +1,22 @@
 ﻿@using BymseRead.Core.Models
 
-<ul>
-    @foreach (var bookmark in Bookmarks)
+<ul class="bookmarks-list">
+    @if (Bookmarks.LastPageBookmark != null)
     {
-        <li>
-            <div>@bookmark.Title</div>
-            <div>@bookmark.Date</div>
-        </li>
+        <BookmarkCard Book="Book" Bookmark="Bookmarks.LastPageBookmark"/>
+    }
+    @foreach (var bookmark in Bookmarks.CustomBookmarks)
+    {
+        <BookmarkCard Book="Book" Bookmark="bookmark"/>
     }
 </ul>
 
 @code {
 
     [Parameter]
-    public BookmarkModel[] Bookmarks { get; set; }
+    public BookmarksListModel Bookmarks { get; set; }
+
+    [Parameter]
+    public BookModel Book { get; set; }
 
 }

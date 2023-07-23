@@ -1,0 +1,27 @@
+@using BymseRead.Core.Models
+@using BymseRead.DataLayer.Entity
+<li class="bookmark-item__wrapper">
+    <div class="bookmark-item @CssModifier">
+        <div class="bookmark-item__icon"></div>
+        <div class="bookmark-item__content">
+            <div class="bookmark-item__title">@Bookmark.Title</div>
+            <div class="bookmark-item__bottom">
+                <div class="bookmark-item__pages">@Bookmark.Page / @Book.TotalPages</div>
+                <div class="bookmark-item__date">@Bookmark.Date.ToString("yyyy.MM.dd")</div>
+            </div>
+        </div>
+        <button class="bookmark-item__close-btn"></button>
+    </div>
+</li>
+
+@code {
+
+    [Parameter]
+    public BookModel Book { get; set; }
+
+    [Parameter]
+    public BookmarkModel Bookmark { get; set; }
+
+    private string CssModifier => Bookmark.Type == BookmarkType.LastPage ? "bookmark-item_last-page" : "";
+
+}

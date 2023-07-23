@@ -27,22 +27,22 @@ public class BookmarksService
         {
             CustomBookmarks = bookmarks
                 .Where(e => e.BookmarkType == BookmarkType.Custom)
-                .Select(ToModel)
+                .Select(e => ToModel(e, ""))
                 .ToArray(),
             LastPageBookmark = bookmarks
                 .Where(e => e.BookmarkType == BookmarkType.LastPage)
-                .Select(ToModel)
+                .Select(e => ToModel(e, "Last page"))
                 .FirstOrDefault(),
         };
     }
 
-    private static BookmarkModel ToModel(Bookmark bookmark)
+    private static BookmarkModel ToModel(Bookmark bookmark, string titleFallback)
     {
         return new BookmarkModel
         {
             Id = bookmark.BookmarkId,
             Type = bookmark.BookmarkType,
-            Title = bookmark.Title,
+            Title = bookmark.Title ?? titleFallback,
             Date = bookmark.CreatedDate,
             Page = bookmark.PageNumber
         };
