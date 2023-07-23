@@ -9,7 +9,7 @@
         <h2 class="bookmarks__title">Bookmarks</h2>
         <div class="bookmarks__buttons">
             <button class="bookmarks__button bookmarks__button_add">New bookmark</button>
-            <button class="bookmarks__button bookmarks__button_last-page">Mark as last page</button>
+            <button class="bookmarks__button bookmarks__button_last-page" @onclick="OnMarkAsLastPage">Mark as last page</button>
         </div>
         <BookmarksList Bookmarks="BookModel.Bookmarks"/>
     </section>
@@ -18,7 +18,10 @@
 @code {
 
     [Parameter]
-    public BookExModel BookModel { get; set; }
+    public int InitialCurrentPage { get; set; }
+    
+    [Parameter]
+    public BookModel BookModel { get; set; }
 
     [Parameter]
     public bool Show { get; set; }
@@ -26,14 +29,23 @@
     [Parameter]
     public IBookPagesFacade BookPagesFacade { get; set; }
 
+    private int currentPage;
+
     protected override void OnInitialized()
     {
+        currentPage = InitialCurrentPage;
         BookPagesFacade.PageChanged += OnPageChanged;
     }
 
     private async Task OnPageChanged(object sender, PageChangeEventArgs e)
     {
-        BookmarksService.SetLastViewedPage(BookModel.Book.Id, e.NewPage);
+        currentPage = e.NewPage;
+        BookmarksService.SetLastViewedPage(BookModel.Id, e.NewPage);
+    }
+
+    private void OnMarkAsLastPage(MouseEventArgs obj)
+    {
+        BookmarksService.SetLastPage(BookModel.Id, currentPage);
     }
 
 }

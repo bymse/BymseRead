@@ -29,11 +29,11 @@
     }
     
     <div class="book-card__progress">
-        @if (Book.Percents.HasValue)
+        @if (Book.PercentageRead.HasValue)
         {
-            <span class="book-card__progress_title">@Book.Percents%</span>
+            <span class="book-card__progress_title">@Book.PercentageRead%</span>
             <div class="book-card__progress-bar">
-                <span style="width: @Book.Percents%" class="book-card__progress-bar_done"></span>
+                <span style="width: @Book.PercentageRead%" class="book-card__progress-bar_done"></span>
             </div>
         }
     </div>

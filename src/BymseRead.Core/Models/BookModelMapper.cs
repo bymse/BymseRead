@@ -4,27 +4,6 @@ namespace BymseRead.Core.Models;
 
 public static class BookModelMapper
 {
-    public static BookExModel ToExModel(Book book)
-    {
-        return new BookExModel
-        {
-            Book = ToModel(book),
-            Url = book.Url,
-            Bookmarks = book.Bookmarks
-                .Where(e => e.BookmarkType != BookmarkType.LastViewedPage)
-                .OrderBy(e => e.BookmarkType == BookmarkType.LastPage ? 0 : 1)
-                .ThenBy(e => e.PageNumber)
-                .Select(ToModel)
-                .ToArray(),
-
-            LastViewedPage = book
-                .Bookmarks
-                .Where(e => e.BookmarkType == BookmarkType.LastViewedPage)
-                .MaxBy(e => e.PageNumber)?
-                .ToModel()
-        };
-    }
-
     private static BookmarkModel ToModel(this Bookmark bookmark)
     {
         return new BookmarkModel
@@ -37,55 +16,37 @@ public static class BookModelMapper
         };
     }
 
-
     public static BookModel ToModel(Book b)
     {
-        var lastPage = b.Bookmarks
-            .LastOrDefault(r => r.BookmarkType == BookmarkType.LastViewedPage)?
-            .PageNumber;
+        var lastViewedPage = GetLastViewedPage(b);
         return new BookModel
         {
             Id = b.BookId,
             Title = b.Title,
             Author = b.AuthorName,
             State = b.State,
-            Percents = GetPercents(lastPage, b.TotalPages, b.State),
             Tags = b.BookTags.Select(e => e.Tag.Title).ToArray(),
             TotalPages = b.TotalPages,
+            LastViewedPage = lastViewedPage,
+            Url = b.Url,
+            PercentageRead = b.GetPercentageRead(lastViewedPage) 
         };
     }
 
-    private static int? GetPercents(int? lastPage, int? totalPages, BookState state)
+    private static int? GetLastViewedPage(Book book)
     {
-        if (state == BookState.New)
-        {
-            return 0;
-        }
-
-        if (state == BookState.Finished)
-        {
-            return 100;
-        }
-
-        if (!totalPages.HasValue)
-        {
-            return null;
-        }
-
-        if (!lastPage.HasValue)
-        {
-            return 0;
-        }
-
-        return (int)(Math.Round(((double)lastPage.Value) / totalPages.Value, 2) * 100);
+        return book
+            .Bookmarks
+            .Where(e => e.BookmarkType == BookmarkType.LastViewedPage)
+            .MaxBy(e => e.PageNumber)?
+            .PageNumber;
     }
 
-    public static void ToBook(Book book, BookExModel exModel, Tag[] tags)
+    public static void ToBook(Book book, BookModel model, Tag[] tags)
     {
-        var model = exModel.Book;
         book.Title = model.Title;
         book.AuthorName = model.Author;
-        book.Url = exModel.Url;
+        book.Url = model.Url;
         book.BookTags = tags.Select(e => new BookTagLink
         {
             Tag = e

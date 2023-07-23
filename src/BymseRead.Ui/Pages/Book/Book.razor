@@ -19,19 +19,19 @@
             <div class="control-panel__title" title="@Title">@Title</div>
         </div>
         <div class="control-panel__center">
-            @if (BookModel.Book.TotalPages.HasValue)
+            @if (BookModel.TotalPages.HasValue)
             {
                 <div class="control-panel__pages">
                     <PagesInput
-                        TotalPages="@BookModel.Book.TotalPages.Value"
+                        TotalPages="@BookModel.TotalPages.Value"
                         InitialCurrentPage="initialCurrentPage"
                         BookPagesFacade="bookPdfViewerFacade"/>
                 </div>
             }
         </div>
         <div class="control-panel__right">
-            <div class="control-panel__tags" title="@BookModel.Book.TagsWithHashes.JoinStrings(" ")">
-                @foreach (var tag in BookModel.Book.TagsWithHashes)
+            <div class="control-panel__tags" title="@BookModel.TagsWithHashes.JoinStrings(" ")">
+                @foreach (var tag in BookModel.TagsWithHashes)
                 {
                     <span>@tag</span>
                 }
@@ -65,10 +65,10 @@
     [CascadingParameter]
     public MainLayout MainLayout { get; set; }
 
-    private BookExModel BookModel { get; set; }
+    private BookModel BookModel { get; set; }
 
 
-    private string Title => $"{BookModel.Book.Title} by {BookModel.Book.Author}";
+    private string Title => $"{BookModel.Title} by {BookModel.Author}";
     private int initialCurrentPage;
 
     private bool OpenEditForm { get; set; }
@@ -91,7 +91,7 @@
         MainLayout.Items.Add(topBarItem);
 
         BookModel = BooksService.FindBook(BookId)!;
-        initialCurrentPage = BookModel.LastViewedPage?.Page ?? 1;
+        initialCurrentPage = BookModel.LastViewedPage ?? 1;
 
         bookPdfViewerFacade.ViewerInitialized += OnBookPdfViewerFacadeInitialized;
     }
@@ -115,7 +115,7 @@
     private Task OnBookPdfViewerFacadeInitialized(object sender, ViewerInitializedEventArgs e)
     {
         BooksService.UpdateTotalPages(BookId, e.TotalPages);
-        BookModel.Book.TotalPages = e.TotalPages;
+        BookModel.TotalPages = e.TotalPages;
         return Task.CompletedTask;
     }
 

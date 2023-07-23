@@ -17,7 +17,7 @@
 
 @if (ShowForm)
 {
-    <BookForm FormTitle="New book" OnClose="CloseForm" OnSubmit="OnSubmit" Model="@BookExModel"/>
+    <BookForm FormTitle="New book" OnClose="CloseForm" OnSubmit="OnSubmit" Model="@BookModel"/>
 }
 
 @code {
@@ -26,7 +26,7 @@
 
     private bool ShowForm { get; set; }
 
-    private BookExModel BookExModel { get; } = new();
+    private BookModel BookModel { get; } = new();
 
     private DotNetObjectReference<TopMenu> objectRef;
 
@@ -50,7 +50,7 @@
     {
         ShowForm = false;
         StateHasChanged();
-        var result = BooksService.SaveBook(BookExModel);
-        Navigation.NavigateTo($"/Book/{result.Book.Id}");
+        var result = BooksService.SaveBook(BookModel);
+        Navigation.NavigateTo($"/Book/{result.Id}");
     }
 }

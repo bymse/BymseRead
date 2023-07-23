@@ -1,6 +1,8 @@
-﻿namespace BymseRead.DataLayer.Repository;
+﻿using BymseRead.DataLayer.Entity;
+
+namespace BymseRead.DataLayer.Repository;
 
 public interface IBookmarksRepository
 {
-    void SetLastViewedPage(int bookId, int currentPage);
+    void SetPageForLastBookmark(int bookId, BookmarkType type, int page);
 }

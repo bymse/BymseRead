@@ -25,7 +25,7 @@ public class BooksService
         return books.Select(BookModelMapper.ToModel).ToArray();
     }
 
-    public BookExModel? FindBook(int bookId)
+    public BookModel? FindBook(int bookId)
     {
         var book = bookRepository.FindBook(bookId);
         if (book == null)
@@ -33,27 +33,27 @@ public class BooksService
             return null;
         }
 
-        return BookModelMapper.ToExModel(book);
+        return BookModelMapper.ToModel(book);
     }
 
-    public BookExModel SaveBook(BookExModel bookExModel)
+    public BookModel SaveBook(BookModel bookModel)
     {
-        var book = bookExModel.Book.Id != 0
-            ? bookRepository.FindBook(bookExModel.Book.Id)!
+        var book = bookModel.Id != 0
+            ? bookRepository.FindBook(bookModel.Id)!
             : new Book
             {
                 Bookmarks = new List<Bookmark>(),
                 CreatedDate = DateTime.UtcNow
             };
-        BookModelMapper.ToBook(book, bookExModel, GetTags(bookExModel.Book.Tags));
+        BookModelMapper.ToBook(book, bookModel, GetTags(bookModel.Tags));
         bookRepository.SaveBook(book);
 
-        return BookModelMapper.ToExModel(book);
+        return BookModelMapper.ToModel(book);
     }
 
-    public void DeleteBook(BookExModel bookExModel)
+    public void DeleteBook(BookModel bookExModel)
     {
-        bookRepository.DeleteBook(bookExModel.Book.Id);
+        bookRepository.DeleteBook(bookExModel.Id);
     }
 
     public void UpdateTotalPages(int bookId, int totalPages) => bookRepository.UpdateTotalPages(bookId, totalPages);
