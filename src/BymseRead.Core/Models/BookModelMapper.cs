@@ -4,18 +4,6 @@ namespace BymseRead.Core.Models;
 
 public static class BookModelMapper
 {
-    private static BookmarkModel ToModel(this Bookmark bookmark)
-    {
-        return new BookmarkModel
-        {
-            Id = bookmark.BookmarkId,
-            Type = bookmark.BookmarkType,
-            Title = bookmark.Title,
-            Date = bookmark.CreatedDate,
-            Page = bookmark.PageNumber
-        };
-    }
-
     public static BookModel ToModel(Book b)
     {
         var lastViewedPage = GetLastViewedPage(b);

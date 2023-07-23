@@ -1,5 +1,6 @@
 ﻿using BymseRead.DataLayer.Database;
 using BymseRead.DataLayer.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BymseRead.DataLayer.Repository;
 
@@ -38,5 +39,14 @@ public class BookmarksRepository : IBookmarksRepository
         }
 
         booksDbContext.SaveChanges();
+    }
+
+    public Bookmark[] GetBookmarks(int bookModelId)
+    {
+        return booksDbContext.Bookmarks
+            .AsNoTracking()
+            .Where(e => e.BookId == bookModelId)
+            .OrderByDescending(e => e.PageNumber)
+            .ToArray();
     }
 }
