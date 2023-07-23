@@ -1,5 +1,18 @@
-﻿<h3>BookmarksList</h3>
+﻿@using BymseRead.Core.Models
+
+<ul>
+    @foreach (var bookmark in Bookmarks)
+    {
+        <li>
+            <div>@bookmark.Title</div>
+            <div>@bookmark.Date</div>
+        </li>
+    }
+</ul>
 
 @code {
-    
+
+    [Parameter]
+    public BookmarkModel[] Bookmarks { get; set; }
+
 }
