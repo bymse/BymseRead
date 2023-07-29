@@ -35,3 +35,9 @@
     width: 60%;
   }
 }
+
+.button-icon {
+  &:hover {
+    transform: scale(1.1);
+  }
+}
