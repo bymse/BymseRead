@@ -5,9 +5,8 @@
 @using BymseRead.Ui.Abstractions
 @inject IFilePickHandler FilePickHandler
 
-<Modal OnClose="OnClose">
+<Modal OnClose="OnClose" ModalTitle="@FormTitle">
     <EditForm class="book-form" Model="@this">
-        <h2 class="book-form__title">@FormTitle</h2>
         <InputText @bind-Value="@BookTitle" placeholder="Title..." type="text" class="book-form__text-input"/>
         <InputText @bind-Value="@BookAuthor" placeholder="Author..." type="text" class="book-form__text-input"/>
         <div class="book-form__file-wrapper">

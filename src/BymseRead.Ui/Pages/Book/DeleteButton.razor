@@ -6,13 +6,15 @@
 
 @if (ShowModal)
 {
-    <Modal OnClose="ToggleModal">
-        <h3>Do you want to delete book named "@Book.Title" by @Book.Author?</h3>
-        <div class="buttons-line buttons-line_small">
-            <button type="button" class="button button_red" @onclick="DeleteBook">Delete</button>
-            <button type="button" class="button" @onclick="() => ShowModal = false">Cancel</button>
-        </div>
-    </Modal>
+    <div class="control-panel__delete-wrapper">
+        <Modal OnClose="ToggleModal" ModalTitle="Confirm deletion">
+            <div class="control-panel__delete-question">Do you want to delete "@Book.Title" by @Book.Author?</div>
+            <div class="buttons-line buttons-line_small">
+                <button type="button" class="button button_red" @onclick="DeleteBook">Delete</button>
+                <button type="button" class="button" @onclick="() => ShowModal = false">Cancel</button>
+            </div>
+        </Modal>
+    </div>
 }
 
 @code {
@@ -21,7 +23,7 @@
     public BookModel Book { get; set; }
 
     private bool ShowModal { get; set; }
-    
+
     private void ToggleModal()
     {
         ShowModal = !ShowModal;
@@ -33,4 +35,5 @@
         ShowModal = false;
         Navigation.NavigateTo("/");
     }
+
 }

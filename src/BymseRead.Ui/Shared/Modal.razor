@@ -1,6 +1,11 @@
-﻿<div class="modal__overlay" onclick="@OnClose">
+﻿@using BymseRead.DataLayer.Helpers
+<div class="modal__overlay" onclick="@OnClose">
     <div class="modal" @onclick:stopPropagation="true">
         <div class="modal__content">
+            @if (!ModalTitle.IsNullOrEmpty())
+            {
+                <h2 class="modal__title">@ModalTitle</h2>
+            }
             @ChildContent
         </div>
     </div>
@@ -13,4 +18,8 @@
 
     [Parameter]
     public Action OnClose { get; set; }
+
+    [Parameter]
+    public string ModalTitle { get; set; }
+
 }
