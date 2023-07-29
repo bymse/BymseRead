@@ -6,11 +6,11 @@
 @inject IFilePickHandler FilePickHandler
 
 <Modal OnClose="OnClose" ModalTitle="@FormTitle">
-    <EditForm class="book-form" Model="@this">
-        <InputText @bind-Value="@BookTitle" placeholder="Title..." type="text" class="book-form__text-input"/>
-        <InputText @bind-Value="@BookAuthor" placeholder="Author..." type="text" class="book-form__text-input"/>
-        <div class="book-form__file-wrapper">
-            <InputText @bind-Value="@BookFile" placeholder="File..." class="book-form__text-input"/>
+    <EditForm class="form" Model="@this">
+        <InputText @bind-Value="@BookTitle" placeholder="Title..." type="text" class="form__text-input"/>
+        <InputText @bind-Value="@BookAuthor" placeholder="Author..." type="text" class="form__text-input"/>
+        <div class="form__file-wrapper">
+            <InputText @bind-Value="@BookFile" placeholder="File..." class="form__text-input"/>
             <button type="button" class="button button_small" onclick="@SelectFileAsync">Select file</button>
         </div>
         <Select @bind-Value="@Model.State" Options="@(Enum.GetValues<BookState>())"></Select>
