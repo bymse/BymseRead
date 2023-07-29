@@ -8,6 +8,7 @@ public class Bookmark
     public int PageNumber { get; set; }
     public DateTime CreatedDate { get; set; }
     public string? Title { get; set; }
+    public ColorCode ColorCode { get; set; }
     
     public BookmarkType BookmarkType { get; set; }
 

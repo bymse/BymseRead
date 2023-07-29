@@ -17,12 +17,16 @@ namespace BymseRead.DataLayer.Database
                     .Property(e => e.CreatedDate)
                     .HasConversion<long>();
             });
-            
+
             modelBuilder.Entity<Bookmark>(r =>
             {
                 r
                     .Property(e => e.CreatedDate)
                     .HasConversion<long>();
+
+                r
+                    .Property(e => e.ColorCode)
+                    .HasDefaultValue(ColorCode.White);
             });
         }
     }

@@ -44,7 +44,8 @@ public class BookmarksService
             Type = bookmark.BookmarkType,
             Title = bookmark.Title ?? titleFallback,
             Date = bookmark.CreatedDate,
-            Page = bookmark.PageNumber
+            Page = bookmark.PageNumber,
+            ColorCode = bookmark.ColorCode,
         };
     }
 }
