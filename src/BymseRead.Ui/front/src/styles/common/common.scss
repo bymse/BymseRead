@@ -1,20 +1,26 @@
-﻿:root {
-    --color-background: #B2D3BE;
-    --color-background-o5: rgba(178, 211, 190, 0.5);
-    --color-background-o25: rgba(178, 211, 190, 0.25);
-    --color-background-o15: rgba(178, 211, 190, 0.15);
+﻿$color-background-raw: 178, 211, 190; //#B2D3BE
+$color-primary-raw: 94, 96, 115; //#5E6073
+$color-secondary-raw: 253, 250, 246; //#5E6073
+$color-tertiary-raw: 137, 163, 178; //#89A3B2
+
+:root {
+    --color-background: rgb(#{$color-background-raw});
+    --color-background-o5: rgba(#{$color-background-raw}, 0.5);
+    --color-background-o25: rgba(#{$color-background-raw}, 0.25);
+    --color-background-o15: rgba(#{$color-background-raw}, 0.15);
     
-    --color-primary: #5E6073;
-    --color-primary-o2: rgba(94, 96, 115, 0.2);
-    --color-primary-o3: rgba(94, 96, 115, 0.3);
-    --color-primary-o5: rgba(94, 96, 115, 0.5);
-    --color-primary-o6: rgba(94, 96, 115, 0.6);
+    --color-primary: rgb(#{$color-primary-raw});
+    --color-primary-o2: rgba(#{$color-primary-raw}, 0.2);
+    --color-primary-o3: rgba(#{$color-primary-raw}, 0.3);
+    --color-primary-o5: rgba(#{$color-primary-raw}, 0.5);
+    --color-primary-o6: rgba(#{$color-primary-raw}, 0.6);
     
-    --color-secondary: #FDFAF6;
-    --color-secondary-o5: rgba(253, 250, 246, 0.5);
-    --color-secondary-o9: rgba(253, 250, 246, 0.9);
-    --color-tertiary: #89A3B2;
-    --color-tertiary-o5: rgba(137, 163, 178, 0.5);
+    --color-secondary: rgb(#{$color-secondary-raw});
+    --color-secondary-o5: rgba(#{$color-secondary-raw}, 0.5);
+    --color-secondary-o9: rgba(#{$color-secondary-raw}, 0.9);
+    
+    --color-tertiary: rgb(#{$color-tertiary-raw});
+    --color-tertiary-o5: rgba(#{$color-tertiary-raw}, 0.5);
     
     --color-error: #C84361;
 }
@@ -61,6 +67,7 @@ input, button {
     overflow: hidden;
 }
 
+@import "icons";
 @import "top-bar";
 @import "top-menu";
 @import "dropdown";

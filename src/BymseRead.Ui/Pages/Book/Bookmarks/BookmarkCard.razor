@@ -2,7 +2,6 @@
 @using BymseRead.DataLayer.Entity
 <li class="bookmark-item__wrapper">
     <div class="bookmark-item @CssModifier">
-        <div class="bookmark-item__icon"></div>
         <div class="bookmark-item__content">
             <div class="bookmark-item__title">@Bookmark.Title</div>
             <div class="bookmark-item__bottom">
@@ -10,7 +9,7 @@
                 <div class="bookmark-item__date">@Bookmark.Date.ToString("yyyy.MM.dd")</div>
             </div>
         </div>
-        <button class="bookmark-item__close-btn"></button>
+        <button class="bookmark-item__edit"></button>
     </div>
 </li>
 
