@@ -9,7 +9,7 @@
                 <div class="bookmark-item__date">@Bookmark.Date.ToString("yyyy.MM.dd")</div>
             </div>
         </div>
-        <button class="bookmark-item__edit button-icon"></button>
+        <button class="bookmark-item__edit button-icon" @onclick="OnEditClick"></button>
     </div>
 </li>
 
@@ -20,6 +20,14 @@
 
     [Parameter]
     public BookmarkModel Bookmark { get; set; }
+
+    [Parameter]
+    public Func<BookmarkModel, Task> OnEdit { get; set; }
+
+    private Task OnEditClick()
+    {
+        return OnEdit(Bookmark);
+    }
 
     private string CssModifier => Bookmark.Type == BookmarkType.LastPage ? "bookmark-item_last-page" : "";
 

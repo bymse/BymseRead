@@ -3,11 +3,11 @@
 <ul class="bookmarks-list">
     @if (Bookmarks.LastPageBookmark != null)
     {
-        <BookmarkCard Book="Book" Bookmark="Bookmarks.LastPageBookmark"/>
+        <BookmarkCard Book="Book" Bookmark="Bookmarks.LastPageBookmark" OnEdit="OnEdit"/>
     }
     @foreach (var bookmark in Bookmarks.CustomBookmarks)
     {
-        <BookmarkCard Book="Book" Bookmark="bookmark"/>
+        <BookmarkCard Book="Book" Bookmark="bookmark" OnEdit="OnEdit"/>
     }
 </ul>
 
@@ -18,5 +18,7 @@
 
     [Parameter]
     public BookModel Book { get; set; }
-
+    
+    [Parameter]
+    public Func<BookmarkModel, Task> OnEdit { get; set; }
 }

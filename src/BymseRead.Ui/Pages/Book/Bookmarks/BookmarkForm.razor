@@ -1,5 +1,17 @@
-<h3>BookmarkForm</h3>
+@using BymseRead.Core.Models
+@{
+    var title = Bookmark.Id == 0 ? "Add bookmark" : "Edit bookmark";
+}
+<Modal OnClose="OnClose" ModalTitle="@title">
+
+</Modal>
 
 @code {
-    
+
+    [Parameter]
+    public Action OnClose { get; set; }
+
+    [Parameter]
+    public BookmarkModel Bookmark { get; set; }
+
 }

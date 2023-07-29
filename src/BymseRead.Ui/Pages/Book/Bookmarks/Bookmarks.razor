@@ -8,18 +8,25 @@
     <section class="bookmarks">
         <h2 class="bookmarks__title">Bookmarks</h2>
         <div class="bookmarks__buttons">
-            <button class="bookmarks__button bookmarks__button_add">New bookmark</button>
+            <button class="bookmarks__button bookmarks__button_add" @onclick="OnAdd">New bookmark</button>
             <button class="bookmarks__button bookmarks__button_last-page" @onclick="OnMarkAsLastPage">Mark as last page</button>
         </div>
-        <BookmarksList Bookmarks="BookmarksList" Book="BookModel"/>
+        <BookmarksList OnEdit="OnEdit" Bookmarks="BookmarksList" Book="BookModel"/>
     </section>
+    
+    @if (showBookmarkForm)
+    {
+        <BookmarkForm OnClose="OnBookmarkFormClose" Bookmark="formBookmark">
+            
+        </BookmarkForm>
+    }
 }
 
 @code {
 
     [Parameter]
     public int InitialCurrentPage { get; set; }
-    
+
     [Parameter]
     public BookModel BookModel { get; set; }
 
@@ -31,6 +38,9 @@
 
     private int currentPage;
     private BookmarksListModel BookmarksList { get; set; }
+
+    private bool showBookmarkForm = false;
+    private BookmarkModel? formBookmark;
 
     protected override void OnInitialized()
     {
@@ -49,6 +59,29 @@
     {
         BookmarksService.SetLastPage(BookModel.Id, currentPage);
         BookmarksList = BookmarksService.GetBookmarksList(BookModel);
+        StateHasChanged();
+    }
+
+    private void OnAdd()
+    {
+        showBookmarkForm = true;
+        formBookmark = new BookmarkModel();
+        StateHasChanged();
+    }
+
+    private Task OnEdit(BookmarkModel bookmarkModel)
+    {
+        formBookmark = bookmarkModel;
+        showBookmarkForm = true;
+        StateHasChanged();
+
+        return Task.CompletedTask;
+    }
+    
+    private void OnBookmarkFormClose()
+    {
+        showBookmarkForm = false;
+        formBookmark = null;
         StateHasChanged();
     }
 
