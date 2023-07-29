@@ -13,7 +13,7 @@
 
 .modal {
   flex: 1;
-  max-width: 50%;
+  max-width: min(50%, 800px);
   display: flex;
   flex-direction: column;
 }
@@ -31,4 +31,16 @@
   align-self: center;
   font-size: 2.5em;
   margin: 0 0 0.4em;
+}
+
+.modal__buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 16px;
+  width: 100%;
+  
+  &.modal__buttons_small {
+    width: 60%;
+  }
 }

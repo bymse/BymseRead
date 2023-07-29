@@ -103,6 +103,7 @@
 
   & .control-panel__edit {
     @include icon-edit;
+    height: 100%;
   }
 
   & .control-panel__delete {

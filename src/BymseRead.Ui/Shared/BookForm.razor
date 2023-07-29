@@ -15,10 +15,10 @@
         </div>
         <Select @bind-Value="@Model.State" Options="@(Enum.GetValues<BookState>())"></Select>
         <TagsInput @bind-Tags="@BookTags"/>
-        <div class="buttons-line">
+        <ModalButtons>
             <button type="button" class="button" onclick="@Submit">Submit</button>
             <button type="button" class="button" onclick="@OnClose">Cancel</button>
-        </div>
+        </ModalButtons>
     </EditForm>
 </Modal>
 
@@ -32,10 +32,10 @@
 
     [Parameter]
     public Action OnClose { get; set; }
-    
+
     [Parameter]
     public Func<Task> OnSubmit { get; set; }
-    
+
     private string BookTitle { get; set; }
     private string BookAuthor { get; set; }
     private string BookFile { get; set; }
@@ -48,7 +48,7 @@
         BookFile = Model.Url.IfNotNullOrEmpty(e => new Uri(e).LocalPath);
         BookTags = Model.Tags;
     }
-    
+
     private async Task SelectFileAsync()
     {
         var fullPath = await FilePickHandler.HandleAsync();
@@ -74,7 +74,8 @@
         }
 
         Model.Tags = BookTags;
-        
+
         await OnSubmit();
     }
+
 }

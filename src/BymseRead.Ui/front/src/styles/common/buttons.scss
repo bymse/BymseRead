@@ -24,18 +24,6 @@
   }
 }
 
-.buttons-line {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: 16px;
-  width: 100%;
-  
-  &.buttons-line_small {
-    width: 60%;
-  }
-}
-
 .button-icon {
   &:hover {
     transform: scale(1.1);

@@ -1,0 +1,11 @@
+<div class="modal__buttons @(Small ? "modal__buttons_small" : "")">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; init; }
+    
+    [Parameter]
+    public bool Small { get; set; }
+}
