@@ -2,14 +2,17 @@
 @using BymseRead.DataLayer.Entity
 <li class="bookmark-item__wrapper">
     <div class="bookmark-item @CssModifier">
-        <div class="bookmark-item__content">
+        <div class="bookmark-item__content" @onclick="@OnClickInternal">
             <div class="bookmark-item__title">@Bookmark.Title</div>
             <div class="bookmark-item__bottom">
                 <div class="bookmark-item__pages">@Bookmark.Page / @Book.TotalPages</div>
                 <div class="bookmark-item__date">@Bookmark.Date.ToString("yyyy.MM.dd")</div>
             </div>
         </div>
-        <button class="bookmark-item__edit button-icon" @onclick="OnEditClick"></button>
+        @if(Bookmark.Type == BookmarkType.Custom)
+        {
+            <button class="bookmark-item__edit button-icon" @onclick="OnEditClick"></button>
+        }
     </div>
 </li>
 
@@ -23,10 +26,18 @@
 
     [Parameter]
     public Func<BookmarkModel, Task> OnEdit { get; set; }
+    
+    [Parameter]
+    public Func<BookmarkModel, Task> OnClick { get; set; }
 
     private Task OnEditClick()
     {
         return OnEdit(Bookmark);
+    }
+
+    private Task OnClickInternal()
+    {
+        return OnClick(Bookmark);
     }
 
     private string CssModifier => Bookmark.Type == BookmarkType.LastPage ? "bookmark-item_last-page" : "";

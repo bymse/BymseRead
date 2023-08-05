@@ -1,0 +1,37 @@
+@using System.Linq.Expressions
+@inject IJSRuntime JsRuntime
+
+<div class="bookmark-page-input">
+    Page:
+    <input type="number" @bind-value="@Page" id="@INPUT_ID" max="@TotalPages"/> @(TotalPages.HasValue ? $"/ {TotalPages}" : "")
+    <div id="@INPUT_MEASURER_ID"></div>
+</div>
+
+@code {
+
+    const string INPUT_ID = "bookmark-page-input";
+    const string INPUT_MEASURER_ID = "bookmark-page-input-measurer";
+    
+    [Parameter]
+    public virtual int Page { get; set; }
+
+    [Parameter]
+    public EventCallback<int> PageChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<int>> PageExpression { get; set; }
+
+    [Parameter]
+    public int? TotalPages { get; set; }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime.InvokeVoidAsync(
+                "initializeInputsAutoWidth",
+                $"#{INPUT_MEASURER_ID}", $"#{INPUT_ID}"
+                );
+        }
+    }
+}

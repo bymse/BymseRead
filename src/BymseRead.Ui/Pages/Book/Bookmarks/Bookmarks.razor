@@ -11,12 +11,12 @@
             <button class="bookmarks__button bookmarks__button_add" @onclick="OnAdd">New bookmark</button>
             <button class="bookmarks__button bookmarks__button_last-page" @onclick="OnMarkAsLastPage">Mark as last page</button>
         </div>
-        <BookmarksList OnEdit="OnEdit" Bookmarks="BookmarksList" Book="BookModel"/>
+        <BookmarksList OnEdit="OnEdit" OnClick="OnClick" Bookmarks="BookmarksList" Book="BookModel"/>
     </section>
     
     @if (showBookmarkForm)
     {
-        <BookmarkForm OnClose="OnBookmarkFormClose" Bookmark="formBookmark">
+        <BookmarkForm OnClose="OnBookmarkFormClose" Bookmark="formBookmark" TotalPages="@BookModel.TotalPages">
             
         </BookmarkForm>
     }
@@ -65,7 +65,10 @@
     private void OnAdd()
     {
         showBookmarkForm = true;
-        formBookmark = new BookmarkModel();
+        formBookmark = new BookmarkModel
+        {
+            Page = currentPage
+        };
         StateHasChanged();
     }
 
@@ -76,6 +79,11 @@
         StateHasChanged();
 
         return Task.CompletedTask;
+    }
+    
+    private Task OnClick(BookmarkModel bookmarkModel)
+    {
+        return BookPagesFacade.SetPageAsync(bookmarkModel.Page);
     }
     
     private void OnBookmarkFormClose()
