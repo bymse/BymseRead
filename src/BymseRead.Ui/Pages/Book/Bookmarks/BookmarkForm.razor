@@ -1,9 +1,19 @@
 @using BymseRead.Core.Models
+@using BymseRead.DataLayer.Entity
+@using BymseRead.DataLayer.Helpers
 @{
     var title = Bookmark.Id == 0 ? "Add bookmark" : "Edit bookmark";
 }
 <Modal OnClose="OnClose" ModalTitle="@title">
-    
+    <EditForm class="form" Model="@this">
+        <div class="form__line">
+            <InputText @bind-Value="@Title" placeholder="Title..." type="text" class="form__text-input"/>
+            <BookmarkPageInput @bind-Page="@Page" TotalPages="@TotalPages"/>
+        </div>
+        <div class="form__line">
+            Color: <ColorRadioButtons @bind-ColorCode="ColorCode"></ColorRadioButtons>
+        </div>
+    </EditForm>
 </Modal>
 
 @code {
@@ -13,5 +23,19 @@
 
     [Parameter]
     public BookmarkModel Bookmark { get; set; }
+    
+    [Parameter]
+    public int? TotalPages { get; set; }
+
+    private string? Title { get; set; }
+    private int Page { get; set; }
+    private ColorCode ColorCode { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Title = Bookmark.Title;
+        Page = Bookmark.Page;
+        ColorCode = Bookmark.ColorCode;
+    }
 
 }

@@ -27,3 +27,9 @@
     text-overflow: ellipsis;
   }
 }
+
+.form__line {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
