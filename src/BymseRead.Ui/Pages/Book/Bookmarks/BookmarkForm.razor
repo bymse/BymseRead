@@ -2,17 +2,29 @@
 @using BymseRead.DataLayer.Entity
 @using BymseRead.DataLayer.Helpers
 @{
-    var title = Bookmark.Id == 0 ? "Add bookmark" : "Edit bookmark";
+    var isAdd = Bookmark.Id == 0;
+    var title = isAdd ? "Add bookmark" : "Edit bookmark";
 }
 <Modal OnClose="OnClose" ModalTitle="@title">
-    <EditForm class="form" Model="@this">
+    <EditForm class="form bookmark-form" Model="@this" OnSubmit="OnSave">
         <div class="form__line">
-            <InputText @bind-Value="@Title" placeholder="Title..." type="text" class="form__text-input"/>
+            <InputText @bind-Value="@Title" placeholder="Title..." type="text" class="form__text-input bookmark-form__title-input" required="true"/>
             <BookmarkPageInput @bind-Page="@Page" TotalPages="@TotalPages"/>
         </div>
         <div class="form__line">
             Color: <ColorRadioButtons @bind-ColorCode="ColorCode"></ColorRadioButtons>
         </div>
+        <ModalButtons>
+            @if(isAdd)
+            {
+                <button type="submit" class="button">Save</button>
+            }
+            else
+            {
+                <button type="submit" class="button">Save changes</button>
+                <button type="button" class="button button_red">Delete bookmark</button>
+            }
+        </ModalButtons>
     </EditForm>
 </Modal>
 
@@ -22,8 +34,11 @@
     public Action OnClose { get; set; }
 
     [Parameter]
+    public Func<BookmarkModel, Task> OnSubmit { get; set; }
+
+    [Parameter]
     public BookmarkModel Bookmark { get; set; }
-    
+
     [Parameter]
     public int? TotalPages { get; set; }
 
@@ -38,4 +53,19 @@
         ColorCode = Bookmark.ColorCode;
     }
 
+    private Task OnSave()
+    {
+        var model = new BookmarkModel
+        {
+            Id = Bookmark.Id,
+            Title = Title,
+            Page = Page,
+            ColorCode = ColorCode,
+            Date = DateTime.UtcNow,
+            Type = BookmarkType.Custom
+        };
+        
+        return OnSubmit(model);
+    }
+    
 }

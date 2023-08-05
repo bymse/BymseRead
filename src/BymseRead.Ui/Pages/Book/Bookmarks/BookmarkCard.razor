@@ -1,7 +1,11 @@
 @using BymseRead.Core.Models
 @using BymseRead.DataLayer.Entity
+@using BymseRead.DataLayer.Helpers
+@{
+    var style = Bookmark.Type == BookmarkType.Custom ? $"background: #{Bookmark.ColorCode.GetAttachedString()};" : "";
+}
 <li class="bookmark-item__wrapper">
-    <div class="bookmark-item @CssModifier">
+    <div class="bookmark-item @CssModifier" style="@style">
         <div class="bookmark-item__content" @onclick="@OnClickInternal">
             <div class="bookmark-item__title">@Bookmark.Title</div>
             <div class="bookmark-item__bottom">

@@ -1,10 +1,11 @@
 @using BymseRead.DataLayer.Entity
 @using BymseRead.DataLayer.Helpers
 @using System.Linq.Expressions
+@using System.Drawing
 
 <div class="color-radio">
-    <InputRadioGroup TValue="ColorCode" @bind-Value="ColorCode">
-        @foreach (var val in Enum.GetValues<ColorCode>())
+    <InputRadioGroup TValue="ColorCode" Value="ColorCode" ValueChanged="ColorCodeChanged" ValueExpression="ColorCodeExpression">
+        @foreach (var val in Colors)
         {
             <label>
                 <InputRadio style="@Style(val)" TValue="ColorCode" Value="val"/>
@@ -16,6 +17,13 @@
 
 @code
 {
+    private static readonly ColorCode[] Colors = {
+        ColorCode.White,
+        ColorCode.Red,
+        ColorCode.Yellow,
+        ColorCode.Green,
+    };
+    
     [Parameter]
     public virtual ColorCode ColorCode { get; set; }
 

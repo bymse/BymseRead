@@ -28,7 +28,7 @@ public class BookmarksRepository : IBookmarksRepository
                 BookId = bookId,
                 BookmarkType = type,
                 PageNumber = page,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.UtcNow
             };
 
             booksDbContext.Bookmarks.Add(bookmark);
@@ -48,5 +48,20 @@ public class BookmarksRepository : IBookmarksRepository
             .Where(e => e.BookId == bookModelId)
             .OrderByDescending(e => e.PageNumber)
             .ToArray();
+    }
+
+    public Bookmark FindBookmark(int bookmarkId)
+    {
+        return booksDbContext.Bookmarks.First(e => e.BookmarkId == bookmarkId);
+    }
+
+    public void SaveChanges(Bookmark bookmark)
+    {
+        if (bookmark.BookmarkId == 0)
+        {
+            booksDbContext.Bookmarks.Add(bookmark);
+        }
+
+        booksDbContext.SaveChanges();
     }
 }

@@ -16,9 +16,12 @@
     
     @if (showBookmarkForm)
     {
-        <BookmarkForm OnClose="OnBookmarkFormClose" Bookmark="formBookmark" TotalPages="@BookModel.TotalPages">
-            
-        </BookmarkForm>
+        <BookmarkForm 
+            OnClose="OnBookmarkFormClose" 
+            Bookmark="formBookmark" 
+            TotalPages="@BookModel.TotalPages"
+            OnSubmit="OnFormSubmit"
+            />
     }
 }
 
@@ -84,6 +87,15 @@
     private Task OnClick(BookmarkModel bookmarkModel)
     {
         return BookPagesFacade.SetPageAsync(bookmarkModel.Page);
+    }
+
+    private Task OnFormSubmit(BookmarkModel model)
+    {
+        BookmarksService.SaveBookmark(model, BookModel.Id);
+        BookmarksList = BookmarksService.GetBookmarksList(BookModel);
+        OnBookmarkFormClose();
+
+        return Task.CompletedTask;
     }
     
     private void OnBookmarkFormClose()

@@ -36,6 +36,18 @@ public class BookmarksService
         };
     }
 
+    public void SaveBookmark(BookmarkModel model, int bookId)
+    {
+        var bookmark = model.Id != 0
+            ? bookmarksRepository.FindBookmark(model.Id)!
+            : new Bookmark();
+        
+        FromModel(model, bookmark);
+        bookmark.BookId = bookId;
+        bookmarksRepository.SaveChanges(bookmark);
+    }
+    
+    
     private static BookmarkModel ToModel(Bookmark bookmark, string titleFallback)
     {
         return new BookmarkModel
@@ -47,5 +59,14 @@ public class BookmarksService
             Page = bookmark.PageNumber,
             ColorCode = bookmark.ColorCode,
         };
+    }
+
+    private static void FromModel(BookmarkModel model, Bookmark bookmark)
+    {
+        bookmark.PageNumber = model.Page;
+        bookmark.Title = model.Title;
+        bookmark.CreatedDate = model.Date;
+        bookmark.ColorCode = model.ColorCode;
+        bookmark.BookmarkType = model.Type;
     }
 }

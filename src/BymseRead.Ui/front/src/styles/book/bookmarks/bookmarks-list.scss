@@ -9,6 +9,11 @@
 
 .bookmark-item__wrapper {
   background: var(--color-secondary);
+  border-bottom: 0.5px solid var(--color-primary);
+  
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 .bookmark-item {

@@ -1,13 +1,13 @@
 ﻿
 .button {
   border: none;
-  background: var(--color-primary);
+  background: var(--color-tertiary);
   color: var(--color-secondary);
   cursor: pointer;
   font-size: 26px;
   padding: 8px 24px;
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.40);
 
   &:active {
     background-color: var(--color-primary-o6);
@@ -20,7 +20,9 @@
   }
   
   &.button_red {
-    background: var(--color-error);
+    background: transparent;
+    color: var(--color-error);
+    border: 1px solid var(--color-error);
   }
 }
 

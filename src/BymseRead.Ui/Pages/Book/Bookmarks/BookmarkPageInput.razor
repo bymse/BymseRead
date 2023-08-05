@@ -1,9 +1,16 @@
 @using System.Linq.Expressions
 @inject IJSRuntime JsRuntime
 
-<div class="bookmark-page-input">
+<div class="bookmark-form__page-input">
     Page:
-    <input type="number" @bind-value="@Page" id="@INPUT_ID" max="@TotalPages"/> @(TotalPages.HasValue ? $"/ {TotalPages}" : "")
+    <InputNumber 
+        required="true"
+        type="number"
+        Value="@Page"
+        ValueChanged="PageChanged"
+        ValueExpression="PageExpression"
+        id="@INPUT_ID"
+        max="@TotalPages"/> @(TotalPages.HasValue ? $"/ {TotalPages}" : "")
     <div id="@INPUT_MEASURER_ID"></div>
 </div>
 
