@@ -4,7 +4,7 @@
 <InputNumber
     class="@Class"
     id="@InputId"
-    @bind-Value="@CurrentPage"/>
+    @bind-Value="@Page"/>
 <span>/</span>
 <span>@TotalPages</span>
 <div id="@MeasurerId"></div>
@@ -12,10 +12,10 @@
 @code {
 
     [Parameter]
-    public int CurrentPage { get; set; }
+    public int Page { get; set; }
 
     [Parameter]
-    public EventCallback<int> CurrentPageChanged { get; set; }
+    public EventCallback<int> PageChanged { get; set; }
 
     [Parameter]
     public int TotalPages { get; set; }

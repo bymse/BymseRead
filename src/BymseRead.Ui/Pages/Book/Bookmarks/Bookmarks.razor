@@ -1,9 +1,11 @@
 ﻿@using BymseRead.Core.Models
 @using BymseRead.Ui.Abstractions
 @using BymseRead.Core
+@using BymseRead.Ui.Models.Book
 @inject BookmarksService BookmarksService
+@inject BookPageState BookPageState
 
-@if (Show)
+@if (BookPageState.ShowBookmarks)
 {
     <section class="bookmarks">
         <h2 class="bookmarks__title">Bookmarks</h2>
@@ -11,56 +13,48 @@
             <button class="bookmarks__button bookmarks__button_add" @onclick="OnAdd">New bookmark</button>
             <button class="bookmarks__button bookmarks__button_last-page" @onclick="OnMarkAsLastPage">Mark as last page</button>
         </div>
-        <BookmarksList OnEdit="OnEdit" OnClick="OnClick" Bookmarks="BookmarksList" Book="BookModel"/>
+        <BookmarksList OnEdit="OnEdit" OnClick="OnClick" Bookmarks="bookmarksList" Book="BookPageState.Book"/>
     </section>
 
-    if(showBookmarkForm)
+    if (showBookmarkForm)
     {
         <BookmarkForm
             @bind-Show="showBookmarkForm"
             Bookmark="formBookmark"
-            TotalPages="@BookModel.TotalPages"
+            TotalPages="@BookPageState.Book.TotalPages"
             OnSubmit="OnFormSubmit"/>
     }
 }
 
 @code {
 
-    [Parameter]
-    public int InitialCurrentPage { get; set; }
 
     [Parameter]
-    public BookModel BookModel { get; set; }
+    public int CurrentPage { get; set; }
 
     [Parameter]
-    public bool Show { get; set; }
+    public EventCallback<int> CurrentPageChanged { get; set; }
 
-    [Parameter]
-    public IBookPagesFacade BookPagesFacade { get; set; }
 
-    private int currentPage;
-    private BookmarksListModel BookmarksList { get; set; }
-
+    private BookModel BookModel => BookPageState.Book;
     private bool showBookmarkForm = false;
+    private BookmarksListModel bookmarksList;
     private BookmarkModel? formBookmark;
 
     protected override void OnInitialized()
     {
-        currentPage = InitialCurrentPage;
-        BookmarksList = BookmarksService.GetBookmarksList(BookModel);
-        BookPagesFacade.PageChanged += OnPageChanged;
+        bookmarksList = BookmarksService.GetBookmarksList(BookModel);
     }
 
-    private async Task OnPageChanged(object sender, PageChangeEventArgs e)
+    protected override void OnParametersSet()
     {
-        currentPage = e.NewPage;
-        BookmarksService.SetLastViewedPage(BookModel.Id, e.NewPage);
+        BookmarksService.SetLastViewedPage(BookModel.Id, CurrentPage);
     }
 
     private void OnMarkAsLastPage(MouseEventArgs obj)
     {
-        BookmarksService.SetLastPage(BookModel.Id, currentPage);
-        BookmarksList = BookmarksService.GetBookmarksList(BookModel);
+        BookmarksService.SetLastPage(BookModel.Id, CurrentPage);
+        bookmarksList = BookmarksService.GetBookmarksList(BookModel);
         StateHasChanged();
     }
 
@@ -68,7 +62,7 @@
     {
         formBookmark = new BookmarkModel
         {
-            Page = currentPage
+            Page = CurrentPage
         };
         showBookmarkForm = true;
         StateHasChanged();
@@ -79,19 +73,20 @@
         formBookmark = bookmarkModel;
         showBookmarkForm = true;
         StateHasChanged();
-
+        
         return Task.CompletedTask;
     }
 
-    private Task OnClick(BookmarkModel bookmarkModel)
+    private async Task OnClick(BookmarkModel bookmarkModel)
     {
-        return BookPagesFacade.SetPageAsync(bookmarkModel.Page);
+        CurrentPage = bookmarkModel.Page;
+        await CurrentPageChanged.InvokeAsync(CurrentPage);
     }
 
     private Task OnFormSubmit(BookmarkModel model)
     {
         BookmarksService.SaveBookmark(model, BookModel.Id);
-        BookmarksList = BookmarksService.GetBookmarksList(BookModel);
+        bookmarksList = BookmarksService.GetBookmarksList(BookModel);
         OnBookmarkFormClose();
 
         return Task.CompletedTask;
