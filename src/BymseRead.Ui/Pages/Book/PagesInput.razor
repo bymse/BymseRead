@@ -4,10 +4,12 @@
 <InputNumber
     class="@Class"
     id="@InputId"
-    @bind-Value="@Page"/>
+    Value="@Page"
+    ValueChanged="PageChanged"
+    ValueExpression="@(() => Page)"/>
 <span>/</span>
 <span>@TotalPages</span>
-<div id="@MeasurerId"></div>
+<div class="input-width-measurer" id="@MeasurerId"></div>
 
 @code {
 
@@ -19,7 +21,7 @@
 
     [Parameter]
     public int TotalPages { get; set; }
-    
+
     [Parameter]
     public string Class { get; set; }
 

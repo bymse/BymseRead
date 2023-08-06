@@ -9,3 +9,9 @@ input[type="number"] {
         margin: 0;
     }
 }
+
+.input-width-measurer {
+    appearance: none;
+    visibility: hidden;
+    position: absolute;
+}
