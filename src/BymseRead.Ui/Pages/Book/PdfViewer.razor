@@ -12,6 +12,7 @@
 @code {
 
     private string? previousBookUrl = default;
+    private bool didPageChange = false;
 
     [Parameter]
     public string BookLoadUrl { get; set; }
@@ -47,10 +48,11 @@
             return;
         }
 
-        if (objectRef != null)
+        if (objectRef != null && !didPageChange)
         {
             await JsRuntime.InvokeVoidAsync("PdfViewer.setCurrentPage", CurrentPage);
         }
+        didPageChange = false;
     }
 
     private async Task InitializePdfViewer()
@@ -74,6 +76,7 @@
     [JSInvokable]
     public async Task OnCurrentPageChanged(int page)
     {
+        didPageChange = true;
         await CurrentPageChanged.InvokeAsync(page);
     }
 

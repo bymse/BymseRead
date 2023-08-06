@@ -6,8 +6,10 @@
 }
 
 function setWidth(measurer, element) {
-  measurer.textContent = element.value;
-  element.style.width = `${measurer.clientWidth + 4}px`;
+  if (measurer && element) {
+    measurer.textContent = element.value;
+    element.style.width = `${measurer.clientWidth + 4}px`;
+  }
 }
 
 window.fixElementWidth = (measurerSelector, inputSelector) => {

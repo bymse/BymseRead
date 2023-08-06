@@ -18,15 +18,12 @@
             <div class="control-panel__title" title="@State.Title">@State.Title</div>
         </div>
         <div class="control-panel__center">
-            @if (State.Book.TotalPages.HasValue)
-            {
-                <div class="control-panel__pages">
-                    <PagesInput
-                        TotalPages="@State.Book.TotalPages.Value"
-                        @bind-Page="State.CurrentPage"
-                        Class="control-panel__pages-input"/>
-                </div>
-            }
+            <div class="control-panel__pages">
+                <PagesInput
+                    TotalPages="@State.Book.TotalPages"
+                    @bind-Page="State.CurrentPage"
+                    Class="control-panel__pages-input"/>
+            </div>
         </div>
         <div class="control-panel__right">
             <div class="control-panel__tags" title="@State.Book.TagsWithHashes.JoinStrings(" ")">

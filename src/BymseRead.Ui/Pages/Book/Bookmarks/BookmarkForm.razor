@@ -9,7 +9,7 @@
     <EditForm class="form bookmark-form" Model="@this" OnSubmit="OnSave">
         <div class="form__line">
             <InputText @bind-Value="@Title" placeholder="Title..." type="text" class="form__text-input bookmark-form__title-input" required="true"/>
-            <BookmarkPageInput @bind-Page="@Page" TotalPages="@TotalPages"/>
+            <BookmarkPagesInput @bind-Page="@Page" TotalPages="@TotalPages"/>
         </div>
         <div class="form__line">
             Color: <ColorRadioButtons @bind-ColorCode="ColorCode"></ColorRadioButtons>
