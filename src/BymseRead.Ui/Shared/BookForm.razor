@@ -5,19 +5,19 @@
 @using BymseRead.Ui.Abstractions
 @inject IFilePickHandler FilePickHandler
 
-<Modal OnClose="OnClose" ModalTitle="@FormTitle">
-    <EditForm class="form" Model="@this">
+<Modal Show="Show" ShowChanged="ShowChanged" ModalTitle="@FormTitle">
+    <EditForm class="form" Model="@this" OnSubmit="Submit">
         <InputText @bind-Value="@BookTitle" placeholder="Title..." type="text" class="form__text-input"/>
         <InputText @bind-Value="@BookAuthor" placeholder="Author..." type="text" class="form__text-input"/>
         <div class="form__file-wrapper">
             <InputText @bind-Value="@BookFile" placeholder="File..." class="form__text-input"/>
-            <button type="button" class="button button_small" onclick="@SelectFileAsync">Select file</button>
+            <button type="button" class="button button_small" @onclick="SelectFileAsync">Select file</button>
         </div>
         <Select @bind-Value="@Model.State" Options="@(Enum.GetValues<BookState>())"></Select>
         <TagsInput @bind-Tags="@BookTags"/>
         <ModalButtons>
-            <button type="button" class="button" onclick="@Submit">Submit</button>
-            <button type="button" class="button" onclick="@OnClose">Cancel</button>
+            <button type="submit" class="button">Submit</button>
+            <button type="button" class="button" @onclick="Close">Cancel</button>
         </ModalButtons>
     </EditForm>
 </Modal>
@@ -31,7 +31,10 @@
     public string FormTitle { get; init; }
 
     [Parameter]
-    public Action OnClose { get; set; }
+    public bool Show { get; set; }
+    
+    [Parameter]
+    public EventCallback<bool> ShowChanged { get; set; }
 
     [Parameter]
     public Func<Task> OnSubmit { get; set; }
@@ -43,6 +46,11 @@
 
     protected override void OnInitialized()
     {
+        @if (!Show)
+        {
+            return;
+        }
+        
         BookTitle = Model.Title;
         BookAuthor = Model.Author;
         BookFile = Model.Url.IfNotNullOrEmpty(e => new Uri(e).LocalPath);
@@ -76,6 +84,12 @@
         Model.Tags = BookTags;
 
         await OnSubmit();
+    }
+
+    private Task Close()
+    {
+        Show = false;
+        return ShowChanged.InvokeAsync(Show);
     }
 
 }

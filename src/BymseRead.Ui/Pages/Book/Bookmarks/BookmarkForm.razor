@@ -5,7 +5,7 @@
     var isAdd = Bookmark.Id == 0;
     var title = isAdd ? "Add bookmark" : "Edit bookmark";
 }
-<Modal OnClose="OnClose" ModalTitle="@title">
+<Modal Show="Show" ShowChanged="ShowChanged" ModalTitle="@title">
     <EditForm class="form bookmark-form" Model="@this" OnSubmit="OnSave">
         <div class="form__line">
             <InputText @bind-Value="@Title" placeholder="Title..." type="text" class="form__text-input bookmark-form__title-input" required="true"/>
@@ -29,10 +29,12 @@
 </Modal>
 
 @code {
-
     [Parameter]
-    public Action OnClose { get; set; }
-
+    public bool Show { get; set; }
+    
+    [Parameter]
+    public EventCallback<bool> ShowChanged { get; set; }
+    
     [Parameter]
     public Func<BookmarkModel, Task> OnSubmit { get; set; }
 
@@ -48,6 +50,11 @@
 
     protected override void OnInitialized()
     {
+        if (!Show)
+        {
+            return;
+        }
+        
         Title = Bookmark.Title;
         Page = Bookmark.Page;
         ColorCode = Bookmark.ColorCode;

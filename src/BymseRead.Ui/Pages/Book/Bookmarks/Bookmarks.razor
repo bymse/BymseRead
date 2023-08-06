@@ -13,15 +13,14 @@
         </div>
         <BookmarksList OnEdit="OnEdit" OnClick="OnClick" Bookmarks="BookmarksList" Book="BookModel"/>
     </section>
-    
-    @if (showBookmarkForm)
+
+    if(showBookmarkForm)
     {
-        <BookmarkForm 
-            OnClose="OnBookmarkFormClose" 
-            Bookmark="formBookmark" 
+        <BookmarkForm
+            @bind-Show="showBookmarkForm"
+            Bookmark="formBookmark"
             TotalPages="@BookModel.TotalPages"
-            OnSubmit="OnFormSubmit"
-            />
+            OnSubmit="OnFormSubmit"/>
     }
 }
 
@@ -67,11 +66,11 @@
 
     private void OnAdd()
     {
-        showBookmarkForm = true;
         formBookmark = new BookmarkModel
         {
             Page = currentPage
         };
+        showBookmarkForm = true;
         StateHasChanged();
     }
 
@@ -83,7 +82,7 @@
 
         return Task.CompletedTask;
     }
-    
+
     private Task OnClick(BookmarkModel bookmarkModel)
     {
         return BookPagesFacade.SetPageAsync(bookmarkModel.Page);
@@ -97,7 +96,7 @@
 
         return Task.CompletedTask;
     }
-    
+
     private void OnBookmarkFormClose()
     {
         showBookmarkForm = false;

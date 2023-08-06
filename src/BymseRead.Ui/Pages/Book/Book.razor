@@ -51,10 +51,9 @@
         @* </div> *@
     </div>
 </div>
-
 @if (OpenEditForm)
 {
-    <BookForm FormTitle="Edit book" Model="@BookModel" OnClose="@OnClose" OnSubmit="@OnFormSubmit"/>
+    <BookForm FormTitle="Edit book" Model="@BookModel" @bind-Show="OpenEditForm" OnSubmit="@OnFormSubmit"/>
 }
 
 @code {

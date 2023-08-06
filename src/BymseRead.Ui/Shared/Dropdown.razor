@@ -12,13 +12,10 @@
 @code {
     
     [Parameter]
-    public EventCallback<bool> ShowMenuChanged { get; set; }
+    public bool ShowMenu { get; set; }
 
     [Parameter]
-    public Expression<Func<bool>> ShowMenuExpression { get; set; }
-
-    [Parameter]
-    public virtual bool ShowMenu { get; set; }
+    public EventCallback<bool> ShowMenuChanged { get; set; } 
 
     [Parameter]
     public string DropdownId { get; set; }

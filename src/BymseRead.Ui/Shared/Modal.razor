@@ -1,23 +1,36 @@
 ﻿@using BymseRead.DataLayer.Helpers
-<div class="modal__overlay" onclick="@OnClose">
-    <div class="modal" @onclick:stopPropagation="true">
-        <div class="modal__content">
-            @if (!ModalTitle.IsNullOrEmpty())
-            {
-                <h2 class="modal__title">@ModalTitle</h2>
-            }
-            @ChildContent
+
+@if(Show)
+{
+    <div class="modal__overlay" @onclick="OnClose">
+        <div class="modal" @onclick:stopPropagation="true">
+            <div class="modal__content">
+                @if (!ModalTitle.IsNullOrEmpty())
+                {
+                    <h2 class="modal__title">@ModalTitle</h2>
+                }
+                @ChildContent
+            </div>
         </div>
     </div>
-</div>
+}
 
 @code {
 
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public bool Show { get; set; }
+    
+    [Parameter]
+    public EventCallback<bool> ShowChanged { get; set; }
 
     [Parameter]
-    public Action OnClose { get; set; }
+    public RenderFragment ChildContent { get; set; }
+
+    private Task OnClose()
+    {
+        Show = false;
+        return ShowChanged.InvokeAsync(Show);
+    }
 
     [Parameter]
     public string ModalTitle { get; set; }
