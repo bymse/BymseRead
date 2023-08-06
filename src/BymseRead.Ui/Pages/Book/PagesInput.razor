@@ -1,43 +1,31 @@
 @using BymseRead.Ui.Abstractions
 @inject IJSRuntime JsRuntime
 
-<input
-    class="control-panel__pages-input"
-    type="text"
-    id="@PAGE_INPUT_ID"
-    @bind-value="@CurrentPageInput"
-    @bind-value:after="@OnCurrentPageSet"/>
+<InputNumber
+    class="@Class"
+    id="@InputId"
+    @bind-Value="@CurrentPage"/>
 <span>/</span>
 <span>@TotalPages</span>
-<div id="@PAGES_INPUT_MEASURER_ID"></div>
+<div id="@MeasurerId"></div>
 
 @code {
 
-    private const string PAGES_INPUT_MEASURER_ID = "pages-input-measurer";
-    private const string PAGE_INPUT_ID = "pages-input";
+    [Parameter]
+    public int CurrentPage { get; set; }
 
     [Parameter]
-    public int InitialCurrentPage { get; set; }
+    public EventCallback<int> CurrentPageChanged { get; set; }
 
     [Parameter]
     public int TotalPages { get; set; }
-
+    
     [Parameter]
-    public IBookPagesFacade BookPagesFacade { get; set; }
+    public string Class { get; set; }
 
-    private int currentPage;
-
-    private string CurrentPageInput
-    {
-        get => currentPage.ToString();
-        set => currentPage = int.Parse(value);
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        currentPage = InitialCurrentPage;
-        BookPagesFacade.PageChanged += BookPagesFacadeOnPageChanged;
-    }
+    private string uniqueID = Guid.NewGuid().ToString();
+    private string MeasurerId => "measurer-" + uniqueID;
+    private string InputId => "input-" + uniqueID;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -45,24 +33,18 @@
         {
             await JsRuntime.InvokeVoidAsync(
                 "initializeInputsAutoWidth",
-                $"#{PAGES_INPUT_MEASURER_ID}", $"#{PAGE_INPUT_ID}"
+                $"#{MeasurerId}", $"#{InputId}"
                 );
         }
     }
 
-    private async Task BookPagesFacadeOnPageChanged(object sender, PageChangeEventArgs e)
+    protected override async Task OnParametersSetAsync()
     {
-        currentPage = e.NewPage;
-        StateHasChanged();
         await Task.Delay(1);
         await JsRuntime.InvokeVoidAsync(
             "fixElementWidth",
-            $"#{PAGES_INPUT_MEASURER_ID}", $"#{PAGE_INPUT_ID}"
+            $"#{MeasurerId}", $"#{InputId}"
             );
     }
-    
-    private async Task OnCurrentPageSet()
-    {
-        await BookPagesFacade.SetPageAsync(currentPage);
-    }
+
 }

@@ -58,7 +58,9 @@ class PdfViewer {
   }
 
   setCurrentPage(currentPage) {
-    this.#pdfViewer.currentPageNumber = currentPage
+    if(this.#pdfViewer) {
+      this.#pdfViewer.currentPageNumber = currentPage
+    }
   }
 }
 

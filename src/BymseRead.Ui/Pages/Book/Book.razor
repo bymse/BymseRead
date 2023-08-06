@@ -7,53 +7,63 @@
 @using BymseRead.DataLayer.Entity
 @using BymseRead.DataLayer.Helpers
 @using BymseRead.Ui.Abstractions
+@using BymseRead.Ui.Models.Book
 @using BookForm = BymseRead.Core.Models.BookFormModel
 @inject BooksService BooksService
 @inject IJSRuntime JsRuntime
 @inject NavigationManager NavigationManager
+@inject BookPageState State
 
 <div class="book-page-container">
     <div class="control-panel">
         <div class="control-panel__left">
-            <button class="control-panel__bookmarks-list-btn" type="button" @onclick="ToggleBookmarks"></button>
-            <div class="control-panel__title" title="@Title">@Title</div>
+            <button class="control-panel__bookmarks-list-btn" type="button" @onclick="State.ToggleBookmarks"></button>
+            <div class="control-panel__title" title="@State.Title">@State.Title</div>
         </div>
         <div class="control-panel__center">
-            @if (BookModel.TotalPages.HasValue)
+            @if (State.Book.TotalPages.HasValue)
             {
                 <div class="control-panel__pages">
                     <PagesInput
-                        TotalPages="@BookModel.TotalPages.Value"
-                        InitialCurrentPage="initialCurrentPage"
-                        BookPagesFacade="bookPdfViewerFacade"/>
+                        TotalPages="@State.Book.TotalPages.Value"
+                        bind-CurrentPage="State.CurrentPage"
+                        Class="control-panel__pages-input"/>
                 </div>
             }
         </div>
         <div class="control-panel__right">
-            <div class="control-panel__tags" title="@BookModel.TagsWithHashes.JoinStrings(" ")">
-                @foreach (var tag in BookModel.TagsWithHashes)
+            <div class="control-panel__tags" title="@State.Book.TagsWithHashes.JoinStrings(" ")">
+                @foreach (var tag in State.Book.TagsWithHashes)
                 {
                     <span>@tag</span>
                 }
             </div>
             @* <button class="control-panel__bookmarks-btn control-panel__bookmarks-btn_add"></button> *@
-            <button type="button" class="control-panel__edit" onclick="@OnEditClick"></button>
-            <DeleteButton Book="BookModel"/>
+            <button type="button" class="control-panel__edit" @onclick="State.OpenEditForm"></button>
+            <DeleteButton Book="State.Book"/>
         </div>
     </div>
     <div class="book-content" id="book-content">
-        <Bookmarks BookModel="BookModel" Show="OpenBookmarks" BookPagesFacade="bookPdfViewerFacade"/>
+        <Bookmarks/>
         <div class="book-wrapper">
-            <PdfViewer @ref="bookPdfViewerFacade.PdfViewerRef" InitialCurrentPage="initialCurrentPage" BookUrl="@BookModel.Url"></PdfViewer>
+            <PdfViewer
+                bind-CurrentPage="State.CurrentPage"
+                bind-TotalPages="State.Book.TotalPages"
+                @bind-TotalPages:after="AfterTotalPagesSet"
+                BookLoadUrl="@State.BookLoadUrl"/>
         </div>
         @* <div class="side-buttons"> *@
         @*     <button type="button" class="@(IsFullscreen ? "side-buttons__full-size_full" : "side-buttons__full-size")" @onclick="ToggleFullscreen"></button> *@
         @* </div> *@
     </div>
 </div>
-@if (OpenEditForm)
+@if (State.ShowEditForm)
 {
-    <BookForm FormTitle="Edit book" Model="@BookModel" @bind-Show="OpenEditForm" OnSubmit="@OnFormSubmit"/>
+    <BookForm
+        FormTitle="Edit book"
+        Model="@State.Book"
+        @bind-Show="State.ShowEditForm"
+        OnSubmit="@OnFormSubmit"/>
 }
 
 @code {
@@ -64,19 +74,9 @@
     [CascadingParameter]
     public MainLayout MainLayout { get; set; }
 
-    private BookModel BookModel { get; set; }
-
-
-    private string Title => $"{BookModel.Title} by {BookModel.Author}";
-    private int initialCurrentPage;
-
-    private bool OpenEditForm { get; set; }
-    private bool OpenBookmarks { get; set; } = true;
     private bool IsFullscreen { get; set; }
 
-    private void OnClose() => OpenEditForm = false;
 
-    private readonly BookPdfViewerFacade bookPdfViewerFacade = new();
     private ITopBarItem? topBarItem;
 
 
@@ -89,32 +89,21 @@
         };
         MainLayout.Items.Add(topBarItem);
 
-        BookModel = BooksService.FindBook(BookId)!;
-        initialCurrentPage = BookModel.LastViewedPage ?? 1;
-
-        bookPdfViewerFacade.ViewerInitialized += OnBookPdfViewerFacadeInitialized;
+        State.SetBook(BooksService.FindBook(BookId)!);
     }
 
-    private void OnEditClick()
-    {
-        OpenEditForm = true;
-    }
-
-    private void ToggleBookmarks() => OpenBookmarks = !OpenBookmarks;
 
     private async Task OnFormSubmit()
     {
-        BookModel = BooksService.SaveBook(BookModel);
-        OpenEditForm = false;
+        State.SetBook(BooksService.SaveBook(State.Book));
+        State.ShowEditForm = false;
         StateHasChanged();
         await Task.Delay(1);
-    //await InitializePdfViewerAsync();
     }
 
-    private Task OnBookPdfViewerFacadeInitialized(object sender, ViewerInitializedEventArgs e)
+    private Task AfterTotalPagesSet()
     {
-        BooksService.UpdateTotalPages(BookId, e.TotalPages);
-        BookModel.TotalPages = e.TotalPages;
+        BooksService.UpdateTotalPages(BookId, State.Book.TotalPages!.Value);
         return Task.CompletedTask;
     }
 
@@ -137,7 +126,6 @@
         {
             MainLayout.Items.Remove(topBarItem);
         }
-        bookPdfViewerFacade.Dispose();
     }
 
 }
