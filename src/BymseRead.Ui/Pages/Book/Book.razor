@@ -2,11 +2,8 @@
 @implements IDisposable
 @using BymseRead.Ui.Models
 @using BymseRead.Ui.Pages.Book.Bookmarks
-@using BymseRead.Core.Models
 @using BymseRead.Core
-@using BymseRead.DataLayer.Entity
 @using BymseRead.DataLayer.Helpers
-@using BymseRead.Ui.Abstractions
 @using BymseRead.Ui.Models.Book
 @using BookForm = BymseRead.Core.Models.BookFormModel
 @inject BooksService BooksService
@@ -26,7 +23,7 @@
                 <div class="control-panel__pages">
                     <PagesInput
                         TotalPages="@State.Book.TotalPages.Value"
-                        bind-Page="State.CurrentPage"
+                        @bind-Page="State.CurrentPage"
                         Class="control-panel__pages-input"/>
                 </div>
             }
@@ -44,11 +41,14 @@
         </div>
     </div>
     <div class="book-content" id="book-content">
-        <Bookmarks/>
+        <Bookmarks
+            Book="State.Book"
+            @bind-CurrentPage="State.CurrentPage"
+            Show="@State.ShowBookmarks"/>
         <div class="book-wrapper">
             <PdfViewer
-                bind-CurrentPage="State.CurrentPage"
-                bind-TotalPages="State.Book.TotalPages"
+                @bind-CurrentPage="State.CurrentPage"
+                @bind-TotalPages="State.Book.TotalPages"
                 @bind-TotalPages:after="AfterTotalPagesSet"
                 BookLoadUrl="@State.BookLoadUrl"/>
         </div>

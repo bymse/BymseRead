@@ -11,7 +11,7 @@
 
 @code {
 
-    private string previousBookUrl = string.Empty;
+    private string? previousBookUrl = default;
 
     [Parameter]
     public string BookLoadUrl { get; set; }
@@ -40,11 +40,16 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        await JsRuntime.InvokeVoidAsync("PdfViewer.setCurrentPage", CurrentPage);
-        if (previousBookUrl != BookLoadUrl)
+        if (previousBookUrl != null && previousBookUrl != BookLoadUrl)
         {
             previousBookUrl = BookLoadUrl;
             await InitializePdfViewer();
+            return;
+        }
+
+        if (objectRef != null)
+        {
+            await JsRuntime.InvokeVoidAsync("PdfViewer.setCurrentPage", CurrentPage);
         }
     }
 
@@ -54,6 +59,7 @@
         if (!BookLoadUrl.IsNullOrEmpty())
         {
             objectRef = DotNetObjectReference.Create(this);
+            previousBookUrl = BookLoadUrl;
             await JsRuntime.InvokeVoidAsync("PdfViewer.initialize", objectRef, CurrentPage);
         }
     }

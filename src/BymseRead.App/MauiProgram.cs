@@ -3,6 +3,7 @@ using BymseRead.DataLayer.Database;
 using BymseRead.DataLayer.Repository;
 using BymseRead.Ui.Abstractions;
 using BymseRead.App.Models;
+using BymseRead.Ui.Models.Book;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
@@ -34,6 +35,7 @@ namespace BymseRead.App
             builder.Services
                 .AddCoreServices()
                 .AddSingleton<IFilePickHandler, MauiFilePickHandler>()
+                .AddScoped<BookPageState>()
                 ;
 
             var app = builder.Build();
