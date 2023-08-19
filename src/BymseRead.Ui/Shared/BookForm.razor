@@ -42,7 +42,7 @@
     private string BookTitle { get; set; }
     private string BookAuthor { get; set; }
     private string BookFile { get; set; }
-    private string[] BookTags { get; set; }
+    private string[] BookTags { get; set; } = Array.Empty<string>();
 
     protected override void OnInitialized()
     {
@@ -80,8 +80,6 @@
                 Host = null
             }.Uri.ToString();
         }
-
-        Model.Tags = BookTags;
 
         await OnSubmit();
     }

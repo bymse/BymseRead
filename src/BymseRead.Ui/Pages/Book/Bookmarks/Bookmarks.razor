@@ -19,7 +19,9 @@
             @bind-Show="showBookmarkForm"
             Bookmark="formBookmark"
             TotalPages="@Book.TotalPages"
-            OnSubmit="OnFormSubmit"/>
+            OnSubmit="OnFormSubmit"
+            OnDelete="OnDelete"
+            />
     }
 }
 
@@ -89,6 +91,15 @@
         bookmarksList = BookmarksService.GetBookmarksList(Book);
         OnBookmarkFormClose();
 
+        return Task.CompletedTask;
+    }
+
+    private Task OnDelete(BookmarkModel model)
+    {
+        BookmarksService.DeleteBookmark(model);
+        bookmarksList = BookmarksService.GetBookmarksList(Book);
+        OnBookmarkFormClose();
+        
         return Task.CompletedTask;
     }
 

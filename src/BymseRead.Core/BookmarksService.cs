@@ -69,4 +69,9 @@ public class BookmarksService
         bookmark.ColorCode = model.ColorCode;
         bookmark.BookmarkType = model.Type;
     }
+
+    public void DeleteBookmark(BookmarkModel model)
+    {
+        bookmarksRepository.DeleteBookmark(model.Id);
+    }
 }

@@ -8,4 +8,5 @@ public interface IBookmarksRepository
     Bookmark[] GetBookmarks(int bookModelId);
     Bookmark FindBookmark(int bookmarkId);
     void SaveChanges(Bookmark bookmark);
+    void DeleteBookmark(int bookmarkId);
 }

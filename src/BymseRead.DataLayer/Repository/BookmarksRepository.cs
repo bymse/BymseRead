@@ -64,4 +64,11 @@ public class BookmarksRepository : IBookmarksRepository
 
         booksDbContext.SaveChanges();
     }
+
+    public void DeleteBookmark(int bookmarkId)
+    {
+        booksDbContext.Bookmarks
+            .Where(e => e.BookmarkId == bookmarkId)
+            .ExecuteDelete();
+    }
 }
