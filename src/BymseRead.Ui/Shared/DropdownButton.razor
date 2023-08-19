@@ -1,6 +1,6 @@
 ﻿@using System.Collections.Concurrent
 
-<button data-dropdown-id="@DropdownId" class="@ButtonClass" type="button" @onclick="ShowMenu"></button>
+<button data-dropdown-id="@DropdownId" class="@ButtonClass" type="button" @onclick="ToggleMenu"></button>
 <Dropdown @bind-ShowMenu="@showMenu" DropdownId="@DropdownId">
     @ChildContent
 </Dropdown>
@@ -18,8 +18,8 @@
 
     private bool showMenu;
 
-    private void ShowMenu()
+    private void ToggleMenu()
     {
-        showMenu = true;
+        showMenu = !showMenu;
     }
 }
