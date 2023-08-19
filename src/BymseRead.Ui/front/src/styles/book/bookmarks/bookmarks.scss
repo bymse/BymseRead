@@ -1,10 +1,12 @@
 ﻿
 .bookmarks {
-    padding: 0;
+    padding: 0 0 5px;
     margin: 0;
     background-color: var(--color-tertiary-o5);
     font-size: 16px;
     flex-shrink: 2;
+    display: flex;
+    flex-direction: column;
 }
 
 .bookmarks__title {

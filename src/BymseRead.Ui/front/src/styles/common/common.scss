@@ -61,11 +61,15 @@ input, button {
 #app {
     height: 100%;
     min-width: 710px;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
-    height: calc(100vh - 3em);
+    height: 100%;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 @import "icons";

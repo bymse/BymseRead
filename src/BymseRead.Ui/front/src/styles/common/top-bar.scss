@@ -1,6 +1,5 @@
 ﻿.top-bar {
     background: var(--color-tertiary);
-    height: 3em;
     display: flex;
     align-items: center;
     z-index: 1;
@@ -11,7 +10,7 @@
         background-repeat: no-repeat;
         background-size: 29px 16px;
         background-position: center;
-        height: 100%;
+        height: 3.6em;
         border: none;
         width: 3.6em;
         padding: 0;
