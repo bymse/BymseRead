@@ -16,14 +16,16 @@
 
 .select__value {
   padding: 4px 2px 4px 8px;
-  border: 1px solid var(--color-primary-o5);
+  border: none;
+  border-bottom: 1px solid var(--color-primary-o5);
   background-color: var(--color-secondary);
   cursor: pointer;
-  border-radius: 4px;
+  width: 110px;
   font-size: inherit;
   display: flex;
   align-items: center;
   gap: 4px;
+  justify-content: space-between;
 
   &::after {
     content: "";

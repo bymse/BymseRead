@@ -1,4 +1,6 @@
 ﻿@using BymseRead.DataLayer.Helpers
+@inject IJSRuntime JsRuntime
+@implements IDisposable
 
 @if(Show)
 {
@@ -25,6 +27,14 @@
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+    
+    private DotNetObjectReference<Modal> objectReference = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        objectReference = DotNetObjectReference.Create(this);
+        await JsRuntime.InvokeAsync<object>("onEscapeKeyDown", objectReference, nameof(OnEscape));
+    }
 
     private Task OnClose()
     {
@@ -35,4 +45,19 @@
     [Parameter]
     public string ModalTitle { get; set; }
 
+    [JSInvokable]
+    public Task OnEscape()
+    {
+        if (Show)
+        {
+            return OnClose();
+        }
+        
+        return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        objectReference.Dispose();
+    }
 }

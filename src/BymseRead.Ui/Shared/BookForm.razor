@@ -16,7 +16,7 @@
         <Select @bind-Value="@Model.State" Options="@(Enum.GetValues<BookState>())"></Select>
         <TagsInput @bind-Tags="@BookTags"/>
         <ModalButtons>
-            <button type="submit" class="button">Submit</button>
+            <button type="submit" class="button">Save</button>
             <button type="button" class="button" @onclick="Close">Cancel</button>
         </ModalButtons>
     </EditForm>
