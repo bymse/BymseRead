@@ -23,3 +23,9 @@
   width: 26px;
   height: 28px;
 }
+
+@mixin icon-down {
+  background-image: url("data:image/svg+xml,%3Csvg width='46' height='41' viewBox='0 0 46 41' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_1021_2232)'%3E%3Cpath d='M4.41256 0L23.2063 13.6883L42 0V1.99776L23.2063 15.6861L4.41256 1.99776V0ZM4.41256 17.3139L23.2063 31.0022L42 17.3139V19.3117L23.2063 33L4.41256 19.3117V17.3139Z' fill='%235E6073'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter id='filter0_d_1021_2232' x='0.412598' y='0' width='45.5874' height='41' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dy='4'/%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.239216 0 0 0 0 0.333333 0 0 0 0 0.270588 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_1021_2232'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_1021_2232' result='shape'/%3E%3C/filter%3E%3C/defs%3E%3C/svg%3E%0A");
+  width: 46px;
+  height: 41px;
+}

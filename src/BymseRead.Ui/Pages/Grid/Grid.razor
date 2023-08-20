@@ -13,17 +13,17 @@
             <BookCard Book="book"/>
         }
     </div>
-    @if(Books.Count > 0)
+    @if (Books.Count > 0)
     {
         <div class="load-more">
             @if (ShowLoadMore)
             {
-                <button type="button" title="Load more" class="load-more__btn" @onclick="LoadBooks"></button>
+                <button type="button" title="Load more" class="button-icon button-icon_down" @onclick="LoadBooks"></button>
             }
             else
             {
                 <span class="load-more__text">All books are here</span>
-                <button type="button" class="load-more__btn load-more__btn_up" @onclick="ScrollUp"></button>
+                <button type="button" class="button-icon button-icon_up" @onclick="ScrollUp"></button>
             }
         </div>
     }
@@ -65,7 +65,7 @@
 
         Books.AddRange(books);
     }
-    
+
     private async Task ScrollUp() => await JsRuntime.InvokeAsync<object>("scrollGridTop");
 
     private static BookState? GetNextState(BookState current)

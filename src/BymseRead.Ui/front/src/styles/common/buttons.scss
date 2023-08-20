@@ -81,3 +81,12 @@
   @include icon-delete();
   @include button-effects(0.3, $color-error);
 }
+
+.button-icon_down {
+  @include icon-down();
+}
+
+.button-icon_up {
+  @include icon-down();
+  transform: rotate(180deg);
+}
