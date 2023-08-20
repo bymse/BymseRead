@@ -1,5 +1,4 @@
-﻿
-.book-card {
+﻿.book-card {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -8,20 +7,23 @@
   background: var(--color-secondary);
   text-align: center;
   padding: 0.8em 0.6em 0.4em;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
   border: 5px solid transparent;
   text-decoration: none;
   height: 100%;
+  box-shadow: 0 4px 8px 0 rgba(61, 85, 69, 0.25);
+  
+  &:hover {
+    box-shadow: 0 4px 12px 0 rgba(61, 85, 69, 0.25);
+  }
+  
+  &:active {
+    box-shadow: none;
+  }
 
   &, &:visited {
     color: var(--color-primary);
   }
 
-  &:hover, &:active {
-    &:not(.book-card_no-link) {
-      border-color: var(--color-background-o5);
-    }
-  }
 
   & .book-card__title {
     font-size: 1.6em;
