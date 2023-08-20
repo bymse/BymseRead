@@ -11,7 +11,7 @@
         <InputText @bind-Value="@BookAuthor" placeholder="Author..." type="text" class="form__text-input"/>
         <div class="form__file-wrapper">
             <InputText @bind-Value="@BookFile" placeholder="File..." class="form__text-input" required="true"/>
-            <button type="button" class="button button_small" @onclick="SelectFileAsync">Select file</button>
+            <button type="button" class="button-icon button-icon_folder" @onclick="SelectFileAsync"></button>
         </div>
         <Select @bind-Value="@Model.State" Options="@(Enum.GetValues<BookState>())"></Select>
         <TagsInput @bind-Tags="@BookTags"/>

@@ -90,3 +90,7 @@
   @include icon-down();
   transform: rotate(180deg);
 }
+
+.button-icon_folder {
+  @include icon-folder();
+}
