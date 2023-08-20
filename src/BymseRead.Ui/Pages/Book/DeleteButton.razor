@@ -6,11 +6,15 @@
 
 <div class="control-panel__delete-wrapper">
     <Modal @bind-Show="ShowModal" ModalTitle="Confirm deletion">
-        <div class="control-panel__delete-question">Do you want to delete "@Book.Title" by @Book.Author?</div>
-        <ModalButtons Small="true">
-            <button type="button" class="button button_red" @onclick="DeleteBook">Delete</button>
-            <button type="button" class="button" @onclick="() => ShowModal = false">Cancel</button>
-        </ModalButtons>
+        <div class="form">
+            <div class="control-panel__delete-question">
+                Do you want to delete "@Book.Title"?
+            </div>
+            <ModalButtons Small="true">
+                <button type="button" class="button button_red" @onclick="DeleteBook">Delete</button>
+                <button type="button" class="button" @onclick="() => ShowModal = false">Cancel</button>
+            </ModalButtons>
+        </div>
     </Modal>
 </div>
 

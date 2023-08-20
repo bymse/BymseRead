@@ -30,7 +30,13 @@
 .modal__title {
   align-self: center;
   font-size: 2.5em;
-  margin: 0 0 1em;
+  margin: 0 0 0.5em;
+}
+
+.modal__buttons-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .modal__buttons {
@@ -39,8 +45,8 @@
   align-items: center;
   margin-top: 16px;
   width: 100%;
-  
-  &.modal__buttons_small {
-    width: 60%;
-  }
+}
+
+.modal__buttons_small {
+  width: 60%;
 }
