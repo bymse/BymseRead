@@ -50,8 +50,8 @@
 
     public async ValueTask DisposeAsync()
     {
-        objectRef.Dispose();
         await JsRuntime.InvokeVoidAsync("dropdown.dispose", DropdownSelector);
+        objectRef.Dispose();
     }
 
 }
