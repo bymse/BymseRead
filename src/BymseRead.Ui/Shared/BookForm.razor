@@ -7,17 +7,17 @@
 
 <Modal Show="Show" ShowChanged="ShowChanged" ModalTitle="@FormTitle">
     <EditForm class="form" Model="@this" OnSubmit="Submit">
-        <InputText @bind-Value="@BookTitle" placeholder="Title..." type="text" class="form__text-input"/>
+        <InputText @bind-Value="@BookTitle" placeholder="Title..." type="text" class="form__text-input" required="true"/>
         <InputText @bind-Value="@BookAuthor" placeholder="Author..." type="text" class="form__text-input"/>
         <div class="form__file-wrapper">
-            <InputText @bind-Value="@BookFile" placeholder="File..." class="form__text-input"/>
+            <InputText @bind-Value="@BookFile" placeholder="File..." class="form__text-input" required="true"/>
             <button type="button" class="button button_small" @onclick="SelectFileAsync">Select file</button>
         </div>
         <Select @bind-Value="@Model.State" Options="@(Enum.GetValues<BookState>())"></Select>
         <TagsInput @bind-Tags="@BookTags"/>
         <ModalButtons>
             <button type="submit" class="button">Save</button>
-            <button type="button" class="button" @onclick="Close">Cancel</button>
+            <button type="button" class="button button_red" @onclick="Close">Cancel</button>
         </ModalButtons>
     </EditForm>
 </Modal>
