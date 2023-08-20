@@ -7,11 +7,6 @@
     height: 100%;
     overflow: auto;
     scroll-behavior: smooth;
-    justify-content: space-between;
-}
-
-.books-grid__title {
-    
 }
 
 .books-grid {
@@ -32,6 +27,7 @@
     flex-direction: column;
     width: 100%;
     row-gap: 0.6em;
+    margin-top: auto;
     
     & .load-more__text {
         font-size: 1.2em;
