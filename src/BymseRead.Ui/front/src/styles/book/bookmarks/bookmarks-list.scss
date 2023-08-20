@@ -69,12 +69,7 @@
 }
 
 .bookmark-item__edit {
-  @include icon-edit;
-  background-color: transparent;
   margin: 9px 0 0 10px;
-  border: none;
-  cursor: pointer;
-  padding: 0;
 }
 
 .bookmark-item_last-page {
