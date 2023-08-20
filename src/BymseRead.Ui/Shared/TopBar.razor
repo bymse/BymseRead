@@ -1,32 +1,43 @@
 ﻿@using BymseRead.Ui.Models
+@implements IDisposable
+@inject NavigationManager Navigation
 <header class="top-bar">
-    <TopMenu />
-    @foreach (var topBarItem in Items)
+    @if(ShowMenu)
     {
-        switch (topBarItem.Type)
-        {
-            case ItemType.Link:
-                var item = (LinkTopBarItem)topBarItem;
-                <a href="@item.Url" class="@item.Css">@item.Text</a>
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        <TopMenu/>
+    }
+    
+    @if (ShowBack)
+    {
+        <a href="/" class="top-bar__back-button"></a>
     }
 </header>
 
 @code {
 
-    [Parameter]
-    public IEnumerable<ITopBarItem> Items { get; set; }
+    private bool ShowMenu { get; set; }
+    private bool ShowBack { get; set; }
+    
+    private IDisposable locationChangingHandler = null!;
 
-    private void CloseMenu()
+    protected override void OnInitialized()
     {
-        ShowMenu = false;
-        StateHasChanged();
+        ShowMenu = Navigation.Uri == Navigation.BaseUri;
+        ShowBack = Navigation.Uri != Navigation.BaseUri;
+        locationChangingHandler = Navigation.RegisterLocationChangingHandler(HandleLocationChange);
     }
     
+    private async ValueTask HandleLocationChange(LocationChangingContext context)
+    {
+        ShowMenu = context.TargetLocation == Navigation.BaseUri;
+        ShowBack = context.TargetLocation != Navigation.BaseUri;
+        StateHasChanged();
+    }
 
 
-    private bool ShowMenu { get; set; }
+    public void Dispose()
+    {
+        locationChangingHandler.Dispose();
+    }
+
 }

@@ -1,5 +1,4 @@
 ﻿@page "/Book/{BookId:int}"
-@implements IDisposable
 @using BymseRead.Ui.Models
 @using BymseRead.Ui.Pages.Book.Bookmarks
 @using BymseRead.Core
@@ -67,24 +66,10 @@
     [Parameter]
     public int BookId { get; set; }
 
-    [CascadingParameter]
-    public MainLayout MainLayout { get; set; }
-
     private bool IsFullscreen { get; set; }
-
-
-    private ITopBarItem? topBarItem;
-
 
     protected override async Task OnInitializedAsync()
     {
-        topBarItem = new LinkTopBarItem
-        {
-            Url = "/",
-            Css = "top-bar__back-button"
-        };
-        MainLayout.Items.Add(topBarItem);
-
         State.SetBook(BooksService.FindBook(BookId)!);
     }
 
@@ -115,13 +100,4 @@
             await JsRuntime.InvokeVoidAsync("exitFullscreen");
         }
     }
-
-    public void Dispose()
-    {
-        if (topBarItem != null)
-        {
-            MainLayout.Items.Remove(topBarItem);
-        }
-    }
-
 }
