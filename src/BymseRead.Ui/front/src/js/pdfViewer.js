@@ -5,10 +5,16 @@ import * as pdfjsViewer from "pdfjs-dist/web/pdf_viewer"
 class PdfViewer {
   #pdfViewer;
   #dotNetHelper;
+  #bookId;
 
-  async initialize(dotNetHelper, currentPage) {
+  constructor() {
+    this.#onWheel = this.#onWheel.bind(this);
+  }
+  
+  async initialize(dotNetHelper, currentPage, bookId) {
     this.#dotNetHelper = dotNetHelper;
     const container = document.getElementById("pdf-viewer-container");
+    this.#bookId = bookId;
 
     const eventBus = new pdfjsViewer.EventBus();
 
@@ -47,6 +53,10 @@ class PdfViewer {
     const pdfDocument = await loadingTask.promise;
     this.#pdfViewer.setDocument(pdfDocument);
     pdfLinkService.setDocument(pdfDocument, null);
+
+    container.removeEventListener('wheel', this.#onWheel);
+    container.addEventListener('wheel', this.#onWheel);
+    this.#pdfViewer.currentScale = localStorage.getItem('book-scale') || 1;
   }
 
   async #onInitialized() {
@@ -58,8 +68,20 @@ class PdfViewer {
   }
 
   setCurrentPage(currentPage) {
-    if(this.#pdfViewer) {
+    if (this.#pdfViewer) {
       this.#pdfViewer.currentPageNumber = currentPage
+    }
+  }
+
+  #onWheel = (e) => {
+    if (e.ctrlKey) {
+      e.preventDefault();
+      if (e.deltaY < 0) {
+        this.#pdfViewer.currentScale += 0.1;
+      } else {
+        this.#pdfViewer.currentScale -= 0.1;
+      }
+      localStorage.setItem('book-scale', this.#pdfViewer.currentScale);
     }
   }
 }
