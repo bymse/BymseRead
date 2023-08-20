@@ -61,12 +61,17 @@
 
 .bookmark-form__title-input {
     flex: 2;
+    font-size: 2em;
+}
+
+.bookmark-form__color-label {
     font-size: 1.6em;
+    color: var(--color-tertiary);
 }
 
 
 .bookmark-form__page-input {
-    font-size: 1.4em;
+    font-size: 1.6em;
 
     & input {
         border: none;

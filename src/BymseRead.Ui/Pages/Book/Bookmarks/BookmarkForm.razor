@@ -12,7 +12,7 @@
             <BookmarkPagesInput @bind-Page="@Page" TotalPages="@TotalPages"/>
         </div>
         <div class="form__line">
-            Color: <ColorRadioButtons @bind-ColorCode="ColorCode"></ColorRadioButtons>
+            <span class="bookmark-form__color-label">Color:</span> <ColorRadioButtons @bind-ColorCode="ColorCode"></ColorRadioButtons>
         </div>
         <ModalButtons>
             @if(isAdd)
