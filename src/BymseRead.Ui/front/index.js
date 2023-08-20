@@ -1,7 +1,7 @@
 import "./src/styles/common/common.scss"
 import "./src/styles/grid/grid.scss"
 import "./src/styles/book/book.scss"
-import "./src/js/scrollToTop.js"
+import "./src/js/scroll.js"
 import "./src/js/pdfViewer.js"
 import "./src/js/tags.js"
 import "./src/js/dropdown.js"

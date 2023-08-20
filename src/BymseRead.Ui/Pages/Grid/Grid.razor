@@ -6,17 +6,24 @@
 @inject BooksService BooksService
 @inject IJSRuntime JsRuntime
 
-<section class="books-grid__container" id="books-grid">
-    <div class="books-grid">
-        @foreach (var book in Books)
-        {
-            <BookCard Book="book"/>
-        }
-    </div>
-    @if (Books.Count > 0)
+<div class="books-grid__container" id="books-grid">
+    @foreach (var (state, books) in sections)
+    {
+        <section>
+            <h2 class="books-grid__title" id="@state">@state</h2>
+            <div class="books-grid">
+                @foreach (var book in books)
+                {
+                    <BookCard Book="book"/>
+                }
+            </div>
+        </section>
+    }
+
+    @if (sections.Count > 0)
     {
         <div class="load-more">
-            @if (ShowLoadMore)
+            @if (nextState != null)
             {
                 <button type="button" title="Load more" class="button-icon button-icon_down" @onclick="LoadBooks"></button>
             }
@@ -31,42 +38,44 @@
     {
         <span class="no-books">There are no books here. Use top left button to add some.</span>
     }
-</section>
+</div>
 
 
 @code {
 
     private BookState? nextState = BookState.Active;
 
-    private bool ShowLoadMore => nextState != null;
+    private List<(BookState state, BookModel[] books)> sections = new();
 
-    private List<BookModel> Books { get; } = new();
-
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        LoadBooks();
+        await LoadBooks();
     }
 
-    private void LoadBooks()
+    private async Task LoadBooks()
     {
-        if (!ShowLoadMore)
+        if (!nextState.HasValue)
         {
             return;
         }
 
-        var books = BooksService.GetBooks(nextState!.Value);
+        var state = nextState!.Value;
+        var loadedBooks = BooksService.GetBooks(state);
         nextState = GetNextState(nextState.Value);
-
-        if (books.Length == 0)
+        if (loadedBooks.Length == 0)
         {
-            LoadBooks();
+            await LoadBooks();
             return;
         }
 
-        Books.AddRange(books);
+        sections.Add((state, loadedBooks));
+        await Task.Delay(1);
+        await ScrollToStateHeader(state);
     }
 
     private async Task ScrollUp() => await JsRuntime.InvokeAsync<object>("scrollGridTop");
+
+    private async Task ScrollToStateHeader(BookState state) => await JsRuntime.InvokeAsync<object>("scrollToStateHeader", state.ToString());
 
     private static BookState? GetNextState(BookState current)
     {

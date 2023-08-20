@@ -2,11 +2,16 @@
     display: flex;
     flex-direction: column;
     row-gap: 2em;
-    padding: 4% 3% 0;
+    padding: 2% 3% 0;
     background: var(--color-background-o25);
     height: 100%;
     overflow: auto;
     scroll-behavior: smooth;
+    justify-content: space-between;
+}
+
+.books-grid__title {
+    
 }
 
 .books-grid {
@@ -15,7 +20,6 @@
     column-gap: 3em;
     grid-template-columns: repeat(auto-fit, min(13em, 100%));
     grid-auto-rows: 16em;
-    justify-content: center;
 }
 
 .load-more {

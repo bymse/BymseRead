@@ -63,10 +63,10 @@ input, button {
 }
 
 .container {
-    height: 100%;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
+    height: 0;
+    flex: 1;
 }
 
 @import "icons";

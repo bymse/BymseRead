@@ -1,1 +1,0 @@
-window.scrollGridTop = () => document.getElementById("books-grid").scrollTop = 0;
