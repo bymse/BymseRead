@@ -15,7 +15,7 @@
 
 .control-panel {
   background: var(--color-secondary-o5);
-  padding: 0.4em 0;
+  height: 2em;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -92,8 +92,8 @@
     }
   }
 
-  & .control-panel__tags {
-    max-width: 30%;
+  .control-panel__tags {
+    max-width: 50%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -104,6 +104,7 @@
   & .control-panel__edit {
     @include icon-edit;
     height: 100%;
+    width: 45px;
   }
 
   & .control-panel__delete {
