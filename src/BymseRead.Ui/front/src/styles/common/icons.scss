@@ -35,3 +35,9 @@
   width: 48px;
   height: 48px;
 }
+
+@mixin icon-cross {
+  background-image: url("data:image/svg+xml,%3Csvg width='30' height='34' viewBox='0 0 30 34' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.991736 33.6414L0 32.5576L14.0083 17.249L0 1.94036L0.991736 0.856567L15 16.1652L29.0083 0.856567L30 1.94036L15.9917 17.249L30 32.5576L29.0083 33.6414L15 18.3328L0.991736 33.6414Z' fill='%235E6073'/%3E%3C/svg%3E%0A");
+  width: 24px;
+  height: 26px;
+}

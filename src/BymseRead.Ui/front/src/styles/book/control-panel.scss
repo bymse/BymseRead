@@ -21,7 +21,9 @@
   align-items: center;
   font-size: 1.5em;
   
-  & .button-icon {
+  & .button-icon_edit,
+  & .button-icon_delete,
+  & .button-icon_bookmarks-collection {
     height: 100%;
     padding: 0 8px;
   }

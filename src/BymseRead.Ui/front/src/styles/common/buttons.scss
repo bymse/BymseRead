@@ -94,3 +94,7 @@
 .button-icon_folder {
   @include icon-folder();
 }
+
+.button-icon_cross {
+  @include icon-cross();
+}
