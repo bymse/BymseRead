@@ -7,8 +7,8 @@
     <section class="bookmarks">
         <h2 class="bookmarks__title">Bookmarks</h2>
         <div class="bookmarks__buttons">
-            <button class="bookmarks__button bookmarks__button_add" @onclick="OnAdd">New bookmark</button>
-            <button class="bookmarks__button bookmarks__button_last-page" @onclick="OnMarkAsLastPage">Mark as last page</button>
+            <button class="button button_light bookmarks__button bookmarks__button_add" @onclick="OnAdd">New bookmark</button>
+            <button class="button button_light bookmarks__button bookmarks__button_last-page" @onclick="OnMarkAsLastPage">Mark as last page</button>
         </div>
         <BookmarksList OnEdit="OnEdit" OnClick="OnClick" Bookmarks="bookmarksList" Book="Book"/>
     </section>
