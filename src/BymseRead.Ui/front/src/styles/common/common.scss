@@ -1,7 +1,4 @@
-﻿$color-background-raw: 178, 211, 190; //#B2D3BE
-$color-primary-raw: 94, 96, 115; //#5E6073
-$color-secondary-raw: 253, 250, 246; //#FDFAF6
-$color-tertiary-raw: 137, 163, 178; //#89A3B2
+﻿@import "colors";
 
 :root {
     --color-background: rgb(#{$color-background-raw});
@@ -22,7 +19,7 @@ $color-tertiary-raw: 137, 163, 178; //#89A3B2
     --color-tertiary: rgb(#{$color-tertiary-raw});
     --color-tertiary-o5: rgba(#{$color-tertiary-raw}, 0.5);
     
-    --color-error: #900021;
+    --color-error: #{$color-error};
 }
 
 @font-face {
