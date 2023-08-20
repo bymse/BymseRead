@@ -2,7 +2,7 @@
 @using BymseRead.Core
 @inject BooksService BooksService
 @inject NavigationManager Navigation
-<button type="button" class="control-panel__delete" @onclick="ToggleModal"></button>
+<button type="button" class="button-icon button-icon_delete" @onclick="ToggleModal"></button>
 
 <div class="control-panel__delete-wrapper">
     <Modal @bind-Show="ShowModal" ModalTitle="Confirm deletion">
