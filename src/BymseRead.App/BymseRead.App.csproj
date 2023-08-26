@@ -41,7 +41,7 @@
 	</ItemGroup>
 	
 	<ItemGroup Condition="'$(Configuration)'=='Debug'">
-		<AppxManifest Remove="Platforms\Windows\Package.appxmanifest"/>
+		<AppxManifest Remove="Platforms\Windows\Package.appxmanifest" />
 		<AppxManifest Include="Platforms\Windows\Package-DEBUG.appxmanifest" SubType="Designer" />
 	</ItemGroup>
 
