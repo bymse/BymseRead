@@ -20,9 +20,8 @@ namespace BymseRead.DataLayer.Entity
         [MaxLength(MAX_TITLE_LENGTH)]
         public string Title { get; set; } = null!;
 
-        [Required]
         [MaxLength(MAX_AUTHOR_NAME_LENGTH)]
-        public string AuthorName { get; set; } = null!;
+        public string? AuthorName { get; set; }
         
         [MaxLength(MAX_URL_LENGTH)]
         public string? Url { get; set; }
