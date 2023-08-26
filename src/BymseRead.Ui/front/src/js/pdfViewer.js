@@ -12,6 +12,9 @@ class PdfViewer {
   }
   
   async initialize(dotNetHelper, currentPage, bookId) {
+    if (this.#pdfViewer) {
+      this.#pdfViewer.cleanup();
+    }
     this.#dotNetHelper = dotNetHelper;
     const container = document.getElementById("pdf-viewer-container");
     this.#bookId = bookId;
@@ -37,6 +40,7 @@ class PdfViewer {
 
     eventBus.on("pagesinit", () => {
       this.#pdfViewer.currentPageNumber = currentPage;
+      this.#pdfViewer.currentScale = +localStorage.getItem('book-scale') || 1;
       this.#onInitialized();
     });
 
@@ -56,7 +60,6 @@ class PdfViewer {
 
     container.removeEventListener('wheel', this.#onWheel);
     container.addEventListener('wheel', this.#onWheel);
-    this.#pdfViewer.currentScale = localStorage.getItem('book-scale') || 1;
   }
 
   async #onInitialized() {
@@ -69,7 +72,7 @@ class PdfViewer {
 
   setCurrentPage(currentPage) {
     if (this.#pdfViewer) {
-      this.#pdfViewer.currentPageNumber = currentPage
+      this.#pdfViewer.currentPageNumber = +currentPage
     }
   }
 
