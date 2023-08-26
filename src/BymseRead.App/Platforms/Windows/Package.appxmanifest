@@ -23,7 +23,7 @@
   </Resources>
 
   <Applications>
-    <Application Id="BymseRead.App" Executable="BymseRead.App.exe" EntryPoint="windows.fullTrustApplication">
+    <Application Id="BymseRead" Executable="BymseRead.App.exe" EntryPoint="windows.fullTrustApplication">
       <uap:VisualElements
         DisplayName="BymseRead"
         Description="Fancy app for pdf files reading"
