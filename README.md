@@ -1,7 +1,6 @@
 # BymseRead
 
-Simple Windows desktop application for pdf books reading and management. It has built-in pdf viewer and last page tracking.  
-In future there would be features like: bookmarks, search and more. 
+Simple Windows desktop application for pdf books reading and management with built-in pdf viewer. It has bookmarks and last page tracking.
 
 It was built using .NET MAUI with Blazor for the UI.
 
