@@ -35,6 +35,7 @@ class PdfViewer {
       eventBus,
       linkService: pdfLinkService,
       findController: pdfFindController,
+      removePageBorders: true
     });
     pdfLinkService.setViewer(this.#pdfViewer);
 
