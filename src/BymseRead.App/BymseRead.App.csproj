@@ -55,12 +55,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="appsettings.Debug.json">
+	  <None Update="appsettings.Debug.json" Condition="'$(Configuration)'=='Debug'">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="appsettings.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	</ItemGroup>
+	
+	<ItemGroup Condition="'$(Configuration)'!='Debug'">
+		<None Remove="appsettings.Debug.json"/>
+		<Compile Remove="appsettings.Debug.json"/>
+		<Content Remove="appsettings.Debug.json"/>
 	</ItemGroup>
 
 	<ItemGroup>
