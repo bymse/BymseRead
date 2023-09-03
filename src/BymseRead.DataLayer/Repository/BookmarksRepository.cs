@@ -36,6 +36,7 @@ public class BookmarksRepository : IBookmarksRepository
         else
         {
             bookmark.PageNumber = page;
+            bookmark.CreatedDate = DateTime.UtcNow;
         }
 
         booksDbContext.SaveChanges();

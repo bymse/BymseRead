@@ -55,7 +55,7 @@ public class BookmarksService
             Id = bookmark.BookmarkId,
             Type = bookmark.BookmarkType,
             Title = bookmark.Title ?? titleFallback,
-            Date = bookmark.CreatedDate,
+            Date = bookmark.CreatedDate.ToLocalTime().Date,
             Page = bookmark.PageNumber,
             ColorCode = bookmark.ColorCode,
         };
