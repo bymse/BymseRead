@@ -7,7 +7,6 @@
 @using BookForm = BymseRead.Core.Models.BookFormModel
 @inject BooksService BooksService
 @inject IJSRuntime JsRuntime
-@inject NavigationManager NavigationManager
 @inject BookPageState State
 
 <div class="book-page-container">
@@ -15,6 +14,7 @@
         <div class="control-panel__left">
             <button class="button-icon button-icon_bookmarks-collection" type="button" @onclick="State.ToggleBookmarks"></button>
             <div class="control-panel__title" title="@State.Title">@State.Title</div>
+            <OpenFileButton Page="@State.CurrentPage" BookUrl="@State.Book.Url"/>
         </div>
         <div class="control-panel__center">
             <div class="control-panel__pages">

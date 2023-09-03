@@ -35,6 +35,7 @@ namespace BymseRead.App
             builder.Services
                 .AddCoreServices()
                 .AddSingleton<IFilePickHandler, MauiFilePickHandler>()
+                .AddSingleton<IFileOpener, MauiFileOpener>()
                 .AddScoped<BookPageState>()
                 ;
 

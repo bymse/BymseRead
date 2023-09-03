@@ -1,0 +1,20 @@
+@using BymseRead.Ui.Abstractions
+@inject IFileOpener FileOpener
+
+<button type="button" class="button-icon button-icon_open-external" title="Open file" @onclick="OnClick"></button>
+
+@code {
+
+    [Parameter]
+    public int Page { get; set; }
+
+    [Parameter]
+    public string BookUrl { get; set; }
+    
+    private async Task OnClick()
+    {
+        var path = new Uri(BookUrl).LocalPath;
+        await FileOpener.OpenFileAsync($"{path}#page={Page}");
+    }
+
+}
