@@ -2,7 +2,7 @@
 @using BymseRead.DataLayer.Entity
 @using BymseRead.DataLayer.Helpers
 
-<a class="book-card @(NoLink ? "book-card_no-link" : null)" href="@(NoLink ? null : $"/Book/{Book.Id}")">
+<a class="book-card @(NoLink ? "book-card_no-link" : null)" href="@(NoLink ? null : $"/Book/{Book.Id}")" title="@Book.Title">
     <div class="book-card__title">
         @Book.Title
     </div>

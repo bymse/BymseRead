@@ -32,6 +32,12 @@
     display: flex;
     height: 0;
     flex: 1 0 30%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
   }
 
   & .book-card__author {
@@ -58,7 +64,8 @@
   }
 
   & .book-card__tags {
-    flex: 1;
+    flex-grow: 0;
+    flex-shrink: 1;
 
     & span {
       font-weight: bold;
