@@ -80,9 +80,9 @@ class PdfViewer {
     if (e.ctrlKey) {
       e.preventDefault();
       if (e.deltaY < 0) {
-        this.#pdfViewer.currentScale += 0.1;
+        this.#pdfViewer.currentScale += 0.2;
       } else {
-        this.#pdfViewer.currentScale -= 0.1;
+        this.#pdfViewer.currentScale -= 0.2;
       }
       localStorage.setItem('book-scale', this.#pdfViewer.currentScale);
     }

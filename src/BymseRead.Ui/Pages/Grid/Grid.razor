@@ -49,6 +49,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        nextState = BookState.Active;
         await LoadBooks();
     }
 
