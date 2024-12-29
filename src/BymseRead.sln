@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BymseRead.Infrastructure", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BymseRead.DbMigrator", "BymseRead.DbMigrator\BymseRead.DbMigrator.csproj", "{9975B443-42C2-4DD8-935E-00DDEE50A3EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BymseRead.Web", "BymseRead.Web\BymseRead.Web.csproj", "{9093BB11-7537-4F64-B039-EA0A31810EF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{9975B443-42C2-4DD8-935E-00DDEE50A3EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9975B443-42C2-4DD8-935E-00DDEE50A3EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9975B443-42C2-4DD8-935E-00DDEE50A3EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9093BB11-7537-4F64-B039-EA0A31810EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9093BB11-7537-4F64-B039-EA0A31810EF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9093BB11-7537-4F64-B039-EA0A31810EF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9093BB11-7537-4F64-B039-EA0A31810EF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
