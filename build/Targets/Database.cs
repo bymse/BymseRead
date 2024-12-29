@@ -27,11 +27,13 @@ partial class Build
         });
 
     Target ApplyMigrations => target => target
-        .DependsOn(UpDatabase, SetupDevConfig)
+        .DependsOn(SetupDevConfig)
+        .After(UpDatabase)
         .Executes(() =>
         {
             DotNetRun(e => e
                 .SetProjectFile(Solution.BymseRead_DbMigrator.Path)
-                .SetConfiguration(Configuration));
+                .SetConfiguration(Configuration)
+                .SetLaunchProfile("DbMigrator"));
         });
 }

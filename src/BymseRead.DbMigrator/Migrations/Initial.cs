@@ -35,10 +35,10 @@ public class Initial : Migration
             .WithColumn("id").AsGuid().PrimaryKey()
             .WithColumn("title").AsString(Book.MaxTitleLength).NotNullable()
             .WithColumn("tags").AsCustom("text[]").NotNullable()
-            .WithColumn("book_file_id").AsGuid().NotNullable()
             .WithColumn("created_at").AsDateTimeOffset().NotNullable()
             .WithColumn("pages").AsInt32().NotNullable()
             
+            .WithColumn("book_file_id").AsGuid().NotNullable()
             .ForeignKey(Files, "id")
             .Unique()
             

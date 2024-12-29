@@ -19,7 +19,7 @@ partial class Build
                 ConnectionStrings = new
                 {
                     DefaultConnection = $"Host=localhost;Port={LocalPostgresPort};" +
-                                        $"Database=BymseRead;Username={LocalPostgresUser};" +
+                                        $"Database=postgres;Username={LocalPostgresUser};" +
                                         $"Password={LocalPostgresPassword}"
                 }
             };
