@@ -7,5 +7,7 @@ namespace BymseRead.Service.WebApi;
 [Controller]
 public abstract class WebApiController : ControllerBase
 {
-    protected UserId CurrentUserId { get; } = null!;
+    public const string DocumentName = "WebApi";
+    
+    protected UserId CurrentUserId { get; } = new UserId(Guid.NewGuid());
 }

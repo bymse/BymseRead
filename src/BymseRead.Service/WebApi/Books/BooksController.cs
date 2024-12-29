@@ -5,6 +5,7 @@ namespace BymseRead.Service.WebApi.Books;
 
 public class BooksController : WebApiController
 {
+    [HttpGet]
     public Task<BooksCollectionInfo> GetBooks(
         [FromQuery] string? search,
         [FromServices] BooksCollectionProvider provider

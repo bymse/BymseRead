@@ -7,9 +7,9 @@ namespace BymseRead.Infrastructure;
 
 public static class InfrastructureConfiguration
 {
-    public static void AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
-        services
+        return services
             .AddSingleton<DataSourceProvider>()
             .AddScoped<ConnectionFactory>()
             .AddCore()
