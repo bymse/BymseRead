@@ -17,7 +17,6 @@ out
 [Rr]eleases/
 x64/
 x86/
-build/
 bld/
 bin/
 Bin/
@@ -239,3 +238,5 @@ logs/
 **/appsettings.Debug.json
 
 **/wwwroot
+
+**/appsettings.Development.json
