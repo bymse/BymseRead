@@ -1,7 +1,7 @@
 using BymseRead.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BymseRead.Web.Api;
+namespace BymseRead.Service.WebApi;
 
 [Route("web-api/[controller]")]
 [Controller]

@@ -1,7 +1,7 @@
 using BymseRead.Core.Application.BooksCollection;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BymseRead.Web.Api.Books;
+namespace BymseRead.Service.WebApi.Books;
 
 public class BooksController : WebApiController
 {
