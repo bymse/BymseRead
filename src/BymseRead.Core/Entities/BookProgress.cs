@@ -7,9 +7,9 @@ public class BookProgress(BookId book, UserId user)
     public BookId Book { get; init; } = book;
     public UserId User { get; init; } = user;
     
-    public DateTimeOffset Started { get; init; } = DateTimeOffset.UtcNow;
-    public DateTimeOffset? Finished { get; set; }
-    public DateTimeOffset LastPageChange { get; set; }
+    public DateTimeOffset StartedAt { get; init; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? FinishedAt { get; set; }
+    public DateTimeOffset? CurrentPageChangeAt { get; init; }
     
-    public int CurrentPage { get; set; }
+    public int CurrentPage { get; init; }
 }

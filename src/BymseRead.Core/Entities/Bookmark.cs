@@ -11,10 +11,10 @@ public class Bookmark(BookId book, UserId user, int page)
     
     public int Page { get; set; } = page;
     
-    public DateTimeOffset Created { get; init; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
 }
 
 public enum BookmarkType
 {
-    LastPage,
+    LastPage = 1,
 }
