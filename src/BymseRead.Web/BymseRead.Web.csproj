@@ -1,3 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
+  <ItemGroup>
+    <ProjectReference Include="..\BymseRead.Infrastructure\BymseRead.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
