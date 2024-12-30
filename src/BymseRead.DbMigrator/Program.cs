@@ -9,7 +9,7 @@ builder
     .Services.AddFluentMigratorCore()
     .ConfigureRunner(r => r
         .AddPostgres()
-        .WithGlobalConnectionString(builder.Configuration.GetConnectionString("DefaultConnection"))
+        .WithGlobalConnectionString(builder.Configuration.GetConnectionString("BymseReadPostgres"))
         .ScanIn(Assembly.GetExecutingAssembly())
         .For.Migrations())
     .AddLogging(r => r.AddFluentMigratorConsole());

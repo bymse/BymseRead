@@ -14,7 +14,7 @@ internal class DataSourceProvider(IConfiguration configuration) : IDisposable
 
     private NpgsqlDataSource Build()
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection") ??
+        var connectionString = configuration.GetConnectionString("BymseReadPostgres") ??
                                throw new InvalidOperationException("Connection string not found");
 
         return new NpgsqlDataSourceBuilder(connectionString).Build();
