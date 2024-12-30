@@ -9,5 +9,5 @@ public abstract class WebApiController : ControllerBase
 {
     public const string DocumentName = "WebApi";
     
-    protected UserId CurrentUserId { get; } = new UserId(Guid.NewGuid());
+    protected UserId CurrentUserId { get; } = new UserId(Guid.Parse("fcab0d55-8f24-48fb-add0-06c354c2a209"));
 }

@@ -40,6 +40,7 @@ public class BooksCollectionProvider(IBooksQueryRepository repository, IFilesSer
 
         return new BookShortInfo
         {
+            BookId = model.Book.Id.Value,
             Tags = model.Book.Tags,
             Title = model.Book.Title,
             CoverUrl = model.CoverFile != null ? filesService.GetUrl(model.CoverFile) : null,

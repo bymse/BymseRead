@@ -10,6 +10,7 @@ public class BooksCollectionInfo
 
 public class BookShortInfo
 {
+    public required Guid BookId { get; init; }
     public required string Title { get; init; }
     public required string[] Tags { get; init; }
     public required int PercentageFinished { get; init; }

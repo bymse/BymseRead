@@ -9,6 +9,6 @@ public class FilesService : IFilesService
 {
     public Uri GetUrl(File file)
     {
-        throw new NotImplementedException();
+        return new Uri("https://example.com");
     }
 }
