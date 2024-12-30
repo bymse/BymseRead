@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.S3" Version="3.7.410.12" />
     <PackageReference Include="Nuke.Common" Version="9.0.3" />
   </ItemGroup>
 

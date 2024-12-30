@@ -30,7 +30,9 @@
         "Restore",
         "SetupDevConfig",
         "SetupLocal",
-        "UpDatabase"
+        "SetupStorage",
+        "UpDatabase",
+        "UpStorage"
       ]
     },
     "Verbosity": {

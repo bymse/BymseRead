@@ -13,14 +13,16 @@ partial class Build
                 Solution.BymseRead_Service.Directory / "appsettings.Development.json",
                 Solution.BymseRead_DbMigrator.Directory / "appsettings.Development.json"
             };
-            
+
             var config = new
             {
                 ConnectionStrings = new
                 {
-                    DefaultConnection = $"Host=localhost;Port={LocalPostgresPort};" +
+                    BymseReadPostgres = $"Host=localhost;Port={LocalPostgresPort};" +
                                         $"Database=postgres;Username={LocalPostgresUser};" +
-                                        $"Password={LocalPostgresPassword}"
+                                        $"Password={LocalPostgresPassword}",
+                    BymseReadS3 = $"http://{StorageRootUser}:{StorageRootUserPassword}" +
+                                  $"@localhost:{StorageApiPort}/{StorageBucketName}"
                 }
             };
 
@@ -37,7 +39,7 @@ partial class Build
         });
 
     Target SetupLocal => target => target
-        .DependsOn(UpDatabase, ApplyMigrations, SetupDevConfig)
+        .DependsOn(UpStorage, UpDatabase, ApplyMigrations, SetupStorage, SetupDevConfig)
         .Executes(() =>
         {
             Serilog.Log.Information("Setup completed");
