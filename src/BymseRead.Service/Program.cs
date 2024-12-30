@@ -21,6 +21,7 @@ builder
             new OpenApiInfo { Title = WebApiController.DocumentName, Version = "1", });
     })
     .AddProblemDetails()
+    .AddExceptionHandler(e => {})
     .AddControllers()
     .AddJsonOptions(e =>
     {

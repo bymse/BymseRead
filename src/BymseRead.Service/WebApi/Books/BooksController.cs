@@ -1,4 +1,6 @@
 using BymseRead.Core.Application.BooksCollection;
+using BymseRead.Core.Application.SingleBook;
+using BymseRead.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BymseRead.Service.WebApi.Books;
@@ -12,5 +14,11 @@ public class BooksController : WebApiController
     )
     {
         return provider.GetBooks(CurrentUserId, search);
+    }
+
+    [HttpGet("{bookId:guid}")]
+    public Task<BookInfo?> GetBook([FromRoute] Guid bookId, [FromServices] BookProvider provider)
+    {
+        return provider.FindBook(CurrentUserId, new BookId(bookId));
     }
 }

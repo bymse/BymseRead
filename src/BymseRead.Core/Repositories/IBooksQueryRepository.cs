@@ -5,6 +5,7 @@ namespace BymseRead.Core.Repositories;
 public interface IBooksQueryRepository
 {
     Task<IEnumerable<UserBookModel>> GetUserBooks(UserId userId, string? search);
+    Task<UserBookModel?> FindUserBook(UserId userId, BookId bookId);
 }
 
 public class UserBookModel
@@ -13,4 +14,5 @@ public class UserBookModel
     public required BookProgress? Progress { get; init; }
     public required Bookmark? LastBookmark { get; init; }
     public required File? CoverFile { get; init; }
+    public required File BookFile { get; init; }
 }
