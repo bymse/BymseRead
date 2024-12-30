@@ -1,17 +1,31 @@
 namespace BymseRead.Core.Entities;
 
-public class Bookmark(BookId book, UserId user, int page)
+public class Bookmark
 {
-    public Guid BookmarkId { get; init; } = Guid.NewGuid();
-    
-    public BookId Book { get; init; } = book;
-    public UserId User { get; init; } = user;
-    
-    public BookmarkType Type { get; } = BookmarkType.LastPage;
-    
-    public int Page { get; set; } = page;
-    
+    public Guid Id { get; init; } = Guid.NewGuid();
+
+    public BookId BookId { get; init; }
+    public UserId UserId { get; init; }
+
+    public BookmarkType Type { get; init; } = BookmarkType.LastPage;
+
+    public int Page { get; set; }
+
     public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
+
+    private Bookmark()
+    {
+        BookId = null!;
+        UserId = null!;
+    }
+
+    public static Bookmark Create(BookId bookId, UserId userId, int page)
+    {
+        return new Bookmark
+        {
+            BookId = bookId, UserId = userId, Page = page,
+        };
+    }
 }
 
 public enum BookmarkType

@@ -44,5 +44,5 @@ public enum BookStatus
     Active,
     New,
     TlDr,
-    Archived
+    Archived,
 }

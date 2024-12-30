@@ -1,15 +1,30 @@
 namespace BymseRead.Core.Entities;
 
-public class BookProgress(BookId book, UserId user)
+public class BookProgress
 {
-    public Guid BookProgressId { get; init; } = Guid.NewGuid();
+    public Guid Id { get; init; } = Guid.NewGuid();
     
-    public BookId Book { get; init; } = book;
-    public UserId User { get; init; } = user;
+    public BookId BookId { get; init; }
+    public UserId UserId { get; init; }
     
     public DateTimeOffset StartedAt { get; init; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? FinishedAt { get; set; }
     public DateTimeOffset? CurrentPageChangeAt { get; init; }
     
     public int CurrentPage { get; init; }
+
+    private BookProgress()
+    {
+        BookId = null!;
+        UserId = null!;
+    }
+    
+    public static BookProgress Create(BookId book, UserId user)
+    {
+        return new BookProgress
+        {
+            BookId = book,
+            UserId = user,
+        };
+    }
 }
