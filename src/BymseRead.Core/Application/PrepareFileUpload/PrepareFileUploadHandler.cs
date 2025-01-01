@@ -1,13 +1,26 @@
 ﻿using BymseRead.Core.Common;
-using BymseRead.Core.Services;
+using BymseRead.Core.Entities;
+using BymseRead.Core.Services.Files;
 
 namespace BymseRead.Core.Application.PrepareFileUpload;
 
 [AutoRegistration]
-public class PrepareFileUploadHandler(FilesService filesService)
+public class PrepareFileUploadHandler(IFilesStorageService filesStorage, FilesValidator filesValidator)
 {
-    public async Task<PreparedFileUploadResult> Handle(PrepareFileUploadRequest request)
+    public async Task<PreparedFileUploadResult> Handle(UserId userId, PrepareFileUploadRequest request)
     {
-        return new PreparedFileUploadResult { FileUploadKey = "", UploadUrl = "", };
+        filesValidator.Validate(request.FileName, request.FileSize);
+
+        var uploadKey = Guid
+            .NewGuid()
+            .ToString();
+        
+        var uploadUrl = await filesStorage.PrepareUpload(userId, uploadKey);
+        
+        return new PreparedFileUploadResult
+        {
+            FileUploadKey = uploadKey,
+            UploadUrl = uploadUrl,
+        };
     }
 }

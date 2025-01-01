@@ -2,11 +2,12 @@ using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
 using BymseRead.Core.Services;
+using BymseRead.Core.Services.Files;
 
 namespace BymseRead.Core.Application.BooksCollection;
 
 [AutoRegistration]
-public class BooksCollectionProvider(IBooksQueryRepository repository, IFilesService filesService)
+public class BooksCollectionProvider(IBooksQueryRepository repository, IFilesStorageService filesStorageService)
 {
     public async Task<BooksCollectionInfo> GetBooks(UserId userId, string? search)
     {
@@ -43,7 +44,7 @@ public class BooksCollectionProvider(IBooksQueryRepository repository, IFilesSer
             BookId = model.Book.Id.Value,
             Tags = model.Book.Tags,
             Title = model.Book.Title,
-            CoverUrl = model.CoverFile != null ? filesService.GetUrl(model.CoverFile) : null,
+            CoverUrl = model.CoverFile != null ? filesStorageService.GetUrl(model.CoverFile) : null,
             PercentageFinished = (int) Math.Round((double) lastPage / model.Book.Pages * 100),
         };
     }

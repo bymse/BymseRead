@@ -2,11 +2,12 @@
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
 using BymseRead.Core.Services;
+using BymseRead.Core.Services.Files;
 
 namespace BymseRead.Core.Application.SingleBook;
 
 [AutoRegistration]
-public class BookProvider(IBooksQueryRepository repository, IFilesService filesService)
+public class BookProvider(IBooksQueryRepository repository, IFilesStorageService filesStorageService)
 {
     public async Task<BookInfo?> FindBook(UserId userId, BookId bookId)
     {
@@ -24,7 +25,7 @@ public class BookProvider(IBooksQueryRepository repository, IFilesService filesS
             Tags = model.Book.Tags,
             Title = model.Book.Title,
             BookFile = MapFile(model.BookFile),
-            CoverUrl = model.CoverFile != null ? filesService.GetUrl(model.CoverFile) : null,
+            CoverUrl = model.CoverFile != null ? filesStorageService.GetUrl(model.CoverFile) : null,
             CurrentPage = model.Progress?.CurrentPage,
         };
     }
@@ -43,7 +44,7 @@ public class BookProvider(IBooksQueryRepository repository, IFilesService filesS
     {
         return new FileInfo
         {
-            FileUrl = filesService.GetUrl(file), 
+            FileUrl = filesStorageService.GetUrl(file), 
             Name = file.Name,
         };
     }

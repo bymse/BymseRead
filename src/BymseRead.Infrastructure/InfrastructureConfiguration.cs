@@ -1,3 +1,4 @@
+using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
 using BymseRead.Core;
@@ -36,6 +37,8 @@ public static class InfrastructureConfiguration
     
     private static IServiceCollection AddS3(this IServiceCollection services)
     {
+        AWSConfigsS3.UseSignatureVersion4 = true;
+        
         return services.AddSingleton<IAmazonS3>(sp =>
         {
             var configuration = sp.GetRequiredService<IConfiguration>();

@@ -11,6 +11,6 @@ public class FilesController : WebApiController
         [FromServices] PrepareFileUploadHandler handler
     )
     {
-        return handler.Handle(request);
+        return handler.Handle(CurrentUserId, request);
     }
 }
