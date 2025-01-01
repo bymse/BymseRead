@@ -28,6 +28,7 @@ internal class BooksQueryRepository(ConnectionFactory connectionFactory) : IBook
         }
 
         var sql = """
+                  with numbered_bookmarks as (
                   select b.*, ROW_NUMBER() over (partition by b.book_id order by b.created_at desc) as row_number
                       from bookmarks as b
                       where b.user_id = @userId
@@ -48,7 +49,7 @@ internal class BooksQueryRepository(ConnectionFactory connectionFactory) : IBook
 
         if (bookId != null)
         {
-            sql = string.Format(sql, " and b.book_id = @bookId");
+            sql = string.Format(sql, " and b.id = @bookId");
         }
         else if (search != null)
         {

@@ -13,6 +13,7 @@ partial class Build
     private const string StorageRootUserPassword = "minioadmin";
     private const string StorageRootUser = "minioadmin";
     private const string StorageBucketName = "bymse-read";
+    private static readonly string StorageUrl = "http://localhost" + StorageApiPort;
 
     Target UpStorage => target => target
         .Executes(() =>
@@ -20,6 +21,7 @@ partial class Build
             DockerRun(s => s
                 .AddEnv($"MINIO_ROOT_USER={StorageRootUser}")
                 .AddEnv($"MINIO_ROOT_PASSWORD={StorageRootUserPassword}")
+                .AddEnv($"MINIO_SERVER_URL={StorageUrl}")
                 .AddVolume($"{StorageContainerName}_data:/data")
                 .EnableDetach()
                 .AddPublish($"{StorageApiPort}:9000")
@@ -38,7 +40,7 @@ partial class Build
             var client = new AmazonS3Client(new BasicAWSCredentials(StorageRootUser, StorageRootUserPassword),
                 new AmazonS3Config
                 {
-                    ServiceURL = $"http://localhost:{StorageApiPort}",
+                    ServiceURL = StorageUrl,
                     ForcePathStyle = true,
                 });
 
@@ -46,7 +48,7 @@ partial class Build
             {
                 BucketName = StorageBucketName
             });
-            
+
             Serilog.Log.Information("Bucket creation response: {0}", response.HttpStatusCode);
         });
 }

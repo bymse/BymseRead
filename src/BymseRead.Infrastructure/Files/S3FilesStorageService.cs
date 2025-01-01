@@ -13,7 +13,7 @@ namespace BymseRead.Infrastructure.Files;
 [AutoRegistration]
 public class S3FilesStorageService(IAmazonS3 amazonS3, IOptions<S3FilesStorageSettings> settings) : IFilesStorageService
 {
-    private const string OriginalFileNameMetadataKey = "originalFileName";
+    private const string OriginalFileNameMetadataKey = "x-amz-meta-originalFileName";
 
     public Uri GetUrl(File file)
     {
@@ -27,6 +27,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, IOptions<S3FilesStorageSe
             Key = GetTempObjectKey(userId, fileUploadKey),
             Verb = HttpVerb.PUT,
             Expires = DateTime.UtcNow.AddMinutes(60),
+            ContentType = "application/octet-stream",
         };
 
         request.Metadata.Add(OriginalFileNameMetadataKey, fileName);

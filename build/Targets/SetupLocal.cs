@@ -29,7 +29,7 @@ partial class Build
                 },
                 S3FilesStorage = new
                 {
-                    PublicUrl = $"http://localhost:{StorageApiPort}"
+                    PublicUrlBase = StorageUrl,
                 }
             };
 

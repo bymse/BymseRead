@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "..\build\_build.c
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BymseRead.Service.Client", "BymseRead.Service.Client\BymseRead.Service.Client.csproj", "{2CC944C8-8441-4635-9C0D-2778C2749A9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BymseRead.Tests", "BymseRead.Tests\BymseRead.Tests.csproj", "{2A214203-BA8D-4095-A999-C63E1B5C59E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{2CC944C8-8441-4635-9C0D-2778C2749A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CC944C8-8441-4635-9C0D-2778C2749A9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CC944C8-8441-4635-9C0D-2778C2749A9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A214203-BA8D-4095-A999-C63E1B5C59E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A214203-BA8D-4095-A999-C63E1B5C59E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A214203-BA8D-4095-A999-C63E1B5C59E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A214203-BA8D-4095-A999-C63E1B5C59E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

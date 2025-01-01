@@ -8,6 +8,17 @@ namespace BymseRead.Service.WebApi;
 public abstract class WebApiController : ControllerBase
 {
     public const string DocumentName = "WebApi";
-    
-    protected UserId CurrentUserId { get; } = new UserId(Guid.Parse("fcab0d55-8f24-48fb-add0-06c354c2a209"));
+
+    protected UserId CurrentUserId
+    {
+        get
+        {
+            if (Request.Headers.TryGetValue("X-User-Id", out var userId))
+            {
+                return new UserId(Guid.Parse(userId!));
+            }
+
+            return new UserId(Guid.Parse("fcab0d55-8f24-48fb-add0-06c354c2a209"));
+        }
+    }
 }

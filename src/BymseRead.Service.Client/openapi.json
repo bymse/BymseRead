@@ -96,7 +96,7 @@
         "tags": [
           "Books"
         ],
-        "operationId": "GetBook",
+        "operationId": "FindBook",
         "parameters": [
           {
             "name": "bookId",
@@ -202,15 +202,13 @@
             "format": "uuid"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "tags": {
             "type": "array",
             "items": {
               "type": "string"
-            },
-            "nullable": true
+            }
           },
           "pages": {
             "type": "integer",
@@ -250,15 +248,13 @@
             "format": "uuid"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "tags": {
             "type": "array",
             "items": {
               "type": "string"
-            },
-            "nullable": true
+            }
           },
           "percentageFinished": {
             "type": "integer",
@@ -303,29 +299,25 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BookShortInfo"
-            },
-            "nullable": true
+            }
           },
           "newBooks": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BookShortInfo"
-            },
-            "nullable": true
+            }
           },
           "tlDrBooks": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BookShortInfo"
-            },
-            "nullable": true
+            }
           },
           "archivedBooks": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BookShortInfo"
-            },
-            "nullable": true
+            }
           }
         },
         "additionalProperties": false
@@ -338,12 +330,10 @@
         "type": "object",
         "properties": {
           "fileUploadKey": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -370,12 +360,10 @@
         "properties": {
           "fileUrl": {
             "type": "string",
-            "format": "uri",
-            "nullable": true
+            "format": "uri"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -392,8 +380,7 @@
             "format": "int64"
           },
           "fileName": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -406,13 +393,11 @@
         "type": "object",
         "properties": {
           "fileUploadKey": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "uploadUrl": {
             "type": "string",
-            "format": "uri",
-            "nullable": true
+            "format": "uri"
           }
         },
         "additionalProperties": false

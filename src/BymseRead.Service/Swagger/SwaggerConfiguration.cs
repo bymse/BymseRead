@@ -11,6 +11,8 @@ public static class SwaggerConfiguration
             .AddEndpointsApiExplorer()
             .AddSwaggerGen(e =>
             {
+                e.SupportNonNullableReferenceTypes();
+                e.NonNullableReferenceTypesAsRequired();
                 e.CustomOperationIds(r => r.ActionDescriptor.RouteValues["action"]);
                 e.SwaggerDoc(WebApiController.DocumentName,
                     new OpenApiInfo { Title = WebApiController.DocumentName, Version = "1", });

@@ -18,7 +18,7 @@ public class BooksController : WebApiController
     }
 
     [HttpGet("{bookId:guid}")]
-    public Task<BookInfo?> GetBook([FromRoute] Guid bookId, [FromServices] BookProvider provider)
+    public Task<BookInfo?> FindBook([FromRoute] Guid bookId, [FromServices] BookProvider provider)
     {
         return provider.FindBook(CurrentUserId, new BookId(bookId));
     }
