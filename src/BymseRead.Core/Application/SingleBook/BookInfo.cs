@@ -4,7 +4,7 @@ public class BookInfo
 {
     public required Guid BookId { get; init; }
     public required string Title { get; init; }
-    public required int Pages { get; init; }
+    public required int? Pages { get; init; }
     public required FileInfo BookFile { get; init; }
     public required Uri? CoverUrl { get; init; }
     

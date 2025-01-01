@@ -1,6 +1,7 @@
 using BymseRead.Service.Client.Models;
 using BymseRead.Tests.Infrastructure;
 using FluentAssertions;
+using FileInfo = BymseRead.Service.Client.Models.FileInfo;
 
 namespace BymseRead.Tests;
 
@@ -44,27 +45,32 @@ public class BooksTests : ServiceTestBase
         var user = Actions.Users.CreateUser();
         var client = GetServiceClient(user);
 
-        var result = await Actions.Books.CreateBook(user, "my book");
+        const string fileName = "cool-book.pdf";
+        const string title = "my cool book";
+
+        var result = await Actions.Books.CreateBook(user, title, fileName: fileName);
 
         var book = await client
             .WebApi.Books[result.BookId!.Value]
             .GetAsync();
 
-        book
+        book!
             .Should()
-            .NotBeNull();
+            .BeEquivalentTo(new BookInfo
+                {
+                    BookId = result.BookId, Title = title, BookFile = new FileInfo { Name = fileName, },
+                },
+                e => e.Excluding(r => r.BookFile!.FileUrl));
     }
 
     [Test]
     public async Task Should_ReturnValidBookUrl_OnCreatedBook()
     {
-        const string title = "cool book";
         const string content = "my cool content";
-        const string fileName = "cool-book.pdf";
 
         var user = Actions.Users.CreateUser();
 
-        var result = await Actions.Books.CreateBook(user, title, fileName, content);
+        var result = await Actions.Books.CreateBook(user, fileContent: content);
 
         var client = GetServiceClient(user);
         var book = await client

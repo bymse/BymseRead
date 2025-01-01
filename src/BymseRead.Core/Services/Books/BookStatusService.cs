@@ -15,7 +15,7 @@ public static class BookStatusService
         var bookProgressPage = bookProgress?.CurrentPage ?? 0;
         var lastPage = bookmarkPage > bookProgressPage ? bookmarkPage : bookProgressPage;
 
-        if (IsLessThen3PagesToEnd(lastPage, book.Pages))
+        if (book.Pages.HasValue && IsLessThen3PagesToEnd(lastPage, book.Pages.Value))
         {
             return BookStatus.Archived;
         }

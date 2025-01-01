@@ -10,7 +10,7 @@ public class BooksActions(ServiceClientProvider provider, FilesActions filesActi
 {
     public async Task<CreatedBookResult> CreateBook(
         Guid userId,
-        string title,
+        string title = "my book",
         string fileName = "book.pdf",
         string fileContent = "hello world"
     )
