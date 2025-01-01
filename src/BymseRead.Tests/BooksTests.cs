@@ -79,4 +79,23 @@ public class BooksTests : ServiceTestBase
             .Should()
             .Be(content);
     }
+
+    [Test]
+    public async Task Should_ReturnMultipleBooks_OnMultipleCreatedBooks()
+    {
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+
+        var result1 = await Actions.Books.CreateBook(user, "book1");
+        var result2 = await Actions.Books.CreateBook(user, "book2");
+
+        var collection = await client.WebApi.Books.GetAsync();
+
+        collection!
+            .NewBooks.Should()
+            .BeEquivalentTo([
+                new BookShortInfo { BookId = result1.BookId, Title = "book1", PercentageFinished = 0 },
+                new BookShortInfo { BookId = result2.BookId, Title = "book2", PercentageFinished = 0 },
+            ]);
+    }
 }
