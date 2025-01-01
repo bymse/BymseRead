@@ -42,14 +42,6 @@ namespace BymseRead.Service.Client.Models
 #endif
         /// <summary>The pages property</summary>
         public int? Pages { get; set; }
-        /// <summary>The tags property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public List<string>? Tags { get; set; }
-#nullable restore
-#else
-        public List<string> Tags { get; set; }
-#endif
         /// <summary>The title property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -82,7 +74,6 @@ namespace BymseRead.Service.Client.Models
                 { "currentPage", n => { CurrentPage = n.GetIntValue(); } },
                 { "lastBookmark", n => { LastBookmark = n.GetObjectValue<global::BymseRead.Service.Client.Models.BookmarkInfo>(global::BymseRead.Service.Client.Models.BookmarkInfo.CreateFromDiscriminatorValue); } },
                 { "pages", n => { Pages = n.GetIntValue(); } },
-                { "tags", n => { Tags = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
                 { "title", n => { Title = n.GetStringValue(); } },
             };
         }
@@ -99,7 +90,6 @@ namespace BymseRead.Service.Client.Models
             writer.WriteIntValue("currentPage", CurrentPage);
             writer.WriteObjectValue<global::BymseRead.Service.Client.Models.BookmarkInfo>("lastBookmark", LastBookmark);
             writer.WriteIntValue("pages", Pages);
-            writer.WriteCollectionOfPrimitiveValues<string>("tags", Tags);
             writer.WriteStringValue("title", Title);
         }
     }

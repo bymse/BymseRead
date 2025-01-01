@@ -22,7 +22,6 @@ public class BookProvider(IBooksQueryRepository repository, IFilesStorageService
             BookId = model.Book.Id.Value,
             LastBookmark = MapBookmark(model.LastBookmark),
             Pages = model.Book.Pages,
-            Tags = model.Book.Tags,
             Title = model.Book.Title,
             BookFile = MapFile(model.BookFile),
             CoverUrl = model.CoverFile != null ? filesStorageService.GetUrl(model.CoverFile) : null,

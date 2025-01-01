@@ -15,14 +15,13 @@ internal class BooksRepository(ConnectionFactory connectionFactory) : IBooksRepo
                             insert into books (
                                                id,
                                                title,
-                                               tags,
                                                created_at,
                                                pages,
                                                book_file_id,
                                                book_cover_file_id,
                                                owner_user_id
                                                )
-                           values (@Id, @Title, @Tags, @CreatedAt, @Pages, @BookFileId, @BookCoverFileId, @OwnerUserId);
+                           values (@Id, @Title, @CreatedAt, @Pages, @BookFileId, @BookCoverFileId, @OwnerUserId);
                            """;
 
         var insertedRows = await connection.ExecuteAsync(sql, book);

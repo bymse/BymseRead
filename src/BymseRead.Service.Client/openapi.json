@@ -192,7 +192,6 @@
           "currentPage",
           "lastBookmark",
           "pages",
-          "tags",
           "title"
         ],
         "type": "object",
@@ -203,12 +202,6 @@
           },
           "title": {
             "type": "string"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           },
           "pages": {
             "type": "integer",
@@ -238,7 +231,6 @@
           "bookId",
           "coverUrl",
           "percentageFinished",
-          "tags",
           "title"
         ],
         "type": "object",
@@ -249,12 +241,6 @@
           },
           "title": {
             "type": "string"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           },
           "percentageFinished": {
             "type": "integer",

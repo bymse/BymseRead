@@ -43,7 +43,6 @@ public class BooksCollectionProvider(IBooksQueryRepository repository, IFilesSto
         return new BookShortInfo
         {
             BookId = model.Book.Id.Value,
-            Tags = model.Book.Tags,
             Title = model.Book.Title,
             CoverUrl = model.CoverFile != null ? filesStorageService.GetUrl(model.CoverFile) : null,
             PercentageFinished = lastPage > 0 ? (int) Math.Round((double) lastPage / model.Book.Pages * 100) : 0,

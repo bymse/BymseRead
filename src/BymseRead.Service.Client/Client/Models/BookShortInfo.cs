@@ -24,14 +24,6 @@ namespace BymseRead.Service.Client.Models
 #endif
         /// <summary>The percentageFinished property</summary>
         public int? PercentageFinished { get; set; }
-        /// <summary>The tags property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public List<string>? Tags { get; set; }
-#nullable restore
-#else
-        public List<string> Tags { get; set; }
-#endif
         /// <summary>The title property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -61,7 +53,6 @@ namespace BymseRead.Service.Client.Models
                 { "bookId", n => { BookId = n.GetGuidValue(); } },
                 { "coverUrl", n => { CoverUrl = n.GetStringValue(); } },
                 { "percentageFinished", n => { PercentageFinished = n.GetIntValue(); } },
-                { "tags", n => { Tags = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
                 { "title", n => { Title = n.GetStringValue(); } },
             };
         }
@@ -75,7 +66,6 @@ namespace BymseRead.Service.Client.Models
             writer.WriteGuidValue("bookId", BookId);
             writer.WriteStringValue("coverUrl", CoverUrl);
             writer.WriteIntValue("percentageFinished", PercentageFinished);
-            writer.WriteCollectionOfPrimitiveValues<string>("tags", Tags);
             writer.WriteStringValue("title", Title);
         }
     }

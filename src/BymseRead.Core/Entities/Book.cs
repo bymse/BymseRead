@@ -20,8 +20,6 @@ public class Book
 
     public string Title { get; set; }
 
-    public string[] Tags { get; set; } = [];
-
     public int Pages { get; set; }
 
     public FileId BookFileId { get; set; }
