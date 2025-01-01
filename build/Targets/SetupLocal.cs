@@ -26,10 +26,6 @@ partial class Build
                                         $"Password={LocalPostgresPassword}",
                     BymseReadS3 = $"http://{StorageRootUser}:{StorageRootUserPassword}" +
                                   $"@localhost:{StorageApiPort}/{StorageBucketName}"
-                },
-                S3FilesStorage = new
-                {
-                    PublicUrlBase = StorageUrl,
                 }
             };
 

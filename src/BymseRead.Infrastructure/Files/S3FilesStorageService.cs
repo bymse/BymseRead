@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using Amazon;
+using Amazon.Runtime.Internal.Auth;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Amazon.Util;
 using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Services.Files;
@@ -11,7 +13,7 @@ using File = BymseRead.Core.Entities.File;
 namespace BymseRead.Infrastructure.Files;
 
 [AutoRegistration]
-public class S3FilesStorageService(IAmazonS3 amazonS3, IOptions<S3FilesStorageSettings> settings) : IFilesStorageService
+public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper configuration) : IFilesStorageService
 {
     private const string OriginalFileNameMetadataKey = "x-amz-meta-originalFileName";
 
@@ -24,24 +26,30 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, IOptions<S3FilesStorageSe
     {
         var request = new GetPreSignedUrlRequest
         {
+            BucketName = configuration.GetBucketName(),
             Key = GetTempObjectKey(userId, fileUploadKey),
             Verb = HttpVerb.PUT,
             Expires = DateTime.UtcNow.AddMinutes(60),
             ContentType = "application/octet-stream",
         };
-
+        
         request.Metadata.Add(OriginalFileNameMetadataKey, fileName);
+        request.Headers[HeaderKeys.HostHeader] = configuration.GetHost();
 
         var originalRawUrl = await amazonS3.GetPreSignedURLAsync(request);
         var originalUrl = new Uri(originalRawUrl);
 
-        return new Uri(settings.Value.PublicUrlBase, originalUrl.PathAndQuery);
+        return new Uri(configuration.GetUrlBase(), originalUrl.PathAndQuery);
     }
 
     public async Task<UploadedFileModel?> FindUploadedFile(UserId userId, string fileUploadKey)
     {
         var key = GetTempObjectKey(userId, fileUploadKey);
-        var request = new GetObjectMetadataRequest { Key = key, };
+        var request = new GetObjectMetadataRequest
+        {
+            Key = key,
+            BucketName = configuration.GetBucketName(),
+        };
 
         try
         {
@@ -50,7 +58,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, IOptions<S3FilesStorageSe
             {
                 FileName = response.Metadata[OriginalFileNameMetadataKey],
                 Path = key,
-                Size = long.Parse(response.Metadata["Content-Length"]),
+                Size = response.ContentLength,
             };
         }
         catch (AmazonS3Exception e) when (e.StatusCode == HttpStatusCode.NotFound)
@@ -63,9 +71,19 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, IOptions<S3FilesStorageSe
     {
         var fileId = new FileId(Guid.NewGuid());
         var key = GetFileObjectKey(userId, fileId);
-        var copyRequest = new CopyObjectRequest { SourceKey = uploadedFile.Path, DestinationKey = key, };
+        var copyRequest = new CopyObjectRequest
+        {
+            SourceKey = uploadedFile.Path,
+            SourceBucket = configuration.GetBucketName(),
+            DestinationBucket = configuration.GetBucketName(),
+            DestinationKey = key,
+        };
         await amazonS3.CopyObjectAsync(copyRequest);
-        await amazonS3.DeleteObjectAsync(new DeleteObjectRequest { Key = uploadedFile.Path, });
+        await amazonS3.DeleteObjectAsync(new DeleteObjectRequest
+        {
+            Key = uploadedFile.Path,
+            BucketName = configuration.GetBucketName(),
+        });
 
         return File.Create(fileId, uploadedFile.FileName, key, uploadedFile.Size);
     }

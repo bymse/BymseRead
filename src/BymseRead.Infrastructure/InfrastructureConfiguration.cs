@@ -24,10 +24,10 @@ public static class InfrastructureConfiguration
                 .Contains(typeof(IEntityId)))
             .ToList()
             .ForEach(t => { SqlMapper.AddTypeHandler(t, new ValueObjectTypeHandler(t)); });
-        
+
         SqlMapper.TypeMapProvider = type => new ThrowOnMissingMap(type);
         DefaultTypeMap.MatchNamesWithUnderscores = true;
-        
+
         return services
             .AddS3()
             .AddSingleton<DataSourceProvider>()
@@ -35,30 +35,22 @@ public static class InfrastructureConfiguration
             .AddCore()
             .AddAutoRegistrations(typeof(InfrastructureConfiguration).Assembly);
     }
-    
+
     private static IServiceCollection AddS3(this IServiceCollection services)
     {
+        services.AddSingleton<S3ConfigurationHelper>();
         services
             .AddOptions<S3FilesStorageSettings>()
             .BindConfiguration(S3FilesStorageSettings.Path);
-        
+
         AWSConfigsS3.UseSignatureVersion4 = true;
-        
+
         return services.AddSingleton<IAmazonS3>(sp =>
         {
-            var configuration = sp.GetRequiredService<IConfiguration>();
-            var connectionString = new Uri(configuration.GetConnectionString("BymseReadS3") ??
-                                           throw new InvalidOperationException("Missing S3 connection string"));
+            var config = sp.GetRequiredService<S3ConfigurationHelper>().GetS3Config();
 
-            var credentials = connectionString.UserInfo.Split(':');
-
-            return new AmazonS3Client(new BasicAWSCredentials(credentials[0], credentials[1]),
-                new AmazonS3Config
-                {
-                    ServiceURL =
-                        $"{connectionString.Scheme}://{connectionString.Host}{connectionString.PathAndQuery}",
-                    ForcePathStyle = true,
-                });
+            return new AmazonS3Client(new BasicAWSCredentials(config.AccessKey, config.SecretKey),
+                new AmazonS3Config { ServiceURL = config.ServiceUrl, ForcePathStyle = true, });
         });
     }
 }
