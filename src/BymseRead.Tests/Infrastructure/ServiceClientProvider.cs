@@ -9,13 +9,13 @@ using Microsoft.Kiota.Http.HttpClientLibrary;
 namespace BymseRead.Tests.Infrastructure;
 
 [AutoRegistration(Lifetime = ServiceLifetime.Singleton)]
-public class ServiceClientBuilder(HttpClient httpClient, IConfiguration configuration)
+public class ServiceClientProvider(HttpClient httpClient, IConfiguration configuration)
 {
     private readonly AuthNSettings _authNSettings = configuration
         .GetRequiredSection(AuthNSettings.Path)
         .Get<AuthNSettings>()!;
     
-    public BymseReadClient Build(Guid userId)
+    public BymseReadClient Get(Guid userId)
     {
         var authProvider = new BaseBearerTokenAuthenticationProvider(
             new GeneratedAccessTokenProvider(userId, _authNSettings));

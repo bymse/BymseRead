@@ -10,18 +10,18 @@ public abstract class ServiceTestBase
 
     protected ServiceActions Actions { get; private set; }
 
-    private ServiceClientBuilder _serviceClientBuilder;
+    private ServiceClientProvider _serviceClientProvider;
 
     protected HttpClient HttpClient { get; private set; }
 
-    protected BymseReadClient GetServiceClient(Guid userId) => _serviceClientBuilder.Build(userId);
+    protected BymseReadClient GetServiceClient(Guid userId) => _serviceClientProvider.Get(userId);
 
     [OneTimeSetUp]
     public void SetUp()
     {
         HttpClient = new HttpClient();
 
-        _serviceClientBuilder = _factory.Services.GetRequiredService<ServiceClientBuilder>();
+        _serviceClientProvider = _factory.Services.GetRequiredService<ServiceClientProvider>();
         Actions = _factory.Services.GetRequiredService<ServiceActions>();
     }
 
