@@ -1,24 +1,16 @@
 using BymseRead.Core.Entities;
+using BymseRead.Service.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BymseRead.Service.WebApi;
 
 [Route("web-api/[controller]")]
-[Controller]
+[Authorize]
+[ApiController]
 public abstract class WebApiController : ControllerBase
 {
     public const string DocumentName = "WebApi";
 
-    protected UserId CurrentUserId
-    {
-        get
-        {
-            if (Request.Headers.TryGetValue("X-User-Id", out var userId))
-            {
-                return new UserId(Guid.Parse(userId!));
-            }
-
-            return new UserId(Guid.Parse("fcab0d55-8f24-48fb-add0-06c354c2a209"));
-        }
-    }
+    protected UserId CurrentUserId => (UserId) Request.HttpContext.Items[UserSyncMiddleware.UserIdKey]!;
 }

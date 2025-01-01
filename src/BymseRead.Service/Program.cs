@@ -1,5 +1,6 @@
 using BymseRead.Infrastructure;
 using BymseRead.Service;
+using BymseRead.Service.Auth;
 using BymseRead.Service.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder
     .Services.AddInfrastructure()
     .AddApi()
+    .AddAuthN(builder.Configuration)
     .AddWebSwagger()
     .AddProblemDetails()
     .AddExceptionHandler(e => {});
@@ -21,10 +23,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
+app.UseAuth();
 app.MapControllers();
 
 app.Run();

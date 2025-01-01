@@ -2,8 +2,8 @@
 
 public class UsersActions
 {
-    public Task<Guid> CreateUser()
+    public Guid CreateUser()
     {
-        return Task.FromResult(Guid.NewGuid());
+        return Guid.NewGuid();
     }
 }

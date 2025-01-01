@@ -8,7 +8,14 @@ public class ValueObjectTypeHandler(Type type) : SqlMapper.ITypeHandler
 {
     public void SetValue(IDbDataParameter parameter, object value)
     {
-        parameter.Value = ((IEntityId) value).Value;
+        if (value is IEntityId entityId)
+        {
+            parameter.Value = entityId.Value;
+        }
+        else
+        {
+            parameter.Value = value;
+        }
     }
 
     public object? Parse(Type destinationType, object value)

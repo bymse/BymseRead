@@ -20,4 +20,10 @@
       <ProjectReference Include="..\BymseRead.Service\BymseRead.Service.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="appsettings.Tests.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
