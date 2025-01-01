@@ -17,7 +17,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, IOptions<S3FilesStorageSe
         return new Uri("https://example.com");
     }
 
-    public async Task<Uri> PrepareUpload(UserId userId, string fileUploadKey)
+    public async Task<Uri> CreateUploadUrl(UserId userId, string fileUploadKey, string fileName)
     {
         var request = new GetPreSignedUrlRequest
         {
@@ -25,6 +25,8 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, IOptions<S3FilesStorageSe
             Verb = HttpVerb.PUT,
             Expires = DateTime.UtcNow.AddMinutes(60),
         };
+        
+        request.Metadata.Add("originalFileName", fileName);
 
         var originalRawUrl = await amazonS3.GetPreSignedURLAsync(request);
         var originalUrl = new Uri(originalRawUrl);

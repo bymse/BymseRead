@@ -5,5 +5,5 @@ namespace BymseRead.Core.Services.Files;
 public interface IFilesStorageService
 {
     Uri GetUrl(File file);
-    Task<Uri> PrepareUpload(UserId userId, string fileUploadKey);
+    Task<Uri> CreateUploadUrl(UserId userId, string fileUploadKey, string fileName);
 }
