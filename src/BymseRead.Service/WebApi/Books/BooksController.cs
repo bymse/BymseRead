@@ -1,4 +1,5 @@
 using BymseRead.Core.Application.BooksCollection;
+using BymseRead.Core.Application.CreateBook;
 using BymseRead.Core.Application.SingleBook;
 using BymseRead.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -20,5 +21,14 @@ public class BooksController : WebApiController
     public Task<BookInfo?> GetBook([FromRoute] Guid bookId, [FromServices] BookProvider provider)
     {
         return provider.FindBook(CurrentUserId, new BookId(bookId));
+    }
+
+    [HttpPost]
+    public Task<CreatedBookResult> CreateBook(
+        [FromBody] CreateBookRequest request,
+        [FromServices] CreateBookHandler handler
+    )
+    {
+        return handler.Handle(CurrentUserId, request);
     }
 }

@@ -25,8 +25,6 @@ public static class InfrastructureConfiguration
             .ToList()
             .ForEach(t => { SqlMapper.AddTypeHandler(t, new ValueObjectTypeHandler(t)); });
         
-        SqlMapper.AddTypeHandler(typeof(FilePath), new ValueObjectTypeHandler(typeof(FilePath)));
-
         SqlMapper.TypeMapProvider = type => new ThrowOnMissingMap(type);
         DefaultTypeMap.MatchNamesWithUnderscores = true;
         
