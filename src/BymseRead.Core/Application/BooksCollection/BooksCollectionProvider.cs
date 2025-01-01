@@ -2,6 +2,7 @@ using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
 using BymseRead.Core.Services;
+using BymseRead.Core.Services.Books;
 using BymseRead.Core.Services.Files;
 
 namespace BymseRead.Core.Application.BooksCollection;

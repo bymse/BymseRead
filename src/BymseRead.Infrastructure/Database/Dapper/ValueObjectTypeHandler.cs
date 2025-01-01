@@ -4,7 +4,7 @@ using Dapper;
 
 namespace BymseRead.Infrastructure.Database.Dapper;
 
-public class EntityIdTypeHandler(Type type) : SqlMapper.ITypeHandler
+public class ValueObjectTypeHandler(Type type) : SqlMapper.ITypeHandler
 {
     public void SetValue(IDbDataParameter parameter, object value)
     {
@@ -16,6 +16,7 @@ public class EntityIdTypeHandler(Type type) : SqlMapper.ITypeHandler
         return value switch
         {
             Guid guid => Activator.CreateInstance(type, guid)!,
+            string str => Activator.CreateInstance(type, Guid.Parse(str))!,
             _ => throw new NotSupportedException(),
         };
     }

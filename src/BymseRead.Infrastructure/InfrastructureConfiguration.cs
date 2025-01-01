@@ -23,7 +23,9 @@ public static class InfrastructureConfiguration
                 .GetInterfaces()
                 .Contains(typeof(IEntityId)))
             .ToList()
-            .ForEach(t => { SqlMapper.AddTypeHandler(t, new EntityIdTypeHandler(t)); });
+            .ForEach(t => { SqlMapper.AddTypeHandler(t, new ValueObjectTypeHandler(t)); });
+        
+        SqlMapper.AddTypeHandler(typeof(FilePath), new ValueObjectTypeHandler(typeof(FilePath)));
 
         SqlMapper.TypeMapProvider = type => new ThrowOnMissingMap(type);
         DefaultTypeMap.MatchNamesWithUnderscores = true;

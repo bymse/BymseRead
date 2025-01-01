@@ -2,6 +2,8 @@ namespace BymseRead.Core.Entities;
 
 public record FileId(Guid Value) : IEntityId;
 
+public record FilePath(string Value);
+
 public class File
 {
     public const int NameMaxLength = 200;
@@ -11,7 +13,7 @@ public class File
 
     public string Name { get; private init; }
 
-    public string Path { get; private init; }
+    public FilePath Path { get; private init; }
 
     public long Size { get; private init; }
 
@@ -23,7 +25,7 @@ public class File
         Path = null!;
     }
 
-    public static File Create(string name, string path, long size)
+    public static File Create(string name, FilePath path, long size)
     {
         return new File
         {
