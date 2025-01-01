@@ -6,7 +6,7 @@ namespace BymseRead.Service.WebApi.Files;
 public class FilesController : WebApiController
 {
     [HttpPut("prepare-upload")]
-    public Task<PreparedFileUploadResult> PrepareUpload(
+    public PreparedFileUploadResult PrepareUpload(
         [FromBody] PrepareFileUploadRequest request,
         [FromServices] PrepareFileUploadHandler handler
     )

@@ -19,10 +19,19 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
 
     public Uri GetUrl(File file)
     {
-        return new Uri("https://example.com");
+        var request = new GetPreSignedUrlRequest
+        {
+            BucketName = configuration.GetBucketName(),
+            Key = file.Path,
+            Expires = DateTime.UtcNow.AddDays(1),
+            Verb = HttpVerb.GET,
+        };
+
+        var rawUrl = amazonS3.GetPreSignedURL(request);
+        return new Uri(configuration.GetUrlBase(), rawUrl);
     }
 
-    public async Task<Uri> CreateUploadUrl(UserId userId, string fileUploadKey, string fileName)
+    public Uri CreateUploadUrl(UserId userId, string fileUploadKey, string fileName)
     {
         var request = new GetPreSignedUrlRequest
         {
@@ -36,7 +45,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
         request.Metadata.Add(OriginalFileNameMetadataKey, fileName);
         request.Headers[HeaderKeys.HostHeader] = configuration.GetHost();
 
-        var originalRawUrl = await amazonS3.GetPreSignedURLAsync(request);
+        var originalRawUrl = amazonS3.GetPreSignedURL(request);
         var originalUrl = new Uri(originalRawUrl);
 
         return new Uri(configuration.GetUrlBase(), originalUrl.PathAndQuery);
