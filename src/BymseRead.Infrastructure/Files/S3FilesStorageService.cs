@@ -4,12 +4,13 @@ using Amazon.S3.Model;
 using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Services.Files;
+using Microsoft.Extensions.Options;
 using File = BymseRead.Core.Entities.File;
 
 namespace BymseRead.Infrastructure.Files;
 
 [AutoRegistration]
-public class S3FilesStorageService(IAmazonS3 amazonS3) : IFilesStorageService
+public class S3FilesStorageService(IAmazonS3 amazonS3, IOptions<S3FilesStorageSettings> settings) : IFilesStorageService
 {
     public Uri GetUrl(File file)
     {
@@ -25,8 +26,10 @@ public class S3FilesStorageService(IAmazonS3 amazonS3) : IFilesStorageService
             Expires = DateTime.UtcNow.AddMinutes(60),
         };
 
-        var url = await amazonS3.GetPreSignedURLAsync(request);
-        return new Uri(url);
+        var originalRawUrl = await amazonS3.GetPreSignedURLAsync(request);
+        var originalUrl = new Uri(originalRawUrl);
+        
+        return new Uri(settings.Value.PublicUrlBase, originalUrl.PathAndQuery);
     }
     
     private static string GetUploadObjectKey(UserId userId, string fileUploadKey)

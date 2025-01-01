@@ -5,6 +5,9 @@ using Nuke.Common.IO;
 
 partial class Build
 {
+    [Parameter]
+    public bool RecreateConfig { get; set; } = false;
+    
     Target SetupDevConfig => target => target
         .Executes(() =>
         {
@@ -23,6 +26,10 @@ partial class Build
                                         $"Password={LocalPostgresPassword}",
                     BymseReadS3 = $"http://{StorageRootUser}:{StorageRootUserPassword}" +
                                   $"@localhost:{StorageApiPort}/{StorageBucketName}"
+                },
+                S3FilesStorage = new
+                {
+                    PublicUrl = $"http://localhost:{StorageApiPort}"
                 }
             };
 
@@ -32,7 +39,7 @@ partial class Build
                 IndentSize = 2,
             });
 
-            foreach (var path in paths.Where(e => !e.FileExists()))
+            foreach (var path in paths.Where(e => RecreateConfig || !e.FileExists()))
             {
                 path.WriteAllText(json);
             }

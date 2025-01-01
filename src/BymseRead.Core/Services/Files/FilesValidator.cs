@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BymseRead.Core.Common;
 using Microsoft.Extensions.Options;
 
 namespace BymseRead.Core.Services.Files;
 
+[AutoRegistration]
 public class FilesValidator(IOptions<FilesSettings> settings)
 {
     public void Validate(string fileName, long fileSize)
