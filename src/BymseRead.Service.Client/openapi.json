@@ -1,0 +1,422 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "WebApi",
+    "version": "1"
+  },
+  "paths": {
+    "/web-api/books": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "operationId": "GetBooks",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooksCollectionInfo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooksCollectionInfo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooksCollectionInfo"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Books"
+        ],
+        "operationId": "CreateBook",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatedBookResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatedBookResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatedBookResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web-api/books/{bookId}": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "operationId": "GetBook",
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookInfo"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookInfo"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web-api/files/prepare-upload": {
+      "put": {
+        "tags": [
+          "Files"
+        ],
+        "operationId": "PrepareUpload",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrepareFileUploadRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrepareFileUploadRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrepareFileUploadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreparedFileUploadResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreparedFileUploadResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreparedFileUploadResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BookInfo": {
+        "required": [
+          "bookFile",
+          "bookId",
+          "coverUrl",
+          "currentPage",
+          "lastBookmark",
+          "pages",
+          "tags",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "bookId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookFile": {
+            "$ref": "#/components/schemas/FileInfo"
+          },
+          "coverUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "lastBookmark": {
+            "$ref": "#/components/schemas/BookmarkInfo"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BookShortInfo": {
+        "required": [
+          "bookId",
+          "coverUrl",
+          "percentageFinished",
+          "tags",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "bookId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "percentageFinished": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "coverUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BookmarkInfo": {
+        "required": [
+          "createdAt",
+          "page"
+        ],
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BooksCollectionInfo": {
+        "required": [
+          "activeBooks",
+          "archivedBooks",
+          "newBooks",
+          "tlDrBooks"
+        ],
+        "type": "object",
+        "properties": {
+          "activeBooks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookShortInfo"
+            },
+            "nullable": true
+          },
+          "newBooks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookShortInfo"
+            },
+            "nullable": true
+          },
+          "tlDrBooks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookShortInfo"
+            },
+            "nullable": true
+          },
+          "archivedBooks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookShortInfo"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateBookRequest": {
+        "required": [
+          "fileUploadKey",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "fileUploadKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreatedBookResult": {
+        "required": [
+          "bookId"
+        ],
+        "type": "object",
+        "properties": {
+          "bookId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FileInfo": {
+        "required": [
+          "fileUrl",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "fileUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PrepareFileUploadRequest": {
+        "required": [
+          "fileName",
+          "fileSize"
+        ],
+        "type": "object",
+        "properties": {
+          "fileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "fileName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PreparedFileUploadResult": {
+        "required": [
+          "fileUploadKey",
+          "uploadUrl"
+        ],
+        "type": "object",
+        "properties": {
+          "fileUploadKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "uploadUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

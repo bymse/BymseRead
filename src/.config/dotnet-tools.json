@@ -8,6 +8,13 @@
         "nuke"
       ],
       "rollForward": false
+    },
+    "microsoft.openapi.kiota": {
+      "version": "1.21.0",
+      "commands": [
+        "kiota"
+      ],
+      "rollForward": false
     }
   }
 }
