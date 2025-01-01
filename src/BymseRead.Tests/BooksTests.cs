@@ -13,7 +13,8 @@ public class BooksTests : ServiceTestBase
     [Test]
     public async Task Should_ReturnEmptyList_OnNewUser()
     {
-        var client = GetServiceClient();
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
         var collection = await client.WebApi.Books.GetAsync();
 
         collection
@@ -40,7 +41,8 @@ public class BooksTests : ServiceTestBase
     [Test]
     public async Task Should_ReturnEmptyResponse_OnNotExistingBook()
     {
-        var client = GetServiceClient();
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
         var book = await client
             .WebApi.Books[Guid.NewGuid()]
             .GetAsync();
@@ -55,8 +57,12 @@ public class BooksTests : ServiceTestBase
     {
         const string fileName = "book.pdf";
         const string bookTitle = "my book";
-        var client = GetServiceClient();
-        using var content = new StringContent(new string('x', 10));
+        const string fileContent = "hello world";
+        
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+        
+        using var content = new StringContent(fileContent);
         content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
         content.Headers.Add("x-amz-meta-originalFileName", fileName);
 
@@ -84,15 +90,24 @@ public class BooksTests : ServiceTestBase
         book
             .Should()
             .BeEquivalentTo(new BookInfo
-            {
-                Title = bookTitle,
-                BookId = createdBook.BookId,
-                Pages = 0,
-                Tags = [],
-                CoverUrl = null,
-                CurrentPage = null,
-                LastBookmark = null,
-                BookFile = new FileInfo { Name = fileName, FileUrl = "", },
-            });
+                {
+                    Title = bookTitle,
+                    BookId = createdBook.BookId,
+                    Pages = 0,
+                    Tags = [],
+                    CoverUrl = null,
+                    CurrentPage = null,
+                    LastBookmark = null,
+                    BookFile = new FileInfo { Name = fileName, },
+                },
+                e => e.Excluding(r => r.BookFile!.FileUrl));
+        
+        var downloadedFileResponse = await HttpClient.GetAsync(new Uri(book!.BookFile!.FileUrl!));
+        downloadedFileResponse.EnsureSuccessStatusCode();
+        
+        var downloadedFileContent = await downloadedFileResponse.Content.ReadAsStringAsync();
+        downloadedFileContent
+            .Should()
+            .Be(fileContent);
     }
 }

@@ -11,16 +11,17 @@ public static class AutoRegistrationHelper
         {
             foreach (var type in asm.GetTypes().Where(e => e is { IsClass: true, IsAbstract: false }))
             {
-                if (type.GetCustomAttribute<AutoRegistrationAttribute>() is null)
+                var attr = type.GetCustomAttribute<AutoRegistrationAttribute>();
+                if (attr is null)
                 {
                     continue;
                 }
                 
-                services.AddScoped(type);
+                services.Add(new ServiceDescriptor(type, type, attr.Lifetime));
 
                 foreach (var @interface in type.GetInterfaces())
                 {
-                    services.AddScoped(@interface, type);
+                    services.Add(new ServiceDescriptor(@interface, type, attr.Lifetime));
                 }
             }
         }
