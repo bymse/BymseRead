@@ -43,7 +43,7 @@ internal class BooksQueryRepository(ConnectionFactory connectionFactory) : IBook
                   left join numbered_bookmarks as bm on b.id = bm.book_id
                   left join files as cf on b.book_cover_file_id = cf.id
                   left join files as bf on b.book_file_id = bf.id
-                  where b.owner_user_id = @userId and bm.row_number = 1 {0}
+                  where b.owner_user_id = @userId and COALESCE(bm.row_number, 1) = 1 {0}
                   order by b.id
                   """;
 
