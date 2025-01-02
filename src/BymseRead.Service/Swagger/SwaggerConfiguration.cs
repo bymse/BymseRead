@@ -16,6 +16,8 @@ public static class SwaggerConfiguration
                 e.CustomOperationIds(r => r.ActionDescriptor.RouteValues["action"]);
                 e.SwaggerDoc(WebApiController.DocumentName,
                     new OpenApiInfo { Title = WebApiController.DocumentName, Version = "1", });
+                
+                e.AddOperationFilterInstance(new ProblemDetailsFilter());
             });
     }
     
