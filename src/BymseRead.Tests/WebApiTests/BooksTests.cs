@@ -3,7 +3,7 @@ using BymseRead.Tests.Infrastructure;
 using FluentAssertions;
 using FileInfo = BymseRead.Service.Client.Models.FileInfo;
 
-namespace BymseRead.Tests;
+namespace BymseRead.Tests.WebApiTests;
 
 public class BooksTests : ServiceTestBase
 {
@@ -77,13 +77,7 @@ public class BooksTests : ServiceTestBase
             .WebApi.Books[result.BookId!.Value]
             .GetAsync();
 
-        var fileResponse = await HttpClient.GetAsync(book!.BookFile!.FileUrl);
-        fileResponse.EnsureSuccessStatusCode();
-
-        var fileContent = await fileResponse.Content.ReadAsStringAsync();
-        fileContent
-            .Should()
-            .Be(content);
+        await AssertContent(book!.BookFile!.FileUrl, content);
     }
 
     [Test]

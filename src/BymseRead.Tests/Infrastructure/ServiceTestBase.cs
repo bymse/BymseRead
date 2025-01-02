@@ -1,5 +1,7 @@
-﻿using BymseRead.Service.Client;
+﻿using System.Net;
+using BymseRead.Service.Client;
 using BymseRead.Tests.Actions;
+using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BymseRead.Tests.Infrastructure;
@@ -30,5 +32,24 @@ public abstract class ServiceTestBase
     {
         _factory.Dispose();
         HttpClient.Dispose();
+    }
+
+    protected async Task AssertContent(string? url, string expectedContent)
+    {
+        var fileResponse = await HttpClient.GetAsync(url!);
+        fileResponse.EnsureSuccessStatusCode();
+
+        var fileContent = await fileResponse.Content.ReadAsStringAsync();
+        fileContent
+            .Should()
+            .Be(expectedContent);
+    }
+    
+    protected async Task AssertNotFound(string? url)
+    {
+        var fileResponse = await HttpClient.GetAsync(url!);
+        fileResponse.StatusCode
+            .Should()
+            .Be(HttpStatusCode.NotFound);
     }
 }

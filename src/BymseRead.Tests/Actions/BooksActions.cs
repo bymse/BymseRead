@@ -23,4 +23,39 @@ public class BooksActions(ServiceClientProvider provider, FilesActions filesActi
 
         return createdBook!;
     }
+
+    public async Task UpdateBook(
+        Guid userId,
+        Guid bookId,
+        string title = "my book",
+        string? bookFileName = null,
+        string? bookFileContent = null,
+        string? coverFileContent = null,
+        bool removeCover = false
+    )
+    {
+        PreparedFileUploadResult? coverFile = null;
+        PreparedFileUploadResult? bookFile = null;
+        if (coverFileContent != null)
+        {
+            coverFile = await filesActions.UploadFile(userId, "cover.jpg", coverFileContent);
+        }
+
+        if (bookFileContent != null)
+        {
+            bookFile = await filesActions.UploadFile(userId, bookFileName!, bookFileContent);
+        }
+
+        var client = provider.Get(userId);
+
+        await client
+            .WebApi.Books[bookId]
+            .Update.PostAsync(new UpdateBookRequest
+            {
+                Title = title,
+                UploadedCoverFileKey = coverFile?.FileUploadKey,
+                UploadedBookFileKey = bookFile?.FileUploadKey,
+                RemoveCover = removeCover,
+            });
+    }
 }

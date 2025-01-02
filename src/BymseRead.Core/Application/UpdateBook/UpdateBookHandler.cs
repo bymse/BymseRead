@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
 using BymseRead.Core.Services.Books;
@@ -6,6 +7,7 @@ using BymseRead.Core.Services.Files;
 
 namespace BymseRead.Core.Application.UpdateBook;
 
+[AutoRegistration]
 public class UpdateBookHandler(
     IFilesStorageService filesStorageService,
     IBooksRepository booksRepository,
@@ -41,6 +43,10 @@ public class UpdateBookHandler(
             var file = await filesStorageService.MakePermanent(userId, uploadedCover);
             await filesRepository.Add(file);
             model.Book.BookCoverFileId = file.Id;
+        }
+        else if (request.RemoveCover)
+        {
+            model.Book.BookCoverFileId = null;
         }
 
         await booksRepository.Update(model.Book);

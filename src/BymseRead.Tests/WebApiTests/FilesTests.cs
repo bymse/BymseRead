@@ -1,7 +1,7 @@
 ﻿using BymseRead.Tests.Infrastructure;
 using FluentAssertions;
 
-namespace BymseRead.Tests;
+namespace BymseRead.Tests.WebApiTests;
 
 public class FilesTests : ServiceTestBase
 {
