@@ -132,6 +132,49 @@
         }
       }
     },
+    "/web-api/books/{bookId}/update": {
+      "post": {
+        "tags": [
+          "Books"
+        ],
+        "operationId": "UpdateBook",
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBookRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBookRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBookRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/web-api/files/prepare-upload": {
       "put": {
         "tags": [
@@ -205,7 +248,8 @@
           },
           "pages": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "bookFile": {
             "$ref": "#/components/schemas/FileInfo"
@@ -384,6 +428,32 @@
           "uploadUrl": {
             "type": "string",
             "format": "uri"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateBookRequest": {
+        "required": [
+          "removeCover",
+          "title",
+          "uploadedBookFileKey",
+          "uploadedCoverFileKey"
+        ],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "uploadedBookFileKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "uploadedCoverFileKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "removeCover": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
