@@ -25,7 +25,7 @@ public class FilesActions(ServiceClientProvider provider)
 
         var result = await client.WebApi.Files.PrepareUpload.PutAsync(new PrepareFileUploadRequest
         {
-            FileName = fileName, FileSize = 10,
+            FileName = fileName, FileSize = fileContent.Length,
         });
 
         var response = await HttpClient.PutAsync(new Uri(result!.UploadUrl!), content);

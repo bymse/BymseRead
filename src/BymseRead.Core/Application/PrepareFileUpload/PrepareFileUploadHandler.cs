@@ -15,7 +15,7 @@ public class PrepareFileUploadHandler(IFilesStorageService filesStorage, FilesVa
             .NewGuid()
             .ToString();
         
-        var uploadUrl = filesStorage.CreateUploadUrl(userId, uploadKey, request.FileName);
+        var uploadUrl = filesStorage.CreateUploadUrl(userId, uploadKey, request.FileName, request.FileSize);
         
         return new PreparedFileUploadResult
         {

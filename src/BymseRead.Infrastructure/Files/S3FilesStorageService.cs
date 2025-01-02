@@ -33,7 +33,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
         return new Uri(configuration.GetUrlBase(), originalUrl.PathAndQuery);
     }
 
-    public Uri CreateUploadUrl(UserId userId, string fileUploadKey, string fileName)
+    public Uri CreateUploadUrl(UserId userId, string fileUploadKey, string fileName, long fileSize)
     {
         var request = new GetPreSignedUrlRequest
         {
@@ -46,6 +46,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
 
         request.Metadata.Add(OriginalFileNameMetadataKey, fileName);
         request.Headers[HeaderKeys.HostHeader] = configuration.GetHost();
+        request.Headers[HeaderKeys.ContentLengthHeader] = fileSize.ToString();
 
         var originalRawUrl = amazonS3.GetPreSignedURL(request);
         var originalUrl = new Uri(originalRawUrl);
