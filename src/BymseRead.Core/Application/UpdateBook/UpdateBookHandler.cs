@@ -2,6 +2,7 @@
 using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
+using BymseRead.Core.Services;
 using BymseRead.Core.Services.Books;
 using BymseRead.Core.Services.Files;
 
@@ -21,7 +22,7 @@ public class UpdateBookHandler(
         var model = await booksQueryRepository.FindBook(userId, bookId);
         if (model == null)
         {
-            throw new ValidationException { ValidationResult = { ErrorMessage = "Book not found" }, };
+            ValidationError.Throw("Book not found");
         }
 
         var (uploadedBook, uploadedCover) = await bookValidator.Validate(userId,

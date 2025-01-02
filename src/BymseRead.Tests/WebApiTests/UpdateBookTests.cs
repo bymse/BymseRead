@@ -1,10 +1,95 @@
-﻿using BymseRead.Tests.Infrastructure;
+﻿using BymseRead.Service.Client.Models;
+using BymseRead.Tests.Infrastructure;
 using FluentAssertions;
 
 namespace BymseRead.Tests.WebApiTests;
 
 public class UpdateBookTests : ServiceTestBase
 {
+    [Test]
+    public async Task Should_Throw_OnInvalidBook()
+    {
+        var user = Actions.Users.CreateUser();
+        var problem = await Actions
+            .Books.Invoking(e => e.UpdateBook(user, Guid.NewGuid()))
+            .Should()
+            .ThrowAsync<ProblemDetails>();
+
+        problem
+            .Which.Detail.Should()
+            .Contain("Book not found");
+    }
+
+    [TestCase("")]
+    [TestCase("12")]
+    [TestCase(
+        "1testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest")]
+    public async Task Should_Throw_OnInvalidTitle(string title)
+    {
+        var user = Actions.Users.CreateUser();
+        var bookResult = await Actions.Books.CreateBook(user);
+
+        var problem = await Actions
+            .Books.Invoking(e => e.UpdateBook(user, bookResult.BookId!.Value, title))
+            .Should()
+            .ThrowAsync<ProblemDetails>();
+
+        problem
+            .Which.Detail.Should()
+            .Contain("Title");
+    }
+
+    [Test]
+    public async Task Should_Throw_OnInvalidBookUploadKey()
+    {
+        await AssertFileKeyError("random", null, "File not found");
+    }
+
+    [Test]
+    public async Task Should_Throw_OnInvalidCoverUploadKey()
+    {
+        await AssertFileKeyError(null, "random", "Cover file not found");
+    }
+
+    [Test]
+    public async Task Should_Throw_OnAnotherUserBookFile()
+    {
+        var firstUser = Actions.Users.CreateUser();
+        var file = await Actions.Files.UploadFile(firstUser, "file.pdf");
+
+        await AssertFileKeyError(file.FileUploadKey, null, "File not found");
+    }
+
+    [Test]
+    public async Task Should_Throw_OnAnotherUserCoverFile()
+    {
+        var firstUser = Actions.Users.CreateUser();
+        var file = await Actions.Files.UploadFile(firstUser, "image.png");
+
+        await AssertFileKeyError(null, file.FileUploadKey, "Cover file not found");
+    }
+
+    private async Task AssertFileKeyError(string? bookFileUploadKey, string? coverFileUploadKey, string message)
+    {
+        var user = Actions.Users.CreateUser();
+        var bookResult = await Actions.Books.CreateBook(user);
+
+        var client = GetServiceClient(user);
+
+        var problem = await client
+            .WebApi.Books[bookResult.BookId!.Value]
+            .Update.Invoking(e => e.PostAsync(new UpdateBookRequest
+            {
+                Title = "test", UploadedBookFileKey = bookFileUploadKey, UploadedCoverFileKey = coverFileUploadKey,
+            }))
+            .Should()
+            .ThrowAsync<ProblemDetails>();
+
+        problem
+            .Which.Detail.Should()
+            .Contain(message);
+    }
+
     [Test]
     public async Task Should_UpdateBookTitle_OnPassedTitle()
     {
