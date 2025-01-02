@@ -3,4 +3,5 @@
 public interface IFilesRepository
 {
     Task Add(File file);
+    Task Delete(File file);
 }

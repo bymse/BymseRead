@@ -30,4 +30,22 @@ internal class BooksRepository(ConnectionFactory connectionFactory) : IBooksRepo
             throw new InvalidOperationException("Failed to insert book");
         }
     }
+
+    public async Task Update(Book book)
+    {
+        var connection = await connectionFactory.Get();
+        const string sql = """
+                            update books set
+                                title = @Title,
+                                book_file_id = @BookFileId,
+                                book_cover_file_id = @BookCoverFileId
+                            where id = @Id;
+                           """;
+
+        var updatedRows = await connection.ExecuteAsync(sql, book);
+        if (updatedRows != 1)
+        {
+            throw new InvalidOperationException("Failed to update book");
+        }
+    }
 }

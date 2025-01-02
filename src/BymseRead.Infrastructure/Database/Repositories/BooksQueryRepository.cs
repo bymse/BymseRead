@@ -11,16 +11,38 @@ internal class BooksQueryRepository(ConnectionFactory connectionFactory) : IBook
 {
     public async Task<IEnumerable<UserBookModel>> GetUserBooks(UserId userId, string? search)
     {
-        return await LoadBooks(userId, null, search);
+        return await LoadUserBooks(userId, null, search);
     }
 
     public async Task<UserBookModel?> FindUserBook(UserId userId, BookId bookId)
     {
-        var books = await LoadBooks(userId, bookId, null);
+        var books = await LoadUserBooks(userId, bookId, null);
         return books.SingleOrDefault();
     }
 
-    private async Task<IEnumerable<UserBookModel>> LoadBooks(UserId userId, BookId? bookId, string? search)
+    public async Task<BookModel?> FindBook(UserId userId, BookId bookId)
+    {
+        const string sql = """
+                           select b.*, cf.*, bf.*
+                           from books as b
+                                    left join files as cf on b.book_cover_file_id = cf.id
+                                    left join files as bf on b.book_file_id = bf.id
+                           where b.owner_user_id = @userId and b.id = @bookId
+                           """;
+
+        var connection = await connectionFactory.Get();
+
+        var result = await connection.QueryAsync<Book, File, File, BookModel>(sql,
+            (book, coverFile, bookFile) => new BookModel
+            {
+                Book = book, CoverFile = coverFile, BookFile = bookFile,
+            },
+            new { userId, bookId });
+
+        return result.SingleOrDefault();
+    }
+
+    private async Task<IEnumerable<UserBookModel>> LoadUserBooks(UserId userId, BookId? bookId, string? search)
     {
         if (bookId != null && search != null)
         {

@@ -22,4 +22,16 @@ internal class FilesRepository(ConnectionFactory connectionFactory) : IFilesRepo
             throw new InvalidOperationException("Failed to insert file");
         }
     }
+
+    public async Task Delete(File file)
+    {
+        var connection = await connectionFactory.Get();
+        const string sql = "delete from files where id = @Id;";
+
+        var deletedRows = await connection.ExecuteAsync(sql, new { file.Id });
+        if (deletedRows != 1)
+        {
+            throw new InvalidOperationException("Failed to delete file");
+        }
+    }
 }
