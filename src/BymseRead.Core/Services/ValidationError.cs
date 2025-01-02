@@ -8,6 +8,6 @@ public static class ValidationError
     [DoesNotReturn]
     public static void Throw(string message)
     {
-        throw new ValidationException { ValidationResult = { ErrorMessage = message }, };
+        throw new ValidationException(new ValidationResult(message, []), null, null);
     }
 }

@@ -1,3 +1,5 @@
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using BymseRead.Service.Client.Models;
 using BymseRead.Tests.Infrastructure;
 using FluentAssertions;
@@ -37,6 +39,62 @@ public class BooksTests : ServiceTestBase
         book
             .Should()
             .BeNull();
+    }
+
+    [TestCase("")]
+    [TestCase("12")]
+    [TestCase(
+        "1testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest")]
+    public async Task Should_ReturnError_OnInvalidTitle(string title)
+    {
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+
+        var problem = await client
+            .WebApi.Books.Invoking(e => e.PostAsync(new CreateBookRequest { Title = title, FileUploadKey = "", }))
+            .Should()
+            .ThrowAsync<ProblemDetails>();
+
+        problem
+            .Which.Detail.Should()
+            .Contain("Title");
+    }
+
+    [Test]
+    public async Task Should_ReturnError_OnInvalidFileUploadKey()
+    {
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+
+        var problem = await client
+            .WebApi.Books
+            .Invoking(e => e.PostAsync(new CreateBookRequest { Title = "test", FileUploadKey = "random", }))
+            .Should()
+            .ThrowAsync<ProblemDetails>();
+
+        problem
+            .Which.Detail.Should()
+            .Contain("File not found");
+    }
+
+    [Test]
+    public async Task Should_ReturnError_OnAnotherUserFile()
+    {
+        var firstUser = Actions.Users.CreateUser();
+        var file = await Actions.Files.UploadFile(firstUser, "file.pdf");
+
+        var secondUser = Actions.Users.CreateUser();
+        var secondClient = GetServiceClient(secondUser);
+
+        var problem = await secondClient
+            .WebApi.Books.Invoking(e =>
+                e.PostAsync(new CreateBookRequest { Title = "test", FileUploadKey = file.FileUploadKey, }))
+            .Should()
+            .ThrowAsync<ProblemDetails>();
+        
+        problem
+            .Which.Detail.Should()
+            .Contain("File not found");
     }
 
     [Test]

@@ -26,7 +26,7 @@ public class ServiceWebApplicationFactory : WebApplicationFactory<Program>
         builder.ConfigureServices(r =>
         {
             r.AddAutoRegistrations(typeof(ServiceWebApplicationFactory).Assembly);
-            r.AddSingleton<HttpClient>(_ => CreateClient());
+            r.AddSingleton<HttpClient>(_ => CreateDefaultClient());
         });
     }
 }
