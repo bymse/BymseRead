@@ -1,6 +1,7 @@
 using BymseRead.Infrastructure;
 using BymseRead.Service;
 using BymseRead.Service.Auth;
+using BymseRead.Service.Errors;
 using BymseRead.Service.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,7 @@ builder
     .AddAuthN(builder.Configuration)
     .AddWebSwagger()
     .AddProblemDetails()
-    .AddExceptionHandler(e => {});
+    .AddExceptionHandler<ExceptionToProblemDetailsHandler>();
 
 var app = builder.Build();
 
