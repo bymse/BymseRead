@@ -51,7 +51,7 @@ public class UpdateBookHandler(
             await filesRepository.Delete(model.BookFile);
         }
 
-        if (model.CoverFile != null && uploadedCover != null)
+        if (model.CoverFile != null && (uploadedCover != null || request.RemoveCover))
         {
             await filesStorageService.Delete(userId, model.CoverFile);
             await filesRepository.Delete(model.CoverFile);
