@@ -29,7 +29,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
 
         var originalRawUrl = amazonS3.GetPreSignedURL(request);
         var originalUrl = new Uri(originalRawUrl);
-        
+
         return new Uri(configuration.GetUrlBase(), originalUrl.PathAndQuery);
     }
 
@@ -43,7 +43,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
             Expires = DateTime.UtcNow.AddMinutes(60),
             ContentType = "application/octet-stream",
         };
-        
+
         request.Metadata.Add(OriginalFileNameMetadataKey, fileName);
         request.Headers[HeaderKeys.HostHeader] = configuration.GetHost();
 
@@ -56,11 +56,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
     public async Task<UploadedFileModel?> FindUploadedFile(UserId userId, string fileUploadKey)
     {
         var key = GetTempObjectKey(userId, fileUploadKey);
-        var request = new GetObjectMetadataRequest
-        {
-            Key = key,
-            BucketName = configuration.GetBucketName(),
-        };
+        var request = new GetObjectMetadataRequest { Key = key, BucketName = configuration.GetBucketName(), };
 
         try
         {
@@ -89,14 +85,21 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
             DestinationBucket = configuration.GetBucketName(),
             DestinationKey = key,
         };
+
         await amazonS3.CopyObjectAsync(copyRequest);
         await amazonS3.DeleteObjectAsync(new DeleteObjectRequest
         {
-            Key = uploadedFile.Path,
-            BucketName = configuration.GetBucketName(),
+            Key = uploadedFile.Path, BucketName = configuration.GetBucketName(),
         });
 
         return File.Create(fileId, uploadedFile.FileName, key, uploadedFile.Size);
+    }
+
+    public Task Delete(UserId userId, File file)
+    {
+        var request = new DeleteObjectRequest { Key = file.Path, BucketName = configuration.GetBucketName(), };
+
+        return amazonS3.DeleteObjectAsync(request);
     }
 
     private static string GetTempObjectKey(UserId userId, string fileUploadKey)

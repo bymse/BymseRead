@@ -1,0 +1,60 @@
+﻿using System.ComponentModel.DataAnnotations;
+using BymseRead.Core.Entities;
+using BymseRead.Core.Repositories;
+using BymseRead.Core.Services.Books;
+using BymseRead.Core.Services.Files;
+
+namespace BymseRead.Core.Application.UpdateBook;
+
+public class UpdateBookHandler(
+    IFilesStorageService filesStorageService,
+    IBooksRepository booksRepository,
+    IBooksQueryRepository booksQueryRepository,
+    BookValidator bookValidator,
+    IFilesRepository filesRepository
+)
+{
+    public async Task Handle(UserId userId, BookId bookId, UpdateBookRequest request)
+    {
+        var model = await booksQueryRepository.FindBook(userId, bookId);
+        if (model == null)
+        {
+            throw new ValidationException { ValidationResult = { ErrorMessage = "Book not found" }, };
+        }
+
+        var (uploadedBook, uploadedCover) = await bookValidator.Validate(userId,
+            request.UploadedBookFileKey,
+            request.UploadedCoverFileKey,
+            request.Title);
+
+        model.Book.Title = request.Title;
+
+        if (uploadedBook != null)
+        {
+            var file = await filesStorageService.MakePermanent(userId, uploadedBook);
+            await filesRepository.Add(file);
+            model.Book.BookFileId = file.Id;
+        }
+
+        if (uploadedCover != null)
+        {
+            var file = await filesStorageService.MakePermanent(userId, uploadedCover);
+            await filesRepository.Add(file);
+            model.Book.BookCoverFileId = file.Id;
+        }
+
+        await booksRepository.Update(model.Book);
+
+        if (uploadedBook != null)
+        {
+            await filesStorageService.Delete(userId, model.BookFile);
+            await filesRepository.Delete(model.BookFile);
+        }
+
+        if (model.CoverFile != null && uploadedCover != null)
+        {
+            await filesStorageService.Delete(userId, model.CoverFile);
+            await filesRepository.Delete(model.CoverFile);
+        }
+    }
+}

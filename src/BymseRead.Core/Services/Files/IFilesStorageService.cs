@@ -10,6 +10,7 @@ public interface IFilesStorageService
     Task<UploadedFileModel?> FindUploadedFile(UserId userId, string fileUploadKey);
     
     Task<File> MakePermanent(UserId userId, UploadedFileModel uploadedFile);
+    Task Delete(UserId userId, File file);
 }
 
 public class UploadedFileModel

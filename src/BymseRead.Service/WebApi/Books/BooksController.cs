@@ -1,6 +1,7 @@
 using BymseRead.Core.Application.BooksCollection;
 using BymseRead.Core.Application.CreateBook;
 using BymseRead.Core.Application.SingleBook;
+using BymseRead.Core.Application.UpdateBook;
 using BymseRead.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,5 +31,15 @@ public class BooksController : WebApiController
     )
     {
         return handler.Handle(CurrentUserId, request);
+    }
+    
+    [HttpPost("{bookId:guid}/update")]
+    public Task UpdateBook(
+        [FromRoute] Guid bookId,
+        [FromBody] UpdateBookRequest request,
+        [FromServices] UpdateBookHandler handler
+    )
+    {
+        return handler.Handle(CurrentUserId, new BookId(bookId), request);
     }
 }
