@@ -1,3 +1,4 @@
+using BymseRead.Core.Application.AddLastPageBookmark;
 using BymseRead.Core.Application.BooksCollection;
 using BymseRead.Core.Application.CreateBook;
 using BymseRead.Core.Application.DeleteBook;
@@ -6,7 +7,7 @@ using BymseRead.Core.Application.UpdateBook;
 using BymseRead.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BymseRead.Service.WebApi.Books;
+namespace BymseRead.Service.WebApi;
 
 public class BooksController : WebApiController
 {
@@ -33,7 +34,7 @@ public class BooksController : WebApiController
     {
         return handler.Handle(CurrentUserId, request);
     }
-    
+
     [HttpPost("{bookId:guid}/update")]
     public Task UpdateBook(
         [FromRoute] Guid bookId,
@@ -43,13 +44,20 @@ public class BooksController : WebApiController
     {
         return handler.Handle(CurrentUserId, new BookId(bookId), request);
     }
-    
+
     [HttpDelete("{bookId:guid}")]
-    public Task DeleteBook(
-        [FromRoute] Guid bookId,
-        [FromServices] DeleteBookHandler handler
-    )
+    public Task DeleteBook([FromRoute] Guid bookId, [FromServices] DeleteBookHandler handler)
     {
         return handler.Handle(CurrentUserId, new BookId(bookId));
+    }
+
+    [HttpPost("{bookId:guid}/bookmarks/last-page")]
+    public Task AddLastPageBookmark(
+        [FromRoute] Guid bookId,
+        [FromBody] AddLastPageBookmarkRequest request,
+        [FromServices] LastPageBookmarkHandler handler
+    )
+    {
+        return handler.Handle(CurrentUserId, new BookId(bookId), request);
     }
 }

@@ -42,6 +42,14 @@ internal class BooksQueryRepository(ConnectionFactory connectionFactory) : IBook
         return result.SingleOrDefault();
     }
 
+    public async Task<bool> BookExists(UserId userId, BookId bookId)
+    {
+        const string sql = "select 1 from books where owner_user_id = @userId and id = @bookId";
+
+        var connection = await connectionFactory.Get();
+        return await connection.QuerySingleOrDefaultAsync<bool>(sql, new { userId, bookId });
+    }
+
     private async Task<IEnumerable<UserBookModel>> LoadUserBooks(UserId userId, BookId? bookId, string? search)
     {
         if (bookId != null && search != null)

@@ -1,7 +1,7 @@
 ﻿using BymseRead.Core.Application.PrepareFileUpload;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BymseRead.Service.WebApi.Files;
+namespace BymseRead.Service.WebApi;
 
 public class FilesController : WebApiController
 {
