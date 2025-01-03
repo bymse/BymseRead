@@ -8,6 +8,16 @@ namespace BymseRead.Tests.Actions;
 [AutoRegistration(Lifetime = ServiceLifetime.Singleton)]
 public class BooksActions(ServiceClientProvider provider, FilesActions filesActions)
 {
+    public async Task AddLastPageBookmark(Guid userId, Guid bookId, int page)
+    {
+        var client = provider.Get(userId);
+
+        await client
+            .WebApi.Books[bookId]
+            .Bookmarks.LastPage
+            .PostAsync(new AddLastPageBookmarkRequest { Page = page });
+    }
+    
     public async Task<BookInfo?> GetBook(Guid userId, Guid bookId)
     {
         var client = provider.Get(userId);

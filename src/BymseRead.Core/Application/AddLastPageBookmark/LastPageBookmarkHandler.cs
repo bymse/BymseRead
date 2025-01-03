@@ -13,10 +13,15 @@ public class LastPageBookmarkHandler(
 {
     public async Task Handle(UserId userId, BookId bookId, AddLastPageBookmarkRequest request)
     {
-        var book = await booksQueryRepository.FindBook(userId, bookId);
-        if (book == null)
+        var bookExists = await booksQueryRepository.BookExists(userId, bookId);
+        if (!bookExists)
         {
             ValidationError.Throw("Book not found");
+        }
+        
+        if (request.Page < 1)
+        {
+            ValidationError.Throw("Invalid page number. Page must be greater than 0");
         }
 
         var bookmark = Bookmark.Create(bookId, userId, request.Page);
