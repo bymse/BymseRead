@@ -4,6 +4,7 @@ using BymseRead.Core.Application.CreateBook;
 using BymseRead.Core.Application.DeleteBook;
 using BymseRead.Core.Application.SingleBook;
 using BymseRead.Core.Application.UpdateBook;
+using BymseRead.Core.Application.UpdateCurrentPage;
 using BymseRead.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,6 +57,16 @@ public class BooksController : WebApiController
         [FromRoute] Guid bookId,
         [FromBody] AddLastPageBookmarkRequest request,
         [FromServices] LastPageBookmarkHandler handler
+    )
+    {
+        return handler.Handle(CurrentUserId, new BookId(bookId), request);
+    }
+    
+    [HttpPut("{bookId:guid}/progress/current-page")]
+    public Task UpdateCurrentPage(
+        [FromRoute] Guid bookId,
+        [FromBody] UpdateCurrentPageRequest request,
+        [FromServices] UpdateCurrentPageHandler handler
     )
     {
         return handler.Handle(CurrentUserId, new BookId(bookId), request);
