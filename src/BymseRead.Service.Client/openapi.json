@@ -247,6 +247,59 @@
         }
       }
     },
+    "/web-api/books/{bookId}/bookmarks/last-page": {
+      "post": {
+        "tags": [
+          "Books"
+        ],
+        "operationId": "AddLastPageBookmark",
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddLastPageBookmarkRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddLastPageBookmarkRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddLastPageBookmarkRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/web-api/files/prepare-upload": {
       "put": {
         "tags": [
@@ -309,6 +362,19 @@
   },
   "components": {
     "schemas": {
+      "AddLastPageBookmarkRequest": {
+        "required": [
+          "page"
+        ],
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "BookInfo": {
         "required": [
           "bookFile",
