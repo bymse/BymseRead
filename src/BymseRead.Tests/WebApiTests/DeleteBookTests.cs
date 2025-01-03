@@ -57,4 +57,27 @@ public class DeleteBookTests : ServiceTestBase
         await AssertNotFound(bookBeforeDelete!.BookFile!.FileUrl);
         await AssertNotFound(bookBeforeDelete.CoverUrl);
     }
+
+    [Test]
+    public async Task Should_DeleteBook_OnBookWithProgressAndBookmarks()
+    {
+        var user = Actions.Users.CreateUser();
+        var bookResult = await Actions.Books.CreateBook(user);
+
+        await Actions.Books.AddLastPageBookmark(user, bookResult.BookId!.Value, 1);
+        await Actions.Books.AddLastPageBookmark(user, bookResult.BookId!.Value, 2);
+        await Actions.Books.UpdateCurrentPage(user, bookResult.BookId!.Value, 1);
+
+        var bookBeforeDelete = await Actions.Books.GetBook(user, bookResult.BookId!.Value);
+
+        await Actions.Books.DeleteBook(user, bookResult.BookId!.Value);
+
+        var bookAfterDelete = await Actions.Books.GetBook(user, bookResult.BookId!.Value);
+        bookAfterDelete
+            .Should()
+            .BeNull();
+
+        await AssertNotFound(bookBeforeDelete!.BookFile!.FileUrl);
+        await AssertNotFound(bookBeforeDelete.CoverUrl);
+    }
 }

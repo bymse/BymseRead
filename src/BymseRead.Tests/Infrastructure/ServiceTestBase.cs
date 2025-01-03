@@ -47,6 +47,11 @@ public abstract class ServiceTestBase
     
     protected async Task AssertNotFound(string? url)
     {
+        if (url == null)
+        {
+            return;
+        }
+        
         var fileResponse = await HttpClient.GetAsync(url!);
         fileResponse.StatusCode
             .Should()
