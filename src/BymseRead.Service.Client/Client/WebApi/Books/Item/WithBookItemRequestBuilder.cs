@@ -2,6 +2,7 @@
 #pragma warning disable CS0618
 using BymseRead.Service.Client.Models;
 using BymseRead.Service.Client.WebApi.Books.Item.Bookmarks;
+using BymseRead.Service.Client.WebApi.Books.Item.Progress;
 using BymseRead.Service.Client.WebApi.Books.Item.Update;
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions.Serialization;
@@ -23,6 +24,11 @@ namespace BymseRead.Service.Client.WebApi.Books.Item
         public global::BymseRead.Service.Client.WebApi.Books.Item.Bookmarks.BookmarksRequestBuilder Bookmarks
         {
             get => new global::BymseRead.Service.Client.WebApi.Books.Item.Bookmarks.BookmarksRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The progress property</summary>
+        public global::BymseRead.Service.Client.WebApi.Books.Item.Progress.ProgressRequestBuilder Progress
+        {
+            get => new global::BymseRead.Service.Client.WebApi.Books.Item.Progress.ProgressRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>The update property</summary>
         public global::BymseRead.Service.Client.WebApi.Books.Item.Update.UpdateRequestBuilder Update
