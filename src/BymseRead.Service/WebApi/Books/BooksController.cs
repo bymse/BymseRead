@@ -44,7 +44,7 @@ public class BooksController : WebApiController
         return handler.Handle(CurrentUserId, new BookId(bookId), request);
     }
     
-    [HttpDelete("{bookId:guid}/delete")]
+    [HttpDelete("{bookId:guid}")]
     public Task DeleteBook(
         [FromRoute] Guid bookId,
         [FromServices] DeleteBookHandler handler

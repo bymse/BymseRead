@@ -8,6 +8,14 @@ namespace BymseRead.Tests.Actions;
 [AutoRegistration(Lifetime = ServiceLifetime.Singleton)]
 public class BooksActions(ServiceClientProvider provider, FilesActions filesActions)
 {
+    public async Task<BookInfo?> GetBook(Guid userId, Guid bookId)
+    {
+        var client = provider.Get(userId);
+        return await client
+            .WebApi.Books[bookId]
+            .GetAsync();
+    }
+
     public async Task<CreatedBookResult> CreateBook(
         Guid userId,
         string title = "my book",
@@ -22,6 +30,15 @@ public class BooksActions(ServiceClientProvider provider, FilesActions filesActi
             .WebApi.Books.PostAsync(new CreateBookRequest { Title = title, FileUploadKey = result.FileUploadKey, });
 
         return createdBook!;
+    }
+
+    public async Task DeleteBook(Guid userId, Guid bookId)
+    {
+        var client = provider.Get(userId);
+
+        await client
+            .WebApi.Books[bookId]
+            .DeleteAsync();
     }
 
     public async Task UpdateBook(
