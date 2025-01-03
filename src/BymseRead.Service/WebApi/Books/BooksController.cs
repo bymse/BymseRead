@@ -1,5 +1,6 @@
 using BymseRead.Core.Application.BooksCollection;
 using BymseRead.Core.Application.CreateBook;
+using BymseRead.Core.Application.DeleteBook;
 using BymseRead.Core.Application.SingleBook;
 using BymseRead.Core.Application.UpdateBook;
 using BymseRead.Core.Entities;
@@ -41,5 +42,14 @@ public class BooksController : WebApiController
     )
     {
         return handler.Handle(CurrentUserId, new BookId(bookId), request);
+    }
+    
+    [HttpDelete("{bookId:guid}/delete")]
+    public Task DeleteBook(
+        [FromRoute] Guid bookId,
+        [FromServices] DeleteBookHandler handler
+    )
+    {
+        return handler.Handle(CurrentUserId, new BookId(bookId));
     }
 }

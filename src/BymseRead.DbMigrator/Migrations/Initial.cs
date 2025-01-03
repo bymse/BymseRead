@@ -1,3 +1,4 @@
+using System.Data;
 using BymseRead.Core.Entities;
 using FluentMigrator;
 using static BymseRead.Infrastructure.Database.Tables;
@@ -57,7 +58,7 @@ public class Initial : Migration
             .WithColumn("page").AsInt32().NotNullable()
             
             .WithColumn("book_id").AsGuid().NotNullable()
-            .ForeignKey(Books, "id")
+            .ForeignKey(Books, "id").OnDelete(Rule.Cascade)
             .WithColumn("user_id").AsGuid().NotNullable()
             .ForeignKey(Users, "id")
             ;
@@ -70,7 +71,7 @@ public class Initial : Migration
             .WithColumn("current_page").AsInt32().NotNullable()
             
             .WithColumn("book_id").AsGuid().NotNullable()
-            .ForeignKey(Books, "id")
+            .ForeignKey(Books, "id").OnDelete(Rule.Cascade)
             .WithColumn("user_id").AsGuid().NotNullable()
             .ForeignKey(Users, "id")
             ;

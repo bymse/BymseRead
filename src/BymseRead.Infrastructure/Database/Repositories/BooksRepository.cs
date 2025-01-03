@@ -48,4 +48,16 @@ internal class BooksRepository(ConnectionFactory connectionFactory) : IBooksRepo
             throw new InvalidOperationException("Failed to update book");
         }
     }
+
+    public async Task Delete(Book book)
+    {
+        var connection = await connectionFactory.Get();
+        const string sql = "delete from books where id = @Id";
+
+        var deletedRows = await connection.ExecuteAsync(sql, book);
+        if (deletedRows != 1)
+        {
+            throw new InvalidOperationException("Failed to delete book");
+        }
+    }
 }

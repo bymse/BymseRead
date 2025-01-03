@@ -6,4 +6,5 @@ public interface IBooksRepository
 {
     Task Add(Book book);
     Task Update(Book book);
+    Task Delete(Book book);
 }
