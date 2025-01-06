@@ -45,7 +45,7 @@ export default [
       sourceType: 'commonjs',
 
       parserOptions: {
-        project: 'tsconfig.json',
+        project: 'tsconfig.app.json',
         tsconfigRootDir: '.',
       },
     },
