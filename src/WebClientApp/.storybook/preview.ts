@@ -1,8 +1,9 @@
 import type { Preview } from '@storybook/preact'
 import { ViewportMap } from '@storybook/addon-viewport'
+import '../src/global.css'
 
 const viewports: ViewportMap = {
-  mobile: {
+  coverMobile: {
     type: 'mobile',
     name: 'Galaxy Z Fold 6. Cover',
     styles: {
@@ -10,7 +11,7 @@ const viewports: ViewportMap = {
       height: '917px',
     },
   },
-  openedMobile: {
+  mainMobile: {
     type: 'tablet',
     name: 'Galaxy Z Fold 6. Main',
     styles: {
