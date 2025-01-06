@@ -2,12 +2,6 @@
   label: string
 }
 
-export const Button = ({label}: Props) => {
-  return (
-    <button
-      type="button"
-    >
-      {label}
-    </button>
-  );
-};
+export const Button = ({ label }: Props) => {
+  return <button type="button">{label}</button>
+}

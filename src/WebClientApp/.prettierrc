@@ -1,0 +1,7 @@
+﻿printWidth: 120
+singleQuote: true
+trailingComma: all
+arrowParens: avoid
+endOfLine: auto
+semi: false
+bracketSpacing: true
