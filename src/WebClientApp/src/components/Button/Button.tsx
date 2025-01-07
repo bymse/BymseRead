@@ -15,9 +15,9 @@ export const Button = ({ title, onClick, icon, disabled, appearance = 'primary' 
   // noinspection UnnecessaryLocalVariableJS
   const Icon = icon
   return (
-    <button className={cn(styles.Button, styles[appearance])} onClick={onClick} disabled={disabled} aria-label={title}>
+    <button className={cn(styles.button, styles[appearance])} onClick={onClick} disabled={disabled} aria-label={title}>
       {Icon && <Icon />}
-      <span className={styles.Text}>{title}</span>
+      <span className={styles.text}>{title}</span>
     </button>
   )
 }
