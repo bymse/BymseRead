@@ -1,6 +1,5 @@
 ﻿import { ComponentType } from 'preact'
 import styles from './Button.module.css'
-import { CheckIcon } from '@icons/CheckIcon.tsx'
 
 export type ButtonProps = {
   title: string
@@ -11,11 +10,11 @@ export type ButtonProps = {
   disabled?: boolean
 }
 
-export const Button = ({ title, onClick, icon = CheckIcon, disabled }: ButtonProps) => {
+export const Button = ({ title, onClick, icon, disabled }: ButtonProps) => {
   const Icon = icon
   return (
     <button className={styles.Button} onClick={onClick} disabled={disabled} aria-label={title}>
-      {icon && <Icon />}
+      {Icon && <Icon />}
       <span className={styles.Text}>{title}</span>
     </button>
   )
