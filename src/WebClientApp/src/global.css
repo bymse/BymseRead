@@ -2,4 +2,34 @@
     --cover-mobile-width: 412px;
     --main-mobile-width: 700px;
     --desktop-width: 1440px;
+    
+    --color-primary: #5A81FA;
+    --color-white: #F8F9FD;
+    
+    --font-family: 'Poppins', sans-serif;
+    
+    font-family: var(--font-family);
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url("./assets/Poppins-Regular.woff2") format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url("./assets/Poppins-Medium.woff2") format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url("./assets/Poppins-Bold.woff2") format('woff2');
+    font-weight: 700;
+    font-style: normal;
 }
