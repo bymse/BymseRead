@@ -1,5 +1,19 @@
-﻿.Button {
-    background: var(--color-base-primary-normal);
+﻿.Button.primary {
+    --color-normal: var(--color-base-primary-normal);
+    --color-hover: var(--color-base-primary-hover);
+    --color-active: var(--color-base-primary-active);
+    --color-text: var(--color-text-01);
+}
+
+.Button.flat {
+    --color-normal: transparent;
+    --color-hover: var(--color-base-secondary);
+    --color-active: var(--color-base-secondary-hover);
+    --color-text: var(--color-text-10);
+}
+
+.Button {
+    background: var(--color-normal);
     border-radius: 100px;
     display: inline-flex;
     justify-content: center;
@@ -10,23 +24,23 @@
 }
 
 .Button:hover {
-    background: var(--base-primary-hover);
+    background: var(--color-hover)
 }
 
 .Button:active {
-    background: var(--color-base-primary-active);
+    background: var(--color-active);
 }
 
 .Button:disabled {
     opacity: 0.56;
-    background: var(--color-base-primary-normal);
+    background: var(--color-normal);
     cursor: default;
 }
 
 .Text {
     font-weight: 500;
     font-family: var(--font-family);
-    color: var(--color-text-01);
+    color: var(--color-text);
     padding: 0 8px;
     font-size: 16px;
     line-height: 24px;

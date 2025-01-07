@@ -11,6 +11,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "classnames": "^2.5.1",
     "preact": "^10.25.3",
     "preact-router": "^4.1.2"
   },

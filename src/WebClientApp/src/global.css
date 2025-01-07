@@ -5,8 +5,13 @@
     
     --color-base-primary-normal: #5A81FA;
     --color-base-primary-active: #295DFF;
-    --base-primary-hover: #84A2FF;
+    --color-base-primary-hover: #84A2FF;
+
+    --color-base-secondary: #F4F4F4;
+    --color-base-secondary-hover: #ECECEC;
+    
     --color-text-01: #F8F9FD;
+    --color-text-10: #5A81FA;
     
     --font-family: 'Poppins', sans-serif;
     

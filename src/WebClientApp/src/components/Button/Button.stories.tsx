@@ -12,7 +12,7 @@ type Story = StoryObj<ButtonProps>
 export const Primary: Story = {
   args: {
     title: 'Button',
-    variant: 'primary',
+    appearance: 'primary',
     size: 'medium',
     disabled: false,
   },
@@ -21,9 +21,18 @@ export const Primary: Story = {
 export const PrimaryIcon: Story = {
   args: {
     title: 'Button',
-    variant: 'primary',
+    appearance: 'primary',
     size: 'medium',
     disabled: false,
     icon: CheckIcon,
+  },
+}
+
+export const Flat: Story = {
+  args: {
+    title: 'Button',
+    appearance: 'flat',
+    size: 'medium',
+    disabled: false,
   },
 }
