@@ -12,6 +12,7 @@
       "react-dom": ["./node_modules/preact/compat/"],
       "@components/*": ["./components/*"],
       "@assets/*": ["./assets/*"],
+      "@icons/*": ["./icons/*"],
     },
 
     /* Bundler mode */

@@ -1,18 +1,18 @@
-import { Button } from './Button'
+import { Button, ButtonProps } from './Button'
 import { Meta, StoryObj } from '@storybook/preact'
 
-const meta: Meta<typeof Button> = {
+const meta: Meta<ButtonProps> = {
   component: Button,
-  args: {
-    label: 'Button',
-  },
 }
 export default meta
 
-type Story = StoryObj<typeof Button>
+type Story = StoryObj<ButtonProps>
 
 export const Primary: Story = {
   args: {
-    label: 'Button',
+    title: 'Button',
+    variant: 'primary',
+    size: 'medium',
+    disabled: false,
   },
 }

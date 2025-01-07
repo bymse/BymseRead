@@ -3,8 +3,10 @@
     --main-mobile-width: 700px;
     --desktop-width: 1440px;
     
-    --color-primary: #5A81FA;
-    --color-white: #F8F9FD;
+    --color-base-primary-normal: #5A81FA;
+    --color-base-primary-active: #295DFF;
+    --base-primary-hover: #84A2FF;
+    --color-text-01: #F8F9FD;
     
     --font-family: 'Poppins', sans-serif;
     

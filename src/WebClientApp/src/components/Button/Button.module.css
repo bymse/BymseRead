@@ -1,0 +1,33 @@
+﻿.Button {
+    background: var(--color-base-primary-normal);
+    border-radius: 100px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    padding: 10px 10px;
+}
+
+.Button:hover {
+    background: var(--base-primary-hover);
+}
+
+.Button:active {
+    background: var(--color-base-primary-active);
+}
+
+.Button:disabled {
+    opacity: 0.56;
+    background: var(--color-base-primary-normal);
+    cursor: default;
+}
+
+.Text {
+    font-weight: 500;
+    font-family: var(--font-family);
+    color: var(--color-text-01);
+    padding: 0 8px;
+    font-size: 16px;
+    line-height: 24px;
+}
