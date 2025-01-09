@@ -1,0 +1,49 @@
+﻿
+.wrapper {
+    display: flex;
+    align-items: center;
+    width: 320px;
+    border-radius: 100px;
+    background: var(--color-base-01);
+    outline: 1px solid var(--base-border-normal);
+    outline-offset: -2px;
+    gap: 8px;
+}
+
+.wrapper:focus-within {
+    outline: 2px solid var(--base-border-active);
+    outline-offset: -4px;
+}
+
+.icon {
+    padding-left: 12px;
+}
+
+.input {
+    border: none;
+    font-family: var(--font-family);
+    color: var(--color-text-02);
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    width: 100%;
+    background: transparent;
+    padding: 10px 6px 10px 0;
+}
+
+.input::placeholder {
+    color: var(--color-text-03);
+}
+
+.input:active, input:focus {
+    outline: none;
+    border: none;
+}
+
+.input::-webkit-search-cancel-button {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M8.70708 7.29304C8.51848 7.11088 8.26588 7.01009 8.00368 7.01237C7.74148 7.01465 7.49067 7.11981 7.30526 7.30522C7.11985 7.49063 7.01469 7.74144 7.01241 8.00364C7.01013 8.26584 7.11092 8.51844 7.29308 8.70704L10.5861 12L7.29308 15.293C7.19757 15.3853 7.12139 15.4956 7.06898 15.6176C7.01657 15.7396 6.98898 15.8709 6.98783 16.0036C6.98668 16.1364 7.01198 16.2681 7.06226 16.391C7.11254 16.5139 7.18679 16.6255 7.28069 16.7194C7.37458 16.8133 7.48623 16.8876 7.60913 16.9379C7.73202 16.9881 7.8637 17.0134 7.99648 17.0123C8.12926 17.0111 8.26048 16.9836 8.38249 16.9311C8.50449 16.8787 8.61483 16.8026 8.70708 16.707L12.0001 13.414L15.2931 16.707C15.4817 16.8892 15.7343 16.99 15.9965 16.9877C16.2587 16.9854 16.5095 16.8803 16.6949 16.6949C16.8803 16.5095 16.9855 16.2586 16.9878 15.9964C16.99 15.7342 16.8892 15.4816 16.7071 15.293L13.4141 12L16.7071 8.70704C16.8892 8.51844 16.99 8.26584 16.9878 8.00364C16.9855 7.74144 16.8803 7.49063 16.6949 7.30522C16.5095 7.11981 16.2587 7.01465 15.9965 7.01237C15.7343 7.01009 15.4817 7.11088 15.2931 7.29304L12.0001 10.586L8.70708 7.29304Z' fill='%23B5B9CD'/%3E%3C/svg%3E%0A");
+    background-size: 24px 24px;
+}
