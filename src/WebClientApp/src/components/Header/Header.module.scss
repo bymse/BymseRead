@@ -1,0 +1,47 @@
+﻿@use '../../variables' as v;
+
+.header {
+  padding: 28px 40px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+}
+
+.logo img {
+  max-width: 116px;
+  max-height: 50px;
+}
+
+.actions {
+  padding-bottom: 10px;
+  display: flex;
+  gap: 20px;
+}
+
+.actionsMobile {
+  display: none;
+}
+
+@media (max-width: v.$main-mobile-width) {
+  .logo img {
+    max-width: 65px;
+    max-height: 28px;
+  }
+
+  .header {
+    padding: 16px 24px 16px 20px;
+  }
+  
+  .actions {
+    display: none;
+  }
+  
+  .actionsMobile {
+    display: flex;
+    gap: 8px;
+  }
+}

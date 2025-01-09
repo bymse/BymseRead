@@ -1,8 +1,10 @@
-﻿type Props = {
+﻿import { FunctionalComponent } from 'preact'
+
+type Props = {
   color?: string
 }
 
-export const SearchIcon = ({ color = 'var(--color-text-04)' }: Props) => {
+export const SearchIcon: FunctionalComponent<Props> = ({ color = 'var(--color-text-04)' }: Props) => {
   return (
     <div style={{ minWidth: '24px', height: '24px' }}>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -19,5 +19,6 @@ type Story = StoryObj<HeaderProps>
 export const Default: Story = {
   args: {
     onSearchSubmit: fn(),
+    onMobileSearchClick: fn(),
   },
 }
