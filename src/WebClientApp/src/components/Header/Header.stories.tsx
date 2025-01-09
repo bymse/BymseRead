@@ -1,14 +1,23 @@
-﻿import { Header } from './Header'
+﻿import { Header, HeaderProps } from './Header'
 import { Meta, StoryObj } from '@storybook/preact'
+import { fn } from '@storybook/test'
 
-const meta: Meta<typeof Header> = {
-  component: Header,
+const WrappedHeader = (props: HeaderProps) => (
+  <div style={{ border: '1px dotted lightgray' }}>
+    <Header {...props} />
+  </div>
+)
+
+const meta: Meta<HeaderProps> = {
+  component: WrappedHeader,
   args: {},
 }
 export default meta
 
-type Story = StoryObj<typeof Header>
+type Story = StoryObj<HeaderProps>
 
 export const Default: Story = {
-  args: {},
+  args: {
+    onSearchSubmit: fn(),
+  },
 }
