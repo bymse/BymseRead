@@ -1,0 +1,24 @@
+﻿
+.block {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  border-radius: 40px;
+  background: var(--color-base-01);
+}
+
+.block h2 {
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32px;
+  padding: 0;
+  margin: 0;
+}
+
+.list {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}

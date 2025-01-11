@@ -20,7 +20,7 @@ export const Started: Story = {
   args: {
     title: 'К себе нежно. Книга о том, как ценить и беречь себя',
     coverUrl: 'stories-cover.png',
-    progressPercent: 30,
+    percentageFinished: 30,
   },
 }
 
@@ -28,6 +28,6 @@ export const Finished: Story = {
   args: {
     title: 'Гении и аутсайдеры',
     coverUrl: 'stories-cover.png',
-    progressPercent: 100,
+    percentageFinished: 100,
   },
 }
