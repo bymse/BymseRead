@@ -18,24 +18,37 @@ export const Dropdown: FunctionalComponent<DropdownProps> = ({ children, button,
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (isOpen && dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      setIsOpen(false)
-    }
+    setIsOpen(wasOpen => {
+      if (wasOpen && dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        return false
+      }
+      return wasOpen
+    })
   }
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('mouseup', handleClickOutside)
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('mouseup', handleClickOutside)
     }
   }, [])
 
-  const handleToggle = () => setIsOpen(r => !r)
+  const handleToggle = () => setIsOpen(prev => !prev)
+  const closeDropdown = () => setIsOpen(false)
+
+  const mappedChildren =
+    children instanceof Array
+      ? children.map(child =>
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          child && typeof child === 'object' ? { ...child, props: { ...child.props, closeDropdown } } : child,
+        )
+      : children
+
   const Button = button
   return (
     <div className={styles.dropdown} ref={dropdownRef}>
       <Button onClick={handleToggle} />
-      {isOpen && <ul className={cn(styles.list, styles[side])}>{children}</ul>}
+      {isOpen && <ul className={cn(styles.list, styles[side])}>{mappedChildren}</ul>}
     </div>
   )
 }
@@ -44,15 +57,22 @@ type DropdownItemProps = {
   children: ComponentChildren
   color?: string
   onClick?: () => void
+  closeDropdown?: () => void
 }
 
 export const DropdownItem: FunctionalComponent<DropdownItemProps> = ({
   children,
   color,
   onClick,
+  closeDropdown,
 }: DropdownItemProps) => {
+  const handleClick = () => {
+    if (onClick) onClick()
+    if (closeDropdown) closeDropdown()
+  }
+
   return (
-    <li style={{ color: color }} className={styles.item} onClick={onClick}>
+    <li style={{ color }} className={styles.item} onClick={handleClick}>
       {children}
     </li>
   )
