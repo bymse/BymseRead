@@ -4,6 +4,7 @@ import { Button } from '@components/Button/Button.tsx'
 import { Input } from '@components/Input/Input.tsx'
 import { SearchIcon } from '@icons/SearchIcon.tsx'
 import { MoreHorIcon } from '@icons/MoreHorIcon.tsx'
+import { Dropdown, DropdownItem } from '@components/Dropdown/Dropdown.tsx'
 
 export type HeaderProps = {
   onAddBook?: () => void
@@ -33,7 +34,17 @@ export const Header = ({ onAddBook, onLogout, onSearchSubmit, onMobileSearchClic
           appearance="flat"
           onClick={onMobileSearchClick}
         />
-        <Button icon={() => <MoreHorIcon color="var(--color-text-10)" />} appearance="flat" />
+        <Dropdown
+          button={({ onClick }) => (
+            <Button icon={() => <MoreHorIcon color="var(--color-text-10)" />} appearance="flat" onClick={onClick} />
+          )}
+          side="left"
+        >
+          <DropdownItem onClick={onAddBook}>Add new book</DropdownItem>
+          <DropdownItem onClick={onLogout} color="var(--color-text-10)">
+            Log out
+          </DropdownItem>
+        </Dropdown>
       </div>
     </header>
   )

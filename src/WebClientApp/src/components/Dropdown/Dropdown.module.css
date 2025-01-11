@@ -18,18 +18,27 @@
     list-style: none;
     margin: 0;
     z-index: 10;
+    white-space: nowrap;
 }
 
 .list.right {
-    right: 0;
+    left: 0;
 }
 
 .list.left {
-    left: 0;
+    right: 0;
 }
 
 .item {
     padding: 10px 8px;
     font-size: 16px;
     line-height: 24px;
+    border-radius: 8px;
+    text-align: left;
+    color: var(--color-text-02);
+}
+
+.item:hover {
+    background: var(--color-base-02);
+    cursor: pointer;
 }

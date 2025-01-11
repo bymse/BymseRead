@@ -22,6 +22,9 @@ export const Left: Story = {
       </>
     ),
   },
+  parameters: {
+    layout: 'centered',
+  },
 }
 
 export const Right: Story = {
@@ -34,8 +37,5 @@ export const Right: Story = {
         <DropdownItem>text</DropdownItem>
       </>
     ),
-  },
-  parameters: {
-    layout: 'centered',
   },
 }

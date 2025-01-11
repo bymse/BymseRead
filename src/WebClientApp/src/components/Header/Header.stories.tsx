@@ -20,5 +20,7 @@ export const Default: Story = {
   args: {
     onSearchSubmit: fn(),
     onMobileSearchClick: fn(),
+    onLogout: fn(),
+    onAddBook: fn(),
   },
 }
