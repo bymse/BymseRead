@@ -1,4 +1,4 @@
-﻿import { ComponentChildren, FunctionalComponent } from 'preact'
+﻿import { ComponentChild, ComponentChildren, FunctionalComponent, VNode } from 'preact'
 import styles from './Dropdown.module.css'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import cn from 'classnames'
@@ -38,10 +38,12 @@ export const Dropdown: FunctionalComponent<DropdownProps> = ({ children, button,
 
   const mappedChildren =
     children instanceof Array
-      ? children.map(child =>
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          child && typeof child === 'object' ? { ...child, props: { ...child.props, closeDropdown } } : child,
-        )
+      ? children.map(child => {
+          const node = child as VNode<unknown>
+          if (node) return { ...node, props: { ...node.props, closeDropdown } }
+
+          return child
+        })
       : children
 
   const Button = button
