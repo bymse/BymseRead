@@ -1,0 +1,47 @@
+﻿@use '../../variables' as v;
+
+.card {
+  width: 300px;
+  padding: 20px;
+  display: flex;
+  gap: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+
+  --fill-percent: 0%;
+  background: linear-gradient(90deg, #D1D9F3 var(--fill-percent), #F7F8FB var(--fill-percent));
+}
+
+.card:hover {
+  background: #E9EEFF;
+}
+
+.card:active {
+  background: #F2F5FF;
+}
+
+.card img {
+  max-width: 100px;
+  max-height: 158px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--color-text-02);
+  max-height: 60px;
+  overflow: hidden;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+}
+
+@media (max-width: v.$main-mobile-width) {
+  .card img {
+    max-width: 47px;
+    max-height: 75px;
+  }
+}
