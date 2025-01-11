@@ -19,7 +19,9 @@ export const BooksBlock = ({ books, title }: BooksBlockProps) => {
       <h2>{title}</h2>
       <div className={styles.list}>
         {books.map(book => (
-          <BookCard key={book.bookId} {...book} />
+          <div key={book.bookId} className={styles.card}>
+            <BookCard {...book} />
+          </div>
         ))}
       </div>
     </section>

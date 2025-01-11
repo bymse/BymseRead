@@ -1,12 +1,13 @@
 ﻿@use '../../variables' as v;
 
 .card {
-  width: 300px;
+  width: 100%;
   padding: 20px;
   display: flex;
   gap: 12px;
   border-radius: 12px;
   cursor: pointer;
+  box-sizing: border-box;
 
   --fill-percent: 0%;
   background: linear-gradient(90deg, #D1D9F3 var(--fill-percent), #F7F8FB var(--fill-percent));
@@ -37,9 +38,10 @@
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
+  overflow-wrap: break-word;
 }
 
-@media (max-width: v.$main-mobile-width) {
+@media (max-width: v.$tablet-width) {
   .card img {
     max-width: 47px;
     max-height: 75px;

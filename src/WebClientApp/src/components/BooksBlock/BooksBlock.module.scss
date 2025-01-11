@@ -1,4 +1,5 @@
-﻿
+﻿@use '../../variables' as v;
+
 .block {
   padding: 40px;
   display: flex;
@@ -18,7 +19,21 @@
 }
 
 .list {
-  display: flex;
+  display: grid;
   gap: 24px;
-  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fit, minmax(302px, 1fr));
+}
+
+.card {
+  
+}
+
+@media (max-width: v.$tablet-width) {
+  .block {
+    padding: 28px;
+  }
+  .list {
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  }
 }
