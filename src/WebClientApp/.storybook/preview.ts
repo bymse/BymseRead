@@ -5,17 +5,17 @@ import '../src/global.css'
 const viewports: ViewportMap = {
   coverMobile: {
     type: 'mobile',
-    name: 'Galaxy Z Fold 6. Cover',
+    name: 'Mobile',
     styles: {
-      width: '412px',
+      width: '414px',
       height: '917px',
     },
   },
   mainMobile: {
     type: 'tablet',
-    name: 'Galaxy Z Fold 6. Main',
+    name: 'Tablet',
     styles: {
-      width: '700px',
+      width: '820px',
       height: '840px',
     },
   },
