@@ -16,7 +16,7 @@
     --color-text-04: #B5B9CD;
     --color-text-10: #5A81FA;
 
-    --font-family: 'Poppins', sans-serif;
+    --font-family: 'Manrope', sans-serif;
 
     font-family: var(--font-family);
     line-height: 1.5;
@@ -24,22 +24,22 @@
 }
 
 @font-face {
-    font-family: 'Poppins';
-    src: url("./assets/Poppins-Regular.woff2") format('woff2');
+    font-family: 'Manrope';
+    src: url("./assets/Manrope-Regular.woff2") format('woff2');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Poppins';
-    src: url("./assets/Poppins-Medium.woff2") format('woff2');
+    font-family: 'Manrope';
+    src: url("./assets/Manrope-Medium.woff2") format('woff2');
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Poppins';
-    src: url("./assets/Poppins-Bold.woff2") format('woff2');
+    font-family: 'Manrope';
+    src: url("./assets/Manrope-Bold.woff2") format('woff2');
     font-weight: 700;
     font-style: normal;
 }
