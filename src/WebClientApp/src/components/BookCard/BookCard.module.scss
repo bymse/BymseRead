@@ -21,7 +21,7 @@
   background: #F2F5FF;
 }
 
-.card img {
+.card .cover {
   max-width: 100px;
   max-height: 158px;
 }
@@ -41,9 +41,46 @@
   overflow-wrap: break-word;
 }
 
+.defaultCover {
+  background: #AFC3FF;
+  width: 100px;
+  height: 158px;
+  border-radius: 2px;
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.coverLetter {
+  font-family: var(--font-family);
+  font-size: 240px;
+  color: rgba(255, 255, 255, 0.20);
+  font-weight: 700;
+  line-height: 184px;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: -3px;
+}
+
 @media (max-width: v.$tablet-width) {
-  .card img {
+  .card .cover {
     max-width: 47px;
     max-height: 75px;
+  }
+
+  .defaultCover {
+    width: 47px;
+    height: 75px;
+  }
+  
+  .coverLetter {
+    font-size: 116px;
+    line-height: 88px;
+  }
+}
+
+@media (min-width: v.$tablet-width) {
+  .card {
+    max-width: 400px;
   }
 }

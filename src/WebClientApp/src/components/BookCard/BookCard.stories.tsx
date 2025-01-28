@@ -31,3 +31,10 @@ export const Finished: Story = {
     percentageFinished: 100,
   },
 }
+
+export const NoCover: Story = {
+  args: {
+    title: 'Kingdom of the Wicked',
+    percentageFinished: 50,
+  },
+}
