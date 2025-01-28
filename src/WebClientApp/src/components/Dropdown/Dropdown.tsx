@@ -52,15 +52,10 @@ export const Dropdown: FunctionalComponent<DropdownProps> = ({ children, button,
 
 type DropdownItemProps = {
   children: ComponentChildren
-  color?: string
   onClick?: () => void
 }
 
-export const DropdownItem: FunctionalComponent<DropdownItemProps> = ({
-  children,
-  color,
-  onClick,
-}: DropdownItemProps) => {
+export const DropdownItem: FunctionalComponent<DropdownItemProps> = ({ children, onClick }: DropdownItemProps) => {
   const context = useContext(DropdownContext)
 
   const handleClick = () => {
@@ -69,7 +64,7 @@ export const DropdownItem: FunctionalComponent<DropdownItemProps> = ({
   }
 
   return (
-    <li style={{ color }} className={styles.item} onClick={handleClick}>
+    <li className={styles.item} onClick={handleClick}>
       {children}
     </li>
   )

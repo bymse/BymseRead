@@ -41,9 +41,7 @@ export const Header = ({ onAddBook, onLogout, onSearchSubmit, onMobileSearchClic
           side="left"
         >
           <DropdownItem onClick={onAddBook}>Add new book</DropdownItem>
-          <DropdownItem onClick={onLogout} color="var(--color-text-10)">
-            Log out
-          </DropdownItem>
+          <DropdownItem onClick={onLogout}>Log out</DropdownItem>
         </Dropdown>
       </div>
     </header>
