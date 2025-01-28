@@ -1,8 +1,9 @@
 ﻿import styles from './Input.module.css'
 import { SearchIcon } from '@icons/SearchIcon.tsx'
+import cn from 'classnames'
 
 export type InputProps = {
-  type: 'search'
+  type: 'search' | 'text'
   placeholder?: string
   onSubmit?: (query: string) => void
 }
@@ -15,7 +16,7 @@ export const Input = ({ type, placeholder, onSubmit }: InputProps) => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cn(styles.wrapper, styles[type])}>
       {type === 'search' && (
         <div className={styles.icon}>
           <SearchIcon />

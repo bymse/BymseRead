@@ -14,3 +14,10 @@ export const Search: Story = {
     placeholder: 'Placeholder',
   },
 }
+
+export const Text: Story = {
+  args: {
+    type: 'text',
+    placeholder: 'Placeholder',
+  },
+}

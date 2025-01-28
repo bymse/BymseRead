@@ -6,12 +6,18 @@
     border-radius: 100px;
     background: var(--color-base-01);
     outline: 1px solid var(--base-border-normal);
-    outline-offset: -2px;
     gap: 8px;
+}
+
+.wrapper.search {
+    outline-offset: -2px;
 }
 
 .wrapper:focus-within {
     outline: 2px solid var(--base-border-active);
+}
+
+.wrapper.search:focus-within {
     outline-offset: -4px;
 }
 
@@ -28,7 +34,14 @@
     font-weight: 400;
     width: 100%;
     background: transparent;
+}
+
+.search .input {
     padding: 10px 6px 10px 0;
+}
+
+.text .input {
+    padding: 10px 8px 10px 16px;
 }
 
 .input::placeholder {

@@ -19,7 +19,7 @@ export const Default: Story = {
     submitTitle: 'Submit',
     children: (
       <>
-        <Input type="search" />
+        <Input type="text" />
       </>
     ),
   },
