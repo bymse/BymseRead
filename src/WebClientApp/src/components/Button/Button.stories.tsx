@@ -36,3 +36,12 @@ export const Flat: Story = {
     disabled: false,
   },
 }
+
+export const Secondary: Story = {
+  args: {
+    title: 'Button',
+    appearance: 'secondary',
+    size: 'medium',
+    disabled: false,
+  },
+}

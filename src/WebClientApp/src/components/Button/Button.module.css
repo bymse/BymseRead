@@ -7,8 +7,15 @@
 
 .button.flat {
     --color-normal: transparent;
-    --color-hover: var(--color-base-secondary);
-    --color-active: var(--color-base-secondary-hover);
+    --color-hover: var(--color-base-secondary-hover);
+    --color-active: var(--color-base-secondary-active);
+    --color-text: var(--color-text-10);
+}
+
+.button.secondary {
+    --color-normal: var(--color-base-secondary);
+    --color-hover: var(--color-base-secondary-hover);
+    --color-active: var(--color-base-secondary-active);
     --color-text: var(--color-text-10);
 }
 

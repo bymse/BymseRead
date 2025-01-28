@@ -7,8 +7,9 @@
     --color-base-primary-active: #295DFF;
     --color-base-primary-hover: #84A2FF;
 
-    --color-base-secondary: #F4F4F4;
-    --color-base-secondary-hover: #ECECEC;
+    --color-base-secondary: #0000000D;
+    --color-base-secondary-hover: #0000001A;
+    --color-base-secondary-active: #00000026;
 
     --color-text-01: #F8F9FD;
     --color-text-02: #060A2A;
