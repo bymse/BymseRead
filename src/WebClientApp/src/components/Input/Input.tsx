@@ -6,23 +6,40 @@ export type InputProps = {
   type: 'search' | 'text'
   placeholder?: string
   onSubmit?: (query: string) => void
+  name?: string
+  label?: string
 }
 
-export const Input = ({ type, placeholder, onSubmit }: InputProps) => {
+export const Input = ({ type, placeholder, onSubmit, name, label }: InputProps) => {
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
       onSubmit?.((event.target as HTMLInputElement).value)
     }
   }
 
+  const id = `input-${name}`
   return (
-    <div className={cn(styles.wrapper, styles[type])}>
-      {type === 'search' && (
-        <div className={styles.icon}>
-          <SearchIcon />
-        </div>
+    <div className={styles.container}>
+      {label && (
+        <label className={styles.label} htmlFor={id}>
+          {label}
+        </label>
       )}
-      <input type={type} className={styles.input} placeholder={placeholder} onKeyPress={handleKeyPress} />
+      <div className={cn(styles.inputWrapper, styles[type])}>
+        {type === 'search' && (
+          <div className={styles.icon}>
+            <SearchIcon />
+          </div>
+        )}
+        <input
+          type={type}
+          className={styles.input}
+          placeholder={placeholder}
+          onKeyPress={handleKeyPress}
+          name={name}
+          id={id}
+        />
+      </div>
     </div>
   )
 }

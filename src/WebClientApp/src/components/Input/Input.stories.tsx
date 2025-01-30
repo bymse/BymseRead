@@ -19,5 +19,7 @@ export const Text: Story = {
   args: {
     type: 'text',
     placeholder: 'Placeholder',
+    label: 'Title',
+    name: 'text',
   },
 }
