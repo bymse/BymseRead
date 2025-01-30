@@ -20,7 +20,7 @@
 }
 
 .button.outline {
-    border: 1px solid var(--color-base-04);
+    outline: 1px solid var(--color-base-04);
     --color-normal: transparent;
     --color-hover: var(--color-base-secondary-hover);
     --color-active: var(--color-base-secondary-active);
@@ -36,6 +36,7 @@
     border: none;
     cursor: pointer;
     padding: 10px 10px;
+    align-self: baseline;
 }
 
 .button:hover {

@@ -12,9 +12,11 @@
 }
 
 .popup {
+    box-sizing: border-box;
     background: var(--color-base-01);
     padding: 28px 32px;
     max-width: 500px;
+    flex-grow: 1;
     border-radius: 20px;
     overflow: hidden;
     animation: fadeIn 0.3s ease;
@@ -45,7 +47,9 @@
 }
 
 .formContent {
-    
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .formActions {

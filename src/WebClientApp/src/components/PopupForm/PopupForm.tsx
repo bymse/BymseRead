@@ -6,7 +6,7 @@ import { CloseIcon } from '@icons/CloseIcon.tsx'
 export type PopupFormProps = {
   title: string
   onCancel: () => void
-  onSubmit: () => void
+  onSubmit: (form: FormData) => void
   children: ComponentChildren
   submitTitle: string
 }
@@ -18,7 +18,8 @@ export const PopupForm = ({ title, onCancel, onSubmit, children, submitTitle }: 
 
   const handleSubmit = (event: Event) => {
     event.preventDefault()
-    onSubmit()
+    const form = new FormData(event.target as HTMLFormElement)
+    onSubmit(form)
   }
 
   return (
