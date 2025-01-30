@@ -37,6 +37,7 @@
     cursor: pointer;
     padding: 10px 10px;
     align-self: baseline;
+    white-space: nowrap;
 }
 
 .button:hover {
