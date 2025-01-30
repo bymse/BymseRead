@@ -1,4 +1,4 @@
-﻿import styles from './PopupForm.module.css'
+﻿import styles from './PopupForm.module.scss'
 import { ComponentChildren } from 'preact'
 import { Button } from '@components/Button/Button.tsx'
 import { CloseIcon } from '@icons/CloseIcon.tsx'
