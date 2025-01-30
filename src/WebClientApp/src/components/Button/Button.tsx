@@ -4,7 +4,7 @@ import cn from 'classnames'
 
 export type ButtonProps = {
   title?: string
-  appearance?: 'primary' | 'flat' | 'secondary'
+  appearance?: 'primary' | 'flat' | 'secondary' | 'outline'
   size?: 'medium'
   onClick?: () => void
   icon?: ComponentType

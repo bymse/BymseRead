@@ -56,3 +56,13 @@ export const Label: Story = {
     children: <input type="file" style={{ display: 'none' }} />,
   },
 }
+
+export const Outline: Story = {
+  args: {
+    title: 'Button',
+    appearance: 'outline',
+    size: 'medium',
+    disabled: false,
+    type: 'button',
+  },
+}

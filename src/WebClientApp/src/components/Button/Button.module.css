@@ -19,6 +19,14 @@
     --color-text: var(--color-text-10);
 }
 
+.button.outline {
+    border: 1px solid var(--color-base-04);
+    --color-normal: transparent;
+    --color-hover: var(--color-base-secondary-hover);
+    --color-active: var(--color-base-secondary-active);
+    --color-text: var(--color-text-10);
+}
+
 .button {
     background: var(--color-normal);
     border-radius: 100px;
