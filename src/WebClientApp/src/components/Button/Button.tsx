@@ -1,4 +1,4 @@
-﻿import { ComponentType } from 'preact'
+﻿import { ComponentChildren, ComponentType } from 'preact'
 import styles from './Button.module.css'
 import cn from 'classnames'
 
@@ -9,12 +9,36 @@ export type ButtonProps = {
   onClick?: () => void
   icon?: ComponentType
   disabled?: boolean
-  type?: 'submit' | 'button'
+  type?: 'submit' | 'button' | 'label'
+  children?: ComponentChildren
 }
 
-export const Button = ({ title, onClick, icon, disabled, appearance = 'primary', type = 'button' }: ButtonProps) => {
+export const Button = ({
+  title,
+  onClick,
+  icon,
+  disabled,
+  appearance = 'primary',
+  type = 'button',
+  children,
+}: ButtonProps) => {
   // noinspection UnnecessaryLocalVariableJS
   const Icon = icon
+
+  if (type === 'label') {
+    return (
+      <label
+        className={cn(styles.button, { [styles[appearance]]: true, [styles.disabled]: disabled })}
+        onClick={onClick}
+        aria-label={title}
+      >
+        {Icon && <Icon />}
+        {title && <span className={styles.text}>{title}</span>}
+        {children}
+      </label>
+    )
+  }
+
   return (
     <button
       className={cn(styles.button, styles[appearance])}
@@ -25,6 +49,7 @@ export const Button = ({ title, onClick, icon, disabled, appearance = 'primary',
     >
       {Icon && <Icon />}
       {title && <span className={styles.text}>{title}</span>}
+      {children}
     </button>
   )
 }

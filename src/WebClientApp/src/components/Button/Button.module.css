@@ -38,10 +38,12 @@
     background: var(--color-active);
 }
 
+.disabled,
 .button:disabled {
     opacity: 0.56;
     background: var(--color-normal);
     cursor: default;
+    pointer-events: none;
 }
 
 .text {

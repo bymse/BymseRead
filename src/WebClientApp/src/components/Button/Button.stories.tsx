@@ -45,3 +45,14 @@ export const Secondary: Story = {
     disabled: false,
   },
 }
+
+export const Label: Story = {
+  args: {
+    title: 'Button',
+    appearance: 'flat',
+    size: 'medium',
+    disabled: false,
+    type: 'label',
+    children: <input type="file" style={{ display: 'none' }} />,
+  },
+}
