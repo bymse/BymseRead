@@ -6,14 +6,13 @@ import {
 } from '@microsoft/kiota-abstractions'
 import { FetchRequestAdapter } from '@microsoft/kiota-http-fetchlibrary'
 import { BymseReadClient, createBymseReadClient } from '@api/bymseReadClient'
-import { WebApiRequestBuilder } from '@api/webApi'
 
 const staticAccessTokenProvider: AccessTokenProvider = {
   getAuthorizationToken: async () => Promise.resolve(__LOCAL_ACCESS_TOKEN__),
   getAllowedHostsValidator: () => new AllowedHostsValidator(),
 }
 
-export const useWebApiClient = (): WebApiRequestBuilder => {
+export const useWebApiClient = (): BymseReadClient => {
   const clientRef = useRef<BymseReadClient>(null)
 
   if (!clientRef.current) {
@@ -23,5 +22,5 @@ export const useWebApiClient = (): WebApiRequestBuilder => {
     clientRef.current = createBymseReadClient(adapter)
   }
 
-  return clientRef.current.webApi
+  return clientRef.current
 }

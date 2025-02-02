@@ -27,6 +27,16 @@
     font-weight: 400;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#app {
+    height: 100%;
+}
+
 @font-face {
     font-family: 'Manrope';
     src: url("./assets/Manrope-Regular.woff2") format('woff2');

@@ -1,6 +1,7 @@
 import { ErrorBoundary, LocationProvider, Router, Route, useLocation } from 'preact-iso'
 import { BooksList } from './pages/BooksList/BooksList.tsx'
 import { useEffect } from 'preact/hooks'
+import './global.css'
 
 export function App() {
   return (

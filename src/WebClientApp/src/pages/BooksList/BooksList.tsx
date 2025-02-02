@@ -10,11 +10,11 @@ export const BooksList = () => {
   const client = useWebApiClient()
 
   useEffect(() => {
-    void client.books.get().then(e => setCollection(e))
+    void client.webApi.books.get().then(e => setCollection(e))
   }, [client])
 
   return (
-    <>
+    <div className={styles.container}>
       <Header />
       {collection && (
         <div className={styles.list}>
@@ -24,7 +24,7 @@ export const BooksList = () => {
           {<Block title="Archived" books={collection.archivedBooks} />}
         </div>
       )}
-    </>
+    </div>
   )
 }
 
