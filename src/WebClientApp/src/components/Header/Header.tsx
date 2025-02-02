@@ -18,15 +18,17 @@ export const Header = ({ onAddBook, onLogout, onSearchSubmit, onMobileSearchClic
     onSearchSubmit?.(searchQuery)
   }
 
+  const showDropdown = onAddBook || onLogout
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
         <img alt="BymseRead" src={logo} />
       </div>
       <div className={styles.actions}>
-        <Button title="Add new book" onClick={onAddBook} />
+        {onAddBook && <Button title="Add new book" onClick={onAddBook} />}
         {onSearchSubmit && <Input type="search" placeholder="Search" onSubmit={handleSearchSubmit} />}
-        <Button title="Log out" appearance="flat" onClick={onLogout} />
+        {onLogout && <Button title="Log out" appearance="flat" onClick={onLogout} />}
       </div>
       <div className={styles.actionsMobile}>
         {onMobileSearchClick && (
@@ -36,15 +38,17 @@ export const Header = ({ onAddBook, onLogout, onSearchSubmit, onMobileSearchClic
             onClick={onMobileSearchClick}
           />
         )}
-        <Dropdown
-          button={({ onClick }) => (
-            <Button icon={() => <MoreHorIcon color="var(--color-text-10)" />} appearance="flat" onClick={onClick} />
-          )}
-          side="left"
-        >
-          <DropdownItem onClick={onAddBook}>Add new book</DropdownItem>
-          <DropdownItem onClick={onLogout}>Log out</DropdownItem>
-        </Dropdown>
+        {showDropdown && (
+          <Dropdown
+            button={({ onClick }) => (
+              <Button icon={() => <MoreHorIcon color="var(--color-text-10)" />} appearance="flat" onClick={onClick} />
+            )}
+            side="left"
+          >
+            {onAddBook && <DropdownItem onClick={onAddBook}>Add new book</DropdownItem>}
+            {onLogout && <DropdownItem onClick={onLogout}>Log out</DropdownItem>}
+          </Dropdown>
+        )}
       </div>
     </header>
   )

@@ -1,0 +1,42 @@
+﻿@use '../../variables' as v;
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 28px;
+  position: relative;
+  top: 25%;
+  margin: auto;
+}
+
+.text {
+  font-family: var(--font-family);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 32px;
+  color: var(--color-text-02);
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.illustration {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 52px;
+  display: flex;
+  justify-content: end;
+}
+
+@media (max-width: v.$tablet-width) {
+  .text {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+  
+  .wrapper {
+    max-width: 260px;
+  }
+}
