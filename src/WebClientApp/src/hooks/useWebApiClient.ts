@@ -1,14 +1,23 @@
 ﻿import { useRef } from 'preact/hooks'
-import { AnonymousAuthenticationProvider } from '@microsoft/kiota-abstractions'
+import {
+  BaseBearerTokenAuthenticationProvider,
+  AccessTokenProvider,
+  AllowedHostsValidator,
+} from '@microsoft/kiota-abstractions'
 import { FetchRequestAdapter } from '@microsoft/kiota-http-fetchlibrary'
 import { BymseReadClient, createBymseReadClient } from '@api/bymseReadClient'
 import { WebApiRequestBuilder } from '@api/webApi'
+
+const staticAccessTokenProvider: AccessTokenProvider = {
+  getAuthorizationToken: async () => Promise.resolve(__LOCAL_ACCESS_TOKEN__),
+  getAllowedHostsValidator: () => new AllowedHostsValidator(),
+}
 
 export const useWebApiClient = (): WebApiRequestBuilder => {
   const clientRef = useRef<BymseReadClient>(null)
 
   if (!clientRef.current) {
-    const authProvider = new AnonymousAuthenticationProvider()
+    const authProvider = new BaseBearerTokenAuthenticationProvider(staticAccessTokenProvider)
     const adapter = new FetchRequestAdapter(authProvider)
 
     clientRef.current = createBymseReadClient(adapter)

@@ -23,7 +23,7 @@ public static class AuthConfiguration
                     ValidateAudience = settings.Audience != null,
                     ValidAudience = settings.Audience,
                     ValidIssuer = settings.Issuer,
-                    ValidateLifetime = true,
+                    ValidateLifetime = settings.ValidateLifetime,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = settings.SymmetricKey != null
                         ? new SymmetricSecurityKey(Encoding.Default.GetBytes(settings.SymmetricKey))
@@ -51,4 +51,5 @@ public class AuthNSettings
     public string? Issuer { get; init; }
 
     public string? SymmetricKey { get; init; }
+    public bool ValidateLifetime { get; init; } = true;
 }
