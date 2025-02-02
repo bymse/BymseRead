@@ -7,6 +7,7 @@ import { BookForm } from '@components/BookForm/BookForm.tsx'
 import { useBooksCollection } from '@hooks/useBooksCollection.ts'
 import { useCreateBook } from '@hooks/useCreateBook.ts'
 import { useToast } from '@components/Toast/ToastContext.tsx'
+import { Spinner } from '@components/Spinner/Spinner.tsx'
 
 export const BooksList = () => {
   const { showInfo } = useToast()
@@ -24,12 +25,17 @@ export const BooksList = () => {
   return (
     <div className={styles.container}>
       <Header onAddBook={openBookForm} />
-      {collection && (
+      {collection ? (
         <div className={styles.list}>
           {<Block title="Active" books={collection.activeBooks} />}
           {<Block title="New" books={collection.newBooks} />}
           {<Block title="TL;DR" books={collection.tlDrBooks} />}
           {<Block title="Archived" books={collection.archivedBooks} />}
+        </div>
+      ) : (
+        <div className={styles.loader}>
+          <Spinner color="var(--color-base-primary-normal)" />
+          <span>We&lsquo;re loading books</span>
         </div>
       )}
       {bookFromVisible && <BookForm onSubmit={handleCreateBook} onCancel={closeBookFrom} />}

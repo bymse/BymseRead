@@ -12,6 +12,17 @@
   padding: 12px 40px 40px 40px;
 }
 
+.loader {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  color: var(--color-text-03);
+  gap: 20px;
+  position: relative;
+  top: 25%;
+}
+
 @media (max-width: v.$tablet-width) {
   .list {
     gap: 12px;
