@@ -5,6 +5,8 @@ using Nuke.Common.Tooling;
 partial class Build
 {
     AbsolutePath OpenApiDoc => Solution.BymseRead_Service_Client.Directory / "openapi.json";
+    
+    AbsolutePath WebClientAppDir => Solution.Directory / "WebClientApp";
 
     [NuGetPackage(packageId: "Swashbuckle.AspNetCore.Cli",
         packageExecutable: "dotnet-swagger.dll",
@@ -25,11 +27,14 @@ partial class Build
             SwashbuckleCli($"tofile --output {OpenApiDoc} {dllPath} WebApi");
         });
 
-    Target GenerateClient => target => target
+    Target GenerateClients => target => target
         .DependsOn(GenerateDoc)
         .Executes(() =>
         {
             Kiota(
                 $"generate -d {OpenApiDoc} -l CSharp -c BymseReadClient -n BymseRead.Service.Client -o {Solution.BymseRead_Service_Client.Directory / "Client"}");
+
+            Kiota(
+                $"generate -d {OpenApiDoc} -l typescript -c BymseReadClient -o {WebClientAppDir / "generated" / "api"}");
         });
 }

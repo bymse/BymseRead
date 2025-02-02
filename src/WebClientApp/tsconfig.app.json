@@ -4,7 +4,7 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2015", "ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
     "baseUrl": "./src",
     "paths": {
@@ -14,6 +14,11 @@
       "@assets/*": ["./assets/*"],
       "@icons/*": ["./icons/*"],
     },
+    
+    /* For kiota */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    
 
     /* Bundler mode */
     "moduleResolution": "bundler",
