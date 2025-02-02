@@ -22,9 +22,9 @@ export const Header = ({ onAddBook, onLogout, onSearchSubmit, onMobileSearchClic
 
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>
+      <a className={styles.logo} href="/">
         <img alt="BymseRead" src={logo} />
-      </div>
+      </a>
       <div className={styles.actions}>
         {onAddBook && <Button title="Add new book" onClick={onAddBook} />}
         {onSearchSubmit && <Input type="search" placeholder="Search" onSubmit={handleSearchSubmit} />}

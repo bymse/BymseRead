@@ -14,7 +14,7 @@ export const NotFound = () => {
           you were looking for
         </h2>
         <div>
-          <Button title="Go home" />
+          <Button title="Go home" href="/" />
         </div>
         <div className={styles.illustration}>
           <img src={illustration} alt="Not found" width="60" height="60" />

@@ -13,6 +13,7 @@ export type ButtonProps = {
   type?: 'submit' | 'button' | 'label'
   children?: ComponentChildren
   loading?: boolean
+  href?: string
 }
 
 export const Button = ({
@@ -24,6 +25,7 @@ export const Button = ({
   type = 'button',
   children,
   loading,
+  href,
 }: ButtonProps) => {
   // noinspection UnnecessaryLocalVariableJS
   const Icon = icon
@@ -46,6 +48,18 @@ export const Button = ({
       >
         {content}
       </label>
+    )
+  }
+
+  if (href) {
+    return (
+      <a
+        className={cn(styles.button, { [styles[appearance]]: true, [styles.disabled]: disabled || loading })}
+        onClick={onClick}
+        href={href}
+      >
+        {content}
+      </a>
     )
   }
 
