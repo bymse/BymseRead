@@ -17,10 +17,10 @@ export type BookFormValues = {
 export const BookForm = ({ onSubmit, onCancel }: BookFormProps) => {
   const [file, setFile] = useState<string | null>(null)
 
-  const handleSubmit = (form: FormData) => {
+  const handleSubmit = async (form: FormData) => {
     const title = form.get('title') as string
     const bookFile = file ? (form.get('bookFile') as File) : undefined
-    void onSubmit({ title, bookFile })
+    await onSubmit({ title, bookFile })
   }
 
   const handleFileChange = (event: Event) => {

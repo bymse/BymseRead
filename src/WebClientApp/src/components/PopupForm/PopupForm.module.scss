@@ -44,8 +44,12 @@
   cursor: pointer;
 }
 
-.form {
-
+.form fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  max-width: inherit;
+  min-width: inherit;
 }
 
 .formContent {

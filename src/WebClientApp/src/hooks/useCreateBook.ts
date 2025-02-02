@@ -9,13 +9,13 @@ export const useCreateBook = (onCreated: (bookId: string) => void) => {
   const { handleError } = useErrorHandler()
 
   const handleCreateBook = async (form: BookFormValues) => {
-    const uploadResponse = await uploadFile(form.bookFile)
-    if (!uploadResponse) return
+    const uploadResult = await uploadFile(form.bookFile)
+    if (!uploadResult) return
 
     const createResponse = await client.webApi.books
       .post({
         title: form.title,
-        fileUploadKey: uploadResponse.fileUploadKey,
+        fileUploadKey: uploadResult.fileUploadKey,
       })
       .catch(handleError)
 
