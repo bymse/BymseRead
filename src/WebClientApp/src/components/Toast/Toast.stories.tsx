@@ -37,17 +37,17 @@ type Story = StoryObj<Props>
 
 export const Error: Story = {
   args: {
-    message: 'Error message',
+    message: 'Fill the title',
     variant: 'error',
-    duration: 3000,
+    duration: 100000,
   },
 }
 
 export const Info: Story = {
   args: {
-    message: 'Info message',
+    message: 'New book was added',
     variant: 'info',
-    duration: 3000,
+    duration: 100000,
     link: 'https://example.com',
   },
 }

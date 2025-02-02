@@ -1,5 +1,6 @@
 ﻿import styles from './Toast.module.scss'
 import cn from 'classnames'
+import { CloseIcon } from '@icons/CloseIcon.tsx'
 
 export type ToastVariant = 'info' | 'error'
 
@@ -20,9 +21,9 @@ export const Toast = ({ message, variant, link, onClose }: ToastProps) => {
         </a>
       )}
       {!link && (
-        <button className={styles.toastClose} onClick={onClose}>
-          &times;
-        </button>
+        <span className={styles.close} onClick={onClose}>
+          <CloseIcon color="currentColor" />
+        </span>
       )}
     </div>
   )

@@ -1,7 +1,7 @@
 ﻿import styles from './PopupForm.module.scss'
 import { ComponentChildren } from 'preact'
 import { Button } from '@components/Button/Button.tsx'
-import { CloseIcon } from '@icons/CloseIcon.tsx'
+import { RemoveIcon } from '@icons/RemoveIcon.tsx'
 
 export type PopupFormProps = {
   title: string
@@ -27,7 +27,7 @@ export const PopupForm = ({ title, onCancel, onSubmit, children, submitTitle }: 
       <div className={styles.popup}>
         <h2 className={styles.title}>{title}</h2>
         <div className={styles.closeButton}>
-          <Button icon={CloseIcon} onClick={handleCancel} appearance="flat" />
+          <Button icon={RemoveIcon} onClick={handleCancel} appearance="flat" />
         </div>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formContent}>{children}</div>
