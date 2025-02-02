@@ -22,10 +22,7 @@ export const useWebApiClient = () => {
     clientRef.current = createBymseReadClient(adapter)
   }
 
-  const handleError = () => {}
-
   return {
     client: clientRef.current,
-    onError: handleError,
   }
 }

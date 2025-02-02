@@ -10,8 +10,8 @@ export type BookFormProps = {
 }
 
 export type BookFormValues = {
-  title: string
-  bookFile: File
+  title?: string
+  bookFile?: File
 }
 
 export const BookForm = ({ onSubmit, onCancel }: BookFormProps) => {
@@ -19,7 +19,7 @@ export const BookForm = ({ onSubmit, onCancel }: BookFormProps) => {
 
   const handleSubmit = (form: FormData) => {
     const title = form.get('title') as string
-    const bookFile = form.get('bookFile') as File
+    const bookFile = file ? (form.get('bookFile') as File) : undefined
     void onSubmit({ title, bookFile })
   }
 
