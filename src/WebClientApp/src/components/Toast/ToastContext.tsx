@@ -1,5 +1,5 @@
 ﻿import { createContext, ComponentChildren } from 'preact'
-import { useState, useCallback, useRef } from 'preact/hooks'
+import { useState, useCallback, useRef, useContext } from 'preact/hooks'
 import { Toast, ToastVariant } from './Toast'
 
 interface ToastState {
@@ -14,7 +14,9 @@ interface ToastContextType {
   showInfo: (message: string, link?: string, duration?: number) => void
 }
 
-export const ToastContext = createContext<ToastContextType>({
+export const useToast = () => useContext(ToastContext)
+
+const ToastContext = createContext<ToastContextType>({
   showError: () => {},
   showInfo: () => {},
 })

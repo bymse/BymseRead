@@ -5,8 +5,13 @@ import { useState } from 'preact/hooks'
 import styles from './BookForm.module.css'
 
 export type BookFormProps = {
-  onSubmit: (title: string, bookFile: File) => void
+  onSubmit: (form: BookFormValues) => Promise<void> | void
   onCancel: () => void
+}
+
+export type BookFormValues = {
+  title: string
+  bookFile: File
 }
 
 export const BookForm = ({ onSubmit, onCancel }: BookFormProps) => {
@@ -15,7 +20,7 @@ export const BookForm = ({ onSubmit, onCancel }: BookFormProps) => {
   const handleSubmit = (form: FormData) => {
     const title = form.get('title') as string
     const bookFile = form.get('bookFile') as File
-    onSubmit(title, bookFile)
+    void onSubmit({ title, bookFile })
   }
 
   const handleFileChange = (event: Event) => {

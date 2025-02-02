@@ -1,16 +1,19 @@
+import './global.css'
 import { ErrorBoundary, LocationProvider, Router, Route, useLocation } from 'preact-iso'
 import { BooksList } from './pages/BooksList/BooksList.tsx'
 import { useEffect } from 'preact/hooks'
-import './global.css'
+import { ToastProvider } from '@components/Toast/ToastContext.tsx'
 
 export function App() {
   return (
     <LocationProvider>
       <ErrorBoundary>
-        <Router>
-          <Home path="/" />
-          <Route path="/books" component={BooksList} />
-        </Router>
+        <ToastProvider>
+          <Router>
+            <Home path="/" />
+            <Route path="/books" component={BooksList} />
+          </Router>
+        </ToastProvider>
       </ErrorBoundary>
     </LocationProvider>
   )

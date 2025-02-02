@@ -1,6 +1,5 @@
-﻿import { useContext } from 'preact/hooks'
-import { Meta, StoryObj } from '@storybook/preact'
-import { ToastProvider, ToastContext } from './ToastContext'
+﻿import { Meta, StoryObj } from '@storybook/preact'
+import { ToastProvider, useToast } from './ToastContext'
 import { ToastProps } from './Toast.tsx'
 import { Button } from '@components/Button/Button.tsx'
 
@@ -10,7 +9,7 @@ type Props = ToastProps & {
 
 const ToastStoryComponent = (props: Props) => {
   const Component = (p: Props) => {
-    const { showError, showInfo } = useContext(ToastContext)
+    const { showError, showInfo } = useToast()
     const handleClick = () => {
       if (p.variant === 'error') {
         showError(p.message, p.duration)
