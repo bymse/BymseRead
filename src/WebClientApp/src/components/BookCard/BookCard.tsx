@@ -4,15 +4,16 @@ export type BookCardProps = {
   title: string
   coverUrl?: string
   percentageFinished?: number
+  bookId: string
 }
 
-export const BookCard = ({ title, coverUrl, percentageFinished }: BookCardProps) => {
+export const BookCard = ({ title, coverUrl, percentageFinished, bookId }: BookCardProps) => {
   return (
-    <div style={{ ['--fill-percent']: `${percentageFinished || 0}%` }} className={styles.card}>
+    <a style={{ ['--fill-percent']: `${percentageFinished || 0}%` }} className={styles.card} href={`/books/${bookId}`}>
       {coverUrl && <img className={styles.cover} src={coverUrl} alt={title} />}
       {!coverUrl && <DefaultBookCover title={title} />}
       <div className={styles.title}>{title}</div>
-    </div>
+    </a>
   )
 }
 
