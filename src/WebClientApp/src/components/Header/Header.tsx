@@ -25,15 +25,17 @@ export const Header = ({ onAddBook, onLogout, onSearchSubmit, onMobileSearchClic
       </div>
       <div className={styles.actions}>
         <Button title="Add new book" onClick={onAddBook} />
-        <Input type="search" placeholder="Search" onSubmit={handleSearchSubmit} />
+        {onSearchSubmit && <Input type="search" placeholder="Search" onSubmit={handleSearchSubmit} />}
         <Button title="Log out" appearance="flat" onClick={onLogout} />
       </div>
       <div className={styles.actionsMobile}>
-        <Button
-          icon={() => <SearchIcon color="var(--color-text-10)" />}
-          appearance="flat"
-          onClick={onMobileSearchClick}
-        />
+        {onMobileSearchClick && (
+          <Button
+            icon={() => <SearchIcon color="var(--color-text-10)" />}
+            appearance="flat"
+            onClick={onMobileSearchClick}
+          />
+        )}
         <Dropdown
           button={({ onClick }) => (
             <Button icon={() => <MoreHorIcon color="var(--color-text-10)" />} appearance="flat" onClick={onClick} />
