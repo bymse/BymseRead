@@ -3,13 +3,13 @@
 .container {
   background: var(--color-base-02);
   height: 100%;
-  padding: 0 40px 40px 40px;
 }
 
 .list {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding: 12px 40px 40px 40px;
 }
 
 @media (max-width: v.$tablet-width) {
