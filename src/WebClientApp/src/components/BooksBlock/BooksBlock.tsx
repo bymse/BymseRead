@@ -6,7 +6,7 @@ export type BooksBlockProps = {
   books: BookInfo[]
 }
 
-type BookInfo = {
+export type BookInfo = {
   bookId: string
   title: string
   percentageFinished?: number

@@ -13,6 +13,8 @@
       "@components/*": ["./components/*"],
       "@assets/*": ["./assets/*"],
       "@icons/*": ["./icons/*"],
+      "@hooks/*": ["./hooks/*"],
+      "@api/*": ["../generated/api/*"],
     },
     
     /* For kiota */
