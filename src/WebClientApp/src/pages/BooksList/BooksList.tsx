@@ -16,7 +16,7 @@ export const BooksList = () => {
   const onBookCreated = (bookId: string) => {
     void reload()
     closeBookFrom()
-    showInfo('New book was added', `/books/${bookId}`)
+    showInfo('New book was added', `/books/${bookId}`, 7000)
   }
 
   const { handleCreateBook } = useCreateBook(onBookCreated)

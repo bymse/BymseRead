@@ -34,6 +34,6 @@
   }
   .list {
     gap: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
   }
 }
