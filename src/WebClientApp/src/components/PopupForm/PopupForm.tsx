@@ -40,7 +40,7 @@ export const PopupForm = ({ title, onCancel, onSubmit, children, submitTitle }: 
           <fieldset disabled={isLoading}>
             <div className={styles.formContent}>{children}</div>
             <div className={styles.formActions}>
-              <Button type="submit" appearance="primary" title={submitTitle} />
+              <Button type="submit" appearance="primary" title={submitTitle} loading={isLoading} />
               <Button onClick={handleCancel} appearance="secondary" title="Cancel" />
             </div>
           </fieldset>

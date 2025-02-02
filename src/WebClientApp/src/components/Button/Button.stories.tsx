@@ -15,6 +15,7 @@ export const Primary: Story = {
     appearance: 'primary',
     size: 'medium',
     disabled: false,
+    loading: false,
   },
 }
 
@@ -25,6 +26,7 @@ export const PrimaryIcon: Story = {
     size: 'medium',
     disabled: false,
     icon: CheckIcon,
+    loading: false,
   },
 }
 
@@ -34,6 +36,7 @@ export const Flat: Story = {
     appearance: 'flat',
     size: 'medium',
     disabled: false,
+    loading: false,
   },
 }
 
@@ -43,6 +46,7 @@ export const Secondary: Story = {
     appearance: 'secondary',
     size: 'medium',
     disabled: false,
+    loading: false,
   },
 }
 
@@ -54,6 +58,7 @@ export const Label: Story = {
     disabled: false,
     type: 'label',
     children: <input type="file" style={{ display: 'none' }} />,
+    loading: false,
   },
 }
 
@@ -64,5 +69,6 @@ export const Outline: Story = {
     size: 'medium',
     disabled: false,
     type: 'button',
+    loading: false,
   },
 }

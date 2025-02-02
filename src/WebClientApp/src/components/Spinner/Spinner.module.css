@@ -1,0 +1,23 @@
+﻿.spinner {
+    display: inline-block;
+    animation: spin 900ms linear infinite;
+}
+
+.large {
+    width: 96px;
+    height: 96px;
+}
+
+.small {
+    width: 24px;
+    height: 24px;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

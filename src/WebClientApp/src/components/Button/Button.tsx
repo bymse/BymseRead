@@ -1,6 +1,7 @@
 ﻿import { ComponentChildren, ComponentType } from 'preact'
 import styles from './Button.module.css'
 import cn from 'classnames'
+import { Spinner } from '@components/Spinner/Spinner.tsx'
 
 export type ButtonProps = {
   title?: string
@@ -11,6 +12,7 @@ export type ButtonProps = {
   disabled?: boolean
   type?: 'submit' | 'button' | 'label'
   children?: ComponentChildren
+  loading?: boolean
 }
 
 export const Button = ({
@@ -21,20 +23,28 @@ export const Button = ({
   appearance = 'primary',
   type = 'button',
   children,
+  loading,
 }: ButtonProps) => {
   // noinspection UnnecessaryLocalVariableJS
   const Icon = icon
 
+  const content = (
+    <>
+      {!loading && Icon && <Icon />}
+      {title && <span className={styles.text}>{title}</span>}
+      {children}
+      {loading && <Spinner size="small" color="var(--color-text)" />}
+    </>
+  )
+
   if (type === 'label') {
     return (
       <label
-        className={cn(styles.button, { [styles[appearance]]: true, [styles.disabled]: disabled })}
+        className={cn(styles.button, { [styles[appearance]]: true, [styles.disabled]: disabled || loading })}
         onClick={onClick}
         aria-label={title}
       >
-        {Icon && <Icon />}
-        {title && <span className={styles.text}>{title}</span>}
-        {children}
+        {content}
       </label>
     )
   }
@@ -43,13 +53,11 @@ export const Button = ({
     <button
       className={cn(styles.button, styles[appearance])}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || loading}
       aria-label={title}
       type={type}
     >
-      {Icon && <Icon />}
-      {title && <span className={styles.text}>{title}</span>}
-      {children}
+      {content}
     </button>
   )
 }
