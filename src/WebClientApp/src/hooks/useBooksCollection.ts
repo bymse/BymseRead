@@ -4,10 +4,13 @@ import { useWebApiClient } from '@hooks/useWebApiClient.ts'
 
 export const useBooksCollection = () => {
   const [collection, setCollection] = useState<BooksCollectionInfo>()
-  const client = useWebApiClient()
+  const { client, onError } = useWebApiClient()
 
   const load = () => {
-    void client.webApi.books.get().then(e => setCollection(e))
+    void client.webApi.books
+      .get()
+      .then(e => setCollection(e))
+      .catch(onError)
   }
 
   useEffect(() => {

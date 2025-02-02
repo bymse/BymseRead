@@ -12,7 +12,7 @@ const staticAccessTokenProvider: AccessTokenProvider = {
   getAllowedHostsValidator: () => new AllowedHostsValidator(),
 }
 
-export const useWebApiClient = (): BymseReadClient => {
+export const useWebApiClient = () => {
   const clientRef = useRef<BymseReadClient>(null)
 
   if (!clientRef.current) {
@@ -22,5 +22,10 @@ export const useWebApiClient = (): BymseReadClient => {
     clientRef.current = createBymseReadClient(adapter)
   }
 
-  return clientRef.current
+  const handleError = () => {}
+
+  return {
+    client: clientRef.current,
+    onError: handleError,
+  }
 }
