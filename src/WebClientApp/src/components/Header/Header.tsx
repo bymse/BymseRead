@@ -3,7 +3,6 @@ import logo from '@assets/logo.svg'
 import { Button } from '@components/Button/Button.tsx'
 import { Input } from '@components/Input/Input.tsx'
 import { SearchIcon } from '@icons/SearchIcon.tsx'
-import { MoreHorIcon } from '@icons/MoreHorIcon.tsx'
 import { Dropdown, DropdownItem } from '@components/Dropdown/Dropdown.tsx'
 
 export type HeaderProps = {
@@ -39,12 +38,7 @@ export const Header = ({ onAddBook, onLogout, onSearchSubmit, onMobileSearchClic
           />
         )}
         {showDropdown && (
-          <Dropdown
-            button={({ onClick }) => (
-              <Button icon={() => <MoreHorIcon color="var(--color-text-10)" />} appearance="flat" onClick={onClick} />
-            )}
-            side="left"
-          >
+          <Dropdown side="left">
             {onAddBook && <DropdownItem onClick={onAddBook}>Add new book</DropdownItem>}
             {onLogout && <DropdownItem onClick={onLogout}>Log out</DropdownItem>}
           </Dropdown>

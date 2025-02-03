@@ -2,6 +2,8 @@
 import styles from './Dropdown.module.css'
 import { useEffect, useRef, useState, useContext } from 'preact/hooks'
 import cn from 'classnames'
+import { MoreHorIcon } from '@icons/MoreHorIcon.tsx'
+import { Button } from '@components/Button/Button.tsx'
 
 export interface DropdownButtonProps {
   onClick: () => void
@@ -9,7 +11,7 @@ export interface DropdownButtonProps {
 
 export type DropdownProps = {
   children: ComponentChildren
-  button: FunctionalComponent<DropdownButtonProps>
+  button?: FunctionalComponent<DropdownButtonProps>
   side: 'right' | 'left'
 }
 
@@ -36,11 +38,16 @@ export const Dropdown: FunctionalComponent<DropdownProps> = ({ children, button,
 
   const handleToggle = () => setIsOpen(prev => !prev)
 
-  const Button = button
+  // noinspection UnnecessaryLocalVariableJS
+  const PassedButton = button
 
   return (
     <div className={styles.dropdown} ref={dropdownRef}>
-      <Button onClick={handleToggle} />
+      {PassedButton ? (
+        <PassedButton onClick={handleToggle} />
+      ) : (
+        <Button icon={() => <MoreHorIcon color="var(--color-text-10)" />} appearance="flat" onClick={handleToggle} />
+      )}
       {isOpen && (
         <DropdownContext.Provider value={{ closeDropdown }}>
           <ul className={cn(styles.list, styles[side])}>{children}</ul>
