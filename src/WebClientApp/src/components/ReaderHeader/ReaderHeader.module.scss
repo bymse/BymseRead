@@ -1,31 +1,43 @@
 ﻿@use '../../variables' as v;
 
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
 }
 
 .left {
   display: flex;
   align-items: center;
+  justify-content: start;
 }
 
 .right {
   display: flex;
   align-items: center;
+  justify-content: end;
 }
 
 .center {
-  
+  display: flex;
+  justify-content: center;
 }
 
 .title {
   color: var(--color-text-02);
   text-overflow: ellipsis;
+  white-space: nowrap;
   overflow: hidden;
   font-family: var(--font-family);
   font-size: 20px;
   font-weight: 500;
   line-height: 24px;
+}
+
+.totalPages {
+  color: var(--color-text-03);
+  font-family: monospace;
+  font-size: 18px;
+  line-height: 20px;
+  margin-left: 2px;
 }

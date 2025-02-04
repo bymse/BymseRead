@@ -24,5 +24,6 @@ export const Default: Story = {
     onBookmarkClick: fn(),
     onEditBook: fn(),
     onDeleteBook: fn(),
+    onCurrentPageChange: fn(),
   },
 }
