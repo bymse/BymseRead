@@ -1,0 +1,32 @@
+﻿
+.input {
+    font-family: monospace;
+    font-size: 18px;
+    line-height: 20px;
+    margin: 0;
+    border: none;
+    outline: none;
+    color: var(--color-text-02);
+    position: relative;
+    padding: 0 0 8px;
+}
+
+.input::placeholder {
+    color: var(--color-text-03);
+}
+
+.input:focus {
+    border-bottom: 1px solid var(--color-base-primary-normal);
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button,
+.input[type=number] {
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number].input {
+    -moz-appearance: textfield;
+}
