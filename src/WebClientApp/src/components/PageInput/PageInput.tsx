@@ -46,17 +46,19 @@ export const PageInput = ({ defaultValue, maxNumber, onValueChange }: PageInputP
   }, [defaultValue])
 
   return (
-    <input
-      ref={inputRef}
-      className={styles.input}
-      type="number"
-      defaultValue={defaultValue}
-      onBlur={handleBlur}
-      onKeyDown={handleKeyDown}
-      max={maxNumber}
-      onInput={updateWidth}
-      style={{ width: inputWidth }}
-      placeholder={defaultValue?.toString()}
-    />
+    <label className={styles.wrapper}>
+      <input
+        ref={inputRef}
+        className={styles.input}
+        type="number"
+        defaultValue={defaultValue}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        max={maxNumber}
+        onInput={updateWidth}
+        style={{ width: inputWidth }}
+        placeholder={defaultValue?.toString()}
+      />
+    </label>
   )
 }

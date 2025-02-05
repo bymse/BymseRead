@@ -1,9 +1,13 @@
 ﻿@use '../../variables' as v;
 
 .header {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
+  border-radius: 20px;
+  z-index: 2;
+  margin: 0 40px;
 }
 
 .left {
@@ -21,6 +25,7 @@
 .center {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .title {
@@ -36,7 +41,7 @@
 
 .totalPages {
   color: var(--color-text-03);
-  font-family: monospace;
+  font-family: var(--font-family-monospace);
   font-size: 18px;
   line-height: 20px;
   margin-left: 2px;

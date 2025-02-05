@@ -21,6 +21,7 @@
     --color-status-error: #CE2900;
 
     --font-family: 'Manrope', sans-serif;
+    --font-family-monospace: 'PT Mono';
 
     font-family: var(--font-family);
     line-height: 1.5;
@@ -55,5 +56,12 @@ html, body {
     font-family: 'Manrope';
     src: url("./assets/Manrope-Bold.woff2") format('woff2');
     font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PT Mono';
+    src: url("./assets/PTMono-Regular.ttf") format('ttf');
+    font-weight: 400;
     font-style: normal;
 }
