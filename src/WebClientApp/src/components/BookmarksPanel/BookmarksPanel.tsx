@@ -27,11 +27,13 @@ export const BookmarksPanel = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h2 className={styles.title}>Bookmarks</h2>
+      <h2 className={styles.title}>Bookmarks</h2>
+      <div className={styles.close}>
         <Button icon={RemoveIcon} onClick={onClose} appearance="flat" />
       </div>
-      <Button appearance="primary" onClick={onMarkAsLastPage} title="Mark as last page" />
+      <div className={styles.button}>
+        <Button appearance="primary" onClick={onMarkAsLastPage} title="Mark as last page" />
+      </div>
       {lastPage && (
         <div className={styles.card} onClick={handleLastPageClick}>
           <span className={styles.cardName}>Last page</span>
