@@ -70,7 +70,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   return (
     <ToastContext.Provider value={{ showError, showInfo }}>
       {children}
-      {toast.visible && <Toast {...toast} onClose={hideToast} />}
+      {toast.visible && <Toast {...toast} onClose={toast.variant === 'error' ? hideToast : undefined} position="top" />}
     </ToastContext.Provider>
   )
 }

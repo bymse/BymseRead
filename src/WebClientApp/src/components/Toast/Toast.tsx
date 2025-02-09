@@ -9,18 +9,22 @@ export type ToastProps = {
   variant: ToastVariant
   link?: string
   onClose?: () => void
+  onClick?: () => void
+  position: 'top' | 'relative'
 }
 
-export const Toast = ({ message, variant, link, onClose }: ToastProps) => {
+export const Toast = ({ message, variant, link, onClose, onClick, position }: ToastProps) => {
   return (
-    <div className={cn(styles.toast, styles[variant])}>
-      <span>{message}</span>
+    <div className={cn(styles.toast, styles[variant], styles[position])}>
+      <span className={cn(onClick && styles.button)} onClick={onClick}>
+        {message}
+      </span>
       {link && (
-        <a href={link} target="_blank" rel="noopener noreferrer" className={styles.open}>
+        <a href={link} rel="noopener noreferrer" className={styles.open}>
           Open
         </a>
       )}
-      {!link && (
+      {onClose && (
         <span className={styles.close} onClick={onClose}>
           <CloseIcon color="currentColor" />
         </span>

@@ -2,7 +2,6 @@
 
 .toast {
   position: fixed;
-  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   padding: 12px 20px;
@@ -15,11 +14,26 @@
   display: flex;
   gap: 16px;
   align-items: center;
+  white-space: nowrap;
 
   @media (max-width: v.$tablet-width) {
     top: auto;
     bottom: 20px;
   }
+}
+
+.top {
+  top: max(80px, 5%);
+}
+
+.relative {
+  position: relative;
+  left: unset;
+  transform: unset;
+}
+
+.button {
+  cursor: pointer;
 }
 
 .info {
