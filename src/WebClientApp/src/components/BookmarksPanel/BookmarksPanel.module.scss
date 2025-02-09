@@ -65,6 +65,14 @@
   grid-row: 1 / span 2;
 }
 
+.returnToPageToast {
+  position: fixed;
+  bottom: max(48px, 5%);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
 @media (max-width: v.$tablet-width) {
   .container {
     width: 300px;
@@ -91,6 +99,10 @@
     display: flex;
     flex-direction: column;
     justify-content: stretch;
+  }
+  
+  .returnToPageToast {
+    bottom: 270px;
   }
 }
 

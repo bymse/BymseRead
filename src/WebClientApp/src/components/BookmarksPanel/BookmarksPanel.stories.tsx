@@ -17,5 +17,7 @@ export const Create: Story = {
     lastPage: 23,
     onClose: fn(),
     onLastPageClick: fn(),
+    currentPage: 50,
+    onReturnToPageClick: fn(),
   },
 }
