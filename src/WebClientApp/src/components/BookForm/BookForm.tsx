@@ -1,8 +1,6 @@
 ﻿import { PopupForm } from '@components/PopupForm/PopupForm.tsx'
 import { Input } from '@components/Input/Input.tsx'
-import { Button } from '@components/Button/Button.tsx'
-import { useState } from 'preact/hooks'
-import styles from './BookForm.module.css'
+import { FileButton } from '@components/FileButton/FileButton.tsx'
 
 export type BookFormProps = {
   onSubmit: (form: BookFormValues) => Promise<void> | void
@@ -15,30 +13,16 @@ export type BookFormValues = {
 }
 
 export const BookForm = ({ onSubmit, onCancel }: BookFormProps) => {
-  const [file, setFile] = useState<string | null>(null)
-
   const handleSubmit = async (form: FormData) => {
     const title = form.get('title') as string
-    const bookFile = file ? (form.get('bookFile') as File) : undefined
+    const bookFileRaw = form.get('bookFile') as File
+    const bookFile = bookFileRaw.name ? bookFileRaw : undefined
     await onSubmit({ title, bookFile })
-  }
-
-  const handleFileChange = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    const file = target.files?.[0]
-    if (file) {
-      setFile(file?.name)
-    }
   }
 
   return (
     <PopupForm title="Add new book" onCancel={onCancel} onSubmit={handleSubmit} submitTitle="Add book">
-      <div className={styles.fileWrapper}>
-        {file && <span className={styles.fileName}>{file}</span>}
-        <Button type="label" title={file ? 'Change file' : 'Select file'} appearance="outline">
-          <input type="file" name="bookFile" style={{ display: 'none' }} onChange={handleFileChange} accept=".pdf" />
-        </Button>
-      </div>
+      <FileButton inputName="bookFile" />
       <Input type="text" name="title" label="Title" />
     </PopupForm>
   )
