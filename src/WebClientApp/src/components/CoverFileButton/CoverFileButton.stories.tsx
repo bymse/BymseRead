@@ -38,7 +38,7 @@ export const Add: Story = {
 
 export const Edit: Story = {
   args: {
-    coverUrl: 'stories-cover.png',
+    coverUrl: 'stories-cover.jpg',
     inputName: 'coverFile',
     removedCheckName: 'coverRemoved',
     onSubmit: fn(),
