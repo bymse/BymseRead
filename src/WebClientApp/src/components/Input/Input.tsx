@@ -8,9 +8,10 @@ export type InputProps = {
   onSubmit?: (query: string) => void
   name?: string
   label?: string
+  defaultValue?: string
 }
 
-export const Input = ({ type, placeholder, onSubmit, name, label }: InputProps) => {
+export const Input = ({ type, placeholder, onSubmit, name, label, defaultValue }: InputProps) => {
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
       onSubmit?.((event.target as HTMLInputElement).value)
@@ -38,6 +39,7 @@ export const Input = ({ type, placeholder, onSubmit, name, label }: InputProps) 
           onKeyPress={handleKeyPress}
           name={name}
           id={id}
+          defaultValue={defaultValue}
         />
       </div>
     </div>
