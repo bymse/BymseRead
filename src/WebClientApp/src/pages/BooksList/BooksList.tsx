@@ -3,7 +3,7 @@ import { Header } from '@components/Header/Header'
 import styles from './BooksList.module.scss'
 import { BookInfo, BooksBlock } from '@components/BooksBlock/BooksBlock.tsx'
 import { useShowHide } from '@hooks/useShowHide.ts'
-import { BookForm } from '@components/BookForm/BookForm.tsx'
+import { AddBookForm } from '@components/AddBookForm/AddBookForm.tsx'
 import { useBooksCollection } from '@hooks/useBooksCollection.ts'
 import { useCreateBook } from '@hooks/useCreateBook.ts'
 import { useToast } from '@components/Toast/ToastContext.tsx'
@@ -38,7 +38,7 @@ export const BooksList = () => {
           <span>We&lsquo;re loading books</span>
         </div>
       )}
-      {bookFromVisible && <BookForm onSubmit={handleCreateBook} onCancel={closeBookFrom} />}
+      {bookFromVisible && <AddBookForm onSubmit={handleCreateBook} onCancel={closeBookFrom} />}
     </div>
   )
 }

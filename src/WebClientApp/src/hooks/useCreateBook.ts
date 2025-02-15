@@ -1,4 +1,4 @@
-﻿import { BookFormValues } from '@components/BookForm/BookForm.tsx'
+﻿import { BookFormValues } from '@components/AddBookForm/AddBookForm.tsx'
 import { useWebApiClient } from '@hooks/useWebApiClient.ts'
 import { useFileUpload } from '@hooks/useFileUpload.tsx'
 import { useErrorHandler } from '@hooks/useErrorHandler.ts'

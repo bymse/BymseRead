@@ -2,7 +2,7 @@
 import { Input } from '@components/Input/Input.tsx'
 import { FileButton } from '@components/FileButton/FileButton.tsx'
 
-export type BookFormProps = {
+export type AddBookFormProps = {
   onSubmit: (form: BookFormValues) => Promise<void> | void
   onCancel: () => void
 }
@@ -12,7 +12,7 @@ export type BookFormValues = {
   bookFile?: File
 }
 
-export const BookForm = ({ onSubmit, onCancel }: BookFormProps) => {
+export const AddBookForm = ({ onSubmit, onCancel }: AddBookFormProps) => {
   const handleSubmit = async (form: FormData) => {
     const title = form.get('title') as string
     const bookFileRaw = form.get('bookFile') as File

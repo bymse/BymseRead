@@ -1,14 +1,14 @@
-﻿import { BookForm, BookFormProps } from './BookForm.tsx'
+﻿import { AddBookForm, AddBookFormProps } from './AddBookForm.tsx'
 import { Meta, StoryObj } from '@storybook/preact'
 import { fn } from '@storybook/test'
 
-const meta: Meta<BookFormProps> = {
-  component: BookForm,
+const meta: Meta<AddBookFormProps> = {
+  component: AddBookForm,
   args: {},
 }
 export default meta
 
-type Story = StoryObj<BookFormProps>
+type Story = StoryObj<AddBookFormProps>
 
 export const Create: Story = {
   args: {
