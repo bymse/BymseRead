@@ -1,0 +1,46 @@
+﻿
+.container {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.button {
+    background: var(--color-base-02);
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 46px 32px 46px 32px;
+    gap: 8px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    width: fit-content;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.button:hover {
+    background: rgba(255, 255, 255, 0.40);
+}
+
+.button:active {
+    background: rgba(254, 254, 254, 0.10);
+}
+
+.cover {
+    display: flex;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    cursor: pointer;
+}
+
+.canvas {
+    border-radius: 12px;
+}
