@@ -33,10 +33,12 @@ export const EditBookForm = ({ title, bookId, fileUrl, fileName, coverUrl, onSub
   }
 
   return (
-    <PopupForm title="Add new book" onCancel={onCancel} onSubmit={handleSubmit} submitTitle="Add book">
+    <PopupForm title="Edit book" onCancel={onCancel} onSubmit={handleSubmit} submitTitle="Save changes">
       <FileButton inputName="bookFile" fileName={fileName} fileUrl={fileUrl} />
       <Input type="text" name="title" label="Title" defaultValue={title} />
-      <CoverFileButton inputName="coverFile" removedCheckName="removeCover" coverUrl={coverUrl} />
+      <div style={{ marginTop: '12px' }}>
+        <CoverFileButton inputName="coverFile" removedCheckName="removeCover" coverUrl={coverUrl} />
+      </div>
     </PopupForm>
   )
 }

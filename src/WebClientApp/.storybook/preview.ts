@@ -7,7 +7,7 @@ const viewports: ViewportMap = {
     type: 'mobile',
     name: 'Mobile',
     styles: {
-      width: '414px',
+      width: '413px',
       height: '917px',
     },
   },
@@ -15,7 +15,7 @@ const viewports: ViewportMap = {
     type: 'tablet',
     name: 'Tablet',
     styles: {
-      width: '820px',
+      width: '819px',
       height: '840px',
     },
   },

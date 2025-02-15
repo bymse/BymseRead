@@ -3,6 +3,7 @@
     display: flex;
     gap: 8px;
     align-items: stretch;
+    max-width: 122px;
 }
 
 .button {
@@ -17,6 +18,7 @@
     box-sizing: border-box;
     white-space: nowrap;
     width: fit-content;
+    max-width: 122px;
     font-size: 12px;
     line-height: 16px;
 }

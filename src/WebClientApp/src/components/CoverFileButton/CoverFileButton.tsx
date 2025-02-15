@@ -3,6 +3,7 @@ import { useRef, useState } from 'preact/hooks'
 import { PlusIcon } from '@icons/PlusIcon.tsx'
 import { CroppedImage } from '@components/CroppedImage/CroppedImage.tsx'
 import { CloseCircleIcon } from '@icons/CloseCircleIcon.tsx'
+import { ChangeIcon } from '@icons/ChangeIcon.tsx'
 
 export type CoverFileButtonProps = {
   inputName: string
@@ -35,8 +36,18 @@ export const CoverFileButton = ({ inputName, removedCheckName, coverUrl }: Cover
   return (
     <div className={styles.container}>
       <label className={styles.button}>
-        <PlusIcon />
-        <div>Add cover</div>
+        {!fileUrl && (
+          <>
+            <PlusIcon />
+            <div>Add cover</div>
+          </>
+        )}
+        {fileUrl && (
+          <>
+            <ChangeIcon />
+            <div>Change cover</div>
+          </>
+        )}
         <input
           type="file"
           name={inputName}

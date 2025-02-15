@@ -10,7 +10,7 @@ export default meta
 
 type Story = StoryObj<EditBookFormProps>
 
-export const Create: Story = {
+export const Default: Story = {
   args: {
     onSubmit: fn(),
     onCancel: fn(),
