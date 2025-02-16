@@ -11,4 +11,6 @@ public class Tables
     public const string Files = "files";
     
     public const string BooksProgress = "books_progress";
+    
+    public const string BooksQueue = "books_queue";
 }
