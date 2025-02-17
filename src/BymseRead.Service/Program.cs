@@ -3,6 +3,7 @@ using BymseRead.Service;
 using BymseRead.Service.Auth;
 using BymseRead.Service.Errors;
 using BymseRead.Service.Swagger;
+using BymseRead.Service.Workers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder
     .AddWebSwagger()
     .AddProblemDetails()
     .AddExceptionHandler<ExceptionToProblemDetailsHandler>();
+
+builder.Services.AddHostedService<BooksQueueWorker>();
 
 var app = builder.Build();
 

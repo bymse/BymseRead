@@ -5,21 +5,15 @@ namespace BymseRead.Infrastructure.Database;
 
 internal class ConnectionFactory(DataSourceProvider dataSourceProvider) : IDisposable
 {
-    private readonly List<NpgsqlConnection> _connections = [];
+    private NpgsqlConnection? _connection;
 
     public async ValueTask<DbConnection> Get()
     {
-        var connection = await dataSourceProvider.Get().OpenConnectionAsync();
-        _connections.Add(connection);
-
-        return connection;
+        return _connection ??= await dataSourceProvider.Get().OpenConnectionAsync();;
     }
 
     void IDisposable.Dispose()
     {
-        foreach (var connection in _connections)
-        {
-            connection.Dispose();
-        }
+        _connection?.Dispose();
     }
 }
