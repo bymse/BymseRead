@@ -4,6 +4,7 @@ using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
 using BymseRead.Core.Services;
 using BymseRead.Core.Services.Books;
+using BymseRead.Core.Services.BooksQueue;
 using BymseRead.Core.Services.Files;
 
 namespace BymseRead.Core.Application.UpdateBook;
@@ -14,7 +15,8 @@ public class UpdateBookHandler(
     IBooksRepository booksRepository,
     IBooksQueryRepository booksQueryRepository,
     BookValidator bookValidator,
-    IFilesRepository filesRepository
+    IFilesRepository filesRepository,
+    IBooksQueueService booksQueueService
 )
 {
     public async Task Handle(UserId userId, BookId bookId, UpdateBookRequest request)
@@ -56,6 +58,7 @@ public class UpdateBookHandler(
         {
             await filesStorageService.Delete(userId, model.BookFile);
             await filesRepository.Delete(model.BookFile);
+            await booksQueueService.Enqueue(model.Book.Id);
         }
 
         if (model.CoverFile != null && (uploadedCover != null || request.RemoveCover))
