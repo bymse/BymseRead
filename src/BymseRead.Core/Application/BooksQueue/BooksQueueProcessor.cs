@@ -1,11 +1,23 @@
 ﻿using BymseRead.Core.Common;
+using BymseRead.Core.Entities;
+using BymseRead.Core.Repositories;
 using BymseRead.Core.Services.BooksQueue;
+using BymseRead.Core.Services.Files;
+using BymseRead.Core.Services.Pdf;
 using Microsoft.Extensions.Logging;
 
 namespace BymseRead.Core.Application.BooksQueue;
 
 [AutoRegistration]
-public class BooksQueueProcessor(IBooksQueueService booksQueueService, ILogger<BooksQueueProcessor> logger)
+public class BooksQueueProcessor(
+    IBooksQueueService booksQueueService,
+    IPdfService pdfService,
+    IBooksRepository booksRepository,
+    IBooksQueryRepository booksQueryRepository,
+    PdfCoverSaver pdfCoverSaver,
+    IFilesStorageService filesStorageService,
+    ILogger<BooksQueueProcessor> logger
+)
 {
     public async Task<bool> ProcessNext()
     {
@@ -17,6 +29,7 @@ public class BooksQueueProcessor(IBooksQueueService booksQueueService, ILogger<B
 
         try
         {
+            await ProcessBook(context.BookId);
             await context.OnCompleted();
         }
         catch (Exception exception)
@@ -29,5 +42,41 @@ public class BooksQueueProcessor(IBooksQueueService booksQueueService, ILogger<B
         }
 
         return true;
+    }
+
+    private async Task ProcessBook(BookId bookId)
+    {
+        var book = await booksQueryRepository.FindBook(bookId, null);
+        if (book == null)
+        {
+            throw new InvalidOperationException("Book for processing not found");
+        }
+
+        using var pdfBookArgs = await GetPdfFile(book.BookFile);
+
+        var pages = await pdfService.GetPagesCount(pdfBookArgs);
+        book.Book.Pages = pages;
+
+        var cover = await pdfCoverSaver.SaveCover(book.Book.OwnerUserId, pdfBookArgs);
+        if (cover != null)
+        {
+            book.Book.BookCoverFileId = cover.Id;
+        }
+
+        await booksRepository.Update(book.Book);
+    }
+
+
+    private async Task<PdfFileArgs> GetPdfFile(File bookFile)
+    {
+        await using var stream = await filesStorageService.Download(bookFile);
+        var tempFilePath = Path.GetTempFileName();
+
+        await using (var fileStream = System.IO.File.Create(tempFilePath))
+        {
+            await stream.CopyToAsync(fileStream);
+        }
+
+        return new PdfFileArgs(tempFilePath, bookFile.Name);
     }
 }

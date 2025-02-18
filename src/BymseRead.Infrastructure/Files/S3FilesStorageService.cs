@@ -121,7 +121,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
             Metadata = { [OriginalFileNameMetadataKey] = fileName },
         };
 
-        var response = await amazonS3.PutObjectAsync(request);
+        await amazonS3.PutObjectAsync(request);
 
         return File.Create(fileId, fileName, key, stream.Length);
     }
