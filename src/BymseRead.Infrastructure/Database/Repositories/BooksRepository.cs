@@ -38,7 +38,8 @@ internal class BooksRepository(ConnectionFactory connectionFactory) : IBooksRepo
                             update books set
                                 title = @Title,
                                 book_file_id = @BookFileId,
-                                book_cover_file_id = @BookCoverFileId
+                                book_cover_file_id = @BookCoverFileId,
+                                pages = @Pages
                             where id = @Id;
                            """;
 

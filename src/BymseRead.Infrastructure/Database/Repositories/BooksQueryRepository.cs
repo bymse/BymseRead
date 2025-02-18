@@ -20,15 +20,20 @@ internal class BooksQueryRepository(ConnectionFactory connectionFactory) : IBook
         return books.SingleOrDefault();
     }
 
-    public async Task<BookModel?> FindBook(UserId userId, BookId bookId)
+    public async Task<BookModel?> FindBook(BookId bookId, UserId? userId)
     {
-        const string sql = """
+        var sql = """
                            select b.*, cf.*, bf.*
                            from books as b
                                     left join files as cf on b.book_cover_file_id = cf.id
                                     left join files as bf on b.book_file_id = bf.id
-                           where b.owner_user_id = @userId and b.id = @bookId
+                           where b.id = @bookId
                            """;
+
+        if (userId != null)
+        {
+            sql += " and b.owner_user_id = @userId";
+        }
 
         var connection = await connectionFactory.Get();
 

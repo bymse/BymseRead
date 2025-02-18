@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Immutable;
+using System.Net;
 using Amazon;
 using Amazon.Runtime.Internal.Auth;
 using Amazon.S3;
@@ -101,6 +102,14 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
         var request = new DeleteObjectRequest { Key = file.Path, BucketName = configuration.GetBucketName(), };
 
         return amazonS3.DeleteObjectAsync(request);
+    }
+
+    public async Task<Stream> Download(File file)
+    {
+        var request = new GetObjectRequest { Key = file.Path, BucketName = configuration.GetBucketName(), };
+
+        var response = await amazonS3.GetObjectAsync(request);
+        return response.ResponseStream;
     }
 
     private static string GetTempObjectKey(UserId userId, string fileUploadKey)

@@ -15,7 +15,7 @@ public class DeleteBookHandler(
 {
     public async Task Handle(UserId userId, BookId bookId)
     {
-        var model = await booksQueryRepository.FindBook(userId, bookId);
+        var model = await booksQueryRepository.FindBook(bookId, userId);
         if (model is null)
         {
             return;

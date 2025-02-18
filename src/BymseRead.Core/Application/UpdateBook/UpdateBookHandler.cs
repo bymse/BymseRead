@@ -21,7 +21,7 @@ public class UpdateBookHandler(
 {
     public async Task Handle(UserId userId, BookId bookId, UpdateBookRequest request)
     {
-        var model = await booksQueryRepository.FindBook(userId, bookId);
+        var model = await booksQueryRepository.FindBook(bookId, userId);
         if (model == null)
         {
             ValidationError.Throw("Book not found");

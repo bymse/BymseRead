@@ -11,6 +11,8 @@ public interface IFilesStorageService
     
     Task<File> MakePermanent(UserId userId, UploadedFileModel uploadedFile);
     Task Delete(UserId userId, File file);
+    
+    Task<Stream> Download(File file);
 }
 
 public class UploadedFileModel
