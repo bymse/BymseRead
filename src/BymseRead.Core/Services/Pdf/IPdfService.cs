@@ -6,9 +6,15 @@ public interface IPdfService
     Task<int> GetPagesCount(PdfFileArgs args);
 }
 
-public record PdfFileArgs(string TempFilePath, string FileName);
+public record PdfFileArgs(string TempFilePath, string FileName) : IDisposable
+{
+    public void Dispose()
+    {
+        System.IO.File.Delete(TempFilePath);
+    }
+}
 
-public record PageImageInfo(Stream ImageStream, string Name) : IDisposable, IAsyncDisposable
+public record PageImageInfo(Stream ImageStream, string Name, long Size) : IDisposable, IAsyncDisposable
 {
     public void Dispose()
     {

@@ -26,6 +26,6 @@ internal class PdfService : IPdfService
         await firstPage.WriteAsync(memoryStream, MagickFormat.Png);
 
         var name = Path.GetFileNameWithoutExtension(args.FileName);
-        return new PageImageInfo(memoryStream, $"{name}.png");
+        return new PageImageInfo(memoryStream, $"{name}.png", memoryStream.Length);
     }
 }

@@ -13,6 +13,7 @@ public interface IFilesStorageService
     Task Delete(UserId userId, File file);
     
     Task<Stream> Download(File file);
+    Task<File> Upload(UserId userId, Stream stream, string fileName);
 }
 
 public class UploadedFileModel
