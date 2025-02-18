@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using BymseRead.Core.Common;
+﻿using BymseRead.Core.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;

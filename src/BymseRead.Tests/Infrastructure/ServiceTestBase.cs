@@ -2,6 +2,7 @@
 using BymseRead.Service.Client;
 using BymseRead.Tests.Actions;
 using FluentAssertions;
+using ImageMagick;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BymseRead.Tests.Infrastructure;
@@ -43,6 +44,20 @@ public abstract class ServiceTestBase
         fileContent
             .Should()
             .Be(expectedContent);
+    }
+    
+    protected async Task AssertImage(string? url, string expectedContentPath)
+    {
+        var fileResponse = await HttpClient.GetAsync(url!);
+        fileResponse.EnsureSuccessStatusCode();
+
+        using var expectedImage = new MagickImage(await File.ReadAllBytesAsync(expectedContentPath));
+        using var actualImage = new MagickImage(await fileResponse.Content.ReadAsByteArrayAsync());
+        
+        var diff = expectedImage.Compare(actualImage, ErrorMetric.Absolute);
+        diff
+            .Should()
+            .BeLessThan(1);
     }
     
     protected async Task AssertNotFound(string? url)

@@ -1,8 +1,10 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using BymseRead.Service.Client.Models;
+using BymseRead.Tests.Actions;
 using BymseRead.Tests.Infrastructure;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using FileInfo = BymseRead.Service.Client.Models.FileInfo;
 
 namespace BymseRead.Tests.WebApiTests;
@@ -91,7 +93,7 @@ public class BooksTests : ServiceTestBase
                 e.PostAsync(new CreateBookRequest { Title = "test", FileUploadKey = file.FileUploadKey, }))
             .Should()
             .ThrowAsync<ProblemDetails>();
-        
+
         problem
             .Which.Detail.Should()
             .Contain("File not found");
@@ -155,5 +157,43 @@ public class BooksTests : ServiceTestBase
                 new BookShortInfo { BookId = result1.BookId, Title = "book1", PercentageFinished = 0 },
                 new BookShortInfo { BookId = result2.BookId, Title = "book2", PercentageFinished = 0 },
             ]);
+    }
+
+    [Test]
+    public async Task Should_UpdatePagesInBackground_OnBookCreated()
+    {
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+
+        var uploadResult = await Actions.Files.UploadFileFromPath(user, FilesActions.FileOtelPdfPath);
+        var result = await Actions.Books.CreateBook(user, uploadResult);
+
+        await Task.Delay(10.Seconds());
+        
+        var book = await client
+            .WebApi.Books[result.BookId!.Value]
+            .GetAsync();
+
+        book!
+            .Pages.Should()
+            .Be(4);
+    }
+    
+    [Test]
+    public async Task Should_UpdateCoverInBackground_OnUpdateCurrentPage()
+    {
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+
+        var uploadResult = await Actions.Files.UploadFileFromPath(user, FilesActions.FileOtelPdfPath);
+        var result = await Actions.Books.CreateBook(user, uploadResult);
+
+        await Task.Delay(10.Seconds());
+        
+        var book = await client
+            .WebApi.Books[result.BookId!.Value]
+            .GetAsync();
+
+        await AssertImage(book!.CoverUrl, FilesActions.OtelPdfCoverPath);
     }
 }

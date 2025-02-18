@@ -119,6 +119,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
             InputStream = stream,
             ContentType = "application/octet-stream",
             Metadata = { [OriginalFileNameMetadataKey] = fileName },
+            AutoCloseStream = false,
         };
 
         await amazonS3.PutObjectAsync(request);

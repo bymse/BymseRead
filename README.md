@@ -9,3 +9,7 @@ Books grid:
 
 Book page:
 ![page](./readme-img/book.png)
+
+# Local dev setup
+
+1. Install https://ghostscript.com/releases/gsdnld.html

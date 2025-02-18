@@ -70,7 +70,7 @@ public class BooksQueueProcessor(
     private async Task<PdfFileArgs> GetPdfFile(File bookFile)
     {
         await using var stream = await filesStorageService.Download(bookFile);
-        var tempFilePath = Path.GetTempFileName();
+        var tempFilePath = $"{Path.GetTempFileName()}.pdf";
 
         await using (var fileStream = System.IO.File.Create(tempFilePath))
         {

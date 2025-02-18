@@ -16,10 +16,10 @@ internal class PdfService : IPdfService
 
     public async Task<PageImageInfo> GetFirstPageAsImage(PdfFileArgs args)
     {
-        var settings = new MagickReadSettings { Density = new Density(300), };
+        var settings = new MagickReadSettings { Density = new Density(300), FrameIndex = 0, FrameCount = 1 };
 
         using var images = new MagickImageCollection();
-        await images.ReadAsync($"{args.TempFilePath}[0]", settings);
+        await images.ReadAsync(args.TempFilePath, settings);
         var firstPage = images.Single();
 
         var memoryStream = new MemoryStream();

@@ -49,6 +49,19 @@ public class BooksActions(ServiceClientProvider provider, FilesActions filesActi
 
         return createdBook!;
     }
+    
+    public async Task<CreatedBookResult> CreateBook(
+        Guid userId,
+        PreparedFileUploadResult result,
+        string title = "my book"
+    )
+    {
+        var createdBook = await provider
+            .Get(userId)
+            .WebApi.Books.PostAsync(new CreateBookRequest { Title = title, FileUploadKey = result.FileUploadKey, });
+
+        return createdBook!;
+    }
 
     public async Task DeleteBook(Guid userId, Guid bookId)
     {
