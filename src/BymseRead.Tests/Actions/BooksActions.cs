@@ -49,13 +49,11 @@ public class BooksActions(ServiceClientProvider provider, FilesActions filesActi
 
         return createdBook!;
     }
-    
-    public async Task<CreatedBookResult> CreateBook(
-        Guid userId,
-        PreparedFileUploadResult result,
-        string title = "my book"
-    )
+
+    public async Task<CreatedBookResult> CreateBookFromPath(Guid userId, string filePath, string title = "my book")
     {
+        var result = await filesActions.UploadFileFromPath(userId, filePath);
+
         var createdBook = await provider
             .Get(userId)
             .WebApi.Books.PostAsync(new CreateBookRequest { Title = title, FileUploadKey = result.FileUploadKey, });
@@ -104,6 +102,23 @@ public class BooksActions(ServiceClientProvider provider, FilesActions filesActi
                 UploadedCoverFileKey = coverFile?.FileUploadKey,
                 UploadedBookFileKey = bookFile?.FileUploadKey,
                 RemoveCover = removeCover,
+            });
+    }
+
+    public async Task UpdateBookFromPath(Guid userId, Guid bookId, string bookFilePath, string title = "my book")
+    {
+        var bookFile = await filesActions.UploadFileFromPath(userId, bookFilePath);
+
+        var client = provider.Get(userId);
+
+        await client
+            .WebApi.Books[bookId]
+            .Update.PostAsync(new UpdateBookRequest
+            {
+                Title = title,
+                UploadedCoverFileKey = null,
+                UploadedBookFileKey = bookFile.FileUploadKey,
+                RemoveCover = false,
             });
     }
 }

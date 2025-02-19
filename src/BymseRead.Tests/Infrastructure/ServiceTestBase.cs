@@ -2,6 +2,7 @@
 using BymseRead.Service.Client;
 using BymseRead.Tests.Actions;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using ImageMagick;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -46,9 +47,16 @@ public abstract class ServiceTestBase
             .Be(expectedContent);
     }
     
-    protected async Task AssertImage(string? url, string expectedContentPath)
+    protected async Task AssertCover(Guid userId, Guid bookId, string expectedContentPath)
     {
-        var fileResponse = await HttpClient.GetAsync(url!);
+        await Task.Delay(10.Seconds());
+        var client = GetServiceClient(userId);
+        
+        var book = await client
+            .WebApi.Books[bookId]
+            .GetAsync();
+        
+        var fileResponse = await HttpClient.GetAsync(book!.CoverUrl);
         fileResponse.EnsureSuccessStatusCode();
 
         using var expectedImage = new MagickImage(await File.ReadAllBytesAsync(expectedContentPath));

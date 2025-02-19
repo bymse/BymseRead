@@ -58,13 +58,17 @@ public class UpdateBookHandler(
         {
             await filesStorageService.Delete(userId, model.BookFile);
             await filesRepository.Delete(model.BookFile);
-            await booksQueueService.Enqueue(model.Book.Id);
         }
 
         if (model.CoverFile != null && (uploadedCover != null || request.RemoveCover))
         {
             await filesStorageService.Delete(userId, model.CoverFile);
             await filesRepository.Delete(model.CoverFile);
+        }
+
+        if (uploadedBook != null && uploadedCover == null)
+        {
+            await booksQueueService.Enqueue(model.Book.Id);
         }
     }
 }

@@ -13,7 +13,10 @@ public class FilesActions(ServiceClientProvider provider)
     private static readonly HttpClient HttpClient = new();
 
     public static readonly string FileOtelPdfPath = Path.Combine("TestData", "file-otel.pdf"); 
+    public static readonly string FileModernSePdfPath = Path.Combine("TestData", "file-modern-se.pdf");
+    
     public static readonly string OtelPdfCoverPath = Path.Combine("TestData", "file-otel-cover.png"); 
+    public static readonly string FileModernSePdfCoverPath = Path.Combine("TestData", "file-modern-se.png"); 
     
     public async Task<PreparedFileUploadResult> UploadFileFromPath(Guid userId, string path)
     {

@@ -165,8 +165,7 @@ public class BooksTests : ServiceTestBase
         var user = Actions.Users.CreateUser();
         var client = GetServiceClient(user);
 
-        var uploadResult = await Actions.Files.UploadFileFromPath(user, FilesActions.FileOtelPdfPath);
-        var result = await Actions.Books.CreateBook(user, uploadResult);
+        var result = await Actions.Books.CreateBookFromPath(user, FilesActions.FileOtelPdfPath);
 
         await Task.Delay(10.Seconds());
         
@@ -183,17 +182,7 @@ public class BooksTests : ServiceTestBase
     public async Task Should_UpdateCoverInBackground_OnUpdateCurrentPage()
     {
         var user = Actions.Users.CreateUser();
-        var client = GetServiceClient(user);
-
-        var uploadResult = await Actions.Files.UploadFileFromPath(user, FilesActions.FileOtelPdfPath);
-        var result = await Actions.Books.CreateBook(user, uploadResult);
-
-        await Task.Delay(10.Seconds());
-        
-        var book = await client
-            .WebApi.Books[result.BookId!.Value]
-            .GetAsync();
-
-        await AssertImage(book!.CoverUrl, FilesActions.OtelPdfCoverPath);
+        var result = await Actions.Books.CreateBookFromPath(user, FilesActions.FileOtelPdfPath);
+        await AssertCover(user, result.BookId!.Value, FilesActions.OtelPdfCoverPath);
     }
 }
