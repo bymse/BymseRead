@@ -1,4 +1,5 @@
-﻿using BymseRead.Core.Entities;
+﻿using System.Data;
+using BymseRead.Core.Entities;
 using BymseRead.Infrastructure.Database;
 using FluentMigrator;
 using FluentMigrator.Postgres;
@@ -17,7 +18,7 @@ public class AddBooksQueueItem : Migration
             .WithColumn("created_at").AsDateTimeOffset().NotNullable()
             .WithColumn("updated_at").AsDateTimeOffset().NotNullable()
             .WithColumn("book_id").AsGuid().NotNullable()
-            .ForeignKey(Tables.Books, "id")
+            .ForeignKey(Tables.Books, "id").OnDelete(Rule.Cascade)
             ;
 
         Create
