@@ -23,6 +23,7 @@ partial class Build
                 .EnableDetach()
                 .SetName(ContainerName)
                 .SetImage("postgres:17")
+                .SetArgs("-c", "log_statement=all")
             );
         });
 

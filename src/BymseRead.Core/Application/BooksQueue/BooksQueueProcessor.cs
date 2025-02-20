@@ -15,8 +15,7 @@ public class BooksQueueProcessor(
     IBooksRepository booksRepository,
     IBooksQueryRepository booksQueryRepository,
     PdfCoverSaver pdfCoverSaver,
-    IFilesStorageService filesStorageService,
-    ILogger<BooksQueueProcessor> logger
+    IFilesStorageService filesStorageService
 )
 {
     public async Task<bool> ProcessNext()

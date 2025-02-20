@@ -12,6 +12,12 @@ public class ValueObjectTypeHandler(Type type) : SqlMapper.ITypeHandler
         {
             parameter.Value = entityId.Value;
         }
+        else if (value is IEntityId[] entityIds)
+        {
+            parameter.Value = entityIds
+                .Select(e => e.Value)
+                .ToArray();
+        }
         else
         {
             parameter.Value = value;

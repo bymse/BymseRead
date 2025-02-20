@@ -35,11 +35,16 @@ internal class BooksQueueRepository(ConnectionFactory connectionFactory)
                            UPDATE books_queue
                            SET status = @Status,
                            updated_at = @UpdatedAt
-                           WHERE id in @Ids
+                           WHERE id = ANY(@Ids)
                            """;
 
-        var updatedRows =
-            await connection.ExecuteAsync(sql, new { Ids = items, Status = status, UpdatedAt = updatedAt });
+        var updatedRows = await connection.ExecuteAsync(sql,
+            new
+            {
+                Ids = items,
+                Status = status,
+                UpdatedAt = updatedAt,
+            });
 
         if (updatedRows == 0)
         {
