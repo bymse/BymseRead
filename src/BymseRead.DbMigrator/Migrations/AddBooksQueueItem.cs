@@ -25,9 +25,7 @@ public class AddBooksQueueItem : Migration
             .Index()
             .OnTable(Tables.BooksQueue)
             .OnColumn("status").Ascending()
-            .OnColumn("book_id").Ascending()
-            .WithOptions().Unique()
-            .WithOptions().Filter($"status = {(int)BookQueueItemStatus.Pending}");
+            .OnColumn("book_id").Ascending();
     }
 
     public override void Down()

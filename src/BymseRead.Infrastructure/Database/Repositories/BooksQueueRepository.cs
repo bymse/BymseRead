@@ -7,32 +7,40 @@ namespace BymseRead.Infrastructure.Database.Repositories;
 [AutoRegistration]
 internal class BooksQueueRepository(ConnectionFactory connectionFactory)
 {
-    public async Task<BooksQueueItem?> GetNextItemForUpdate()
+    public async Task<BooksQueueItem[]> GetNextItemsForUpdate()
     {
         var connection = await connectionFactory.Get();
         var sql = $"""
+                   with pending_books as (SELECT book_id, min(created_at) as earliest
+                                          FROM books_queue
+                                          WHERE status = {(int) BookQueueItemStatus.Pending}
+                                          group by book_id
+                                          order by earliest
+                                          limit 1)
                    SELECT id, book_id, status, created_at, updated_at
                    FROM books_queue
-                   WHERE status = {(int) BookQueueItemStatus.Pending}
+                   WHERE book_id in (select book_id from pending_books)
                    ORDER BY created_at
-                   LIMIT 1
                    FOR UPDATE SKIP LOCKED
                    """;
-        
-        return await connection.QueryFirstOrDefaultAsync<BooksQueueItem>(sql);
+
+        var results = await connection.QueryAsync<BooksQueueItem>(sql);
+        return results.ToArray();
     }
 
-    public async Task Update(BooksQueueItem item)
+    public async Task Update(BooksQueueItemId[] items, BookQueueItemStatus status, DateTimeOffset updatedAt)
     {
         var connection = await connectionFactory.Get();
         const string sql = """
                            UPDATE books_queue
                            SET status = @Status,
                            updated_at = @UpdatedAt
-                           WHERE id = @Id
+                           WHERE id in @Ids
                            """;
 
-        var updatedRows = await connection.ExecuteAsync(sql, item);
+        var updatedRows =
+            await connection.ExecuteAsync(sql, new { Ids = items, Status = status, UpdatedAt = updatedAt });
+
         if (updatedRows == 0)
         {
             throw new Exception("Failed to update book queue item");

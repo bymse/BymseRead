@@ -3,11 +3,12 @@ using BymseRead.Core.Entities;
 using BymseRead.Core.Services.BooksQueue;
 using BymseRead.Infrastructure.Database;
 using BymseRead.Infrastructure.Database.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace BymseRead.Infrastructure.BooksQueue;
 
 [AutoRegistration]
-internal class BooksQueueService(BooksQueueRepository repository, ConnectionFactory connectionFactory)
+internal class BooksQueueService(BooksQueueRepository repository, ConnectionFactory connectionFactory, ILogger<BookQueueItemContext> logger)
     : IBooksQueueService
 {
     public async Task<IBookQueueItemContext> ProcessNext()
@@ -15,14 +16,14 @@ internal class BooksQueueService(BooksQueueRepository repository, ConnectionFact
         var connection = await connectionFactory.Get();
         var transaction = await connection.BeginTransactionAsync();
 
-        var item = await repository.GetNextItemForUpdate();
-        if (item == null)
+        var items = await repository.GetNextItemsForUpdate();
+        if (items.Length == 0)
         {
             await transaction.RollbackAsync();
             return BookQueueItemContext.NothingToProcess;
         }
 
-        return new BookQueueItemContext(item, repository, transaction);
+        return new BookQueueItemContext(items, repository, transaction, logger);
     }
 
     public async Task Enqueue(BookId bookId)

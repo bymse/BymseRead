@@ -34,11 +34,7 @@ public class BooksQueueProcessor(
         }
         catch (Exception exception)
         {
-            logger.LogError(exception,
-                "An error occurred while processing book queue item {Id}",
-                context.BooksQueueItemId);
-
-            await context.OnFailed();
+            await context.OnFailed(exception);
         }
 
         return true;

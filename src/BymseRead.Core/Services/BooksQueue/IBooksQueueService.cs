@@ -11,7 +11,6 @@ public interface IBooksQueueService
 public interface IBookQueueItemContext
 {
     Task OnCompleted();
-    Task OnFailed();
+    Task OnFailed(Exception exception);
     BookId? BookId { get; }
-    BooksQueueItemId? BooksQueueItemId { get; }
 }
