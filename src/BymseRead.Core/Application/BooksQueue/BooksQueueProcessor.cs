@@ -57,10 +57,10 @@ public class BooksQueueProcessor(
         var pages = await pdfService.GetPagesCount(pdfBookArgs);
         book.Book.Pages = pages;
 
-        var cover = await pdfCoverSaver.SaveCover(book.Book.OwnerUserId, pdfBookArgs);
-        if (cover != null)
+        if (book.CoverFile == null)
         {
-            book.Book.BookCoverFileId = cover.Id;
+            var cover = await pdfCoverSaver.SaveCover(book.Book.OwnerUserId, pdfBookArgs);
+            book.Book.BookCoverFileId = cover?.Id;
         }
 
         await booksRepository.Update(book.Book);

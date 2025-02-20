@@ -105,7 +105,7 @@ public class BooksActions(ServiceClientProvider provider, FilesActions filesActi
             });
     }
 
-    public async Task UpdateBookFromPath(Guid userId, Guid bookId, string bookFilePath, string title = "my book")
+    public async Task UpdateBookFromPath(Guid userId, Guid bookId, string bookFilePath, string title = "my book", bool removeCover = false)
     {
         var bookFile = await filesActions.UploadFileFromPath(userId, bookFilePath);
 
@@ -118,7 +118,7 @@ public class BooksActions(ServiceClientProvider provider, FilesActions filesActi
                 Title = title,
                 UploadedCoverFileKey = null,
                 UploadedBookFileKey = bookFile.FileUploadKey,
-                RemoveCover = false,
+                RemoveCover = removeCover,
             });
     }
 }

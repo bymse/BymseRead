@@ -53,6 +53,7 @@ public class UpdateBookHandler(
         }
 
         await booksRepository.Update(model.Book);
+        await booksQueueService.Enqueue(model.Book.Id);
 
         if (uploadedBook != null)
         {
@@ -64,11 +65,6 @@ public class UpdateBookHandler(
         {
             await filesStorageService.Delete(userId, model.CoverFile);
             await filesRepository.Delete(model.CoverFile);
-        }
-
-        if (uploadedBook != null && uploadedCover == null)
-        {
-            await booksQueueService.Enqueue(model.Book.Id);
         }
     }
 }
