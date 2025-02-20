@@ -30,8 +30,11 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
         return new Uri(configuration.GetUrlBase(), originalUrl.PathAndQuery);
     }
 
-    public Uri CreateUploadUrl(UserId userId, string fileUploadKey, string fileName, long fileSize)
+    public PreparedUploadInfo PrepareUpload(UserId userId, string fileName, long fileSize)
     {
+        var extension = Path.GetExtension(fileName);
+        var fileUploadKey = $"{Guid.NewGuid()}{extension}";
+        
         var request = new GetPreSignedUrlRequest
         {
             BucketName = configuration.GetBucketName(),
@@ -48,7 +51,8 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
         var originalRawUrl = amazonS3.GetPreSignedURL(request);
         var originalUrl = new Uri(originalRawUrl);
 
-        return new Uri(configuration.GetUrlBase(), originalUrl.PathAndQuery);
+        var uploadUrl = new Uri(configuration.GetUrlBase(), originalUrl.PathAndQuery);
+        return new PreparedUploadInfo(fileUploadKey, uploadUrl);
     }
 
     public async Task<UploadedFileModel?> FindUploadedFile(UserId userId, string fileUploadKey)

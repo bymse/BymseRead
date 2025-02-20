@@ -11,16 +11,12 @@ public class PrepareFileUploadHandler(IFilesStorageService filesStorage, FilesVa
     {
         filesValidator.Validate(request.FileName, request.FileSize);
 
-        var uploadKey = Guid
-            .NewGuid()
-            .ToString();
-        
-        var uploadUrl = filesStorage.CreateUploadUrl(userId, uploadKey, request.FileName, request.FileSize);
+        var model = filesStorage.PrepareUpload(userId, request.FileName, request.FileSize);
         
         return new PreparedFileUploadResult
         {
-            FileUploadKey = uploadKey,
-            UploadUrl = uploadUrl,
+            FileUploadKey = model.FileUploadKey,
+            UploadUrl = model.UploadUrl,
         };
     }
 }
