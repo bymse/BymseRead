@@ -13,6 +13,7 @@
   "dependencies": {
     "@microsoft/kiota-bundle": "^1.0.0-preview.81",
     "classnames": "^2.5.1",
+    "pdfjs-dist": "^4.10.38",
     "preact": "^10.25.3",
     "preact-iso": "^2.8.1",
     "preact-router": "^4.1.2"

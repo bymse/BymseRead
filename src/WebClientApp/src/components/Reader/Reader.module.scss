@@ -1,0 +1,28 @@
+﻿
+.pdfjsContainer {
+  position: absolute;
+  height: 100%;
+  overflow-x: auto;
+}
+
+:global(#pdf-viewer) {
+  width: 100%;
+  height: 100%;
+}
+
+.root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--color-base-03);
+  min-height: 100vh;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  flex: 1;
+  position: relative;
+}
