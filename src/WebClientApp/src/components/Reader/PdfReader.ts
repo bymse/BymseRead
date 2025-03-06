@@ -1,5 +1,6 @@
 ﻿import * as pdfjsLib from 'pdfjs-dist'
 import { PDFViewer, EventBus, PDFLinkService } from 'pdfjs-dist/web/pdf_viewer.mjs'
+import 'pdfjs-dist/web/pdf_viewer.css'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString()
 
@@ -7,7 +8,6 @@ const DEFAULT_SCALE_DELTA = 1.1
 const MIN_SCALE = 0.25
 const MAX_SCALE = 10.0
 const DEFAULT_SCALE_VALUE = 'auto'
-//const MAX_CANVAS_PIXELS = 0 // CSS-only zooming.
 //const TEXT_LAYER_MODE = 0 // DISABLE
 
 const CMAP_URL = '/cmaps/'
@@ -39,8 +39,6 @@ export class PdfReader {
       container,
       eventBus: this.eventBus,
       linkService: this.pdfLinkService,
-      removePageBorders: true,
-      //maxCanvasPixels: MAX_CANVAS_PIXELS,
       //textLayerMode: TEXT_LAYER_MODE,
     })
 
@@ -107,10 +105,6 @@ export class PdfReader {
     return promise
   }
 
-  public get pagesCount() {
-    return this.pdfDocument?.numPages
-  }
-
   public get page() {
     return this.pdfViewer.currentPageNumber
   }
@@ -118,6 +112,7 @@ export class PdfReader {
   public set page(val) {
     this.lastPage = val
     this.pdfViewer.currentPageNumber = val
+    this.pdfViewer.scrollPageIntoView({ pageNumber: val })
   }
 
   public zoomIn(ticks: number = 0) {
