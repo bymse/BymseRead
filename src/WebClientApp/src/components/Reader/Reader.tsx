@@ -1,9 +1,6 @@
 ﻿import { useEffect, useRef } from 'preact/hooks'
-import * as pdfjsLib from 'pdfjs-dist'
-import { PDFViewer, EventBus } from 'pdfjs-dist/web/pdf_viewer.mjs'
 import styles from './Reader.module.scss'
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString()
+import { PdfReader } from '@components/Reader/PdfReader.ts'
 
 export type ReaderProps = {
   pdfUrl: string
@@ -13,48 +10,37 @@ export type ReaderProps = {
 
 export const Reader = ({ pdfUrl, currentPage, onCurrentPageChange }: ReaderProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
-  const viewerRef = useRef<PDFViewer | null>(null)
-  const lastPageRef = useRef<number | null>(null)
+  const pdfReader = useRef<PdfReader | null>(null)
 
   useEffect(() => {
     if (!containerRef.current) return
 
-    const eventBus = new EventBus()
-    eventBus.on('pagechanging', ({ pageNumber }: { pageNumber: number }) => {
-      if (pageNumber !== lastPageRef.current) {
-        if (onCurrentPageChange) {
-          onCurrentPageChange(pageNumber)
-        }
-        lastPageRef.current = pageNumber
-      }
-    })
-    const pdfViewer = new PDFViewer({
-      container: containerRef.current,
-      eventBus,
-      removePageBorders: true,
-    })
-    viewerRef.current = pdfViewer
+    if (pdfReader.current) {
+      void pdfReader.current.close().then(() => (pdfReader.current = null))
+    }
 
-    void pdfjsLib.getDocument(pdfUrl).promise.then(pdfDocument => {
-      pdfViewer.setDocument(pdfDocument)
-      if (currentPage) {
-        pdfViewer.currentPageNumber = currentPage
-      }
+    pdfReader.current = new PdfReader(containerRef.current)
+    void pdfReader.current.load({
+      pdfUrl,
+      onInitialized: reader => {
+        reader.page = currentPage || 1
+      },
+      onPageChange: page => {
+        onCurrentPageChange?.(page)
+      },
     })
   }, [pdfUrl])
 
   useEffect(() => {
-    if (viewerRef.current && currentPage) {
-      viewerRef.current.currentPageNumber = currentPage
+    if (pdfReader.current && currentPage) {
+      pdfReader.current.page = currentPage
     }
   }, [currentPage])
 
   return (
     <section className={styles.root}>
-      <div className={styles.wrapper}>
-        <div className={styles.pdfjsContainer} ref={containerRef}>
-          <div id="pdf-viewer" className="pdfViewer"></div>
-        </div>
+      <div id="viewerContainer" ref={containerRef} className={styles.viewerContainer}>
+        <div id="viewer" className="pdfViewer"></div>
       </div>
     </section>
   )

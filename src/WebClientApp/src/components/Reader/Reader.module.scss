@@ -1,8 +1,10 @@
 ﻿
-.pdfjsContainer {
+.viewerContainer {
   position: absolute;
-  height: 100%;
-  overflow-x: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: var(--color-base-03);
 }
 
 :global(#pdf-viewer) {
@@ -15,14 +17,8 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  background: var(--color-base-03);
-  min-height: 100vh;
 }
 
-.wrapper {
-  display: flex;
-  justify-content: center;
+:global(#storybook-root) {
   height: 100%;
-  flex: 1;
-  position: relative;
 }
