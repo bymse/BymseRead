@@ -1,0 +1,21 @@
+﻿
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  width: 100%;
+  background: var(--color-base-03);
+  height: 100%;
+  position: relative;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: var(--color-text-03);
+  gap: 20px;
+  position: relative;
+  margin-top: 10%;
+}

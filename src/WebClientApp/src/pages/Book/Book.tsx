@@ -32,7 +32,7 @@ export const Book = () => {
 
   if (isLoading || !book) {
     return (
-      <div>
+      <div className={styles.container}>
         <div className={styles.loader}>
           <Spinner color="var(--color-base-primary-normal)" />
           <span>We&lsquo;re loading the book</span>
@@ -42,7 +42,7 @@ export const Book = () => {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       <ReaderHeader
         title={book.title as string}
         onBookmarkClick={bookmarksShowHide.open}

@@ -39,6 +39,7 @@ export class PdfReader {
       container,
       eventBus: this.eventBus,
       linkService: this.pdfLinkService,
+      removePageBorders: true,
       //textLayerMode: TEXT_LAYER_MODE,
     })
 
