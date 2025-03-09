@@ -42,6 +42,9 @@ export const PageInput = ({ defaultValue, maxNumber, onValueChange }: PageInputP
   }
 
   useEffect(() => {
+    if (defaultValue && inputRef.current) {
+      inputRef.current.value = defaultValue?.toString()
+    }
     updateWidth()
   }, [defaultValue])
 

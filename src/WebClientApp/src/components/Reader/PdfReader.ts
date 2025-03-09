@@ -29,7 +29,7 @@ export class PdfReader {
   private pdfDocument?: pdfjsLib.PDFDocumentProxy
   private loadingTask?: pdfjsLib.PDFDocumentLoadingTask
   private loadParams?: LoadParams
-  private lastPage?: number
+  public lastPage?: number
 
   constructor(container: HTMLDivElement) {
     this.eventBus = new EventBus()

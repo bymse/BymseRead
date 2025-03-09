@@ -35,7 +35,7 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange }: Rea
   }, [pdfUrl])
 
   useEffect(() => {
-    if (pdfReader.current && currentPage) {
+    if (pdfReader.current && currentPage && pdfReader.current.lastPage !== currentPage) {
       pdfReader.current.page = currentPage
     }
   }, [currentPage])
