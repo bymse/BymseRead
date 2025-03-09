@@ -17,7 +17,7 @@ const STANDARD_FONTS_URL = '/standard_fonts/'
 type LoadParams = {
   pdfUrl: string
   onInitialized?: (p: PdfReader) => void
-  bookId?: string
+  bookId: string
   onPageChange?: (page: number) => void
   startPage?: number
 }

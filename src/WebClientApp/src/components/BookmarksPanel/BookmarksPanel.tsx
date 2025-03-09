@@ -7,11 +7,11 @@ import { Toast } from '@components/Toast/Toast.tsx'
 
 export type BookmarksPanelProps = {
   onMarkAsLastPage: (page: number) => void
-  lastPage?: number
-  lastPageDate?: Date
+  lastPage?: number | null
+  lastPageDate?: Date | null
   onClose: () => void
   onLastPageClick: (lastPage: number) => void
-  currentPage: number
+  currentPage?: number
   onReturnToPageClick: (page: number) => void
 }
 
@@ -39,7 +39,7 @@ export const BookmarksPanel = ({
     }
 
     onLastPageClick(lastPage)
-    if (lastPage !== currentPage) {
+    if (currentPage && lastPage !== currentPage) {
       pageToReturnRef.current = currentPage
       setShowReturnToPage(true)
     }
@@ -48,7 +48,7 @@ export const BookmarksPanel = ({
   const handleMarkAsLastPage = () => {
     setShowReturnToPage(false)
     pageToReturnRef.current = null
-    onMarkAsLastPage(currentPage)
+    onMarkAsLastPage(currentPage!)
   }
 
   const handleReturnToPage = () => {

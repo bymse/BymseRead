@@ -4,11 +4,12 @@ import { PdfReader } from '@components/Reader/PdfReader.ts'
 
 export type ReaderProps = {
   pdfUrl: string
-  currentPage?: number
+  bookId: string
+  currentPage: number
   onCurrentPageChange?: (page: number) => void
 }
 
-export const Reader = ({ pdfUrl, currentPage, onCurrentPageChange }: ReaderProps) => {
+export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange }: ReaderProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const pdfReader = useRef<PdfReader | null>(null)
 
@@ -21,6 +22,8 @@ export const Reader = ({ pdfUrl, currentPage, onCurrentPageChange }: ReaderProps
 
     pdfReader.current = new PdfReader(containerRef.current)
     void pdfReader.current.load({
+      bookId,
+      startPage: currentPage,
       pdfUrl,
       onInitialized: reader => {
         reader.page = currentPage || 1
