@@ -1,5 +1,5 @@
 ﻿import styles from './Header.module.scss'
-import logo from '@assets/logo.svg'
+import logo from '@assets/logo.svg?inline'
 import { Button } from '@components/Button/Button.tsx'
 import { Input } from '@components/Input/Input.tsx'
 import { SearchIcon } from '@icons/SearchIcon.tsx'

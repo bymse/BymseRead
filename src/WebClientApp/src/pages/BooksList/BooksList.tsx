@@ -8,6 +8,7 @@ import { useBooksCollection } from '@hooks/useBooksCollection.ts'
 import { useCreateBook } from '@hooks/useCreateBook.ts'
 import { useToast } from '@components/Toast/ToastContext.tsx'
 import { Spinner } from '@components/Spinner/Spinner.tsx'
+import noBooksIllustration from '@assets/no-books.svg?inline'
 
 export const BooksList = () => {
   const { showInfo } = useToast()
@@ -22,9 +23,22 @@ export const BooksList = () => {
 
   const { handleCreateBook } = useCreateBook(onBookCreated)
 
+  const isEmpty =
+    collection &&
+    collection.tlDrBooks?.length === 0 &&
+    collection.newBooks?.length === 0 &&
+    collection.activeBooks?.length === 0 &&
+    collection.archivedBooks?.length === 0
+
   return (
     <div className={styles.container}>
       <Header onAddBook={openBookForm} />
+      {isEmpty && (
+        <div className={styles.noBooks}>
+          <img src={noBooksIllustration} alt="No books" />
+          <span>We haven’t found anything</span>
+        </div>
+      )}
       {collection ? (
         <div className={styles.list}>
           {<Block title="Active" books={collection.activeBooks} />}

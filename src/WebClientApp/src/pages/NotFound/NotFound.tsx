@@ -1,7 +1,7 @@
 ﻿import styles from './NotFound.module.scss'
 import { Button } from '@components/Button/Button.tsx'
 import { Header } from '@components/Header/Header.tsx'
-import illustration from '@assets/not-found-illustration.svg'
+import illustration from '@assets/not-found-illustration.svg?inline'
 
 export const NotFound = () => {
   return (
