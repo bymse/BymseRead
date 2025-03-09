@@ -11,6 +11,7 @@ import { DeleteBookModal } from '@components/DeleteBookModal.tsx'
 import { useCurrentPage } from '@hooks/useCurrentPage.ts'
 import styles from './Book.module.scss'
 import { Reader } from '@components/Reader/Reader.tsx'
+import { useBookmarks } from '@hooks/useBookmarks.ts'
 
 export const Book = () => {
   const { params } = useRoute()
@@ -18,9 +19,8 @@ export const Book = () => {
   const { id } = params
   const { book, isLoading, reload } = useBook(id)
   const { updateCurrentPage, currentPage } = useCurrentPage(book)
-  const { handleEditBook, handleDeleteBook, handleMarkAsLastPage } = useEditBook(book?.bookId, reload, () =>
-    route('/books'),
-  )
+  const { handleMarkAsLastPage, lastPageBookmark } = useBookmarks(book)
+  const { handleEditBook, handleDeleteBook } = useEditBook(book?.bookId, reload, () => route('/books'))
 
   const bookmarksShowHide = useShowHide()
   const editShowHide = useShowHide()
@@ -63,8 +63,8 @@ export const Book = () => {
       {bookmarksShowHide.visible && (
         <BookmarksPanel
           onClose={bookmarksShowHide.close}
-          lastPage={book.lastBookmark?.page}
-          lastPageDate={book?.lastBookmark?.createdAt}
+          lastPage={lastPageBookmark?.page}
+          lastPageDate={lastPageBookmark?.date}
           onLastPageClick={updateCurrentPage}
           currentPage={currentPage}
           onMarkAsLastPage={handleMarkAsLastPage}

@@ -28,8 +28,9 @@ export const BookmarksPanel = ({
   const pageToReturnRef = useRef<number | null>(null)
 
   useEffect(() => {
-    if (currentPage === lastPage) {
+    if (currentPage === pageToReturnRef.current) {
       setShowReturnToPage(false)
+      pageToReturnRef.current = null
     }
   }, [setShowReturnToPage, currentPage])
 
@@ -54,6 +55,7 @@ export const BookmarksPanel = ({
   const handleReturnToPage = () => {
     onReturnToPageClick(pageToReturnRef.current as number)
     setShowReturnToPage(false)
+    pageToReturnRef.current = null
   }
 
   const date = lastPageDate ? lastPageDate.toISOString().split('T')[0].replace(/-/g, '.') : ''

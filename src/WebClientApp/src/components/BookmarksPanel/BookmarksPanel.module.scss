@@ -70,7 +70,7 @@
   bottom: max(48px, 5%);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 3;
+  z-index: 10;
 }
 
 @media (max-width: v.$tablet-width) {

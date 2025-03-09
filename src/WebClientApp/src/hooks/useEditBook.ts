@@ -48,23 +48,8 @@ export const useEditBook = (bookId: string | undefined | null, onEdited: () => v
 
     return client.webApi.books.byBookId(bookId).delete().then(onDeleted).catch(handleError)
   }
-
-  const handleMarkAsLastPage = (page: number) => {
-    if (!bookId) {
-      return
-    }
-
-    client.webApi.books
-      .byBookId(bookId)
-      .bookmarks.lastPage.post({
-        page,
-      })
-      .catch(handleError)
-  }
-
   return {
     handleEditBook,
     handleDeleteBook,
-    handleMarkAsLastPage,
   }
 }
