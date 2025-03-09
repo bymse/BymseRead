@@ -5,7 +5,7 @@ import { useBook } from '@hooks/useBook.ts'
 import { Spinner } from '@components/Spinner/Spinner.tsx'
 import { useShowHide } from '@hooks/useShowHide.ts'
 import { BookmarksPanel } from '@components/BookmarksPanel/BookmarksPanel.tsx'
-import { EditBookForm } from '@components/EditBookForm/EditBookForm.tsx'
+import { EditBookForm, EditBookFormValues } from '@components/EditBookForm/EditBookForm.tsx'
 import { useEditBook } from '@hooks/useEditBook.ts'
 import { DeleteBookModal } from '@components/DeleteBookModal.tsx'
 import { useCurrentPage } from '@hooks/useCurrentPage.ts'
@@ -25,6 +25,11 @@ export const Book = () => {
   const bookmarksShowHide = useShowHide()
   const editShowHide = useShowHide()
   const deleteShowHide = useShowHide()
+
+  const handleEditBookFormSubmit = async (form: EditBookFormValues) => {
+    await handleEditBook(form)
+    return editShowHide.close()
+  }
 
   if (!id || (!isLoading && !book)) {
     return <NotFound />
@@ -78,8 +83,9 @@ export const Book = () => {
           bookId={book.bookId as string}
           fileUrl={book.bookFile!.fileUrl as string}
           fileName={book.bookFile?.name as string}
-          onSubmit={handleEditBook}
+          onSubmit={handleEditBookFormSubmit}
           onCancel={editShowHide.close}
+          coverUrl={book.coverUrl}
         />
       )}
 

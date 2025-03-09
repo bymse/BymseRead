@@ -9,7 +9,7 @@ export type EditBookFormProps = {
   bookId: string
   fileUrl: string
   fileName: string
-  coverUrl?: string
+  coverUrl?: string | null
   onSubmit: (form: EditBookFormValues) => Promise<void> | void
   onCancel: () => void
 }

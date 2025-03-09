@@ -8,11 +8,11 @@ import { ChangeIcon } from '@icons/ChangeIcon.tsx'
 export type CoverFileButtonProps = {
   inputName: string
   removedCheckName: string
-  coverUrl?: string
+  coverUrl?: string | null
 }
 
 export const CoverFileButton = ({ inputName, removedCheckName, coverUrl }: CoverFileButtonProps) => {
-  const [fileUrl, setFileUrl] = useState<string | undefined>(coverUrl)
+  const [fileUrl, setFileUrl] = useState<string | undefined>(coverUrl || undefined)
   const [isRemoved, setIsRemoved] = useState<boolean>(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
