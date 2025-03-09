@@ -3,6 +3,7 @@ import styles from './PopupForm.module.scss'
 import { ComponentChildren } from 'preact'
 import { Button } from '@components/Button/Button.tsx'
 import { RemoveIcon } from '@icons/RemoveIcon.tsx'
+import cn from 'classnames'
 
 export type PopupFormProps = {
   title: string
@@ -30,9 +31,16 @@ export const PopupForm = ({ title, onCancel, onSubmit, children, submitTitle, no
     }
   }
 
+  const isSmall = !children
+
   return (
     <div className={styles.veil}>
-      <div className={styles.popup}>
+      <div
+        className={cn({
+          [styles.popup]: true,
+          [styles.small]: isSmall,
+        })}
+      >
         <h2 className={styles.title}>{title}</h2>
         {!noClose && (
           <div className={styles.closeButton}>
@@ -41,7 +49,7 @@ export const PopupForm = ({ title, onCancel, onSubmit, children, submitTitle, no
         )}
         <form onSubmit={e => void handleSubmit(e)} className={styles.form}>
           <fieldset disabled={isLoading}>
-            {children && <div className={styles.formContent}>{children}</div>}
+            {!isSmall && <div className={styles.formContent}>{children}</div>}
             <div className={styles.formActions}>
               <Button type="submit" appearance="primary" title={submitTitle} loading={isLoading} />
               <Button onClick={handleCancel} appearance="secondary" title="Cancel" />

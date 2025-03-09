@@ -37,6 +37,23 @@
   margin: 0;
 }
 
+.small {
+  flex-grow: 0;
+  min-width: 360px;
+  
+  & .title {
+    text-align: center;
+  }
+  
+  & .formActions {
+    margin-top: 0;
+    
+    & button {
+      flex: 1;
+    }
+  }
+}
+
 .closeButton {
   position: absolute;
   top: 17px;

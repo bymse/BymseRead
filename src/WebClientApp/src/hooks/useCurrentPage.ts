@@ -7,7 +7,7 @@ export const useCurrentPage = (book?: BookInfo) => {
   const { client } = useWebApiClient()
   const { handleError } = useErrorHandler()
   const debounceTimer = useRef<number | undefined>(undefined)
-  const [currentPage, setCurrentPage] = useState<number>(0)
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   const handleUpdateCurrentPage = (page: number) => {
     if (!book?.bookId) {
