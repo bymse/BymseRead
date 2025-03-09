@@ -19,7 +19,6 @@ type LoadParams = {
   onInitialized?: (p: PdfReader) => void
   bookId: string
   onPageChange?: (page: number) => void
-  startPage?: number
 }
 
 export class PdfReader {

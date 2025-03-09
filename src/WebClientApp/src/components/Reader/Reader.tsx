@@ -12,6 +12,7 @@ export type ReaderProps = {
 export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange }: ReaderProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const pdfReader = useRef<PdfReader | null>(null)
+  const currentPageRef = useRef<number>(currentPage)
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -23,10 +24,11 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange }: Rea
     pdfReader.current = new PdfReader(containerRef.current)
     void pdfReader.current.load({
       bookId,
-      startPage: currentPage,
       pdfUrl,
       onInitialized: reader => {
-        reader.page = currentPage || 1
+        if (currentPageRef.current) {
+          reader.page = currentPageRef.current
+        }
       },
       onPageChange: page => {
         onCurrentPageChange?.(page)
@@ -35,6 +37,7 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange }: Rea
   }, [pdfUrl])
 
   useEffect(() => {
+    currentPageRef.current = currentPage
     if (pdfReader.current && currentPage && pdfReader.current.lastPage !== currentPage) {
       pdfReader.current.page = currentPage
     }
