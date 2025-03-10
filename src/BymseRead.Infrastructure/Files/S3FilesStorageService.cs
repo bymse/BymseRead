@@ -79,7 +79,8 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
     public async Task<File> MakePermanent(UserId userId, UploadedFileModel uploadedFile)
     {
         var fileId = new FileId(Guid.NewGuid());
-        var key = GetFileObjectKey(userId, fileId);
+        var extension = Path.GetExtension(uploadedFile.FileName);
+        var key = GetFileObjectKey(userId, fileId, extension);
         var copyRequest = new CopyObjectRequest
         {
             SourceKey = uploadedFile.Path,
@@ -115,7 +116,8 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
     public async Task<File> Upload(UserId userId, Stream stream, string fileName)
     {
         var fileId = new FileId(Guid.NewGuid());
-        var key = GetFileObjectKey(userId, fileId);
+        var extension = Path.GetExtension(fileName);
+        var key = GetFileObjectKey(userId, fileId, extension);
         var request = new PutObjectRequest
         {
             BucketName = configuration.GetBucketName(),
@@ -136,8 +138,8 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
         return $"temp/{userId.Value.ToString()}/{fileUploadKey}";
     }
 
-    private static string GetFileObjectKey(UserId userId, FileId fileId)
+    private static string GetFileObjectKey(UserId userId, FileId fileId, string extension)
     {
-        return $"file/{userId.Value.ToString()}/{fileId.Value.ToString()}";
+        return $"file/{userId.Value.ToString()}/{fileId.Value.ToString()}{extension}";
     }
 }
