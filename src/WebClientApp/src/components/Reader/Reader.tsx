@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'preact/hooks'
+﻿import { MutableRef, useEffect, useImperativeHandle, useRef } from 'preact/hooks'
 import styles from './Reader.module.scss'
 import { PdfReader } from '@components/Reader/PdfReader.ts'
 import { useExecuteWithLoader } from '@utils/useExecuteWithLoader'
@@ -7,18 +7,31 @@ import { Loader } from '@components/Loader/Loader.tsx'
 import { useErrorHandler } from '@hooks/useErrorHandler.ts'
 import { handleZoom } from '@utils/handleZoom.ts'
 
+export interface IReader {
+  resetZoom(): void
+}
+
 export type ReaderProps = {
   pdfUrl: string
   bookId: string
   currentPage: number
   onCurrentPageChange?: (page: number) => void
+  readerRef: MutableRef<IReader | undefined>
 }
 
-export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange }: ReaderProps) => {
+export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange, readerRef }: ReaderProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const pdfReader = useRef<PdfReader | null>(null)
   const currentPageRef = useRef<number>(currentPage)
   const { handleError } = useErrorHandler()
+
+  useImperativeHandle(readerRef, () => {
+    return {
+      resetZoom: () => {
+        pdfReader.current?.resetZoom()
+      },
+    }
+  })
 
   const loadPdfReader = async () => {
     if (!containerRef.current) return

@@ -25,12 +25,11 @@
   window.addEventListener(
     'touchstart',
     (event: TouchEvent) => {
-      // If there are exactly two touches, record the initial distance.
       if (event.touches.length === 2) {
         initialDistance = getDistance(event.touches[0], event.touches[1])
       }
     },
-    { passive: true },
+    { passive: false },
   )
 
   window.addEventListener(
@@ -38,25 +37,30 @@
     (event: TouchEvent) => {
       if (event.touches.length === 2 && initialDistance !== null) {
         event.preventDefault()
+
         const currentDistance = getDistance(event.touches[0], event.touches[1])
-        const diff = currentDistance - initialDistance
-        if (Math.abs(diff) > 5) {
-          if (diff > 0) {
-            zoomInCallback(2)
+
+        if (Math.abs(currentDistance - initialDistance) > 5) {
+          if (currentDistance > initialDistance) {
+            zoomInCallback(1)
           } else {
-            zoomOutCallback(2)
+            zoomOutCallback(1)
           }
-          // Update the reference distance for continuous zoom gesture detection.
+          // Update the reference distance for continuous gesture detection.
           initialDistance = currentDistance
         }
       }
     },
-    { passive: true },
+    { passive: false },
   )
 
-  window.addEventListener('touchend', (event: TouchEvent) => {
-    if (event.touches.length < 2) {
-      initialDistance = null
-    }
-  })
+  window.addEventListener(
+    'touchend',
+    (event: TouchEvent) => {
+      if (event.touches.length < 2) {
+        initialDistance = null
+      }
+    },
+    { passive: false },
+  )
 }

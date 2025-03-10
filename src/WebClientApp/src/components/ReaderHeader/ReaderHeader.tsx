@@ -10,6 +10,7 @@ export type ReaderHeaderProps = {
   currentPage?: number
   title?: string
   onBookmarkClick?: () => void
+  onResetZoom?: () => void
   onEditBook?: () => void
   onDeleteBook?: () => void
   onCurrentPageChange?: (page: number) => void
@@ -20,6 +21,7 @@ export const ReaderHeader = ({
   onBookmarkClick,
   onEditBook,
   onDeleteBook,
+  onResetZoom,
   totalPages,
   currentPage,
   onCurrentPageChange,
@@ -30,7 +32,7 @@ export const ReaderHeader = ({
     }
   }
 
-  const hasDropdown = Boolean(onEditBook || onDeleteBook)
+  const hasDropdown = Boolean(onEditBook || onDeleteBook || onResetZoom)
   const hasPages = totalPages
 
   return (
@@ -51,6 +53,7 @@ export const ReaderHeader = ({
         {onBookmarkClick && <Button icon={BookmarkIcon} appearance="flat" onClick={onBookmarkClick} />}
         {hasDropdown && (
           <Dropdown side="left">
+            <DropdownItem onClick={onResetZoom}>Reset zoom</DropdownItem>
             <DropdownItem onClick={onEditBook}>Edit book</DropdownItem>
             <DropdownItem onClick={onDeleteBook}>Delete</DropdownItem>
           </Dropdown>

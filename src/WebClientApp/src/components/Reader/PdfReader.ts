@@ -4,7 +4,7 @@ import 'pdfjs-dist/web/pdf_viewer.css'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString()
 
-const DEFAULT_SCALE_DELTA = 1.1
+const DEFAULT_SCALE_DELTA = 1.05
 const MIN_SCALE = 0.25
 const MAX_SCALE = 10.0
 const DEFAULT_SCALE_VALUE = 'auto'
@@ -144,9 +144,20 @@ export class PdfReader {
     this.saveScale()
   }
 
+  public resetZoom() {
+    if (!this.pdfViewer) return
+
+    this.pdfViewer.currentScaleValue = DEFAULT_SCALE_VALUE
+    this.clearScale()
+  }
+
   private saveScale() {
     const currentScaleValue = this.pdfViewer.currentScaleValue
     localStorage.setItem(`pdf-reader-${this.loadParams?.bookId}-scale`, currentScaleValue)
+  }
+
+  private clearScale() {
+    localStorage.removeItem(`pdf-reader-${this.loadParams?.bookId}-scale`)
   }
 
   public getSavedScale() {

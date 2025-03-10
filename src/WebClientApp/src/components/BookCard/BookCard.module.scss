@@ -85,6 +85,10 @@
   .card {
     min-height: 108px;
   }
+  
+  .card .cover {
+    min-width: unset;
+  }
 }
 
 @media (min-width: v.$tablet-width) {

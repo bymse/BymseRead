@@ -9,13 +9,15 @@ import { useEditBook } from '@hooks/useEditBook.ts'
 import { DeleteBookModal } from '@components/DeleteBookModal/DeleteBookModal.tsx'
 import { useCurrentPage } from '@hooks/useCurrentPage.ts'
 import styles from './Book.module.scss'
-import { Reader } from '@components/Reader/Reader.tsx'
+import { IReader, Reader } from '@components/Reader/Reader.tsx'
 import { useBookmarks } from '@hooks/useBookmarks.ts'
 import { Loader } from '@components/Loader/Loader.tsx'
+import { useRef } from 'preact/hooks'
 
 export const Book = () => {
   const { params } = useRoute()
   const { route } = useLocation()
+  const readerRef = useRef<IReader>()
   const { id } = params
   const { book, isLoading, reload, showSpinner } = useBook(id)
   const { updateCurrentPage, currentPage } = useCurrentPage(book)
@@ -25,6 +27,12 @@ export const Book = () => {
   const bookmarksShowHide = useShowHide()
   const editShowHide = useShowHide()
   const deleteShowHide = useShowHide()
+
+  const handleResetZoom = () => {
+    if (readerRef.current) {
+      readerRef.current.resetZoom()
+    }
+  }
 
   const handleEditBookFormSubmit = async (form: EditBookFormValues) => {
     await handleEditBook(form)
@@ -52,6 +60,7 @@ export const Book = () => {
         onEditBook={editShowHide.open}
         onDeleteBook={deleteShowHide.open}
         onCurrentPageChange={updateCurrentPage}
+        onResetZoom={handleResetZoom}
         currentPage={currentPage}
         totalPages={book.pages as number}
       />
@@ -61,6 +70,7 @@ export const Book = () => {
         bookId={book.bookId as string}
         currentPage={currentPage}
         onCurrentPageChange={updateCurrentPage}
+        readerRef={readerRef}
       />
 
       {bookmarksShowHide.visible && (
