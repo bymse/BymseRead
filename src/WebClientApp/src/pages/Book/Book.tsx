@@ -38,6 +38,7 @@ export const Book = () => {
   if (isLoading || !book) {
     return (
       <div className={styles.container}>
+        <ReaderHeader />
         {showSpinner && (
           <div className={styles.loader}>
             <Spinner color="var(--color-base-primary-normal)" />
