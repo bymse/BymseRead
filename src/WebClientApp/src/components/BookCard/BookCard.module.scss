@@ -12,6 +12,7 @@
   --fill-percent: 0%;
   background: linear-gradient(90deg, rgba(209, 217, 243, 0.40) var(--fill-percent), #F7F8FB var(--fill-percent));
   text-decoration: none;
+  min-height: 171px;
 }
 
 .card:hover {
@@ -23,7 +24,7 @@
 }
 
 .card .cover {
-  max-width: 100px;
+  min-width: 130px;
   max-height: 158px;
 }
 
@@ -80,8 +81,18 @@
   }
 }
 
+@media (max-width: v.$tablet-width) {
+  .card {
+    min-height: 108px;
+  }
+}
+
 @media (min-width: v.$tablet-width) {
   .card {
     max-width: 400px;
+  }
+  
+  .card .cover {
+    min-width: 100px;
   }
 }

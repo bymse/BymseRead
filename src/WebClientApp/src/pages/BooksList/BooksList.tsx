@@ -37,7 +37,7 @@ export const BooksList = () => {
         {showSpinner && (
           <div className={styles.loader}>
             <Spinner color="var(--color-base-primary-normal)" />
-            <span>We&lsquo;re loading books</span>
+            <span>We&lsquo;re loading your books</span>
           </div>
         )}
       </div>
