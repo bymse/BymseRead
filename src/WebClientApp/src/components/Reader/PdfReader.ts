@@ -1,5 +1,5 @@
 ﻿import * as pdfjsLib from 'pdfjs-dist'
-import { PDFViewer, EventBus, PDFLinkService } from 'pdfjs-dist/web/pdf_viewer.mjs'
+import { PDFViewer, EventBus, PDFLinkService, ScrollMode } from 'pdfjs-dist/web/pdf_viewer.mjs'
 import 'pdfjs-dist/web/pdf_viewer.css'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString()
@@ -48,7 +48,7 @@ export class PdfReader {
     this.eventBus.on('pagesinit', () => {
       if (!this.pdfViewer) return
 
-      this.pdfViewer.currentScaleValue = DEFAULT_SCALE_VALUE
+      this.pdfViewer.currentScaleValue = this.getSavedScale() || DEFAULT_SCALE_VALUE
       if (this.loadParams?.onInitialized) {
         this.loadParams.onInitialized(this)
       }
