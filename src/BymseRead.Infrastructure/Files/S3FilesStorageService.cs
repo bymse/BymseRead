@@ -27,7 +27,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
         var originalRawUrl = amazonS3.GetPreSignedURL(request);
         var originalUrl = new Uri(originalRawUrl);
 
-        return new Uri(configuration.GetUrlBase(), originalUrl.PathAndQuery);
+        return new Uri(configuration.GetPublicUrlBase(), originalUrl.PathAndQuery);
     }
 
     public PreparedUploadInfo PrepareUpload(UserId userId, string fileName, long fileSize)

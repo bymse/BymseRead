@@ -25,6 +25,8 @@ public class S3ConfigurationHelper(IConfiguration configuration)
     public string GetHost() => _connectionString.Authority;
 
     public Uri GetUrlBase() => new($"{_connectionString.Scheme}://{GetHost()}");
+    
+    public Uri GetPublicUrlBase() => configuration.GetValue<Uri?>("S3FilesStorage:PublicUrlBase") ?? GetUrlBase();
 }
 
 public record S3Config(string ServiceUrl, string AccessKey, string SecretKey);
