@@ -22,7 +22,7 @@ export const useBook = (bookId?: string) => {
     }
   }
 
-  const { isLoading, showSpinner, execute } = useExecuteWithLoader(load)
+  const { isLoading, showSpinner, execute } = useExecuteWithLoader(load, true)
 
   useEffect(() => {
     void execute()
