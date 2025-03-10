@@ -5,6 +5,7 @@ import { useExecuteWithLoader } from '@utils/useExecuteWithLoader'
 import cn from 'classnames'
 import { Loader } from '@components/Loader/Loader.tsx'
 import { useErrorHandler } from '@hooks/useErrorHandler.ts'
+import { handleZoom } from '@utils/handleZoom.ts'
 
 export type ReaderProps = {
   pdfUrl: string
@@ -36,6 +37,10 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange }: Rea
           if (currentPageRef.current) {
             reader.page = currentPageRef.current
           }
+          handleZoom(
+            e => reader.zoomIn(e),
+            e => reader.zoomOut(e),
+          )
           resolve()
         },
         onPageChange: page => {
