@@ -45,6 +45,10 @@ export default defineConfig({
         target: 'http://localhost:5299',
         changeOrigin: true,
       },
+      '/bymse-read/': {
+        target: 'http://localhost:19000',
+        changeOrigin: true,
+      },
     },
   },
 })
