@@ -9,6 +9,10 @@
   background: var(--color-base-03);
 }
 
+.loading {
+  visibility: hidden;
+}
+
 :global(#pdf-viewer) {
   width: 100%;
   height: 100%;

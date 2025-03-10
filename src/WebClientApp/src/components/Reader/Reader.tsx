@@ -1,6 +1,10 @@
 ﻿import { useEffect, useRef } from 'preact/hooks'
 import styles from './Reader.module.scss'
 import { PdfReader } from '@components/Reader/PdfReader.ts'
+import { useExecuteWithLoader } from '@utils/useExecuteWithLoader'
+import cn from 'classnames'
+import { Spinner } from '@components/Spinner/Spinner.tsx'
+import { Loader } from '@components/Loader/Loader.tsx'
 
 export type ReaderProps = {
   pdfUrl: string
@@ -14,26 +18,36 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange }: Rea
   const pdfReader = useRef<PdfReader | null>(null)
   const currentPageRef = useRef<number>(currentPage)
 
-  useEffect(() => {
+  const loadPdfReader = async () => {
     if (!containerRef.current) return
 
     if (pdfReader.current) {
-      void pdfReader.current.close().then(() => (pdfReader.current = null))
+      await pdfReader.current.close()
+      pdfReader.current = null
     }
 
     pdfReader.current = new PdfReader(containerRef.current)
-    void pdfReader.current.load({
-      bookId,
-      pdfUrl,
-      onInitialized: reader => {
-        if (currentPageRef.current) {
-          reader.page = currentPageRef.current
-        }
-      },
-      onPageChange: page => {
-        onCurrentPageChange?.(page)
-      },
+    return new Promise<void>((resolve, reject) => {
+      void pdfReader.current!.load({
+        bookId,
+        pdfUrl,
+        onInitialized: reader => {
+          if (currentPageRef.current) {
+            reader.page = currentPageRef.current
+          }
+          resolve()
+        },
+        onPageChange: page => {
+          onCurrentPageChange?.(page)
+        },
+      })
     })
+  }
+
+  const { isLoading, showSpinner, execute } = useExecuteWithLoader(loadPdfReader, true)
+
+  useEffect(() => {
+    void execute()
   }, [pdfUrl])
 
   useEffect(() => {
@@ -45,7 +59,15 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange }: Rea
 
   return (
     <section className={styles.root}>
-      <div id="viewerContainer" ref={containerRef} className={styles.viewerContainer}>
+      <Loader showSpinner={showSpinner} text={<>We&lsquo;re loading the reader</>} />
+      <div
+        id="viewerContainer"
+        ref={containerRef}
+        className={cn({
+          [styles.viewerContainer]: true,
+          [styles.loading]: isLoading,
+        })}
+      >
         <div id="viewer" className="pdfViewer"></div>
       </div>
     </section>
