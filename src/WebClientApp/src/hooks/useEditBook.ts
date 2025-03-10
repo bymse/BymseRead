@@ -3,7 +3,11 @@ import { useFileUpload } from '@hooks/useFileUpload.tsx'
 import { useErrorHandler } from '@hooks/useErrorHandler.ts'
 import { EditBookFormValues } from '@components/EditBookForm/EditBookForm.tsx'
 
-export const useEditBook = (bookId: string | undefined | null, onEdited: () => void, onDeleted: () => void) => {
+export const useEditBook = (
+  bookId: string | undefined | null,
+  onEdited: () => Promise<void>,
+  onDeleted: () => void,
+) => {
   const { client } = useWebApiClient()
   const { uploadFile } = useFileUpload()
   const { handleError } = useErrorHandler()

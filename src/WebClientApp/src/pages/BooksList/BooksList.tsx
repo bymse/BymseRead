@@ -13,7 +13,7 @@ import noBooksIllustration from '@assets/no-books.svg?inline'
 export const BooksList = () => {
   const { showInfo } = useToast()
   const { open: openBookForm, close: closeBookFrom, visible: bookFromVisible } = useShowHide()
-  const { collection, reload } = useBooksCollection()
+  const { collection, reload, isLoading, showSpinner } = useBooksCollection()
 
   const onBookCreated = (bookId: string) => {
     void reload()
@@ -30,26 +30,34 @@ export const BooksList = () => {
     collection.activeBooks?.length === 0 &&
     collection.archivedBooks?.length === 0
 
+  if (isLoading || !collection) {
+    return (
+      <div className={styles.container}>
+        <Header />
+        {showSpinner && (
+          <div className={styles.loader}>
+            <Spinner color="var(--color-base-primary-normal)" />
+            <span>We&lsquo;re loading books</span>
+          </div>
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className={styles.container}>
       <Header onAddBook={openBookForm} />
-      {isEmpty && (
+      {isEmpty ? (
         <div className={styles.noBooks}>
           <img src={noBooksIllustration} alt="No books" />
           <span>We haven’t found anything</span>
         </div>
-      )}
-      {collection ? (
+      ) : (
         <div className={styles.list}>
           {<Block title="Active" books={collection.activeBooks} />}
           {<Block title="New" books={collection.newBooks} />}
           {<Block title="TL;DR" books={collection.tlDrBooks} />}
           {<Block title="Archived" books={collection.archivedBooks} />}
-        </div>
-      ) : (
-        <div className={styles.loader}>
-          <Spinner color="var(--color-base-primary-normal)" />
-          <span>We&lsquo;re loading books</span>
         </div>
       )}
       {bookFromVisible && <AddBookForm onSubmit={handleCreateBook} onCancel={closeBookFrom} />}

@@ -17,7 +17,7 @@ export const Book = () => {
   const { params } = useRoute()
   const { route } = useLocation()
   const { id } = params
-  const { book, isLoading, reload } = useBook(id)
+  const { book, isLoading, reload, showSpinner } = useBook(id)
   const { updateCurrentPage, currentPage } = useCurrentPage(book)
   const { handleMarkAsLastPage, lastPageBookmark } = useBookmarks(book)
   const { handleEditBook, handleDeleteBook } = useEditBook(book?.bookId, reload, () => route('/books'))
@@ -38,10 +38,12 @@ export const Book = () => {
   if (isLoading || !book) {
     return (
       <div className={styles.container}>
-        <div className={styles.loader}>
-          <Spinner color="var(--color-base-primary-normal)" />
-          <span>We&lsquo;re loading the book</span>
-        </div>
+        {showSpinner && (
+          <div className={styles.loader}>
+            <Spinner color="var(--color-base-primary-normal)" />
+            <span>We&lsquo;re loading the book</span>
+          </div>
+        )}
       </div>
     )
   }
