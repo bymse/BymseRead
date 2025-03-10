@@ -19,6 +19,7 @@ type LoadParams = {
   onInitialized?: (p: PdfReader) => void
   bookId: string
   onPageChange?: (page: number) => void
+  onError: (error: Error) => void
 }
 
 export class PdfReader {
@@ -80,11 +81,15 @@ export class PdfReader {
       standardFontDataUrl: STANDARD_FONTS_URL,
     })
 
-    this.pdfDocument = await this.loadingTask.promise
+    try {
+      this.pdfDocument = await this.loadingTask.promise
 
-    this.pdfLinkService.setDocument(this.pdfDocument)
-    this.pdfViewer.setDocument(this.pdfDocument)
-    this.loadParams = params
+      this.pdfLinkService.setDocument(this.pdfDocument)
+      this.pdfViewer.setDocument(this.pdfDocument)
+      this.loadParams = params
+    } catch (error) {
+      params.onError(error as Error)
+    }
   }
 
   public close() {

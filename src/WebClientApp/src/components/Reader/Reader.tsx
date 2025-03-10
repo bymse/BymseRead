@@ -3,8 +3,8 @@ import styles from './Reader.module.scss'
 import { PdfReader } from '@components/Reader/PdfReader.ts'
 import { useExecuteWithLoader } from '@utils/useExecuteWithLoader'
 import cn from 'classnames'
-import { Spinner } from '@components/Spinner/Spinner.tsx'
 import { Loader } from '@components/Loader/Loader.tsx'
+import { useErrorHandler } from '@hooks/useErrorHandler.ts'
 
 export type ReaderProps = {
   pdfUrl: string
@@ -17,6 +17,7 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange }: Rea
   const containerRef = useRef<HTMLDivElement>(null)
   const pdfReader = useRef<PdfReader | null>(null)
   const currentPageRef = useRef<number>(currentPage)
+  const { handleError } = useErrorHandler()
 
   const loadPdfReader = async () => {
     if (!containerRef.current) return
@@ -39,6 +40,10 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange }: Rea
         },
         onPageChange: page => {
           onCurrentPageChange?.(page)
+        },
+        onError: error => {
+          handleError(error)
+          reject(error)
         },
       })
     })

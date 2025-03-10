@@ -43,7 +43,8 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
 
   const showError = useCallback(
     (message: string, duration: number = 3000) => {
-      setToast({ message, variant: 'error', visible: true })
+      const truncated = message.length > 70 ? `${message.slice(0, 70)}...` : message
+      setToast({ message: truncated, variant: 'error', visible: true })
       if (timeoutRef.current !== null) {
         clearTimeout(timeoutRef.current)
       }

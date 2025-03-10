@@ -15,8 +15,8 @@ export const useErrorHandler = () => {
 
       if (!('responseStatusCode' in error)) {
         // eslint-disable-next-line no-console
-        console.error(error)
-        showError(`JS error: ${error.message}`, 5000)
+        console.error('JS error', error)
+        showError(error.message, 5000)
         return
       }
 
