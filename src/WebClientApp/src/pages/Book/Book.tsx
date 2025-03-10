@@ -2,7 +2,6 @@
 import { ReaderHeader } from '@components/ReaderHeader/ReaderHeader.tsx'
 import { NotFound } from '../NotFound/NotFound.tsx'
 import { useBook } from '@hooks/useBook.ts'
-import { Spinner } from '@components/Spinner/Spinner.tsx'
 import { useShowHide } from '@hooks/useShowHide.ts'
 import { BookmarksPanel } from '@components/BookmarksPanel/BookmarksPanel.tsx'
 import { EditBookForm, EditBookFormValues } from '@components/EditBookForm/EditBookForm.tsx'
@@ -12,6 +11,7 @@ import { useCurrentPage } from '@hooks/useCurrentPage.ts'
 import styles from './Book.module.scss'
 import { Reader } from '@components/Reader/Reader.tsx'
 import { useBookmarks } from '@hooks/useBookmarks.ts'
+import { Loader } from '@components/Loader/Loader.tsx'
 
 export const Book = () => {
   const { params } = useRoute()
@@ -39,12 +39,7 @@ export const Book = () => {
     return (
       <div className={styles.container}>
         <ReaderHeader />
-        {showSpinner && (
-          <div className={styles.loader}>
-            <Spinner color="var(--color-base-primary-normal)" />
-            <span>We&lsquo;re loading the book</span>
-          </div>
-        )}
+        <Loader showSpinner={showSpinner} text={<>We&lsquo;re loading the book</>} />
       </div>
     )
   }

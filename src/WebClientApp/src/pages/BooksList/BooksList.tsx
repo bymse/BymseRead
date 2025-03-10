@@ -7,8 +7,8 @@ import { AddBookForm } from '@components/AddBookForm/AddBookForm.tsx'
 import { useBooksCollection } from '@hooks/useBooksCollection.ts'
 import { useCreateBook } from '@hooks/useCreateBook.ts'
 import { useToast } from '@components/Toast/ToastContext.tsx'
-import { Spinner } from '@components/Spinner/Spinner.tsx'
 import noBooksIllustration from '@assets/no-books.svg?inline'
+import { Loader } from '@components/Loader/Loader.tsx'
 
 export const BooksList = () => {
   const { showInfo } = useToast()
@@ -34,12 +34,7 @@ export const BooksList = () => {
     return (
       <div className={styles.container}>
         <Header />
-        {showSpinner && (
-          <div className={styles.loader}>
-            <Spinner color="var(--color-base-primary-normal)" />
-            <span>We&lsquo;re loading your books</span>
-          </div>
-        )}
+        <Loader showSpinner={showSpinner} text={<>We&lsquo;re loading your books</>} />
       </div>
     )
   }
