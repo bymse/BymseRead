@@ -1,5 +1,5 @@
 ﻿import * as pdfjsLib from 'pdfjs-dist'
-import { PDFViewer, EventBus, PDFLinkService, ScrollMode } from 'pdfjs-dist/web/pdf_viewer.mjs'
+import { PDFViewer, EventBus, PDFLinkService } from 'pdfjs-dist/web/pdf_viewer.mjs'
 import 'pdfjs-dist/web/pdf_viewer.css'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString()
