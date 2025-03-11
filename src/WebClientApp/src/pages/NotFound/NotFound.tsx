@@ -2,8 +2,11 @@
 import { Button } from '@components/Button/Button.tsx'
 import { Header } from '@components/Header/Header.tsx'
 import illustration from '@assets/not-found-illustration.svg?inline'
+import { usePageTitle } from '@hooks/usePageTitle.ts'
 
 export const NotFound = () => {
+  usePageTitle()
+
   return (
     <>
       <Header />

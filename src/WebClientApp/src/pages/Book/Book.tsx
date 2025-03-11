@@ -13,6 +13,7 @@ import { IReader, Reader } from '@components/Reader/Reader.tsx'
 import { useBookmarks } from '@hooks/useBookmarks.ts'
 import { Loader } from '@components/Loader/Loader.tsx'
 import { useRef } from 'preact/hooks'
+import { usePageTitle } from '@hooks/usePageTitle.ts'
 
 export const Book = () => {
   const { params } = useRoute()
@@ -23,6 +24,8 @@ export const Book = () => {
   const { updateCurrentPage, currentPage } = useCurrentPage(book)
   const { handleMarkAsLastPage, lastPageBookmark } = useBookmarks(book)
   const { handleEditBook, handleDeleteBook } = useEditBook(book?.bookId, reload, () => route('/books'))
+
+  usePageTitle(book?.title)
 
   const bookmarksShowHide = useShowHide()
   const editShowHide = useShowHide()

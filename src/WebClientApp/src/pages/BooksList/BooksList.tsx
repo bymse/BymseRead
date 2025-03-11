@@ -9,11 +9,14 @@ import { useCreateBook } from '@hooks/useCreateBook.ts'
 import { useToast } from '@components/Toast/ToastContext.tsx'
 import noBooksIllustration from '@assets/no-books.svg?inline'
 import { Loader } from '@components/Loader/Loader.tsx'
+import { usePageTitle } from '@hooks/usePageTitle.ts'
 
 export const BooksList = () => {
   const { showInfo } = useToast()
   const { open: openBookForm, close: closeBookFrom, visible: bookFromVisible } = useShowHide()
   const { collection, reload, isLoading, showSpinner } = useBooksCollection()
+
+  usePageTitle('Books')
 
   const onBookCreated = (bookId: string) => {
     void reload()
