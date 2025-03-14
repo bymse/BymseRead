@@ -19,11 +19,13 @@ partial class Build
                 .AddEnv($"POSTGRES_USER={LocalPostgresUser}")
                 .AddVolume($"{ContainerName}_pgdata:/var/lib/postgresql/data")
                 .AddPublish($"{LocalPostgresPort}:5432")
+                .SetHealthCmd("pg_isready -U " + LocalPostgresUser)
+                .SetHealthInterval("5s")
+                .SetHealthRetries(5)
                 .SetRestart("always")
                 .EnableDetach()
                 .SetName(ContainerName)
                 .SetImage("postgres:17")
-                .SetArgs("-c", "log_statement=all")
             );
         });
 

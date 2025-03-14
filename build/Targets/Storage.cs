@@ -13,7 +13,7 @@ partial class Build
     private const string StorageRootUserPassword = "minioadmin";
     private const string StorageRootUser = "minioadmin";
     private const string StorageBucketName = "bymse-read";
-    private static readonly string StorageUrl = "http://localhost" + StorageApiPort;
+    private static readonly string StorageUrl = "http://localhost:" + StorageApiPort;
 
     Target UpStorage => target => target
         .Executes(() =>
@@ -22,14 +22,17 @@ partial class Build
                 .AddEnv($"MINIO_ROOT_USER={StorageRootUser}")
                 .AddEnv($"MINIO_ROOT_PASSWORD={StorageRootUserPassword}")
                 .AddEnv($"MINIO_SERVER_URL={StorageUrl}")
-                .AddVolume($"{StorageContainerName}_data:/data")
                 .EnableDetach()
+                .SetVolume($"{StorageContainerName}_data:/data")
                 .AddPublish($"{StorageApiPort}:9000")
                 .AddPublish($"{StorageWebPort}:9001")
+                .SetHealthCmd($"curl --silent --fail {StorageUrl}/minio/health/live || exit 1")
+                .SetHealthInterval("30s")
+                .SetHealthRetries(3)
                 .SetRestart("always")
                 .SetName(StorageContainerName)
                 .SetImage("quay.io/minio/minio:latest")
-                .AddArgs("server", "--console-address", ":9001", "/data")
+                .SetArgs("server", "--console-address", ":9001", "/data")
             );
         });
 
