@@ -29,9 +29,12 @@
         "GenerateClients",
         "GenerateDoc",
         "SetupDevConfig",
+        "SetupKeycloak",
         "SetupLocal",
         "SetupStorage",
         "UpDatabase",
+        "UpKeycloak",
+        "UpLocal",
         "UpStorage"
       ]
     },
@@ -113,9 +116,6 @@
             "Debug",
             "Release"
           ]
-        },
-        "RecreateConfig": {
-          "type": "boolean"
         },
         "Solution": {
           "type": "string",

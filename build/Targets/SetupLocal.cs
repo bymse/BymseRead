@@ -1,14 +1,11 @@
-﻿using System.Linq;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Nuke.Common;
 using Nuke.Common.IO;
 
 partial class Build
 {
-    [Parameter]
-    public bool RecreateConfig { get; set; } = false;
-    
     Target SetupDevConfig => target => target
+        .DependsOn(SetupKeycloak)
         .Executes(() =>
         {
             var paths = new[]
@@ -25,7 +22,16 @@ partial class Build
                                         $"Database=postgres;Username={LocalPostgresUser};" +
                                         $"Password={LocalPostgresPassword}",
                     BymseReadS3 = $"http://{StorageRootUser}:{StorageRootUserPassword}" +
-                                  $"@localhost:{StorageApiPort}/{StorageBucketName}"
+                                  $"@localhost:{StorageApiPort}/{StorageBucketName}",
+                },
+                AuthN = new
+                {
+                    Authority = KeycloakUrl,
+                    ClientId = KeycloakClientId,
+                    ClientSecret,
+                    ResponseType = "code",
+                    CallbackPath = OidcCallbackPath,
+                    SignedOutCallbackPath = OidcSignoutCallbackPath,
                 }
             };
 
@@ -35,14 +41,31 @@ partial class Build
                 IndentSize = 2,
             });
 
-            foreach (var path in paths.Where(e => RecreateConfig || !e.FileExists()))
+            foreach (var path in paths)
             {
+                if (path.FileExists())
+                {
+                    var backupPath = path.Parent / $"{path.NameWithoutExtension}.bak.json";
+                    if (backupPath.FileExists())
+                    {
+                        backupPath.DeleteFile();
+                    }
+                    path.Move(backupPath);
+                }
+                
                 path.WriteAllText(json);
             }
         });
-
+    
+    Target UpLocal => target => target
+        .DependsOn(UpStorage, UpDatabase, UpKeycloak)
+        .Executes(() =>
+        {
+            Serilog.Log.Information("Setup completed");
+        });
+    
     Target SetupLocal => target => target
-        .DependsOn(UpStorage, UpDatabase, ApplyMigrations, SetupStorage, SetupDevConfig)
+        .DependsOn(ApplyMigrations, SetupStorage, SetupKeycloak, SetupDevConfig)
         .Executes(() =>
         {
             Serilog.Log.Information("Setup completed");
