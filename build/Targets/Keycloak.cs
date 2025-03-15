@@ -15,10 +15,11 @@ partial class Build
     const string KeycloakDefaultUsername = "default";
     const string KeycloakDefaultUserPassword = "default";
 
-    const string OidcCallbackPath = "/oidc/signin-oidc";
-    const string OidcSignoutCallbackPath = "/oidc/signout-callback-oidc";
+    const string OidcCallbackPath = "/web-api/auth/signin-oidc";
+    const string OidcSignoutCallbackPath = "/web-api/auth/signout-callback-oidc";
 
     readonly string KeycloakUrl = $"http://localhost:{KeycloakPort}";
+    string MetadataAddress => $"{KeycloakUrl}/realms/{KeycloakRealm}/.well-known/openid-configuration";
 
     string? ClientSecret;
 
@@ -50,6 +51,7 @@ partial class Build
             ClientSecret = await helper.InitializeKeycloakAsync(
                 KeycloakRealm,
                 KeycloakClientId,
+                LocalUrl,
                 [OidcCallbackPath, OidcSignoutCallbackPath],
                 KeycloakDefaultUsername,
                 KeycloakDefaultUserPassword

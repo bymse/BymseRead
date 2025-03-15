@@ -16,6 +16,7 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
     public async Task<string> InitializeKeycloakAsync(
         string realmName,
         string clientId,
+        string rootUrl,
         string[] redirectUris,
         string username,
         string password)
@@ -24,7 +25,7 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
         HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         await CreateRealmAsync(realmName);
-        var clientSecret = await CreateClientAsync(realmName, clientId, redirectUris);
+        var clientSecret = await CreateClientAsync(realmName, clientId, rootUrl, redirectUris);
         await CreateUserAsync(realmName, username, password);
 
         return clientSecret;
@@ -61,11 +62,13 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
         }
     }
 
-    private async Task<string> CreateClientAsync(string realmName, string clientIdName, string[] redirectUris)
+    private async Task<string> CreateClientAsync(string realmName, string clientIdName, string rootUrl,
+        string[] redirectUris)
     {
         var client = new
         {
             clientId = clientIdName,
+            rootUrl,
             enabled = true,
             publicClient = false,
             redirectUris,
@@ -99,6 +102,10 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
         var user = new
         {
             username,
+            email = $"{username}@example.com",
+            emailVerified = true,
+            firstName = username,
+            lastName = username,
             enabled = true,
             credentials = new[]
             {

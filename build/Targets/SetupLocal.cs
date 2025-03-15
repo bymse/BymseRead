@@ -4,6 +4,8 @@ using Nuke.Common.IO;
 
 partial class Build
 {
+    const string LocalUrl = "http://localhost:5299";
+    
     Target SetupDevConfig => target => target
         .DependsOn(SetupKeycloak)
         .Executes(() =>
@@ -32,6 +34,7 @@ partial class Build
                     ResponseType = "code",
                     CallbackPath = OidcCallbackPath,
                     SignedOutCallbackPath = OidcSignoutCallbackPath,
+                    MetadataAddress
                 }
             };
 

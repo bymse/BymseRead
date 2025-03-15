@@ -1,33 +1,53 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BymseRead.Service.Auth;
 
 public static class AuthConfiguration
 {
-    public static IServiceCollection AddAuthN(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddAuthN(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        IHostEnvironment environment
+    )
     {
         services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(e =>
+            .AddAuthorization()
+            .AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/web-api/auth/login";
+                options.LogoutPath = "/web-api/auth/logout";
+                options.SlidingExpiration = true;
+            })
+            .AddOpenIdConnect(e =>
             {
                 var settings = configuration
                     .GetSection(AuthNSettings.Path)
                     .Get<AuthNSettings>() ?? throw new InvalidOperationException("Missing AuthN settings");
 
                 e.Authority = settings.Authority;
-                e.Audience = settings.Audience;
+                e.ClientId = settings.ClientId;
+                e.ClientSecret = settings.ClientSecret;
+                e.ResponseType = settings.ResponseType ?? "code";
+                e.CallbackPath = settings.CallbackPath;
+                e.SignedOutCallbackPath = settings.SignedOutCallbackPath;
+                e.SaveTokens = true;
+                e.DisableTelemetry = true;
+                e.Scope.Add("openid");
+                e.Scope.Add("profile");
+                e.RequireHttpsMetadata = !environment.IsDevelopment();
+                e.MetadataAddress = settings.MetadataAddress;
+                e.MapInboundClaims = false;
+
                 e.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateAudience = settings.Audience != null,
-                    ValidAudience = settings.Audience,
-                    ValidIssuer = settings.Issuer,
-                    ValidateLifetime = settings.ValidateLifetime,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = settings.SymmetricKey != null
-                        ? new SymmetricSecurityKey(Encoding.Default.GetBytes(settings.SymmetricKey))
-                        : null,
+                    ValidateLifetime = true, ValidateIssuerSigningKey = true,
                 };
             });
 
@@ -47,9 +67,10 @@ public class AuthNSettings
     public const string Path = "AuthN";
 
     public string? Authority { get; init; }
-    public string? Audience { get; init; }
-    public string? Issuer { get; init; }
-
-    public string? SymmetricKey { get; init; }
-    public bool ValidateLifetime { get; init; } = true;
+    public string? ClientId { get; init; }
+    public string? ClientSecret { get; init; }
+    public string? ResponseType { get; init; }
+    public string? CallbackPath { get; init; }
+    public string? SignedOutCallbackPath { get; init; }
+    public string? MetadataAddress { get; init; }
 }

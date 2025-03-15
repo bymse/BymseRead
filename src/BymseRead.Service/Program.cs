@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder
     .Services.AddInfrastructure()
     .AddApi()
-    .AddAuthN(builder.Configuration)
+    .AddAuthN(builder.Configuration, builder.Environment)
     .AddWebSwagger()
     .AddProblemDetails()
     .AddExceptionHandler<ExceptionToProblemDetailsHandler>();
