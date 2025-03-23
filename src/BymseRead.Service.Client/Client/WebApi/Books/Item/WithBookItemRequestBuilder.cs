@@ -55,6 +55,7 @@ namespace BymseRead.Service.Client.WebApi.Books.Item
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
         /// <exception cref="global::BymseRead.Service.Client.Models.ProblemDetails">When receiving a 400 status code</exception>
+        /// <exception cref="global::BymseRead.Service.Client.Models.RedirectProblemDetails">When receiving a 401 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public async Task<Stream?> DeleteAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
@@ -68,6 +69,7 @@ namespace BymseRead.Service.Client.WebApi.Books.Item
             var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
             {
                 { "400", global::BymseRead.Service.Client.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "401", global::BymseRead.Service.Client.Models.RedirectProblemDetails.CreateFromDiscriminatorValue },
             };
             return await RequestAdapter.SendPrimitiveAsync<Stream>(requestInfo, errorMapping, cancellationToken).ConfigureAwait(false);
         }
@@ -75,6 +77,7 @@ namespace BymseRead.Service.Client.WebApi.Books.Item
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
         /// <exception cref="global::BymseRead.Service.Client.Models.ProblemDetails">When receiving a 400 status code</exception>
+        /// <exception cref="global::BymseRead.Service.Client.Models.RedirectProblemDetails">When receiving a 401 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public async Task<global::BymseRead.Service.Client.Models.BookInfo?> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
@@ -88,6 +91,7 @@ namespace BymseRead.Service.Client.WebApi.Books.Item
             var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
             {
                 { "400", global::BymseRead.Service.Client.Models.ProblemDetails.CreateFromDiscriminatorValue },
+                { "401", global::BymseRead.Service.Client.Models.RedirectProblemDetails.CreateFromDiscriminatorValue },
             };
             return await RequestAdapter.SendAsync<global::BymseRead.Service.Client.Models.BookInfo>(requestInfo, global::BymseRead.Service.Client.Models.BookInfo.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }

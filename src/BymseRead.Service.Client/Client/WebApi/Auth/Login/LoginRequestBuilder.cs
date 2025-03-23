@@ -9,47 +9,45 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-namespace BymseRead.Service.Client.WebApi.Books.Item.Update
+namespace BymseRead.Service.Client.WebApi.Auth.Login
 {
     /// <summary>
-    /// Builds and executes requests for operations under \web-api\books\{bookId}\update
+    /// Builds and executes requests for operations under \web-api\auth\login
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-    public partial class UpdateRequestBuilder : BaseRequestBuilder
+    public partial class LoginRequestBuilder : BaseRequestBuilder
     {
         /// <summary>
-        /// Instantiates a new <see cref="global::BymseRead.Service.Client.WebApi.Books.Item.Update.UpdateRequestBuilder"/> and sets the default values.
+        /// Instantiates a new <see cref="global::BymseRead.Service.Client.WebApi.Auth.Login.LoginRequestBuilder"/> and sets the default values.
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public UpdateRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/web-api/books/{bookId}/update", pathParameters)
+        public LoginRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/web-api/auth/login{?returnUrl*}", pathParameters)
         {
         }
         /// <summary>
-        /// Instantiates a new <see cref="global::BymseRead.Service.Client.WebApi.Books.Item.Update.UpdateRequestBuilder"/> and sets the default values.
+        /// Instantiates a new <see cref="global::BymseRead.Service.Client.WebApi.Auth.Login.LoginRequestBuilder"/> and sets the default values.
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public UpdateRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/web-api/books/{bookId}/update", rawUrl)
+        public LoginRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/web-api/auth/login{?returnUrl*}", rawUrl)
         {
         }
         /// <returns>A <see cref="Stream"/></returns>
-        /// <param name="body">The request body</param>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
         /// <exception cref="global::BymseRead.Service.Client.Models.ProblemDetails">When receiving a 400 status code</exception>
         /// <exception cref="global::BymseRead.Service.Client.Models.RedirectProblemDetails">When receiving a 401 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<Stream?> PostAsync(global::BymseRead.Service.Client.Models.UpdateBookRequest body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<Stream?> GetAsync(Action<RequestConfiguration<global::BymseRead.Service.Client.WebApi.Auth.Login.LoginRequestBuilder.LoginRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<Stream> PostAsync(global::BymseRead.Service.Client.Models.UpdateBookRequest body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<Stream> GetAsync(Action<RequestConfiguration<global::BymseRead.Service.Client.WebApi.Auth.Login.LoginRequestBuilder.LoginRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
-            _ = body ?? throw new ArgumentNullException(nameof(body));
-            var requestInfo = ToPostRequestInformation(body, requestConfiguration);
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
             var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
             {
                 { "400", global::BymseRead.Service.Client.Models.ProblemDetails.CreateFromDiscriminatorValue },
@@ -58,39 +56,51 @@ namespace BymseRead.Service.Client.WebApi.Books.Item.Update
             return await RequestAdapter.SendPrimitiveAsync<Stream>(requestInfo, errorMapping, cancellationToken).ConfigureAwait(false);
         }
         /// <returns>A <see cref="RequestInformation"/></returns>
-        /// <param name="body">The request body</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public RequestInformation ToPostRequestInformation(global::BymseRead.Service.Client.Models.UpdateBookRequest body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default)
+        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::BymseRead.Service.Client.WebApi.Auth.Login.LoginRequestBuilder.LoginRequestBuilderGetQueryParameters>>? requestConfiguration = default)
         {
 #nullable restore
 #else
-        public RequestInformation ToPostRequestInformation(global::BymseRead.Service.Client.Models.UpdateBookRequest body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
+        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::BymseRead.Service.Client.WebApi.Auth.Login.LoginRequestBuilder.LoginRequestBuilderGetQueryParameters>> requestConfiguration = default)
         {
 #endif
-            _ = body ?? throw new ArgumentNullException(nameof(body));
-            var requestInfo = new RequestInformation(Method.POST, UrlTemplate, PathParameters);
+            var requestInfo = new RequestInformation(Method.GET, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/problem+json");
-            requestInfo.SetContentFromParsable(RequestAdapter, "application/json", body);
             return requestInfo;
         }
         /// <summary>
         /// Returns a request builder with the provided arbitrary URL. Using this method means any other path or query parameters are ignored.
         /// </summary>
-        /// <returns>A <see cref="global::BymseRead.Service.Client.WebApi.Books.Item.Update.UpdateRequestBuilder"/></returns>
+        /// <returns>A <see cref="global::BymseRead.Service.Client.WebApi.Auth.Login.LoginRequestBuilder"/></returns>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
-        public global::BymseRead.Service.Client.WebApi.Books.Item.Update.UpdateRequestBuilder WithUrl(string rawUrl)
+        public global::BymseRead.Service.Client.WebApi.Auth.Login.LoginRequestBuilder WithUrl(string rawUrl)
         {
-            return new global::BymseRead.Service.Client.WebApi.Books.Item.Update.UpdateRequestBuilder(rawUrl, RequestAdapter);
+            return new global::BymseRead.Service.Client.WebApi.Auth.Login.LoginRequestBuilder(rawUrl, RequestAdapter);
+        }
+        [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
+        #pragma warning disable CS1591
+        public partial class LoginRequestBuilderGetQueryParameters 
+        #pragma warning restore CS1591
+        {
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            [QueryParameter("returnUrl")]
+            public string? ReturnUrl { get; set; }
+#nullable restore
+#else
+            [QueryParameter("returnUrl")]
+            public string ReturnUrl { get; set; }
+#endif
         }
         /// <summary>
         /// Configuration for the request such as headers, query parameters, and middleware options.
         /// </summary>
         [Obsolete("This class is deprecated. Please use the generic RequestConfiguration class generated by the generator.")]
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-        public partial class UpdateRequestBuilderPostRequestConfiguration : RequestConfiguration<DefaultQueryParameters>
+        public partial class LoginRequestBuilderGetRequestConfiguration : RequestConfiguration<global::BymseRead.Service.Client.WebApi.Auth.Login.LoginRequestBuilder.LoginRequestBuilderGetQueryParameters>
         {
         }
     }

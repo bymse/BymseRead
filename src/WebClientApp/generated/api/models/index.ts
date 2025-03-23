@@ -204,6 +204,15 @@ export function createProblemDetailsFromDiscriminatorValue(parseNode: ParseNode 
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {RedirectProblemDetails}
+ */
+// @ts-ignore
+export function createRedirectProblemDetailsFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoRedirectProblemDetails;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
  * @returns {UpdateBookRequest}
  */
 // @ts-ignore
@@ -355,6 +364,21 @@ export function deserializeIntoProblemDetails(problemDetails: Partial<ProblemDet
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
+export function deserializeIntoRedirectProblemDetails(redirectProblemDetails: Partial<RedirectProblemDetails> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "detail": n => { redirectProblemDetails.detail = n.getStringValue(); },
+        "instance": n => { redirectProblemDetails.instance = n.getStringValue(); },
+        "redirectUrl": n => { redirectProblemDetails.redirectUrl = n.getStringValue(); },
+        "status": n => { redirectProblemDetails.status = n.getNumberValue(); },
+        "title": n => { redirectProblemDetails.title = n.getStringValue(); },
+        "type": n => { redirectProblemDetails.type = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
 export function deserializeIntoUpdateBookRequest(updateBookRequest: Partial<UpdateBookRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
         "removeCover": n => { updateBookRequest.removeCover = n.getBooleanValue(); },
@@ -416,6 +440,36 @@ export interface ProblemDetails extends AdditionalDataHolder, ApiError, Parsable
      * The instance property
      */
     instance?: string | null;
+    /**
+     * The status property
+     */
+    status?: number | null;
+    /**
+     * The title property
+     */
+    title?: string | null;
+    /**
+     * The type property
+     */
+    type?: string | null;
+}
+export interface RedirectProblemDetails extends AdditionalDataHolder, ApiError, Parsable {
+    /**
+     * Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
+     */
+    additionalData?: Record<string, unknown>;
+    /**
+     * The detail property
+     */
+    detail?: string | null;
+    /**
+     * The instance property
+     */
+    instance?: string | null;
+    /**
+     * The redirectUrl property
+     */
+    redirectUrl?: string | null;
     /**
      * The status property
      */
@@ -559,6 +613,22 @@ export function serializeProblemDetails(writer: SerializationWriter, problemDeta
         writer.writeStringValue("title", problemDetails.title);
         writer.writeStringValue("type", problemDetails.type);
         writer.writeAdditionalData(problemDetails.additionalData);
+    }
+}
+/**
+ * Serializes information the current object
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeRedirectProblemDetails(writer: SerializationWriter, redirectProblemDetails: Partial<RedirectProblemDetails> | undefined | null = {}) : void {
+    if (redirectProblemDetails) {
+        writer.writeStringValue("detail", redirectProblemDetails.detail);
+        writer.writeStringValue("instance", redirectProblemDetails.instance);
+        writer.writeStringValue("redirectUrl", redirectProblemDetails.redirectUrl);
+        writer.writeNumberValue("status", redirectProblemDetails.status);
+        writer.writeStringValue("title", redirectProblemDetails.title);
+        writer.writeStringValue("type", redirectProblemDetails.type);
+        writer.writeAdditionalData(redirectProblemDetails.additionalData);
     }
 }
 /**
