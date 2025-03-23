@@ -35,6 +35,10 @@ partial class Build
                     CallbackPath = OidcCallbackPath,
                     SignedOutCallbackPath = OidcSignoutCallbackPath,
                     MetadataAddress
+                },
+                ReturnUrlAllowList = new[]
+                {
+                    "http://localhost:5173"
                 }
             };
 

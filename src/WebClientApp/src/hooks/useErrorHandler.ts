@@ -24,12 +24,13 @@ export const useErrorHandler = () => {
       }
 
       if (error.responseStatusCode === 401 && 'redirectUrl' in error) {
-        const redirectUrl = error.redirectUrl as string
+        const redirectUrl = new URL(error.redirectUrl as string, window.location.origin)
+        redirectUrl.searchParams.set('returnUrl', window.location.href)
         
         if (showToastFor401) {
-            showError('You are not authenticated', redirectUrl, 0, 'Login')
+            showError('You are not authenticated', redirectUrl.toString(), 0, 'Login')
         } else {
-          window.location.href = redirectUrl
+          window.location.href = redirectUrl.toString()
         }
         return
       }

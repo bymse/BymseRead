@@ -10,7 +10,8 @@
             "args": [],
             "cwd": "${workspaceFolder}/src/BymseRead.Service",
             "launchSettingsFilePath": "${workspaceFolder}/src/BymseRead.Service/Properties/launchSettings.json",
-            "launchSettingsProfile": "http"
+            "launchSettingsProfile": "http",
+            "justMyCode": false
         },
         {
             "name": "WebClientApp - npm run dev",
