@@ -19,7 +19,7 @@ export const useBooksCollection = () => {
       setCollection(res)
       retryCount = 0
     } catch (e) {
-      handleError(e as Error)
+      handleError(e as Error, false)
       if (retryCount < maxRetries) {
         retryCount++
         setTimeout(() => void load(), Math.random() * 4000 + 3000)

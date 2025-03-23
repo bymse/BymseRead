@@ -8,7 +8,7 @@ import { Book } from './pages/Book/Book.tsx'
 
 export function App() {
   return (
-    <LocationProvider>
+    <LocationProvider scope="^(?!/web-api)">
       <ErrorBoundary>
         <ToastProvider>
           <Router>

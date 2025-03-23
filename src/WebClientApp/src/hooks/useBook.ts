@@ -18,7 +18,7 @@ export const useBook = (bookId?: string) => {
       const book = await client.webApi.books.byBookId(bookId).get()
       return setBook(book)
     } catch (e) {
-      return handleError(e as Error)
+      return handleError(e as Error, false)
     }
   }
 
