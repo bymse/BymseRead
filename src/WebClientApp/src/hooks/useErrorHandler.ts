@@ -7,28 +7,37 @@ export const useErrorHandler = () => {
   const { showError } = useToast()
 
   const handleError = useCallback(
-    (error: string | Error | ApiError | ProblemDetails | RedirectProblemDetails) => {
+    (
+      error: string | Error | ApiError | ProblemDetails | RedirectProblemDetails,
+      showToastFor401: boolean = true,
+    ) => {
       if (typeof error === 'string') {
-        showError(error, 5000)
+        showError(error, undefined, 5000)
         return
       }
 
       if (!('responseStatusCode' in error)) {
         // eslint-disable-next-line no-console
         console.error('JS error', error)
-        showError(error.message, 5000)
+        showError(error.message, undefined, 5000)
         return
       }
 
-      if ('redirectUrl' in error) {
-        window.location.href = error.redirectUrl as string
+      if (error.responseStatusCode === 401 && 'redirectUrl' in error) {
+        const redirectUrl = error.redirectUrl as string
+        
+        if (showToastFor401) {
+            showError('You are not authenticated', redirectUrl, 0, 'Login')
+        } else {
+          window.location.href = redirectUrl
+        }
         return
       }
 
       if ('detail' in error) {
-        showError(error.detail as string, 7000)
+        showError(error.detail as string, undefined, 7000)
       } else {
-        showError(`HTTP error: ${error.responseStatusCode}`, 5000)
+        showError(`HTTP error: ${error.responseStatusCode}`, undefined, 5000)
       }
     },
     [showError],

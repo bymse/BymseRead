@@ -7,18 +7,19 @@ interface ToastState {
   variant: ToastVariant
   visible: boolean
   link?: string
+  linkText?: string
 }
 
 interface ToastContextType {
-  showError: (message: string, duration?: number) => void
+  showError: (message: string, link?: string, duration?: number, actionText?: string) => void
   showInfo: (message: string, link?: string, duration?: number) => void
 }
 
 export const useToast = () => useContext(ToastContext)
 
 const ToastContext = createContext<ToastContextType>({
-  showError: () => {},
-  showInfo: () => {},
+  showError: () => { },
+  showInfo: () => { },
 })
 
 interface ToastProviderProps {
@@ -42,15 +43,18 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   }, [])
 
   const showError = useCallback(
-    (message: string, duration: number = 3000) => {
+    (message: string, link?: string, duration: number = 3000, linkText?: string) => {
       const truncated = message.length > 70 ? `${message.slice(0, 70)}...` : message
-      setToast({ message: truncated, variant: 'error', visible: true })
+      setToast({ message: truncated, variant: 'error', visible: true, link, linkText })
       if (timeoutRef.current !== null) {
         clearTimeout(timeoutRef.current)
       }
-      timeoutRef.current = window.setTimeout(() => {
-        hideToast()
-      }, duration)
+
+      if (duration) {
+        timeoutRef.current = window.setTimeout(() => {
+          hideToast()
+        }, duration)
+      }
     },
     [hideToast],
   )
@@ -71,7 +75,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   return (
     <ToastContext.Provider value={{ showError, showInfo }}>
       {children}
-      {toast.visible && <Toast {...toast} onClose={toast.variant === 'error' ? hideToast : undefined} position="top" />}
+      {toast.visible && <Toast {...toast} onClose={toast.variant === 'error' && !toast.link ? hideToast : undefined} position="top" />}
     </ToastContext.Provider>
   )
 }
