@@ -8,10 +8,10 @@ namespace BymseRead.Infrastructure.Pdf;
 [AutoRegistration]
 internal class PdfService : IPdfService
 {
-    public async Task<int> GetPagesCount(PdfFileArgs args)
+    public Task<int> GetPagesCount(PdfFileArgs args)
     {
         using var document = PdfDocument.Open(args.TempFilePath);
-        return document.NumberOfPages;
+        return Task.FromResult(document.NumberOfPages);
     }
 
     public async Task<PageImageInfo> GetFirstPageAsImage(PdfFileArgs args)

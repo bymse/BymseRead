@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication;
+using BymseRead.Core.Application.SyncUser;
+using System.Security.Claims;
 
 namespace BymseRead.Service.Auth;
 
 public static class AuthConfiguration
 {
     private const string ProxyScheme = "Proxy";
-    
+
     public static IServiceCollection AddAuthN(
         this IServiceCollection services,
         IConfiguration configuration,
@@ -22,10 +24,7 @@ public static class AuthConfiguration
                 options.DefaultChallengeScheme = ProxyScheme;
             })
             .AddScheme<AuthenticationSchemeOptions, ProxyAuthenticationHandler>(ProxyScheme, null)
-            .AddCookie(options =>
-            {
-                options.SlidingExpiration = true;
-            })
+            .AddCookie(options => { options.SlidingExpiration = true; })
             .AddOpenIdConnect(e =>
             {
                 var settings = configuration
@@ -50,6 +49,19 @@ public static class AuthConfiguration
                 {
                     ValidateLifetime = true, ValidateIssuerSigningKey = true,
                 };
+
+                e.Events.OnTokenValidated = async context =>
+                {
+                    var syncUserHandler = context.HttpContext.RequestServices.GetRequiredService<SyncUserHandler>();
+                    var idpUserId = context.Principal?.FindFirst("sub") ?? throw new InvalidOperationException("Missing sub claim");
+
+                    var userId = await syncUserHandler.Handle(idpUserId.Issuer, idpUserId.Value);
+
+                    var identity = context.Principal?.Identity as ClaimsIdentity 
+                                   ?? throw new InvalidOperationException("Invalid principal identity");
+
+                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId.Value.ToString()));
+                };
             });
 
         return services;
@@ -58,7 +70,6 @@ public static class AuthConfiguration
     public static void UseAuth(this IApplicationBuilder app)
     {
         app.UseAuthentication();
-        app.UseMiddleware<UserSyncMiddleware>();
         app.UseAuthorization();
     }
 }

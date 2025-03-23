@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using BymseRead.Core.Entities;
 using BymseRead.Service.Auth;
 using Microsoft.AspNetCore.Authorization;
@@ -12,5 +13,5 @@ public abstract class WebApiController : ControllerBase
 {
     public const string DocumentName = "WebApi";
 
-    protected UserId CurrentUserId => (UserId) Request.HttpContext.Items[UserSyncMiddleware.UserIdKey]!;
+    protected UserId CurrentUserId => new(Guid.Parse(Request.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)!));
 }

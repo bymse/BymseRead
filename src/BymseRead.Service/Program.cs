@@ -4,11 +4,22 @@ using BymseRead.Service.Auth;
 using BymseRead.Service.Errors;
 using BymseRead.Service.Swagger;
 using BymseRead.Service.Workers;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if(!builder.Environment.IsDevelopment())
+
+{
+    builder
+        .Services.AddDataProtection()
+        .PersistKeysToFileSystem(
+            new DirectoryInfo(Path.Combine(builder.Environment.ContentRootPath, "DataProtectionKeys")));
+}
+
 builder
-    .Services.AddInfrastructure()
+    .Services
+    .AddInfrastructure()
     .AddApi()
     .AddAuthN(builder.Configuration, builder.Environment)
     .AddWebSwagger()
