@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication;
 
 namespace BymseRead.Service.Auth;
 
 public static class AuthConfiguration
 {
+    private const string ProxyScheme = "Proxy";
+    
     public static IServiceCollection AddAuthN(
         this IServiceCollection services,
         IConfiguration configuration,
@@ -17,12 +19,11 @@ public static class AuthConfiguration
             .AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = ProxyScheme;
             })
+            .AddScheme<AuthenticationSchemeOptions, ProxyAuthenticationHandler>(ProxyScheme, null)
             .AddCookie(options =>
             {
-                options.LoginPath = "/web-api/auth/login";
-                options.LogoutPath = "/web-api/auth/logout";
                 options.SlidingExpiration = true;
             })
             .AddOpenIdConnect(e =>
