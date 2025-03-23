@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Service http",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/BymseRead.Service/bin/Debug/net8.0/BymseRead.Service.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/BymseRead.Service",
+            "launchSettingsFilePath": "${workspaceFolder}/src/BymseRead.Service/Properties/launchSettings.json",
+            "launchSettingsProfile": "http"
+        },
+        {
+            "name": "WebClientApp - npm run dev",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev",
+            "cwd": "${workspaceFolder}/src/WebClientApp"
+        }
+    ]
+}

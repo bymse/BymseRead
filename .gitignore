@@ -25,7 +25,6 @@ Obj/
 
 # Visual Studio 2015 cache/options directory
 .vs/
-.vscode/
 /wwwroot/dist/
 
 # MSTest test Results
