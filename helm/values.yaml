@@ -1,0 +1,113 @@
+# Default values for BymseRead
+# This is a YAML-formatted file.
+
+replicaCount:
+  service: 1
+  webClientApp: 1
+
+image:
+  repository: bymseread
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 5299
+  webClientApp:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: bymseread.local
+      paths:
+        - path: /api
+          pathType: Prefix
+          serviceName: service
+          servicePort: 80
+        - path: /
+          pathType: Prefix
+          serviceName: web-client-app
+          servicePort: 80
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  service:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  webClientApp:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  dbmigrator:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Application specific configuration
+config:
+  connectionStrings:
+    postgres: "Server=postgres;Port=5432;Database=bymseread;User Id=postgres;Password=postgres;"

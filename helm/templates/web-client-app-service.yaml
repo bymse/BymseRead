@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "bymseread.webclientapp.name" . }}
+  labels:
+    {{- include "bymseread.labels" . | nindent 4 }}
+    app.kubernetes.io/component: web-client-app
+spec:
+  type: {{ .Values.service.webClientApp.type }}
+  ports:
+    - port: {{ .Values.service.webClientApp.port }}
+      targetPort: {{ .Values.service.webClientApp.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "bymseread.webclientapp.selectorLabels" . | nindent 4 }}

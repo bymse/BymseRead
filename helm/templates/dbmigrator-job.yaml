@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "bymseread.dbmigrator.name" . }}
+  labels:
+    {{- include "bymseread.labels" . | nindent 4 }}
+    app.kubernetes.io/component: dbmigrator
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "bymseread.dbmigrator.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: OnFailure
+      containers:
+        - name: {{ .Chart.Name }}-dbmigrator
+          image: "{{ .Values.image.repository }}/dbmigrator:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: ConnectionStrings__BymseReadPostgres
+              value: {{ .Values.config.connectionStrings.postgres | quote }}
+          resources:
+            {{- toYaml .Values.resources.dbmigrator | nindent 12 }}
