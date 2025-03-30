@@ -1,0 +1,78 @@
+# Visual Studio files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+out/
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NUNIT
+*.VisualState.xml
+TestResult.xml
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Visual C++ cache files
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.sdf
+*.cachefile
+
+# NuGet packages
+*.nupkg
+**/packages/*
+!**/packages/build/
+
+# Node.js
+node_modules/
+npm-debug.log
+
+# Development configs
+**/appsettings.Development.json
+**/appsettings.Development.bak.json
+**/appsettings.Debug.json
+**/.env
+**/.env.local
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*~
+
+# Docker specific
+.dockerignore
+.git/
+.gitignore
+README.md
+readme-img/
+Dockerfile*
+
+# Logs
+logs/
+*.log
+
+# Other unnecessary files
+*.orig
