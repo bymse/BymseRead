@@ -1,4 +1,5 @@
 using BymseRead.Infrastructure;
+using BymseRead.Infrastructure.Database.DataProtection;
 using BymseRead.Service;
 using BymseRead.Service.Auth;
 using BymseRead.Service.Errors;
@@ -8,14 +9,7 @@ using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-if(!builder.Environment.IsDevelopment())
-
-{
-    builder
-        .Services.AddDataProtection()
-        .PersistKeysToFileSystem(
-            new DirectoryInfo(Path.Combine(builder.Environment.ContentRootPath, "DataProtectionKeys")));
-}
+builder.Services.AddDataProtection().PersistKeysToDatabase();
 
 builder
     .Services
