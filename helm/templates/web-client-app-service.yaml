@@ -9,7 +9,7 @@ spec:
   type: {{ .Values.service.webClientApp.type }}
   ports:
     - port: {{ .Values.service.webClientApp.port }}
-      targetPort: {{ .Values.service.webClientApp.targetPort }}
+      targetPort: {{ .Values.service.webClientApp.containerPort }}
       protocol: TCP
       name: http
   selector:

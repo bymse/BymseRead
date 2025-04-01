@@ -42,34 +42,11 @@ service:
   service:
     type: ClusterIP
     port: 80
-    targetPort: 5299
+    targetPort: 80
   webClientApp:
     type: ClusterIP
     port: 80
     targetPort: 80
-
-ingress:
-  enabled: false
-  className: "nginx"
-  annotations:
-    {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: bymseread.local
-      paths:
-        - path: /api
-          pathType: Prefix
-          serviceName: service
-          servicePort: 80
-        - path: /
-          pathType: Prefix
-          serviceName: web-client-app
-          servicePort: 80
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
 resources:
   service:
@@ -111,3 +88,10 @@ affinity: {}
 config:
   connectionStrings:
     postgres: "Server=postgres;Port=5432;Database=bymseread;User Id=postgres;Password=postgres;"
+
+ingress:
+  enabled: true
+  host: "example.com"
+  tls: true
+  tlsSecretName: "example-tls-secret"
+  annotations: {}

@@ -41,7 +41,7 @@ spec:
               value: {{ .Values.config.connectionStrings.postgres | quote }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.service.targetPort }}
+              containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
