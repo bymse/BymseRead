@@ -16,9 +16,5 @@ Book page:
 
 # Todo
 
-1. Use cookies for auth
-2. Change web client (allow header or cookies)
-3. Connect with any oidc provider
-4. Verify sessions refresh
-5. Check if session validation is required for every api call
-6. challenge only on request to authcontroller
+1. Verify sessions refresh
+2. Check if session validation is required for every api call

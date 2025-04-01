@@ -11,6 +11,7 @@
             "launchSettingsFilePath": "${workspaceFolder}/src/BymseRead.Service/Properties/launchSettings.json",
             "launchSettingsProfile": "http",
             "justMyCode": false,
+            "preLaunchTask": "build-service",
             "logging": {
                 "moduleLoad": false
             }
