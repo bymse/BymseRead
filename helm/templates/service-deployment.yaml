@@ -39,6 +39,8 @@ spec:
               value: "Production"
             - name: ConnectionStrings__BymseReadPostgres
               value: {{ .Values.config.connectionStrings.postgres | quote }}
+            - name: ConnectionStrings__BymseReadS3
+              value: {{ .Values.config.connectionStrings.s3 | quote }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
@@ -57,6 +59,14 @@ spec:
             periodSeconds: 10
           resources:
             {{- toYaml .Values.resources.service | nindent 12 }}
+          volumeMounts:
+            - name: authn-config
+              mountPath: /app/appsettings.Production.json
+              subPath: appsettings.Production.json
+      volumes:
+        - name: authn-config
+          secret:
+            secretName: bymse-read-authn-secret
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
