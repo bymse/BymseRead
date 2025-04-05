@@ -14,8 +14,8 @@
 x64/
 x86/
 bld/
-[Bb]in/
-[Oo]bj/
+**/[Bb]in
+**/[Oo]bj
 out/
 
 # Test results
@@ -46,7 +46,7 @@ ipch/
 !**/packages/build/
 
 # Node.js
-node_modules/
+**/node_modules/
 npm-debug.log
 
 # Development configs

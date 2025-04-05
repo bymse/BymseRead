@@ -1,5 +1,5 @@
 # Build stage
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
 # Copy the solution file and project files first to leverage Docker cache for dependencies
@@ -7,6 +7,7 @@ COPY BymseRead.sln ./
 COPY BymseRead.Core/*.csproj ./BymseRead.Core/
 COPY BymseRead.Infrastructure/*.csproj ./BymseRead.Infrastructure/
 COPY BymseRead.Service/*.csproj ./BymseRead.Service/
+COPY Directory.Build.props ./
 
 # Restore dependencies
 RUN dotnet restore BymseRead.Service/BymseRead.Service.csproj
@@ -20,11 +21,11 @@ COPY BymseRead.Service/. ./BymseRead.Service/
 RUN dotnet publish BymseRead.Service/BymseRead.Service.csproj -c Release -o /app/publish --no-restore
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 
-# Create directory for data protection keys
-RUN mkdir -p /app/DataProtectionKeys && chmod 777 /app/DataProtectionKeys
+# Install Ghostscript
+RUN apt-get update && apt-get install -y ghostscript && rm -rf /var/lib/apt/lists/*
 
 # Copy the published application
 COPY --from=build /app/publish .

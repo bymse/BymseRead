@@ -31,14 +31,6 @@ export default defineConfig({
       '@utils': path.resolve(__dirname, './src/utils'),
     },
   },
-  define: {
-    __LOCAL_ACCESS_TOKEN__:
-      process.env.NODE_ENV === 'development'
-        ? JSON.stringify(
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlYzRjNTJmNS04ZmM0LTQxZjMtOGI2Yy1lZjRhYjM0NGQ0ZTciLCJpc3MiOiJsb2NhbGhvc3QiLCJhdWQiOiJsb2NhbGhvc3QifQ.EElJybgH-irDqgOg59_iyq3hqqMAgTQwWAsRWPzQ9EE',
-          )
-        : '',
-  },
   server: {
     proxy: {
       '/web-api': {

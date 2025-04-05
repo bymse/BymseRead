@@ -12,7 +12,7 @@ const ToastStoryComponent = (props: Props) => {
     const { showError, showInfo } = useToast()
     const handleClick = () => {
       if (p.variant === 'error') {
-        showError(p.message, p.duration)
+        showError(p.message, undefined, p.duration)
       } else {
         showInfo(p.message, p.link, p.duration)
       }

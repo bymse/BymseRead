@@ -1,16 +1,16 @@
 # Build stage
-FROM node:20-alpine AS build
+FROM node:22-alpine AS build
 
 WORKDIR /app
 
 # Copy package files and install dependencies
-COPY package.json package-lock.json* ./
+COPY WebClientApp/package.json WebClientApp/package-lock.json* ./
 
 # Install dependencies
 RUN npm ci
 
 # Copy application source
-COPY . ./
+COPY WebClientApp/. ./
 
 # Build the app
 RUN npm run build
@@ -22,7 +22,7 @@ FROM nginx:alpine AS production
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copy Nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY WebClientApp/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Set proper permissions
 RUN chmod -R 755 /usr/share/nginx/html

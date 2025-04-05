@@ -1,6 +1,5 @@
 ﻿import { PageInput, PageInputProps } from './PageInput.tsx'
 import { Meta, StoryObj } from '@storybook/preact'
-import { fn } from '@storybook/test'
 
 const WrappedInput = (props: PageInputProps) => (
   <span style={{ border: '1px dotted lightgray', padding: '10px' }}>
@@ -20,6 +19,5 @@ export const Default: Story = {
   args: {
     defaultValue: 10,
     maxNumber: 100,
-    onBlur: fn(),
   },
 }
