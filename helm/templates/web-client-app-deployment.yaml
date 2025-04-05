@@ -6,9 +6,7 @@ metadata:
     {{- include "bymseread.labels" . | nindent 4 }}
     app.kubernetes.io/component: web-client-app
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount.webClientApp }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "bymseread.webclientapp.selectorLabels" . | nindent 6 }}
@@ -25,7 +23,6 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "bymseread.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:

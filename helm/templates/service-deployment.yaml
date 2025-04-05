@@ -6,9 +6,7 @@ metadata:
     {{- include "bymseread.labels" . | nindent 4 }}
     app.kubernetes.io/component: service
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount.service }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "bymseread.service.selectorLabels" . | nindent 6 }}
@@ -25,7 +23,6 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "bymseread.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -43,7 +40,7 @@ spec:
               value: {{ .Values.config.connectionStrings.s3 | quote }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.targetPort }}
+              containerPort: {{ .Values.service.service.targetPort }}
               protocol: TCP
           livenessProbe:
             httpGet:

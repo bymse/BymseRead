@@ -51,17 +51,6 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
-*/}}
-{{- define "bymseread.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "bymseread.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
-
-{{/*
 Create component specific names
 */}}
 {{- define "bymseread.service.name" -}}
