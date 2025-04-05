@@ -5,12 +5,14 @@ using Amazon.Util;
 using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Services.Files;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using File = BymseRead.Core.Entities.File;
 
 namespace BymseRead.Infrastructure.Files;
 
-[AutoRegistration]
-public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper configuration) : IFilesStorageService
+[AutoRegistration(Lifetime = ServiceLifetime.Singleton)]
+public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper configuration, ILogger<S3FilesStorageService> logger) : IFilesStorageService
 {
     private const string OriginalFileNameMetadataKey = "x-amz-meta-originalFileName";
 
@@ -34,7 +36,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
     {
         var extension = Path.GetExtension(fileName);
         var fileUploadKey = $"{Guid.NewGuid()}{extension}";
-        
+
         var request = new GetPreSignedUrlRequest
         {
             BucketName = configuration.GetBucketName(),
@@ -92,7 +94,8 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
         await amazonS3.CopyObjectAsync(copyRequest);
         await amazonS3.DeleteObjectAsync(new DeleteObjectRequest
         {
-            Key = uploadedFile.Path, BucketName = configuration.GetBucketName(),
+            Key = uploadedFile.Path,
+            BucketName = configuration.GetBucketName(),
         });
 
         return File.Create(fileId, uploadedFile.FileName, key, uploadedFile.Size);
@@ -133,13 +136,34 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
         return File.Create(fileId, fileName, key, stream.Length);
     }
 
+    public async Task<bool> IsBucketAvailable(CancellationToken ct)
+    {
+        var bucketName = configuration.GetBucketName();
+        try
+        {
+            var response = await amazonS3.GetBucketLocationAsync(bucketName, ct);
+            if (response.HttpStatusCode != HttpStatusCode.OK)
+            {
+                logger.LogWarning("Bucket {BucketName} is not available. Status code: {StatusCode}", bucketName, response.HttpStatusCode);
+                return false;
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to check bucket availability for bucket {BucketName}", bucketName);
+            return false;
+        }
+    }
+
     private static string GetTempObjectKey(UserId userId, string fileUploadKey)
     {
-        return $"temp/{userId.Value.ToString()}/{fileUploadKey}";
+        return $"temp/{userId.Value}/{fileUploadKey}";
     }
 
     private static string GetFileObjectKey(UserId userId, FileId fileId, string extension)
     {
-        return $"file/{userId.Value.ToString()}/{fileId.Value.ToString()}{extension}";
+        return $"file/{userId.Value}/{fileId.Value}{extension}";
     }
 }

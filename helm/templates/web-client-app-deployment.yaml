@@ -38,18 +38,6 @@ spec:
             - name: http
               containerPort: {{ .Values.service.webClientApp.containerPort }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-            initialDelaySeconds: 30
-            periodSeconds: 15
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-            initialDelaySeconds: 15
-            periodSeconds: 10
           resources:
             {{- toYaml .Values.resources.webClientApp | nindent 12 }}
       {{- with .Values.nodeSelector }}

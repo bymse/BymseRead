@@ -9,7 +9,7 @@ internal class ConnectionFactory(DataSourceProvider dataSourceProvider) : IDispo
 
     public async ValueTask<DbConnection> Get()
     {
-        return _connection ??= await dataSourceProvider.Get().OpenConnectionAsync();;
+        return _connection ??= await dataSourceProvider.Get().OpenConnectionAsync();
     }
 
     void IDisposable.Dispose()
