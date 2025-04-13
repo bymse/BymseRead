@@ -69,13 +69,8 @@ ingress:
   tlsSecretName: "example-tls-secret"
   annotations: {}
 
-authn: |
-  {
-    "Authority": "http://localhost:8080",
-    "ClientId": "bymse-read-service",
-    "ClientSecret": "KU4LHpFVyowXs8L3EwfWORGrO0uXe7ul",
-    "ResponseType": "code",
-    "CallbackPath": "/web-api/auth/signin-oidc",
-    "SignedOutCallbackPath": "/web-api/auth/signout-callback-oidc",
-    "MetadataAddress": "http://localhost:8080/realms/bymse-read/.well-known/openid-configuration"
-  }
+authn:
+  authority: ""
+  clientId: ""
+  clientSecret: ""
+  metadataAddress: ""

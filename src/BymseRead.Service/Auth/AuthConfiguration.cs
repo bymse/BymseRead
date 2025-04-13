@@ -34,9 +34,9 @@ public static class AuthConfiguration
                 e.Authority = settings.Authority;
                 e.ClientId = settings.ClientId;
                 e.ClientSecret = settings.ClientSecret;
-                e.ResponseType = settings.ResponseType ?? "code";
-                e.CallbackPath = settings.CallbackPath;
-                e.SignedOutCallbackPath = settings.SignedOutCallbackPath;
+                e.ResponseType = "code";
+                e.CallbackPath = "/web-api/auth/signin-oidc";
+                e.SignedOutCallbackPath = "/web-api/auth/signout-callback-oidc";
                 e.SaveTokens = true;
                 e.DisableTelemetry = true;
                 e.Scope.Add("openid");
@@ -47,7 +47,8 @@ public static class AuthConfiguration
 
                 e.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateLifetime = true, ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
                 };
 
                 e.Events.OnTokenValidated = async context =>
@@ -57,7 +58,7 @@ public static class AuthConfiguration
 
                     var userId = await syncUserHandler.Handle(idpUserId.Issuer, idpUserId.Value);
 
-                    var identity = context.Principal?.Identity as ClaimsIdentity 
+                    var identity = context.Principal?.Identity as ClaimsIdentity
                                    ?? throw new InvalidOperationException("Invalid principal identity");
 
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId.Value.ToString()));
@@ -81,8 +82,5 @@ public class AuthNSettings
     public string? Authority { get; init; }
     public string? ClientId { get; init; }
     public string? ClientSecret { get; init; }
-    public string? ResponseType { get; init; }
-    public string? CallbackPath { get; init; }
-    public string? SignedOutCallbackPath { get; init; }
     public string? MetadataAddress { get; init; }
 }
