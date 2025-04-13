@@ -1,5 +1,3 @@
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using BymseRead.Service.Client.Models;
 using BymseRead.Tests.Actions;
 using BymseRead.Tests.Infrastructure;

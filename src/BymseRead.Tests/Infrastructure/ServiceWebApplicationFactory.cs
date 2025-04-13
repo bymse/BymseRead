@@ -1,4 +1,5 @@
 ﻿using BymseRead.Core.Common;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,8 @@ namespace BymseRead.Tests.Infrastructure;
 
 public class ServiceWebApplicationFactory : WebApplicationFactory<Program>
 {
+    private const string TestHeaderAuthScheme = "TestHeaderAuth";
+
     protected override IHost CreateHost(IHostBuilder builder)
     {
         builder.ConfigureAppConfiguration(e =>
@@ -25,7 +28,11 @@ public class ServiceWebApplicationFactory : WebApplicationFactory<Program>
         builder.ConfigureServices(r =>
         {
             r.AddAutoRegistrations(typeof(ServiceWebApplicationFactory).Assembly);
-            r.AddSingleton<HttpClient>(_ => CreateDefaultClient());
+            r.AddTransient<HttpClient>(_ => CreateDefaultClient());
+
+            r
+                .AddAuthentication(options => { options.DefaultScheme = TestHeaderAuthScheme; })
+                .AddScheme<AuthenticationSchemeOptions, TestHeaderAuthHandler>(TestHeaderAuthScheme, _ => {});
         });
     }
 }
