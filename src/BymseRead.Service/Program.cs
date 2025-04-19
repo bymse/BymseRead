@@ -6,8 +6,14 @@ using BymseRead.Service.Errors;
 using BymseRead.Service.HealthChecks;
 using BymseRead.Service.Swagger;
 using BymseRead.Service.Workers;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedProto;
+});
 
 builder.Services.AddDataProtection().PersistKeysToDatabase();
 
@@ -39,6 +45,7 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 app.UseAuth();
 app.MapControllers();
+app.UseForwardedHeaders();
 
 app.MapHealthChecks("/healthcheck");
 
