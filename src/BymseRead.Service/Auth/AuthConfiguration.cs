@@ -37,10 +37,8 @@ public static class AuthConfiguration
                 e.ResponseType = "code";
                 e.CallbackPath = "/web-api/auth/signin-oidc";
                 e.SignedOutCallbackPath = "/web-api/auth/signout-callback-oidc";
-                e.SaveTokens = true;
                 e.DisableTelemetry = true;
                 e.Scope.Add("openid");
-                e.Scope.Add("profile");
                 e.RequireHttpsMetadata = !environment.IsDevelopment();
                 e.MetadataAddress = settings.MetadataAddress;
                 e.MapInboundClaims = false;
