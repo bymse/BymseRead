@@ -1,7 +1,7 @@
 ﻿using BymseRead.Infrastructure.Database;
 using FluentMigrator;
 
-namespace BymseRead.DbMigrations.Migrations;
+namespace BymseRead.DbMigrator.Migrations;
 
 [Migration(5)]
 public class RemoveFinishedAt : Migration

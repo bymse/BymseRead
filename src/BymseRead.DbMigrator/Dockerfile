@@ -1,5 +1,5 @@
 # Build stage
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
 # Copy the solution file and project files first to leverage Docker cache for dependencies
@@ -7,11 +7,11 @@ COPY BymseRead.sln ./
 COPY BymseRead.Core/*.csproj ./BymseRead.Core/
 COPY BymseRead.Infrastructure/*.csproj ./BymseRead.Infrastructure/
 COPY BymseRead.DbMigrator/*.csproj ./BymseRead.DbMigrator/
+COPY Directory.Build.props ./
 
 # Restore dependencies
 RUN dotnet restore BymseRead.DbMigrator/BymseRead.DbMigrator.csproj
 
-# Copy the rest of the source code
 COPY BymseRead.Core/. ./BymseRead.Core/
 COPY BymseRead.Infrastructure/. ./BymseRead.Infrastructure/
 COPY BymseRead.DbMigrator/. ./BymseRead.DbMigrator/
@@ -20,7 +20,7 @@ COPY BymseRead.DbMigrator/. ./BymseRead.DbMigrator/
 RUN dotnet publish BymseRead.DbMigrator/BymseRead.DbMigrator.csproj -c Release -o /app/publish --no-restore
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/runtime:9.0 AS runtime
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS runtime
 WORKDIR /app
 
 # Copy the published application

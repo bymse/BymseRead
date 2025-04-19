@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace BymseRead.DbMigrations.Migrations;
+namespace BymseRead.DbMigrator.Migrations;
 
 [Migration(3)]
 public class RemoveTags : Migration

@@ -1,7 +1,7 @@
 ﻿using BymseRead.Infrastructure.Database;
 using FluentMigrator;
 
-namespace BymseRead.DbMigrations.Migrations;
+namespace BymseRead.DbMigrator.Migrations;
 
 [Migration(2)]
 public class AddIndexes : Migration

@@ -1,7 +1,7 @@
 ﻿using BymseRead.Infrastructure.Database;
 using FluentMigrator;
 
-namespace BymseRead.DbMigrations.Migrations;
+namespace BymseRead.DbMigrator.Migrations;
 
 [Migration(4)]
 public class NullablePages : Migration

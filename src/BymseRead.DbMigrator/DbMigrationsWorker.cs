@@ -1,6 +1,6 @@
 using FluentMigrator.Runner;
 
-namespace BymseRead.DbMigrations;
+namespace BymseRead.DbMigrator;
 
 public class DbMigrationsWorker(
     IServiceProvider serviceProvider,

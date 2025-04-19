@@ -1,10 +1,8 @@
 ﻿using System.Data;
-using BymseRead.Core.Entities;
 using BymseRead.Infrastructure.Database;
 using FluentMigrator;
-using FluentMigrator.Postgres;
 
-namespace BymseRead.DbMigrations.Migrations;
+namespace BymseRead.DbMigrator.Migrations;
 
 [Migration(6)]
 public class AddBooksQueueItem : Migration

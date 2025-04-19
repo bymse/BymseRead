@@ -4,7 +4,7 @@ using FluentMigrator;
 using static BymseRead.Infrastructure.Database.Tables;
 using File = BymseRead.Core.Entities.File;
 
-namespace BymseRead.DbMigrations.Migrations;
+namespace BymseRead.DbMigrator.Migrations;
 
 [Migration(1)]
 public class Initial : Migration

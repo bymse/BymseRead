@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using BymseRead.DbMigrations;
+using BymseRead.DbMigrator;
 using FluentMigrator.Runner;
 
 var builder = Host.CreateApplicationBuilder(args);
