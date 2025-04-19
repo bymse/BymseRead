@@ -68,6 +68,7 @@ npm-debug.log
 .gitignore
 README.md
 readme-img/
+**/Dockerfile*
 Dockerfile*
 
 # Logs

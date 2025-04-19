@@ -23,6 +23,7 @@ COPY --from=build /app/dist /usr/share/nginx/html
 
 # Copy Nginx configuration
 COPY WebClientApp/nginx.conf /etc/nginx/conf.d/default.conf
+RUN sed -i '/^}/i \    text/javascript    mjs;' /etc/nginx/mime.types
 
 # Set proper permissions
 RUN chmod -R 755 /usr/share/nginx/html
