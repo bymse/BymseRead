@@ -5,6 +5,8 @@ metadata:
   labels:
     {{- include "bymseread.labels" . | nindent 4 }}
     app.kubernetes.io/component: service
+  annotations:
+    "helm.sh/hook-failed-policy": fail
 spec:
   replicas: {{ .Values.replicaCount.service }}
   selector:
