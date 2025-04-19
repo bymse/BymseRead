@@ -66,6 +66,7 @@ secrets:
 
 ingress:
   enabled: true
+  className: "nginx"
   host: "example.com"
   tls: true
   tlsSecretName: "example-tls-secret"
