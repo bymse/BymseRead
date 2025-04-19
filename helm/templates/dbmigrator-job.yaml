@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "bymseread.dbmigrator.name" . }}-{{ .Release.Revision }}
+  name: {{ include "bymseread.dbmigrator.name" . }}
   labels:
     {{- include "bymseread.labels" . | nindent 4 }}
     app.kubernetes.io/component: dbmigrator
