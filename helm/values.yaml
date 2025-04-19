@@ -57,10 +57,12 @@ tolerations: []
 
 affinity: {}
 
-config:
+secrets:
   connectionStrings:
     postgres: "Server=postgres;Port=5432;Database=bymseread;User Id=postgres;Password=postgres;"
     s3: "http://minioadmin:minioadmin@localhost:19000/bymse-read"
+  authn:
+    clientSecret: ""
 
 ingress:
   enabled: true
@@ -72,5 +74,4 @@ ingress:
 authn:
   authority: ""
   clientId: ""
-  clientSecret: ""
   metadataAddress: ""

@@ -28,6 +28,9 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: "Production"
             - name: ConnectionStrings__BymseReadPostgres
-              value: {{ .Values.config.connectionStrings.postgres | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "bymseread.fullname" . }}-db-credentials
+                  key: postgres-connection-string
           resources:
             {{- toYaml .Values.resources.dbmigrator | nindent 12 }}

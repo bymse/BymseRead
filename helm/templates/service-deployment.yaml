@@ -35,15 +35,24 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: "Production"
             - name: ConnectionStrings__BymseReadPostgres
-              value: {{ .Values.config.connectionStrings.postgres | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "bymseread.fullname" . }}-db-credentials
+                  key: postgres-connection-string
             - name: ConnectionStrings__BymseReadS3
-              value: {{ .Values.config.connectionStrings.s3 | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "bymseread.fullname" . }}-db-credentials
+                  key: s3-connection-string
             - name: AuthN__Authority
               value: {{ .Values.authn.authority | quote }}
             - name: AuthN__ClientId
               value: {{ .Values.authn.clientId | quote }}
             - name: AuthN__ClientSecret
-              value: {{ .Values.authn.clientSecret | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "bymseread.fullname" . }}-auth-credentials
+                  key: client-secret
             - name: AuthN__MetadataAddress
               value: {{ .Values.authn.metadataAddress | quote }}
           ports:
