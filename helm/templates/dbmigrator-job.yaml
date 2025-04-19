@@ -1,14 +1,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "bymseread.dbmigrator.name" . }}
+  name: {{ include "bymseread.dbmigrator.name" . }}-{{ .Release.Revision }}
   labels:
     {{- include "bymseread.labels" . | nindent 4 }}
     app.kubernetes.io/component: dbmigrator
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-weight": "-5"
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
     "helm.sh/hook-failed-policy": fail
 spec:
   backoffLimit: 0
