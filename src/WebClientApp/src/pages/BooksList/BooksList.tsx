@@ -10,6 +10,7 @@ import { useToast } from '@components/Toast/ToastContext.tsx'
 import noBooksIllustration from '@assets/no-books.svg?inline'
 import { Loader } from '@components/Loader/Loader.tsx'
 import { usePageTitle } from '@hooks/usePageTitle.ts'
+import cn from 'classnames'
 
 export const BooksList = () => {
   const { showInfo } = useToast()
@@ -35,7 +36,7 @@ export const BooksList = () => {
 
   if (isLoading || !collection) {
     return (
-      <div className={styles.container}>
+      <div className={cn(styles.container, styles.fullHeight)}>
         <Header />
         <Loader showSpinner={showSpinner} text={<>We&lsquo;re loading your books</>} />
       </div>

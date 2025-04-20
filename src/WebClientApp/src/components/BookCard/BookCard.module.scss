@@ -13,6 +13,7 @@
   background: linear-gradient(90deg, rgba(209, 217, 243, 0.40) var(--fill-percent), #F7F8FB var(--fill-percent));
   text-decoration: none;
   min-height: 171px;
+  height: 100%;
 }
 
 .card:hover {
@@ -35,7 +36,6 @@
   color: var(--color-text-02);
   max-height: 60px;
   overflow: hidden;
-  width: 100%;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
@@ -94,9 +94,5 @@
 @media (min-width: v.$tablet-width) {
   .card {
     max-width: 400px;
-  }
-  
-  .card .cover {
-    min-width: 100px;
   }
 }

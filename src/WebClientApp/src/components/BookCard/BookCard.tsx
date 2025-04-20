@@ -1,4 +1,5 @@
 ﻿import styles from './BookCard.module.scss'
+import { useState } from 'preact/hooks'
 
 export type BookCardProps = {
   title: string
@@ -8,9 +9,22 @@ export type BookCardProps = {
 }
 
 export const BookCard = ({ title, coverUrl, percentageFinished, bookId }: BookCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false)
+
   return (
     <a style={{ ['--fill-percent']: `${percentageFinished || 0}%` }} className={styles.card} href={`/books/${bookId}`}>
-      {coverUrl && <img className={styles.cover} src={coverUrl} alt={title} />}
+      {coverUrl && (
+        <>
+          <img
+            className={styles.cover}
+            src={coverUrl}
+            alt={title}
+            style={{ display: imageLoaded ? 'block' : 'none' }}
+            onLoad={() => setImageLoaded(true)}
+          />
+          {!imageLoaded && <DefaultBookCover title={title} />}
+        </>
+      )}
       {!coverUrl && <DefaultBookCover title={title} />}
       <div className={styles.title}>{title}</div>
     </a>

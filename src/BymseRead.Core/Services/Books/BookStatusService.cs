@@ -20,7 +20,8 @@ public static class BookStatusService
             return BookStatus.Archived;
         }
 
-        if (bookmark?.CreatedAt != null && IsMoreThen2Weeks(bookmark.CreatedAt))
+        if ((bookmark?.CreatedAt != null && IsMoreThen2Weeks(bookmark.CreatedAt)) || 
+            (bookProgress?.CurrentPageChangeAt != null && IsMoreThen2Weeks(bookProgress.CurrentPageChangeAt.Value)))
         {
             return BookStatus.TlDr;
         }
