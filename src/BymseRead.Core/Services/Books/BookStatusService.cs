@@ -6,21 +6,21 @@ public static class BookStatusService
 {
     public static BookStatus Get(Book book, BookProgress? bookProgress, Bookmark? bookmark)
     {
-        if ((bookProgress == null && bookmark == null) || (bookProgress?.CurrentPage < 3 && bookmark == null))
+        var bookmarkPage = bookmark?.Page ?? 0;
+        var bookProgressPage = bookProgress?.CurrentPage ?? 0;
+        var lastPage = Math.Max(bookmarkPage, bookProgressPage);
+
+        if (lastPage < 3)
         {
             return BookStatus.New;
         }
-
-        var bookmarkPage = bookmark?.Page ?? 0;
-        var bookProgressPage = bookProgress?.CurrentPage ?? 0;
-        var lastPage = bookmarkPage > bookProgressPage ? bookmarkPage : bookProgressPage;
 
         if (book.Pages.HasValue && IsLessThen3PagesToEnd(lastPage, book.Pages.Value))
         {
             return BookStatus.Archived;
         }
 
-        if ((bookmark?.CreatedAt != null && IsMoreThen2Weeks(bookmark.CreatedAt)) || 
+        if ((bookmark?.CreatedAt != null && IsMoreThen2Weeks(bookmark.CreatedAt)) ||
             (bookProgress?.CurrentPageChangeAt != null && IsMoreThen2Weeks(bookProgress.CurrentPageChangeAt.Value)))
         {
             return BookStatus.TlDr;
