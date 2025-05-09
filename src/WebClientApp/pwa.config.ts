@@ -19,6 +19,7 @@ export const pwaConfig = () =>
       start_url: '/?from=pwa',
       display: 'standalone',
       background_color: '#F2F3F8',
+      theme_color: '#F2F3F8',
       icons: [
         {
           src: '/icons/pwa-512x512.svg',
