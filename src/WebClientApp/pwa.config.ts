@@ -9,6 +9,7 @@ export const pwaConfig = () =>
     },
     workbox: {
       globPatterns: ['assets/*.{woff2,mjs,svg}'],
+      navigateFallback: null,
     },
     includeAssets: ['/icons/browser-icon.svg'],
     manifest: {
