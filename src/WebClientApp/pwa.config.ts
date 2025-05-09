@@ -8,8 +8,8 @@ export const pwaConfig = () =>
       enabled: true,
     },
     workbox: {
-      globPatterns: ['assets/*.{woff2,mjs,svg}'],
-      navigateFallback: null,
+      globPatterns: ['assets/*.{woff2,mjs,svg}', '**\/*.{js,wasm,css,html}'],
+      maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
     },
     includeAssets: ['/icons/browser-icon.svg'],
     manifest: {
