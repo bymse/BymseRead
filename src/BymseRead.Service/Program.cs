@@ -7,6 +7,7 @@ using BymseRead.Service.HealthChecks;
 using BymseRead.Service.Swagger;
 using BymseRead.Service.Workers;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
 

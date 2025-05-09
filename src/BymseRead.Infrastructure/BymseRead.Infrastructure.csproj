@@ -4,6 +4,7 @@
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="9.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.2" />
     <PackageReference Include="Npgsql" Version="9.0.2" />
     <PackageReference Include="PdfPig" Version="0.1.9" />

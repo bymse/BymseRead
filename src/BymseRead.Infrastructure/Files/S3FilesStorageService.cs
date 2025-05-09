@@ -5,6 +5,7 @@ using Amazon.Util;
 using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Services.Files;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using File = BymseRead.Core.Entities.File;
@@ -12,18 +13,34 @@ using File = BymseRead.Core.Entities.File;
 namespace BymseRead.Infrastructure.Files;
 
 [AutoRegistration(Lifetime = ServiceLifetime.Singleton)]
-public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper configuration, ILogger<S3FilesStorageService> logger) : IFilesStorageService
+public class S3FilesStorageService(
+    IAmazonS3 amazonS3,
+    S3ConfigurationHelper configuration,
+    ILogger<S3FilesStorageService> logger
+) : IFilesStorageService
 {
+    private static readonly FileExtensionContentTypeProvider ContentTypeProvider = new();
+
     private const string OriginalFileNameMetadataKey = "x-amz-meta-originalFileName";
 
     public Uri GetUrl(File file)
     {
+        var extension = Path.GetExtension(file.Name);
         var request = new GetPreSignedUrlRequest
         {
             BucketName = configuration.GetBucketName(),
             Key = file.Path,
             Expires = DateTime.UtcNow.AddDays(1),
             Verb = HttpVerb.GET,
+            ResponseHeaderOverrides =
+            {
+                // 1 year
+                CacheControl = "private, max-age=31536000, immutable",
+                ContentType =
+                    !string.IsNullOrEmpty(extension) && ContentTypeProvider.TryGetContentType(extension, out var type)
+                        ? type
+                        : null,
+            },
         };
 
         var originalRawUrl = amazonS3.GetPreSignedURL(request);
@@ -94,8 +111,7 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
         await amazonS3.CopyObjectAsync(copyRequest);
         await amazonS3.DeleteObjectAsync(new DeleteObjectRequest
         {
-            Key = uploadedFile.Path,
-            BucketName = configuration.GetBucketName(),
+            Key = uploadedFile.Path, BucketName = configuration.GetBucketName(),
         });
 
         return File.Create(fileId, uploadedFile.FileName, key, uploadedFile.Size);
@@ -144,7 +160,10 @@ public class S3FilesStorageService(IAmazonS3 amazonS3, S3ConfigurationHelper con
             var response = await amazonS3.GetBucketLocationAsync(bucketName, ct);
             if (response.HttpStatusCode != HttpStatusCode.OK)
             {
-                logger.LogWarning("Bucket {BucketName} is not available. Status code: {StatusCode}", bucketName, response.HttpStatusCode);
+                logger.LogWarning("Bucket {BucketName} is not available. Status code: {StatusCode}",
+                    bucketName,
+                    response.HttpStatusCode);
+
                 return false;
             }
 

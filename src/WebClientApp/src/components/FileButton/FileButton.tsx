@@ -27,7 +27,7 @@ export const FileButton = ({ fileUrl, fileName, inputName }: FileButtonProps) =>
   return (
     <div className={styles.fileWrapper}>
       {file && (
-        <a href={file.fileUrl} download className={styles.fileName}>
+        <a href={file.fileUrl} download className={styles.fileName} target="_blank" rel="noreferrer">
           {file.fileName}
         </a>
       )}
