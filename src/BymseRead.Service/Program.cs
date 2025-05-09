@@ -20,6 +20,7 @@ builder.Services.AddDataProtection().PersistKeysToDatabase();
 
 builder
     .Services
+    .AddMemoryCache()
     .AddSingleton<RemoteServicesHealthCheck>()
     .AddInfrastructure()
     .AddApi()

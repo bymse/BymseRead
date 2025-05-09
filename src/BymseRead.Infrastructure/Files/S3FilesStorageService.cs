@@ -6,6 +6,7 @@ using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Services.Files;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using File = BymseRead.Core.Entities.File;
@@ -16,6 +17,7 @@ namespace BymseRead.Infrastructure.Files;
 public class S3FilesStorageService(
     IAmazonS3 amazonS3,
     S3ConfigurationHelper configuration,
+    IMemoryCache memoryCache,
     ILogger<S3FilesStorageService> logger
 ) : IFilesStorageService
 {
@@ -25,17 +27,23 @@ public class S3FilesStorageService(
 
     public Uri GetUrl(File file)
     {
+        var cacheKey = $"S3:GetUrl:{file.Id.Value}";
+        if (memoryCache.TryGetValue(cacheKey, out Uri? url) && url != null)
+        {
+            return url;
+        }
+
         var extension = Path.GetExtension(file.Name);
         var request = new GetPreSignedUrlRequest
         {
             BucketName = configuration.GetBucketName(),
             Key = file.Path,
-            Expires = DateTime.UtcNow.AddDays(1),
+            Expires = DateTime.UtcNow.AddHours(24),
             Verb = HttpVerb.GET,
             ResponseHeaderOverrides =
             {
-                // 1 year
-                CacheControl = "private, max-age=31536000, immutable",
+                // 12 hours
+                CacheControl = "private, max-age=43200, immutable",
                 ContentType =
                     !string.IsNullOrEmpty(extension) && ContentTypeProvider.TryGetContentType(extension, out var type)
                         ? type
@@ -46,7 +54,10 @@ public class S3FilesStorageService(
         var originalRawUrl = amazonS3.GetPreSignedURL(request);
         var originalUrl = new Uri(originalRawUrl);
 
-        return new Uri(configuration.GetPublicUrlBase(), originalUrl.PathAndQuery);
+        var resultUrl = new Uri(configuration.GetPublicUrlBase(), originalUrl.PathAndQuery);
+        memoryCache.Set(cacheKey, resultUrl, TimeSpan.FromHours(12));
+
+        return resultUrl;
     }
 
     public PreparedUploadInfo PrepareUpload(UserId userId, string fileName, long fileSize)
