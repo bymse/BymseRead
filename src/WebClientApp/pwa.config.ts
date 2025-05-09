@@ -2,10 +2,15 @@
 
 export const pwaConfig = () =>
   VitePWA({
+    injectRegister: 'inline',
     registerType: 'autoUpdate',
     devOptions: {
       enabled: true,
     },
+    workbox: {
+      globPatterns: ['assets/*.{woff2,mjs,svg}'],
+    },
+    includeAssets: ['/icons/browser-icon.svg'],
     manifest: {
       name: 'Read by bymse',
       short_name: 'BymseRead',
