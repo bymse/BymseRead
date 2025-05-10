@@ -7,7 +7,8 @@ export const usePageTitle = (title?: string | null) => {
     if (title) {
       document.title = `${title}${suffix}`
     } else {
-      document.title = ''
+      const url = window.location.hostname + window.location.pathname
+      document.title = `${url}${suffix}`
     }
   }, [title])
 }
