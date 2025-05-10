@@ -1,6 +1,7 @@
 ﻿import * as pdfjsLib from 'pdfjs-dist'
 import { PDFViewer, EventBus, PDFLinkService } from 'pdfjs-dist/web/pdf_viewer.mjs'
 import 'pdfjs-dist/web/pdf_viewer.css'
+import { LinkTarget } from 'pdfjs-dist/types/web/pdf_link_service'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString()
 
@@ -33,7 +34,11 @@ export class PdfReader {
 
   constructor(container: HTMLDivElement) {
     this.eventBus = new EventBus()
-    this.pdfLinkService = new PDFLinkService({ eventBus: this.eventBus })
+    this.pdfLinkService = new PDFLinkService({
+      eventBus: this.eventBus,
+      externalLinkTarget: LinkTarget.BLANK,
+      externalLinkRel: 'noopener noreferrer',
+    })
 
     this.pdfViewer = new PDFViewer({
       container,
