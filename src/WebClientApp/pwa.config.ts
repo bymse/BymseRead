@@ -6,14 +6,16 @@ export const pwaConfig = () =>
     registerType: 'autoUpdate',
     devOptions: {
       enabled: true,
+      navigateFallbackAllowlist: [/.*/],
     },
     workbox: {
       globPatterns: ['assets/*.{woff2,mjs,svg}', '**\/*.{js,wasm,css,html}'],
       maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
+      navigateFallbackDenylist: [/^\/web-api\//, /^\/bymse-read\//],
     },
     includeAssets: ['/icons/browser-icon.svg'],
     manifest: {
-      name: 'Read by bymse',
+      name: 'BymseRead',
       short_name: 'BymseRead',
       description: 'Web application that lets users manage and read their PDF books seamlessly in one place.',
       start_url: '/?from=pwa',
