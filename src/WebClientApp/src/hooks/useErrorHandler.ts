@@ -7,10 +7,7 @@ export const useErrorHandler = () => {
   const { showError } = useToast()
 
   const handleError = useCallback(
-    (
-      error: string | Error | ApiError | ProblemDetails | RedirectProblemDetails,
-      showToastFor401: boolean = true,
-    ) => {
+    (error: string | Error | ApiError | ProblemDetails | RedirectProblemDetails, showToastFor401: boolean = true) => {
       if (typeof error === 'string') {
         showError(error, undefined, 5000)
         return
@@ -26,9 +23,9 @@ export const useErrorHandler = () => {
       if (error.responseStatusCode === 401 && 'redirectUrl' in error) {
         const redirectUrl = new URL(error.redirectUrl as string, window.location.origin)
         redirectUrl.searchParams.set('returnUrl', window.location.href)
-        
+
         if (showToastFor401) {
-            showError('You are not authenticated', redirectUrl.toString(), 0, 'Login')
+          showError('You are not authenticated', redirectUrl.toString(), 0, 'Login')
         } else {
           window.location.href = redirectUrl.toString()
         }

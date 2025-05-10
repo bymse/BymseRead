@@ -2,10 +2,7 @@
 
 .container {
   background: var(--color-base-02);
-}
-
-.fullHeight {
-  height: 100%;
+  min-height: 100vh;
 }
 
 .list {

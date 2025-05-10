@@ -36,7 +36,7 @@ export const BooksList = () => {
 
   if (isLoading || !collection) {
     return (
-      <div className={cn(styles.container, styles.fullHeight)}>
+      <div className={styles.container}>
         <Header />
         <Loader showSpinner={showSpinner} text={<>We&lsquo;re loading your books</>} />
       </div>
