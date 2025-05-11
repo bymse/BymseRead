@@ -5,7 +5,6 @@ namespace BymseRead.Core.Repositories;
 public interface IBooksQueryRepository
 {
     Task<IEnumerable<UserBookModel>> GetUserBooks(UserId userId, string? search);
-    Task<IEnumerable<UserBookModel>> GetBooks();
     Task<UserBookModel?> FindUserBook(UserId userId, BookId bookId);
     Task<BookModel?> FindBook(BookId bookId, UserId? userId);
     Task<bool> BookExists(UserId userId, BookId bookId);

@@ -5,7 +5,6 @@ using FluentMigrator.Runner;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddHostedService<DbMigrationsWorker>();
-builder.Services.AddHostedService<ReprocessBooksWorker>();
 
 builder
     .Services.AddFluentMigratorCore()
