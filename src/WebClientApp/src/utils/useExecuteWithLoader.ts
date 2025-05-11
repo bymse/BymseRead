@@ -14,15 +14,10 @@ export const useExecuteWithLoader = (
     setIsLoading(true)
     setShowSpinner(false)
 
-    await executeWithDelayOnTimeout(
-      callback().finally(() => {
-        setIsLoading(false)
-        setShowSpinner(false)
-      }),
-      timeout,
-      minDelay,
-      () => setShowSpinner(true),
-    )
+    await executeWithDelayOnTimeout(callback(), timeout, minDelay, () => setShowSpinner(true)).finally(() => {
+      setIsLoading(false)
+      setShowSpinner(false)
+    })
   }, [callback, timeout, minDelay])
 
   return { isLoading, showSpinner, execute }

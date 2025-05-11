@@ -6,13 +6,17 @@
 ): Promise<void> {
   const startTime = Date.now()
   let timeoutOccured = false
+  let isPromiseFinished = false
 
   const timer = setTimeout(() => {
     timeoutOccured = true
-    void onTimeout()
+    if (!isPromiseFinished) {
+      void onTimeout()
+    }
   }, timeout)
 
   const result = await promise
+  isPromiseFinished = true
   clearTimeout(timer)
 
   const elapsed = Date.now() - startTime
