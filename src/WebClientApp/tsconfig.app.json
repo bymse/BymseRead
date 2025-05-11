@@ -17,6 +17,9 @@
       "@hooks/*": ["./hooks/*"],
       "@api/*": ["../generated/api/*"],
     },
+    "types": [
+      "vite-plugin-pwa/preact"
+    ],
     
     /* For kiota */
     "esModuleInterop": true,

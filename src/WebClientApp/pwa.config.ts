@@ -12,6 +12,7 @@ export const pwaConfig = () =>
       globPatterns: ['assets/*.{woff2,mjs,svg}', '**\/*.{js,wasm,css,html}'],
       maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
       navigateFallbackDenylist: [/^\/web-api\//, /^\/bymse-read\//],
+      skipWaiting: true,
     },
     includeAssets: ['/icons/browser-icon.svg'],
     manifest: {
