@@ -21,7 +21,7 @@
 .list {
   display: grid;
   gap: 24px;
-  grid-template-columns: repeat(auto-fit, minmax(302px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(302px, 1fr));
 }
 
 .card {
@@ -34,6 +34,6 @@
   }
   .list {
     gap: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
   }
 }
