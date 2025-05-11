@@ -21,6 +21,7 @@ internal class PdfService : IPdfService
         using var images = new MagickImageCollection();
         await images.ReadAsync(args.TempFilePath, settings);
         var firstPage = images.Single();
+        firstPage.Resize(0, 316);
 
         var memoryStream = new MemoryStream();
         await firstPage.WriteAsync(memoryStream, MagickFormat.Png);
