@@ -14,7 +14,7 @@ public class DbMigrationsWorker(
 
         runner.MigrateUp();
 
-        hostApplicationLifetime.StopApplication();
+        //hostApplicationLifetime.StopApplication();
         return Task.CompletedTask;
     }
 }

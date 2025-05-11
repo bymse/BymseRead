@@ -14,6 +14,39 @@ internal class BooksQueryRepository(ConnectionFactory connectionFactory) : IBook
         return await LoadUserBooks(userId, null, search);
     }
 
+    public async Task<IEnumerable<UserBookModel>> GetBooks()
+    {
+        var sql = """
+                  with numbered_bookmarks as (
+                  select b.*, ROW_NUMBER() over (partition by b.book_id order by b.created_at desc) as row_number
+                      from bookmarks as b
+                  )
+                  select b.*, 
+                         bp.*, 
+                         bm.id, bm.book_id, bm.user_id, bm.type, bm.page, bm.created_at,
+                         cf.*,
+                         bf.*
+                  from books as b
+                  left join books_progress as bp on b.id = bp.book_id
+                  left join numbered_bookmarks as bm on b.id = bm.book_id
+                  left join files as cf on b.book_cover_file_id = cf.id
+                  left join files as bf on b.book_file_id = bf.id
+                  where COALESCE(bm.row_number, 1) = 1
+                  order by b.id
+                  """;
+
+        var connection = await connectionFactory.Get();
+        return await connection.QueryAsync<Book, BookProgress, Bookmark, File, File, UserBookModel>(sql,
+            (book, progress, bookmark, coverFile, bookFile) => new UserBookModel
+            {
+                Book = book,
+                Progress = progress,
+                LastBookmark = bookmark,
+                CoverFile = coverFile,
+                BookFile = bookFile,
+            });
+    }
+
     public async Task<UserBookModel?> FindUserBook(UserId userId, BookId bookId)
     {
         var books = await LoadUserBooks(userId, bookId, null);

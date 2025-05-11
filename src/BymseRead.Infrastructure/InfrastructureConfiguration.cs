@@ -33,6 +33,7 @@ public static class InfrastructureConfiguration
         DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         return services
+            .AddMemoryCache()
             .AddS3()
             .AddSingleton<DataSourceProvider>()
             .AddScoped<ConnectionFactory>()
