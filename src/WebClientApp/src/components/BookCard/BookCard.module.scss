@@ -1,5 +1,11 @@
 ﻿@use '../../variables' as v;
 
+.cardWrapper {
+  background: transparent;
+  display: inline-flex;
+  border-radius: 12px;
+}
+
 .card {
   width: 100%;
   padding: 20px;
@@ -10,18 +16,19 @@
   box-sizing: border-box;
 
   --fill-percent: 0%;
-  background: linear-gradient(90deg, rgba(209, 217, 243, 0.40) var(--fill-percent), #F7F8FB var(--fill-percent));
+  background: linear-gradient(90deg, rgba(209, 217, 243, 0.40) var(--fill-percent), rgba(247, 248, 251, 1) var(--fill-percent));
   text-decoration: none;
   min-height: 171px;
   height: 100%;
+  mix-blend-mode: multiply;
 }
 
-.card:hover {
-  background: #E9EEFF;
+.cardWrapper:hover {
+  background: var(--color-base-card-hover-transparent);
 }
 
-.card:active {
-  background: #F2F5FF;
+.cardWrapper:active {
+  background: var(--color-base-card-active);
 }
 
 .card .cover {

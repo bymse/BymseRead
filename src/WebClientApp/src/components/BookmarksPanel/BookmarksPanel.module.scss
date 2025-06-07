@@ -44,6 +44,14 @@
   cursor: pointer;
 }
 
+.card:hover {
+  background: var(--color-base-card-hover);
+}
+
+.card:active {
+  background: var(--color-base-card-active);
+}
+
 .cardName {
   font-size: 16px;
   line-height: 24px;

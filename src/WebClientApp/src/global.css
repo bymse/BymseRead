@@ -8,6 +8,10 @@
     --color-base-primary-normal: #5A81FA;
     --color-base-primary-active: #295DFF;
     --color-base-primary-hover: #84A2FF;
+    
+    --color-base-card-hover: #E5E6EE;
+    --color-base-card-hover-transparent: rgba(229, 230, 238, 0.5);
+    --color-base-card-active: rgba(254, 254, 254, 0.1);
 
     --color-base-secondary: #0000000D;
     --color-base-secondary-hover: #0000001A;

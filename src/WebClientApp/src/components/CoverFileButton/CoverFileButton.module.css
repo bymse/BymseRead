@@ -24,11 +24,11 @@
 }
 
 .button:hover {
-    background: #E5E6EE;
+    background: var(--color-base-card-hover);
 }
 
 .button:active {
-    background: rgba(254, 254, 254, 0.10);
+    background: var(--color-base-card-active);
 }
 
 .cover {
