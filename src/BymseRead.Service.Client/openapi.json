@@ -773,6 +773,7 @@
       },
       "PreparedFileUploadResult": {
         "required": [
+          "encodedFileName",
           "fileUploadKey",
           "uploadUrl"
         ],
@@ -784,6 +785,9 @@
           "uploadUrl": {
             "type": "string",
             "format": "uri"
+          },
+          "encodedFileName": {
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -816,9 +820,6 @@
         "additionalProperties": { }
       },
       "RedirectProblemDetails": {
-        "required": [
-          "redirectUrl"
-        ],
         "type": "object",
         "properties": {
           "type": {
@@ -843,7 +844,8 @@
             "nullable": true
           },
           "redirectUrl": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": { }

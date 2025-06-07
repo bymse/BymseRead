@@ -12,6 +12,14 @@ namespace BymseRead.Service.Client.Models
     public partial class PreparedFileUploadResult : IParsable
     #pragma warning restore CS1591
     {
+        /// <summary>The encodedFileName property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? EncodedFileName { get; set; }
+#nullable restore
+#else
+        public string EncodedFileName { get; set; }
+#endif
         /// <summary>The fileUploadKey property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -46,6 +54,7 @@ namespace BymseRead.Service.Client.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
+                { "encodedFileName", n => { EncodedFileName = n.GetStringValue(); } },
                 { "fileUploadKey", n => { FileUploadKey = n.GetStringValue(); } },
                 { "uploadUrl", n => { UploadUrl = n.GetStringValue(); } },
             };
@@ -57,6 +66,7 @@ namespace BymseRead.Service.Client.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
+            writer.WriteStringValue("encodedFileName", EncodedFileName);
             writer.WriteStringValue("fileUploadKey", FileUploadKey);
             writer.WriteStringValue("uploadUrl", UploadUrl);
         }

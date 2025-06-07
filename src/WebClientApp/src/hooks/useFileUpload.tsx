@@ -34,7 +34,7 @@ export const useFileUpload = () => {
       method: 'PUT',
       body: file,
       headers: {
-        'x-amz-meta-originalFileName': file.name,
+        'x-amz-meta-originalFileName': prepareResponse.encodedFileName || file.name,
         'Content-Type': 'application/octet-stream',
       },
     }).catch(handleError)

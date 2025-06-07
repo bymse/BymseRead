@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
+using System.Text;
 using BymseRead.Service.Client.Models;
 using BymseRead.Tests.Infrastructure;
 using FluentAssertions;
@@ -20,6 +21,50 @@ public class FilesTests : ServiceTestBase
             .Files.Invoking(async e => await e.UploadFile(user, FileName))
             .Should()
             .NotThrowAsync();
+    }
+
+    [Test]
+    public async Task Should_ReturnCorrectBookName_OnEncodedBookName()
+    {
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+        
+        const string originalFileName = "название книги ё.pdf";
+        var result = await client
+            .WebApi.Files.PrepareUpload.PutAsync(new PrepareFileUploadRequest { FileName = originalFileName, FileSize = FileContent.Length });
+        
+        await Actions.Files.UploadToUrl(result!.UploadUrl, result.EncodedFileName, Encoding.UTF8.GetBytes(FileContent));
+
+        var createdBook = await client.WebApi.Books.PostAsync(new CreateBookRequest
+        {
+            FileUploadKey = result.FileUploadKey, Title = "Название книги ё",
+        });
+        
+        var fetchedBook = await client.WebApi.Books[createdBook!.BookId!.Value].GetAsync();
+        fetchedBook!.BookFile!.Name.Should()
+            .Be(originalFileName);
+    }
+    
+    [Test]
+    public async Task Should_ReturnCorrectBookName_OnNotEncodedBookName()
+    {
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+        
+        const string originalFileName = "my-book.pdf";
+        var result = await client
+            .WebApi.Files.PrepareUpload.PutAsync(new PrepareFileUploadRequest { FileName = originalFileName, FileSize = FileContent.Length });
+        
+        await Actions.Files.UploadToUrl(result!.UploadUrl, result.EncodedFileName, Encoding.UTF8.GetBytes(FileContent));
+
+        var createdBook = await client.WebApi.Books.PostAsync(new CreateBookRequest
+        {
+            FileUploadKey = result.FileUploadKey, Title = "Название книги ё",
+        });
+        
+        var fetchedBook = await client.WebApi.Books[createdBook!.BookId!.Value].GetAsync();
+        fetchedBook!.BookFile!.Name.Should()
+            .Be(originalFileName);
     }
 
     [TestCase(".txt")]

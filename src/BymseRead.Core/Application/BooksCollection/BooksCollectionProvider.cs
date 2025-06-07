@@ -15,6 +15,8 @@ public class BooksCollectionProvider(IBooksQueryRepository repository, IFilesSto
         var books = await repository.GetUserBooks(userId, search);
 
         var groups = books
+            .OrderByDescending(e => e.Progress?.CurrentPageChangeAt)
+            .ThenBy(e => e.Book.Title)
             .Select(e => new { book = Build(e), status = BookStatusService.Get(e.Book, e.Progress, e.LastBookmark) })
             .GroupBy(e => e.status)
             .ToArray();

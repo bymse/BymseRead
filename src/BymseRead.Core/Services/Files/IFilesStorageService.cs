@@ -23,4 +23,4 @@ public class UploadedFileModel
     public required long Size { get; init; } 
 }
 
-public record PreparedUploadInfo(string FileUploadKey, Uri UploadUrl);
+public record PreparedUploadInfo(string FileUploadKey, Uri UploadUrl, string EncodedFileName);

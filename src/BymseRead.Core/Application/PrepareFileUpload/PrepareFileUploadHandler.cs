@@ -17,6 +17,7 @@ public class PrepareFileUploadHandler(IFilesStorageService filesStorage, FilesVa
         {
             FileUploadKey = model.FileUploadKey,
             UploadUrl = model.UploadUrl,
+            EncodedFileName = model.EncodedFileName
         };
     }
 }

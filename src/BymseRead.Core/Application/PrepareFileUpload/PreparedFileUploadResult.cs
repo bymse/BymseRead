@@ -4,4 +4,6 @@ public class PreparedFileUploadResult
 {
     public required string FileUploadKey { get; init; }
     public required Uri UploadUrl { get; init; }
+    
+    public required string EncodedFileName { get; init; }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Amazon.S3.Util;
 using Amazon.Util;
 using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
@@ -74,7 +75,8 @@ public class S3FilesStorageService(
             ContentType = "application/octet-stream",
         };
 
-        request.Metadata.Add(OriginalFileNameMetadataKey, fileName);
+        var encodedFileName = EncodeFileName(fileName);
+        request.Metadata.Add(OriginalFileNameMetadataKey, encodedFileName);
         request.Headers[HeaderKeys.HostHeader] = configuration.GetHost();
         request.Headers[HeaderKeys.ContentLengthHeader] = fileSize.ToString();
 
@@ -82,7 +84,7 @@ public class S3FilesStorageService(
         var originalUrl = new Uri(originalRawUrl);
 
         var uploadUrl = new Uri(configuration.GetUrlBase(), originalUrl.PathAndQuery);
-        return new PreparedUploadInfo(fileUploadKey, uploadUrl);
+        return new PreparedUploadInfo(fileUploadKey, uploadUrl, encodedFileName);
     }
 
     public async Task<UploadedFileModel?> FindUploadedFile(UserId userId, string fileUploadKey)
@@ -95,7 +97,7 @@ public class S3FilesStorageService(
             var response = await amazonS3.GetObjectMetadataAsync(request);
             return new UploadedFileModel
             {
-                FileName = response.Metadata[OriginalFileNameMetadataKey],
+                FileName = DecodeFileName(response.Metadata?[OriginalFileNameMetadataKey]),
                 Path = key,
                 Size = response.ContentLength,
             };
@@ -154,7 +156,7 @@ public class S3FilesStorageService(
             Key = key,
             InputStream = stream,
             ContentType = "application/octet-stream",
-            Metadata = { [OriginalFileNameMetadataKey] = fileName },
+            Metadata = { [OriginalFileNameMetadataKey] = EncodeFileName(fileName) },
             AutoCloseStream = false,
         };
 
@@ -195,5 +197,15 @@ public class S3FilesStorageService(
     private static string GetFileObjectKey(UserId userId, FileId fileId, string extension)
     {
         return $"file/{userId.Value}/{fileId.Value}{extension}";
+    }
+
+    private static string EncodeFileName(string fileName)
+    {
+        return WebUtility.UrlEncode(fileName);
+    }
+
+    private static string DecodeFileName(string? fileName)
+    {
+        return string.IsNullOrEmpty(fileName) ? "" : WebUtility.UrlDecode(fileName);
     }
 }
