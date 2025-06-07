@@ -9,6 +9,7 @@
 
 .logo {
   display: flex;
+  align-items: center;
 }
 
 .logo img {
@@ -28,8 +29,12 @@
 }
 
 @media (max-width: v.$tablet-width) {
+  .logo {
+    height: 44px;
+  }
+  
   .logo img {
-    max-height: 44px;
+    max-height: 36px;
   }
 
   .header {
