@@ -2,7 +2,10 @@
 
 export const pwaConfig = () =>
   VitePWA({
+    srcDir: 'src',
+    filename: 'sw.ts',
     injectRegister: 'inline',
+    strategies: 'injectManifest',
     registerType: 'autoUpdate',
     devOptions: {
       enabled: true,
@@ -11,7 +14,6 @@ export const pwaConfig = () =>
     workbox: {
       globPatterns: ['assets/*.{woff2,mjs,svg}', '**\/*.{js,wasm,css,html}'],
       maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
-      navigateFallbackDenylist: [/^\/web-api\//, /^\/bymse-read\//],
       skipWaiting: true,
     },
     includeAssets: ['/icons/browser-icon.svg'],
