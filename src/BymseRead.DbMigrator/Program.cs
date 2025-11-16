@@ -4,6 +4,7 @@ using BymseRead.Infrastructure;
 using FluentMigrator.Runner;
 
 var builder = Host.CreateApplicationBuilder(args);
+builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddHostedService<DbMigrationsWorker>();
 
 builder

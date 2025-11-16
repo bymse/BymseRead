@@ -1,0 +1,62 @@
+{
+  "name": "BymseRead Development",
+  "dockerComposeFile": ["docker-compose.yml"],
+  "service": "workspace",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20"
+    },
+    "ghcr.io/devcontainers/features/git:latest": {}
+  },
+  "postStartCommand": "dotnet run --project build -- SetupDevConfig",
+  "forwardPorts": [5299, 7094, 5173, 15432, 8080, 19000, 19001],
+  "portsAttributes": {
+    "5299": {
+      "label": "BymseRead.Service HTTP",
+      "onAutoForward": "notify"
+    },
+    "7094": {
+      "label": "BymseRead.Service HTTPS",
+      "onAutoForward": "notify"
+    },
+    "5173": {
+      "label": "WebClientApp Vite",
+      "onAutoForward": "notify"
+    },
+    "15432": {
+      "label": "PostgreSQL",
+      "onAutoForward": "ignore"
+    },
+    "8080": {
+      "label": "Keycloak",
+      "onAutoForward": "notify"
+    },
+    "19000": {
+      "label": "MinIO API",
+      "onAutoForward": "ignore"
+    },
+    "19001": {
+      "label": "MinIO Console",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "remoteEnv": {
+    "ASPNETCORE_ENVIRONMENT": "Development",
+    "DOTNET_ENVIRONMENT": "Development"
+  }
+}

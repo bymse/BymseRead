@@ -24,18 +24,13 @@
     "ExecutableTarget": {
       "type": "string",
       "enum": [
-        "ApplyMigrations",
         "CompileService",
         "GenerateClients",
         "GenerateDoc",
         "SetupDevConfig",
         "SetupKeycloak",
         "SetupLocal",
-        "SetupStorage",
-        "UpDatabase",
-        "UpKeycloak",
-        "UpLocal",
-        "UpStorage"
+        "SetupStorage"
       ]
     },
     "Verbosity": {

@@ -1,0 +1,142 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "15432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - default
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4.5
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: true
+    ports:
+      - "8080:8080"
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    command: start-dev
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000 && echo -e 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && cat <&3 | grep -q '200 OK'"]
+      interval: 30s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    networks:
+      - default
+
+  minio:
+    image: quay.io/minio/minio:latest
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_SERVER_URL: http://minio:9000
+    ports:
+      - "19000:9000"
+      - "19001:9001"
+    volumes:
+      - minio_data:/data
+    command: server --console-address :9001 /data
+    healthcheck:
+      test: ["CMD-SHELL", "mc ready local || curl -f http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - default
+
+  db-migrator:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    volumes:
+      - ../:/workspace
+      - nuke_cache:/root/.nuget
+    command: dotnet run --project /workspace/src/BymseRead.DbMigrator/BymseRead.DbMigrator.csproj
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      ConnectionStrings__BymseReadPostgres: "Host=postgres;Port=5432;Database=postgres;Username=postgres;Password=postgres"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+    networks:
+      - default
+
+  keycloak-setup:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    working_dir: /workspace
+    volumes:
+      - ../:/workspace
+      - nuke_cache:/root/.nuget
+    command: dotnet run --project build -- SetupKeycloak
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      KEYCLOAK_HOST: keycloak
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    restart: on-failure
+    networks:
+      - default
+
+  storage-setup:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    working_dir: /workspace
+    volumes:
+      - ../:/workspace
+      - nuke_cache:/root/.nuget
+    command: dotnet run --project build -- SetupStorage
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      MINIO_HOST: minio
+    depends_on:
+      minio:
+        condition: service_healthy
+    restart: on-failure
+    networks:
+      - default
+
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/workspace:cached
+    command: sleep infinity
+    depends_on:
+      storage-setup:
+        condition: service_completed_successfully
+      db-migrator:
+        condition: service_completed_successfully
+      keycloak-setup:
+        condition: service_completed_successfully
+    networks:
+      - default
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DOTNET_ENVIRONMENT: Development
+      POSTGRES_HOST: postgres
+      MINIO_HOST: minio
+      KEYCLOAK_HOST: keycloak
+
+volumes:
+  postgres_data:
+  keycloak_data:
+  minio_data:
+  nuke_cache:
+
+networks:
+  default:
+    driver: bridge

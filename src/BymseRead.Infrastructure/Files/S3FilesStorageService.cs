@@ -83,7 +83,7 @@ public class S3FilesStorageService(
         var originalRawUrl = amazonS3.GetPreSignedURL(request);
         var originalUrl = new Uri(originalRawUrl);
 
-        var uploadUrl = new Uri(configuration.GetUrlBase(), originalUrl.PathAndQuery);
+        var uploadUrl = new Uri(configuration.GetPublicUrlBase(), originalUrl.PathAndQuery);
         return new PreparedUploadInfo(fileUploadKey, uploadUrl, encodedFileName);
     }
 

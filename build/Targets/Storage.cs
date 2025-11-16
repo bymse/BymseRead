@@ -1,4 +1,5 @@
-﻿using Amazon.Runtime;
+﻿using System;
+using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Nuke.Common;
@@ -8,33 +9,14 @@ using static Nuke.Common.Tools.Docker.DockerTasks;
 partial class Build
 {
     private const string StorageContainerName = "BymseRead.Minio";
-    private const int StorageApiPort = 19000;
-    private const int StorageWebPort = 19001;
+    private const int StorageApiPort = 9000;
     private const string StorageRootUserPassword = "minioadmin";
     private const string StorageRootUser = "minioadmin";
     private const string StorageBucketName = "bymse-read";
-    private static readonly string StorageUrl = "http://localhost:" + StorageApiPort;
-
-    Target UpStorage => target => target
-        .Executes(() =>
-        {
-            DockerRun(s => s
-                .AddEnv($"MINIO_ROOT_USER={StorageRootUser}")
-                .AddEnv($"MINIO_ROOT_PASSWORD={StorageRootUserPassword}")
-                .AddEnv($"MINIO_SERVER_URL={StorageUrl}")
-                .EnableDetach()
-                .SetVolume($"{StorageContainerName}_data:/data")
-                .AddPublish($"{StorageApiPort}:9000")
-                .AddPublish($"{StorageWebPort}:9001")
-                .SetRestart("always")
-                .SetName(StorageContainerName)
-                .SetImage("quay.io/minio/minio:latest")
-                .SetArgs("server", "--console-address", ":9001", "/data")
-            );
-        });
+    private string StorageHost => Environment.GetEnvironmentVariable("MINIO_HOST") ?? "localhost";
+    private string StorageUrl => $"http://{StorageHost}:{StorageApiPort}";
 
     Target SetupStorage => target => target
-        .After(UpStorage)
         .Executes(async () =>
         {
             var client = new AmazonS3Client(new BasicAWSCredentials(StorageRootUser, StorageRootUserPassword),
@@ -44,11 +26,16 @@ partial class Build
                     ForcePathStyle = true,
                 });
 
-            var response = await client.PutBucketAsync(new PutBucketRequest
+            try
             {
-                BucketName = StorageBucketName
-            });
-
-            Serilog.Log.Information("Bucket creation response: {0}", response.HttpStatusCode);
+                await client.PutBucketAsync(new PutBucketRequest
+                {
+                    BucketName = StorageBucketName
+                });
+            }
+            catch (BucketAlreadyOwnedByYouException)
+            {
+                // bucket already exists
+            }
         });
 }

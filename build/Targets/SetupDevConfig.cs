@@ -1,11 +1,17 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 using Nuke.Common;
 using Nuke.Common.IO;
 
 partial class Build
 {
-    const string LocalUrl = "http://localhost:5299";
-    
+    string LocalUrl => Environment.GetEnvironmentVariable("LOCAL_URL") ?? "http://localhost:5299";
+    string PostgresHost => Environment.GetEnvironmentVariable("POSTGRES_HOST") ?? "localhost";
+
+    const string LocalPostgresPassword = "postgres";
+    const string LocalPostgresUser = "postgres";
+    const int LocalPostgresPort = 5432;
+
     Target SetupDevConfig => target => target
         .DependsOn(SetupKeycloak)
         .Executes(() =>
@@ -13,18 +19,17 @@ partial class Build
             var paths = new[]
             {
                 Solution.BymseRead_Service.Directory / "appsettings.Development.json",
-                Solution.BymseRead_DbMigrator.Directory / "appsettings.Development.json"
             };
 
             var config = new
             {
                 ConnectionStrings = new
                 {
-                    BymseReadPostgres = $"Host=localhost;Port={LocalPostgresPort};" +
+                    BymseReadPostgres = $"Host={PostgresHost};Port={LocalPostgresPort};" +
                                         $"Database=postgres;Username={LocalPostgresUser};" +
                                         $"Password={LocalPostgresPassword}",
                     BymseReadS3 = $"http://{StorageRootUser}:{StorageRootUserPassword}" +
-                                  $"@localhost:{StorageApiPort}/{StorageBucketName}",
+                                  $"@{StorageHost}:{StorageApiPort}/{StorageBucketName}",
                 },
                 AuthN = new
                 {
@@ -39,6 +44,10 @@ partial class Build
                 ReturnUrlAllowList = new[]
                 {
                     "http://localhost:5173"
+                },
+                S3FilesStorage = new
+                {
+                    PublicUrlBase = "http://localhost:5173"
                 }
             };
 
@@ -57,22 +66,16 @@ partial class Build
                     {
                         backupPath.DeleteFile();
                     }
+
                     path.Move(backupPath);
                 }
-                
+
                 path.WriteAllText(json);
             }
         });
-    
-    Target UpLocal => target => target
-        .DependsOn(UpStorage, UpDatabase, UpKeycloak)
-        .Executes(() =>
-        {
-            Serilog.Log.Information("Setup completed");
-        });
-    
+
     Target SetupLocal => target => target
-        .DependsOn(ApplyMigrations, SetupStorage, SetupKeycloak, SetupDevConfig)
+        .DependsOn(SetupStorage, SetupKeycloak, SetupDevConfig)
         .Executes(() =>
         {
             Serilog.Log.Information("Setup completed");

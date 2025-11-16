@@ -40,7 +40,7 @@ export default defineConfig({
         changeOrigin: true,
       },
       '/bymse-read/': {
-        target: 'http://localhost:19000',
+        target: 'http://minio:9000',
         changeOrigin: true,
       },
     },
