@@ -1,4 +1,4 @@
-﻿namespace BymseRead.Core.Services.Pdf;
+namespace BymseRead.Core.Services.Pdf;
 
 public interface IPdfService
 {

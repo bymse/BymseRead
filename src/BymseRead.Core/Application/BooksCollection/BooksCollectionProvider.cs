@@ -1,7 +1,6 @@
 using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
-using BymseRead.Core.Services;
 using BymseRead.Core.Services.Books;
 using BymseRead.Core.Services.Files;
 
@@ -48,7 +47,7 @@ public class BooksCollectionProvider(IBooksQueryRepository repository, IFilesSto
             Title = model.Book.Title,
             CoverUrl = model.CoverFile != null ? filesStorageService.GetUrl(model.CoverFile) : null,
             PercentageFinished = lastPage > 0 && model.Book.Pages.HasValue
-                ? (int) Math.Round((double) lastPage / model.Book.Pages.Value * 100)
+                ? (int)Math.Round((double)lastPage / model.Book.Pages.Value * 100)
                 : 0,
         };
     }

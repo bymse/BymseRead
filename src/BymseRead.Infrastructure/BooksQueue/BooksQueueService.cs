@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Services.BooksQueue;
 using BymseRead.Infrastructure.Database;

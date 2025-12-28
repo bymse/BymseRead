@@ -1,6 +1,6 @@
 namespace BymseRead.Infrastructure.Database;
 
-public class Tables
+public static class Tables
 {
     public const string Books = "books";
 

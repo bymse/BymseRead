@@ -1,4 +1,4 @@
-﻿using Microsoft.Kiota.Abstractions;
+using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Authentication;
 
 namespace BymseRead.Tests.Infrastructure;

@@ -1,4 +1,4 @@
-﻿using BymseRead.Tests.Infrastructure;
+using BymseRead.Tests.Infrastructure;
 using FluentAssertions;
 
 namespace BymseRead.Tests.WebApiTests;

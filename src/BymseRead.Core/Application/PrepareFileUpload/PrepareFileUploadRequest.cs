@@ -1,4 +1,4 @@
-﻿namespace BymseRead.Core.Application.PrepareFileUpload;
+namespace BymseRead.Core.Application.PrepareFileUpload;
 
 public class PrepareFileUploadRequest
 {

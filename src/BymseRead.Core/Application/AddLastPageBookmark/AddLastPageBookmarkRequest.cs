@@ -1,4 +1,4 @@
-﻿namespace BymseRead.Core.Application.AddLastPageBookmark;
+namespace BymseRead.Core.Application.AddLastPageBookmark;
 
 public class AddLastPageBookmarkRequest
 {

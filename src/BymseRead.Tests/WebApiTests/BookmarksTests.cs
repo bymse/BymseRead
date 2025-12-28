@@ -1,4 +1,4 @@
-﻿using BymseRead.Service.Client.Models;
+using BymseRead.Service.Client.Models;
 using BymseRead.Tests.Infrastructure;
 using FluentAssertions;
 using FluentAssertions.Extensions;
@@ -65,12 +65,12 @@ public class BookmarksTests : ServiceTestBase
         await Actions.Books.AddLastPageBookmark(user, bookResult.BookId!.Value, 10);
 
         var book = await Actions.Books.GetBook(user, bookResult.BookId!.Value);
-        
+
         book!.LastBookmark!
             .Page.Should()
             .Be(10);
     }
-    
+
     [Test]
     public async Task Should_AddLastPageBookmarks_OnMultipleRequests()
     {
@@ -82,7 +82,7 @@ public class BookmarksTests : ServiceTestBase
         await Actions.Books.AddLastPageBookmark(user, bookResult.BookId!.Value, 15);
 
         var book = await Actions.Books.GetBook(user, bookResult.BookId!.Value);
-        
+
         book!.LastBookmark!
             .Page.Should()
             .Be(15);

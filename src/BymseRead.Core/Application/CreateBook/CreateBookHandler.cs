@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
 using BymseRead.Core.Services.Books;
@@ -19,7 +19,7 @@ public class CreateBookHandler(
     public async Task<CreatedBookResult> Handle(UserId userId, CreateBookRequest request)
     {
         var uploadedFile = await bookValidator.Validate(userId, request.FileUploadKey, request.Title);
-        
+
         var file = await filesStorageService.MakePermanent(userId, uploadedFile);
         await filesRepository.Add(file);
 

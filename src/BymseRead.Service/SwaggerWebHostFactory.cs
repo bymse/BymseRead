@@ -1,4 +1,4 @@
-﻿using BymseRead.Service.Swagger;
+using BymseRead.Service.Swagger;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore;
 

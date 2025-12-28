@@ -1,4 +1,4 @@
-﻿namespace BymseRead.Core.Application.CreateBook;
+namespace BymseRead.Core.Application.CreateBook;
 
 public class CreatedBookResult
 {

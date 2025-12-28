@@ -40,7 +40,9 @@ internal class BooksQueryRepository(ConnectionFactory connectionFactory) : IBook
         var result = await connection.QueryAsync<Book, File, File, BookModel>(sql,
             (book, coverFile, bookFile) => new BookModel
             {
-                Book = book, CoverFile = coverFile, BookFile = bookFile,
+                Book = book,
+                CoverFile = coverFile,
+                BookFile = bookFile,
             },
             new { userId, bookId });
 

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +31,9 @@ public class ExceptionToProblemDetailsHandler(IProblemDetailsService problemDeta
 
         return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
         {
-            HttpContext = httpContext, ProblemDetails = problemDetails, Exception = exception
+            HttpContext = httpContext,
+            ProblemDetails = problemDetails,
+            Exception = exception
         });
     }
 }

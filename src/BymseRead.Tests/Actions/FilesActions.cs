@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Headers;
+using System.Net.Http.Headers;
 using System.Text;
 using BymseRead.Core.Common;
 using BymseRead.Service.Client.Models;
@@ -35,7 +35,8 @@ public class FilesActions(ServiceClientProvider provider)
 
         var result = await client.WebApi.Files.PrepareUpload.PutAsync(new PrepareFileUploadRequest
         {
-            FileName = fileName, FileSize = data.Length,
+            FileName = fileName,
+            FileSize = data.Length,
         });
 
         await UploadToUrl(result!.UploadUrl, result.EncodedFileName, data);

@@ -1,4 +1,4 @@
-﻿using BymseRead.Infrastructure.Database;
+using BymseRead.Infrastructure.Database;
 using FluentMigrator;
 
 namespace BymseRead.DbMigrator.Migrations;
@@ -16,6 +16,6 @@ public class NullablePages : Migration
 
     public override void Down()
     {
-        
+
     }
 }

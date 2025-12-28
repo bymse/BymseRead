@@ -1,4 +1,4 @@
-﻿namespace BymseRead.Core.Repositories;
+namespace BymseRead.Core.Repositories;
 
 public interface IFilesRepository
 {

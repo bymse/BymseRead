@@ -1,10 +1,9 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
 using BymseRead.Core.Services.BooksQueue;
 using BymseRead.Core.Services.Files;
 using BymseRead.Core.Services.Pdf;
-using Microsoft.Extensions.Logging;
 
 namespace BymseRead.Core.Application.BooksQueue;
 
@@ -60,7 +59,6 @@ public class BooksQueueProcessor(
 
         await booksRepository.Update(book.Book);
     }
-
 
     private async Task<PdfFileArgs> GetPdfFile(File bookFile)
     {

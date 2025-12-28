@@ -9,7 +9,7 @@ namespace BymseRead.Infrastructure.Database.DataProtection;
 
 internal class DatabaseXmlRepository(IServiceProvider services, ILoggerFactory loggerFactory) : IXmlRepository
 {
-    private readonly ILogger _logger = loggerFactory.CreateLogger<DatabaseXmlRepository>();
+    private readonly ILogger logger = loggerFactory.CreateLogger<DatabaseXmlRepository>();
 
     public IReadOnlyCollection<XElement> GetAllElements()
     {
@@ -21,7 +21,7 @@ internal class DatabaseXmlRepository(IServiceProvider services, ILoggerFactory l
         var elements = new List<XElement>();
         foreach (var key in keys)
         {
-            _logger.LogDebug("Reading XML from key '{FriendlyName}'", key.FriendlyName);
+            logger.LogDebug("Reading XML from key '{FriendlyName}'", key.FriendlyName);
             if (!string.IsNullOrEmpty(key.Xml))
             {
                 elements.Add(XElement.Parse(key.Xml));
@@ -36,7 +36,7 @@ internal class DatabaseXmlRepository(IServiceProvider services, ILoggerFactory l
         using var scope = services.CreateScope();
         var repository = scope.ServiceProvider.GetRequiredService<DataProtectionKeysRepository>();
 
-        _logger.LogDebug("Storing key '{FriendlyName}' in database", friendlyName);
+        logger.LogDebug("Storing key '{FriendlyName}' in database", friendlyName);
 
         var newKey = new DataProtectionKey
         {

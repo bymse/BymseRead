@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
 using BymseRead.Core.Services;
@@ -15,12 +15,12 @@ public class UpdateCurrentPageHandler(IBooksQueryRepository booksQueryRepository
         {
             ValidationError.Throw("Book not found");
         }
-        
+
         if (request.Page < 1)
         {
             ValidationError.Throw("Invalid page number. Page must be greater than 0");
         }
-        
+
         var progress = BookProgress.Create(bookId, userId, request.Page);
         await bookProgressRepository.Upsert(progress);
     }

@@ -23,7 +23,7 @@ public class Initial : Migration
             .OnColumn("idp_user_id").Ascending()
             .WithOptions().Unique()
             ;
-        
+
         Create.Table(Files)
             .WithColumn("id").AsGuid().PrimaryKey()
             .WithColumn("name").AsString(File.NameMaxLength).NotNullable()
@@ -31,51 +31,51 @@ public class Initial : Migration
             .WithColumn("size").AsInt64().NotNullable()
             .WithColumn("created_at").AsDateTimeOffset().NotNullable()
             ;
-        
+
         Create.Table(Books)
             .WithColumn("id").AsGuid().PrimaryKey()
             .WithColumn("title").AsString(Book.MaxTitleLength).NotNullable()
             .WithColumn("tags").AsCustom("text[]").NotNullable()
             .WithColumn("created_at").AsDateTimeOffset().NotNullable()
             .WithColumn("pages").AsInt32().NotNullable()
-            
+
             .WithColumn("book_file_id").AsGuid().NotNullable()
             .ForeignKey(Files, "id")
             .Unique()
-            
+
             .WithColumn("book_cover_file_id").AsGuid().Nullable()
             .ForeignKey(Files, "id")
             .Unique()
-            
+
             .WithColumn("owner_user_id").AsGuid().NotNullable()
             .ForeignKey(Users, "id")
             ;
-        
+
         Create.Table(Bookmarks)
             .WithColumn("id").AsGuid().PrimaryKey()
             .WithColumn("created_at").AsDateTimeOffset().NotNullable()
             .WithColumn("type").AsInt32().NotNullable()
             .WithColumn("page").AsInt32().NotNullable()
-            
+
             .WithColumn("book_id").AsGuid().NotNullable()
             .ForeignKey(Books, "id").OnDelete(Rule.Cascade)
             .WithColumn("user_id").AsGuid().NotNullable()
             .ForeignKey(Users, "id")
             ;
-        
+
         Create.Table(BooksProgress)
             .WithColumn("id").AsGuid().PrimaryKey()
             .WithColumn("started_at").AsDateTimeOffset().NotNullable()
             .WithColumn("finished_at").AsDateTimeOffset()
             .WithColumn("current_page_change_at").AsDateTimeOffset().NotNullable()
             .WithColumn("current_page").AsInt32().NotNullable()
-            
+
             .WithColumn("book_id").AsGuid().NotNullable()
             .ForeignKey(Books, "id").OnDelete(Rule.Cascade)
             .WithColumn("user_id").AsGuid().NotNullable()
             .ForeignKey(Users, "id")
             ;
-        
+
         Create.Index()
             .OnTable(BooksProgress)
             .OnColumn("book_id").Ascending()
@@ -84,5 +84,5 @@ public class Initial : Migration
             ;
     }
 
-    public override void Down() {}
+    public override void Down() { }
 }

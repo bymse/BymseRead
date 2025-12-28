@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -28,11 +28,11 @@ public class ServiceWebApplicationFactory : WebApplicationFactory<Program>
         builder.ConfigureServices(r =>
         {
             r.AddAutoRegistrations(typeof(ServiceWebApplicationFactory).Assembly);
-            r.AddTransient<HttpClient>(_ => CreateDefaultClient());
+            r.AddTransient(_ => CreateDefaultClient());
 
             r
                 .AddAuthentication(options => { options.DefaultScheme = TestHeaderAuthScheme; })
-                .AddScheme<AuthenticationSchemeOptions, TestHeaderAuthHandler>(TestHeaderAuthScheme, _ => {});
+                .AddScheme<AuthenticationSchemeOptions, TestHeaderAuthHandler>(TestHeaderAuthScheme, _ => { });
         });
     }
 }

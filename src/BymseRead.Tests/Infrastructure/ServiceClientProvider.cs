@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using BymseRead.Service.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Kiota.Http.HttpClientLibrary;

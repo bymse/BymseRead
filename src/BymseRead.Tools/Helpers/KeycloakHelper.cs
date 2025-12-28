@@ -7,7 +7,7 @@ namespace BymseRead.Tools.Helpers;
 
 public class KeycloakHelper(string url, string adminUsername, string adminPassword) : IDisposable
 {
-    private readonly HttpClient _httpClient = new() { BaseAddress = new Uri(url) };
+    private readonly HttpClient httpClient = new() { BaseAddress = new Uri(url) };
 
     public async Task<string> InitializeKeycloakAsync(
         string realmName,
@@ -18,7 +18,7 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
         string password)
     {
         var token = await GetAdminTokenAsync();
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         await CreateRealmAsync(realmName);
         var clientSecret = await CreateClientAsync(realmName, clientId, rootUrl, redirectUris);
@@ -29,7 +29,7 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
 
     private async Task<string> GetAdminTokenAsync()
     {
-        var response = await _httpClient.PostAsync("realms/master/protocol/openid-connect/token",
+        var response = await httpClient.PostAsync("realms/master/protocol/openid-connect/token",
             new FormUrlEncodedContent([
                 new KeyValuePair<string, string>("client_id", "admin-cli"),
                 new KeyValuePair<string, string>("username", adminUsername),
@@ -51,7 +51,7 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
             enabled = true
         };
 
-        var response = await _httpClient.PostAsJsonAsync("admin/realms", realm);
+        var response = await httpClient.PostAsJsonAsync("admin/realms", realm);
         if (response.StatusCode != HttpStatusCode.Conflict)
         {
             response.EnsureSuccessStatusCode();
@@ -74,18 +74,18 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
             },
         };
 
-        var response = await _httpClient.PostAsJsonAsync($"admin/realms/{realmName}/clients", client);
+        var response = await httpClient.PostAsJsonAsync($"admin/realms/{realmName}/clients", client);
         if (response.StatusCode == HttpStatusCode.Conflict)
         {
             var clientsResponse =
-                await _httpClient.GetAsync($"admin/realms/{realmName}/clients?clientId={clientIdName}");
+                await httpClient.GetAsync($"admin/realms/{realmName}/clients?clientId={clientIdName}");
             var clients = await clientsResponse.Content.ReadFromJsonAsync<List<ClientRepresentation>>();
             return clients?[0].Secret ?? throw new InvalidOperationException("Failed to retrieve client secret");
         }
 
         var clientUrl = response.Headers.Location;
         response.EnsureSuccessStatusCode();
-        var clientSecretResponse = await _httpClient.GetAsync(clientUrl);
+        var clientSecretResponse = await httpClient.GetAsync(clientUrl);
 
         clientSecretResponse.EnsureSuccessStatusCode();
         var clientSecret = await clientSecretResponse.Content.ReadFromJsonAsync<ClientRepresentation>();
@@ -114,7 +114,7 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
             }
         };
 
-        var response = await _httpClient.PostAsJsonAsync($"admin/realms/{realmName}/users", user);
+        var response = await httpClient.PostAsJsonAsync($"admin/realms/{realmName}/users", user);
         if (response.StatusCode != HttpStatusCode.Conflict)
         {
             response.EnsureSuccessStatusCode();
@@ -133,6 +133,6 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
 
     public void Dispose()
     {
-        _httpClient.Dispose();
+        httpClient.Dispose();
     }
 }

@@ -16,7 +16,7 @@ public static class AutoRegistrationHelper
                 {
                     continue;
                 }
-                
+
                 services.Add(new ServiceDescriptor(type, type, attr.Lifetime));
 
                 foreach (var @interface in type.GetInterfaces())

@@ -1,4 +1,4 @@
-﻿namespace BymseRead.Core.Application.UpdateCurrentPage;
+namespace BymseRead.Core.Application.UpdateCurrentPage;
 
 public class UpdateCurrentPageRequest
 {

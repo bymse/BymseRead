@@ -42,9 +42,6 @@ public static class InfrastructureConfiguration
     private static IServiceCollection AddS3(this IServiceCollection services)
     {
         services.AddSingleton<S3ConfigurationHelper>();
-        services
-            .AddOptions<S3FilesStorageSettings>()
-            .BindConfiguration(S3FilesStorageSettings.Path);
 
         return services.AddSingleton<IAmazonS3>(sp =>
         {

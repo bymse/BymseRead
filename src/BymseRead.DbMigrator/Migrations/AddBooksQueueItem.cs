@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using BymseRead.Infrastructure.Database;
 using FluentMigrator;
 
@@ -28,6 +28,6 @@ public class AddBooksQueueItem : Migration
 
     public override void Down()
     {
-        
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
 using Dapper;
@@ -18,7 +18,7 @@ internal class BookProgressRepository(ConnectionFactory connectionFactory) : IBo
                       current_page_change_at = @CurrentPageChangeAt,
                       current_page = @CurrentPage
                   """;
-        
+
         var rows = await connection.ExecuteAsync(sql, bookProgress);
         if (rows == 0)
         {

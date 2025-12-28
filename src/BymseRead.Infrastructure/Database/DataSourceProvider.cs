@@ -3,7 +3,7 @@ using Npgsql;
 
 namespace BymseRead.Infrastructure.Database;
 
-public class DataSourceProvider(IConfiguration configuration) : IDisposable
+public sealed class DataSourceProvider(IConfiguration configuration) : IDisposable
 {
     private NpgsqlDataSource? dataSource;
 

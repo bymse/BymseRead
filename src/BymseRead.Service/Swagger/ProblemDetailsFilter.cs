@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using BymseRead.Service.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace BymseRead.Service.Swagger;
 
@@ -22,7 +22,7 @@ public class ProblemDetailsFilter : IOperationFilter
                     },
                 },
             });
-            
+
         operation.Responses?.Add("401",
             new OpenApiResponse
             {

@@ -23,7 +23,9 @@ public class Bookmark
     {
         return new Bookmark
         {
-            BookId = bookId, UserId = userId, Page = page,
+            BookId = bookId,
+            UserId = userId,
+            Page = page,
         };
     }
 }

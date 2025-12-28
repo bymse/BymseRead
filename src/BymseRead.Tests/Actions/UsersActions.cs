@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BymseRead.Tests.Actions;

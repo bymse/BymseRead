@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using Dapper;
 
@@ -13,7 +13,7 @@ internal class BooksQueueRepository(ConnectionFactory connectionFactory)
         var sql = $"""
                    with pending_books as (SELECT book_id, min(created_at) as earliest
                                           FROM books_queue
-                                          WHERE status = {(int) BookQueueItemStatus.Pending}
+                                          WHERE status = {(int)BookQueueItemStatus.Pending}
                                           group by book_id
                                           order by earliest
                                           limit 1)

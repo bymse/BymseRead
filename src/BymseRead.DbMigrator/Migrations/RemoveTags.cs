@@ -1,4 +1,4 @@
-﻿using FluentMigrator;
+using FluentMigrator;
 
 namespace BymseRead.DbMigrator.Migrations;
 
@@ -12,6 +12,6 @@ public class RemoveTags : Migration
 
     public override void Down()
     {
-        
+
     }
 }

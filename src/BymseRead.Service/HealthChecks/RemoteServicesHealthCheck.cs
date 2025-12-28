@@ -1,6 +1,6 @@
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using BymseRead.Infrastructure.Database;
 using BymseRead.Infrastructure.Files;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace BymseRead.Service.HealthChecks;
 

@@ -1,4 +1,4 @@
-﻿using System.Text.Encodings.Web;
+using System.Text.Encodings.Web;
 using BymseRead.Service.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -14,7 +14,7 @@ public class ProxyAuthenticationHandler(
 ) : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
     private const string RedirectUrl = "/web-api/auth/login";
-    
+
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         return Task.FromResult(AuthenticateResult.NoResult());
@@ -24,12 +24,12 @@ public class ProxyAuthenticationHandler(
     {
         var endpoint = Context.GetEndpoint();
         var isApiController = endpoint?.Metadata?.GetMetadata<ApiControllerAttribute>() != null;
-        
+
         if (isApiController)
         {
             Context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             Context.Response.ContentType = "application/problem+json";
-            
+
             var problemDetails = new RedirectProblemDetails
             {
                 Status = StatusCodes.Status401Unauthorized,

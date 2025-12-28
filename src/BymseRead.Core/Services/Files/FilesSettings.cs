@@ -1,4 +1,4 @@
-﻿namespace BymseRead.Core.Services.Files;
+namespace BymseRead.Core.Services.Files;
 
 public class FilesSettings
 {

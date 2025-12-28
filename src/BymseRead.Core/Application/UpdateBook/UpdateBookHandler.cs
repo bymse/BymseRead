@@ -1,4 +1,3 @@
-﻿using System.ComponentModel.DataAnnotations;
 using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;

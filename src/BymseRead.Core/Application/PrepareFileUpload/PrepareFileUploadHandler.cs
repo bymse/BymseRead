@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Services.Files;
 
@@ -12,7 +12,7 @@ public class PrepareFileUploadHandler(IFilesStorageService filesStorage, FilesVa
         filesValidator.Validate(request.FileName, request.FileSize);
 
         var model = filesStorage.PrepareUpload(userId, request.FileName, request.FileSize);
-        
+
         return new PreparedFileUploadResult
         {
             FileUploadKey = model.FileUploadKey,

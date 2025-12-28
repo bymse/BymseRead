@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using BymseRead.Core.Entities;
 using Dapper;
 

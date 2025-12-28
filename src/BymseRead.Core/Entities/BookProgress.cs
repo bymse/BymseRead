@@ -22,7 +22,9 @@ public class BookProgress
     {
         return new BookProgress
         {
-            BookId = book, UserId = user, CurrentPage = page,
+            BookId = book,
+            UserId = user,
+            CurrentPage = page,
         };
     }
 }

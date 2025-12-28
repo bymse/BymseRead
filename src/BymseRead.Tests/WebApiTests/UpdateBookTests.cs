@@ -1,8 +1,7 @@
-﻿using BymseRead.Service.Client.Models;
+using BymseRead.Service.Client.Models;
 using BymseRead.Tests.Actions;
 using BymseRead.Tests.Infrastructure;
 using FluentAssertions;
-using FluentAssertions.Extensions;
 
 namespace BymseRead.Tests.WebApiTests;
 
@@ -82,7 +81,9 @@ public class UpdateBookTests : ServiceTestBase
             .WebApi.Books[bookResult.BookId!.Value]
             .Update.Invoking(e => e.PostAsync(new UpdateBookRequest
             {
-                Title = "test", UploadedBookFileKey = bookFileUploadKey, UploadedCoverFileKey = coverFileUploadKey,
+                Title = "test",
+                UploadedBookFileKey = bookFileUploadKey,
+                UploadedCoverFileKey = coverFileUploadKey,
             }))
             .Should()
             .ThrowAsync<ProblemDetails>();
@@ -229,25 +230,25 @@ public class UpdateBookTests : ServiceTestBase
         await AssertContent(book!.CoverUrl, newCoverContent);
         await AssertNotFound(bookBeforeChange!.CoverUrl);
     }
-    
+
     [Test]
     public async Task Should_NotChangeCover_OnBookFileChangedAndCoverNotChanged()
     {
         var user = Actions.Users.CreateUser();
         var result = await Actions.Books.CreateBookFromPath(user, FilesActions.FileOtelPdfPath);
         await AssertCover(user, result.BookId!.Value, FilesActions.OtelPdfCoverPath);
-        
+
         await Actions.Books.UpdateBookFromPath(user, result.BookId!.Value, FilesActions.FileModernSePdfPath);
         await AssertCover(user, result.BookId!.Value, FilesActions.OtelPdfCoverPath);
     }
-    
+
     [Test]
     public async Task Should_ChangeCover_OnBookFileChangedAndPrevCoverRemoved()
     {
         var user = Actions.Users.CreateUser();
         var result = await Actions.Books.CreateBookFromPath(user, FilesActions.FileOtelPdfPath);
         await AssertCover(user, result.BookId!.Value, FilesActions.OtelPdfCoverPath);
-        
+
         await Actions.Books.UpdateBookFromPath(user, result.BookId!.Value, FilesActions.FileModernSePdfPath, removeCover: true);
         await AssertCover(user, result.BookId!.Value, FilesActions.FileModernSePdfCoverPath);
     }

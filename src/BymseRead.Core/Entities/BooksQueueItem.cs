@@ -1,19 +1,19 @@
-﻿namespace BymseRead.Core.Entities;
+namespace BymseRead.Core.Entities;
 
 public record BooksQueueItemId(Guid Value) : IEntityId;
 
 public class BooksQueueItem
 {
     public BooksQueueItemId Id { get; init; } = new(Guid.NewGuid());
-    
+
     public required BookId BookId { get; init; }
-    
+
     public required BookQueueItemStatus Status { get; set; }
-    
+
     public DateTimeOffset CreatedAt { get; private init; } = DateTimeOffset.UtcNow;
-    
+
     public DateTimeOffset UpdatedAt { get; private set; } = DateTimeOffset.UtcNow;
-    
+
     public void Completed()
     {
         Status = BookQueueItemStatus.Completed;

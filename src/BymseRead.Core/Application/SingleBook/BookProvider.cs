@@ -1,7 +1,6 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
-using BymseRead.Core.Services;
 using BymseRead.Core.Services.Files;
 
 namespace BymseRead.Core.Application.SingleBook;
@@ -38,12 +37,12 @@ public class BookProvider(IBooksQueryRepository repository, IFilesStorageService
 
         return new BookmarkInfo { Page = bookmark.Page, CreatedAt = bookmark.CreatedAt, };
     }
-    
+
     private FileInfo MapFile(File file)
     {
         return new FileInfo
         {
-            FileUrl = filesStorageService.GetUrl(file), 
+            FileUrl = filesStorageService.GetUrl(file),
             Name = file.Name,
         };
     }

@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using BymseRead.Service.Client.Models;
 using BymseRead.Tests.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;

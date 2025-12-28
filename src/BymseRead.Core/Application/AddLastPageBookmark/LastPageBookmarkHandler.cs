@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
 using BymseRead.Core.Services;
@@ -18,7 +18,7 @@ public class LastPageBookmarkHandler(
         {
             ValidationError.Throw("Book not found");
         }
-        
+
         if (request.Page < 1)
         {
             ValidationError.Throw("Invalid page number. Page must be greater than 0");

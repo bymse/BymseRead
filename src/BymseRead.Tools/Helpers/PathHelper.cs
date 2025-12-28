@@ -2,13 +2,13 @@ namespace BymseRead.Tools.Helpers;
 
 public static class PathHelper
 {
-    private static string? _repositoryRoot;
+    private static string? repositoryRoot;
 
     public static string GetRepositoryRoot()
     {
-        if (_repositoryRoot != null)
+        if (repositoryRoot != null)
         {
-            return _repositoryRoot;
+            return repositoryRoot;
         }
 
         var currentDirectory = Directory.GetCurrentDirectory();
@@ -18,8 +18,8 @@ public static class PathHelper
         {
             if (Directory.Exists(Path.Combine(directory.FullName, ".git")))
             {
-                _repositoryRoot = directory.FullName;
-                return _repositoryRoot;
+                repositoryRoot = directory.FullName;
+                return repositoryRoot;
             }
 
             directory = directory.Parent;

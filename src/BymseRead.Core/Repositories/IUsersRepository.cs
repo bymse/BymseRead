@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Entities;
+using BymseRead.Core.Entities;
 
 namespace BymseRead.Core.Repositories;
 

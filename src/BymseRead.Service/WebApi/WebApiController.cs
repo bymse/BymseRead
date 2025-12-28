@@ -1,6 +1,5 @@
 using System.Security.Claims;
 using BymseRead.Core.Entities;
-using BymseRead.Service.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

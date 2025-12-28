@@ -1,4 +1,4 @@
-﻿namespace BymseRead.Core.Entities;
+namespace BymseRead.Core.Entities;
 
 public interface IEntityId
 {

@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using BymseRead.Core.Application.SyncUser;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace BymseRead.Tests.Infrastructure;
 
@@ -16,7 +16,7 @@ public class TestHeaderAuthHandler(
 {
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        if (!Request.Headers.TryGetValue(ServiceClientProvider.UserIdHeaderName, out var userIdValues) || 
+        if (!Request.Headers.TryGetValue(ServiceClientProvider.UserIdHeaderName, out var userIdValues) ||
             userIdValues.Count == 0)
         {
             return AuthenticateResult.NoResult();
@@ -33,7 +33,7 @@ public class TestHeaderAuthHandler(
         {
             new Claim(ClaimTypes.NameIdentifier, userId.Value.ToString()),
         };
-        
+
         var identity = new ClaimsIdentity(claims, Scheme.Name);
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, Scheme.Name);

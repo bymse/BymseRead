@@ -1,7 +1,6 @@
-﻿using System.Net;
+using System.Net;
 using Amazon.S3;
 using Amazon.S3.Model;
-using Amazon.S3.Util;
 using Amazon.Util;
 using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
@@ -124,7 +123,8 @@ public class S3FilesStorageService(
         await amazonS3.CopyObjectAsync(copyRequest);
         await amazonS3.DeleteObjectAsync(new DeleteObjectRequest
         {
-            Key = uploadedFile.Path, BucketName = configuration.GetBucketName(),
+            Key = uploadedFile.Path,
+            BucketName = configuration.GetBucketName(),
         });
 
         return File.Create(fileId, uploadedFile.FileName, key, uploadedFile.Size);

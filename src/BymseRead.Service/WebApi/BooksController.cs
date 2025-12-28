@@ -61,7 +61,7 @@ public class BooksController : WebApiController
     {
         return handler.Handle(CurrentUserId, new BookId(bookId), request);
     }
-    
+
     [HttpPut("{bookId:guid}/progress/current-page")]
     public Task UpdateCurrentPage(
         [FromRoute] Guid bookId,

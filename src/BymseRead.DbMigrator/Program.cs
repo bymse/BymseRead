@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using BymseRead.DbMigrator;
 using BymseRead.Infrastructure;
 using FluentMigrator.Runner;

@@ -11,7 +11,7 @@ internal class DataProtectionKeysRepository(ConnectionFactory connectionFactory)
     {
         var connection = await connectionFactory.Get();
         var sql = $"SELECT id, friendly_name, xml, created_at FROM {Tables.DataProtectionKeys}";
-        
+
         var results = await connection.QueryAsync<DataProtectionKey>(sql);
         return [.. results];
     }
@@ -23,7 +23,7 @@ internal class DataProtectionKeysRepository(ConnectionFactory connectionFactory)
                    INSERT INTO {Tables.DataProtectionKeys} (id, friendly_name, xml, created_at)
                    VALUES (@Id, @FriendlyName, @Xml, @CreatedAt)
                    """;
-        
+
         var insertedRows = await connection.ExecuteAsync(sql, key);
         if (insertedRows != 1)
         {

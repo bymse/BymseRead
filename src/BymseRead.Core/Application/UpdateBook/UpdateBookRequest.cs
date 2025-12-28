@@ -1,4 +1,4 @@
-﻿namespace BymseRead.Core.Application.UpdateBook;
+namespace BymseRead.Core.Application.UpdateBook;
 
 public class UpdateBookRequest
 {

@@ -1,4 +1,4 @@
-﻿using BymseRead.Core.Common;
+using BymseRead.Core.Common;
 using BymseRead.Core.Repositories;
 using Dapper;
 using File = BymseRead.Core.Entities.File;

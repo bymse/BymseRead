@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication;
-using BymseRead.Core.Application.SyncUser;
 using System.Security.Claims;
+using BymseRead.Core.Application.SyncUser;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BymseRead.Service.Auth;
 

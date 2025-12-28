@@ -115,9 +115,11 @@ public class BooksTests : ServiceTestBase
         book!
             .Should()
             .BeEquivalentTo(new BookInfo
-                {
-                    BookId = result.BookId, Title = title, BookFile = new FileInfo { Name = fileName, },
-                },
+            {
+                BookId = result.BookId,
+                Title = title,
+                BookFile = new FileInfo { Name = fileName, },
+            },
                 e => e.Excluding(r => r.BookFile!.FileUrl));
     }
 
@@ -166,7 +168,7 @@ public class BooksTests : ServiceTestBase
         var result = await Actions.Books.CreateBookFromPath(user, FilesActions.FileOtelPdfPath);
 
         await Task.Delay(10.Seconds());
-        
+
         var book = await client
             .WebApi.Books[result.BookId!.Value]
             .GetAsync();
@@ -175,7 +177,7 @@ public class BooksTests : ServiceTestBase
             .Pages.Should()
             .Be(4);
     }
-    
+
     [Test]
     public async Task Should_UpdateCoverInBackground_OnUpdateCurrentPage()
     {

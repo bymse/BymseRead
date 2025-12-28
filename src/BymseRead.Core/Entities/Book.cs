@@ -5,7 +5,7 @@ public record BookId(Guid Value) : IEntityId;
 public class Book
 {
     public const int MaxTitleLength = 200;
-    
+
     public static Book Create(string title, FileId bookFileId, UserId ownerUserId)
     {
         return new Book
@@ -15,7 +15,7 @@ public class Book
             OwnerUserId = ownerUserId
         };
     }
-    
+
     public BookId Id { get; init; } = new(Guid.NewGuid());
 
     public string Title { get; set; }
@@ -29,7 +29,7 @@ public class Book
     public UserId OwnerUserId { get; set; }
 
     public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
-    
+
     private Book()
     {
         Title = null!;

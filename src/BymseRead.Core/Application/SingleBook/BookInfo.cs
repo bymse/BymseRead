@@ -1,4 +1,4 @@
-﻿namespace BymseRead.Core.Application.SingleBook;
+namespace BymseRead.Core.Application.SingleBook;
 
 public class BookInfo
 {
@@ -7,7 +7,7 @@ public class BookInfo
     public required int? Pages { get; init; }
     public required FileInfo BookFile { get; init; }
     public required Uri? CoverUrl { get; init; }
-    
+
     public required int? CurrentPage { get; init; }
     public required BookmarkInfo? LastBookmark { get; init; }
 }
