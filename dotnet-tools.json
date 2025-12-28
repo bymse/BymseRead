@@ -7,7 +7,7 @@
       "commands": [
         "kiota"
       ],
-      "rollForward": false
+      "rollForward": true
     },
     "swashbuckle.aspnetcore.cli": {
       "version": "10.1.0",
