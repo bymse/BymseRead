@@ -11,11 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BymseRead.DbMigrator", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BymseRead.Service", "src\BymseRead.Service\BymseRead.Service.csproj", "{9093BB11-7537-4F64-B039-EA0A31810EF6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{C2E1CE8C-72DF-427A-B731-7FDB5F20A3CE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BymseRead.Service.Client", "src\BymseRead.Service.Client\BymseRead.Service.Client.csproj", "{2CC944C8-8441-4635-9C0D-2778C2749A9B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BymseRead.Tests", "src\BymseRead.Tests\BymseRead.Tests.csproj", "{2A214203-BA8D-4095-A999-C63E1B5C59E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BymseRead.Tools", "src\BymseRead.Tools\BymseRead.Tools.csproj", "{FF90EFA3-7D92-416E-8970-206F0893420B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,8 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C2E1CE8C-72DF-427A-B731-7FDB5F20A3CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2E1CE8C-72DF-427A-B731-7FDB5F20A3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFAFBCC7-2DA9-4811-B468-F0C90B92FEFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EFAFBCC7-2DA9-4811-B468-F0C90B92FEFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFAFBCC7-2DA9-4811-B468-F0C90B92FEFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,6 +47,10 @@ Global
 		{2A214203-BA8D-4095-A999-C63E1B5C59E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A214203-BA8D-4095-A999-C63E1B5C59E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A214203-BA8D-4095-A999-C63E1B5C59E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF90EFA3-7D92-416E-8970-206F0893420B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF90EFA3-7D92-416E-8970-206F0893420B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF90EFA3-7D92-416E-8970-206F0893420B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF90EFA3-7D92-416E-8970-206F0893420B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
