@@ -87,6 +87,8 @@ services:
     depends_on:
       keycloak:
         condition: service_healthy
+      db-migrator:
+        condition: service_completed_successfully
     restart: no
     networks:
       - default
@@ -104,6 +106,8 @@ services:
     depends_on:
       minio:
         condition: service_healthy
+      keycloak-setup:
+        condition: service_completed_successfully
     restart: no
     networks:
       - default
