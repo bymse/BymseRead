@@ -1,5 +1,5 @@
 ﻿using BymseRead.Service.WebApi;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 namespace BymseRead.Service.Swagger;
 

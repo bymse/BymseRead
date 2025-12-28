@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using BymseRead.Service.Models;
+using Microsoft.OpenApi;
 
 namespace BymseRead.Service.Swagger;
 
@@ -9,7 +9,7 @@ public class ProblemDetailsFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        operation.Responses.Add("400",
+        operation.Responses?.Add("400",
             new OpenApiResponse
             {
                 Description = "Bad Request",
@@ -23,7 +23,7 @@ public class ProblemDetailsFilter : IOperationFilter
                 },
             });
             
-        operation.Responses.Add("401",
+        operation.Responses?.Add("401",
             new OpenApiResponse
             {
                 Description = "Unauthorized",

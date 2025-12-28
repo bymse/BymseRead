@@ -1,4 +1,3 @@
-using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
 using BymseRead.Core;
@@ -8,7 +7,6 @@ using BymseRead.Infrastructure.Database;
 using BymseRead.Infrastructure.Database.Dapper;
 using BymseRead.Infrastructure.Files;
 using Dapper;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BymseRead.Infrastructure;
@@ -47,8 +45,6 @@ public static class InfrastructureConfiguration
         services
             .AddOptions<S3FilesStorageSettings>()
             .BindConfiguration(S3FilesStorageSettings.Path);
-
-        AWSConfigsS3.UseSignatureVersion4 = true;
 
         return services.AddSingleton<IAmazonS3>(sp =>
         {

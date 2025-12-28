@@ -59,7 +59,7 @@ services:
       - default
 
   db-migrator:
-    image: mcr.microsoft.com/dotnet/sdk:8.0
+    image: mcr.microsoft.com/dotnet/sdk:10.0
     volumes:
       - ../:/workspace
       - nuke_cache:/root/.nuget
@@ -70,12 +70,12 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    restart: on-failure
+    restart: no
     networks:
       - default
 
   keycloak-setup:
-    image: mcr.microsoft.com/dotnet/sdk:8.0
+    image: mcr.microsoft.com/dotnet/sdk:10.0
     working_dir: /workspace
     volumes:
       - ../:/workspace
@@ -87,12 +87,12 @@ services:
     depends_on:
       keycloak:
         condition: service_healthy
-    restart: on-failure
+    restart: no
     networks:
       - default
 
   storage-setup:
-    image: mcr.microsoft.com/dotnet/sdk:8.0
+    image: mcr.microsoft.com/dotnet/sdk:10.0
     working_dir: /workspace
     volumes:
       - ../:/workspace
@@ -104,7 +104,7 @@ services:
     depends_on:
       minio:
         condition: service_healthy
-    restart: on-failure
+    restart: no
     networks:
       - default
 
