@@ -31,6 +31,7 @@ export default defineConfig({
       '@hooks': path.resolve(__dirname, './src/hooks'),
       '@api': path.resolve(__dirname, './generated/api'),
       '@utils': path.resolve(__dirname, './src/utils'),
+      '@storage': path.resolve(__dirname, './src/storage'),
     },
   },
   server: {

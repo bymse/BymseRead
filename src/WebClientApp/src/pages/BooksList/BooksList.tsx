@@ -57,6 +57,7 @@ export const BooksList = () => {
           {<Block title="New" books={collection.newBooks} />}
           {<Block title="TL;DR" books={collection.tlDrBooks} />}
           {<Block title="Archived" books={collection.archivedBooks} />}
+          {<Block title="Offline" books={collection.offlineBooks} />}
         </div>
       )}
       {bookFromVisible && <AddBookForm onSubmit={handleCreateBook} onCancel={closeBookFrom} />}

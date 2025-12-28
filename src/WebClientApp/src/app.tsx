@@ -24,10 +24,10 @@ const Routes = () => {
 
   return (
     <Router>
-      <Home path="/" />
+      <Route path="/" component={Home} />
       <Route path="/books" component={BooksList} />
       <Route path="/books/:id" component={Book} />
-      <NotFound default />
+      <Route default component={NotFound} />
     </Router>
   )
 }
