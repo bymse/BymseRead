@@ -1,5 +1,5 @@
 # Build stage
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /app
 
 # Copy the solution file and project files first to leverage Docker cache for dependencies
@@ -21,7 +21,7 @@ COPY BymseRead.Service/. ./BymseRead.Service/
 RUN dotnet publish BymseRead.Service/BymseRead.Service.csproj -c Release -o /app/publish --no-restore
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 
 # Install Ghostscript

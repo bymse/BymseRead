@@ -11,6 +11,9 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "20"
     },
+    "ghcr.io/devcontainers/features/dotnet:2" : {
+      "version": "10.0"
+    },
     "ghcr.io/devcontainers/features/git:latest": {}
   },
   "postStartCommand": "dotnet run --project src/BymseRead.Tools -- SetupDevConfig",

@@ -242,3 +242,4 @@ logs/
 
 **/appsettings.Development.json
 **/appsettings.Development.bak.json
+.claude/settings.local.json
