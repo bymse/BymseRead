@@ -62,7 +62,7 @@ services:
     image: mcr.microsoft.com/dotnet/sdk:10.0
     volumes:
       - ../:/workspace
-      - nuke_cache:/root/.nuget
+      - dotnet_cache:/root/.nuget
     command: dotnet run --project /workspace/src/BymseRead.DbMigrator/BymseRead.DbMigrator.csproj
     environment:
       DOTNET_ENVIRONMENT: Development
@@ -79,8 +79,8 @@ services:
     working_dir: /workspace
     volumes:
       - ../:/workspace
-      - nuke_cache:/root/.nuget
-    command: dotnet run --project build -- SetupKeycloak
+      - dotnet_cache:/root/.nuget
+    command: dotnet run --project /workspace/src/BymseRead.Tools -- SetupKeycloak
     environment:
       DOTNET_ENVIRONMENT: Development
       KEYCLOAK_HOST: keycloak
@@ -96,8 +96,8 @@ services:
     working_dir: /workspace
     volumes:
       - ../:/workspace
-      - nuke_cache:/root/.nuget
-    command: dotnet run --project build -- SetupStorage
+      - dotnet_cache:/root/.nuget
+    command: dotnet run --project /workspace/src/BymseRead.Tools -- SetupStorage
     environment:
       DOTNET_ENVIRONMENT: Development
       MINIO_HOST: minio
@@ -135,7 +135,7 @@ volumes:
   postgres_data:
   keycloak_data:
   minio_data:
-  nuke_cache:
+  dotnet_cache:
 
 networks:
   default:

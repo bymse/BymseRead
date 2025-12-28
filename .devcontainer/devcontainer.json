@@ -13,7 +13,7 @@
     },
     "ghcr.io/devcontainers/features/git:latest": {}
   },
-  "postStartCommand": "dotnet run --project build -- SetupDevConfig",
+  "postStartCommand": "dotnet run --project src/BymseRead.Tools -- SetupDevConfig",
   "forwardPorts": [5299, 7094, 5173, 15432, 8080, 19000, 19001],
   "portsAttributes": {
     "5299": {
@@ -52,6 +52,11 @@
         "ms-dotnettools.csdevkit",
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode"
+      ]
+    },
+    "jetbrains": {
+      "plugins": [
+        "com.github.copilot"
       ]
     }
   },
