@@ -48,7 +48,7 @@ namespace BymseRead.Service.Client.WebApi.Books.Item.Bookmarks.LastPage
         public async Task<Stream> PostAsync(global::BymseRead.Service.Client.Models.AddLastPageBookmarkRequest body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
-            _ = body ?? throw new ArgumentNullException(nameof(body));
+            if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = ToPostRequestInformation(body, requestConfiguration);
             var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
             {
@@ -69,7 +69,7 @@ namespace BymseRead.Service.Client.WebApi.Books.Item.Bookmarks.LastPage
         public RequestInformation ToPostRequestInformation(global::BymseRead.Service.Client.Models.AddLastPageBookmarkRequest body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
         {
 #endif
-            _ = body ?? throw new ArgumentNullException(nameof(body));
+            if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = new RequestInformation(Method.POST, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/problem+json");

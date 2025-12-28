@@ -1,8 +1,8 @@
 {
-  "descriptionHash": "24BA30F658654B3E9E616861CCFE4E848486E9BA00CC664EAB246909E1D7755B33C301FA70BEBB140427A8EA51D4D85CF508FD6202909593E27AE730AD8BC08F",
+  "descriptionHash": "4FF5678F46D63FEBD8E753C63E0A8C803653D88B32B11C6674C206BB6545D655788914369B7AD75EDE838DB1DEED437856AAA26CB83AADC416A0C156ACD9E325",
   "descriptionLocation": "../../../BymseRead.Service.Client/openapi.json",
   "lockFileVersion": "1.0.0",
-  "kiotaVersion": "1.21.0",
+  "kiotaVersion": "1.29.0",
   "clientClassName": "BymseReadClient",
   "typeAccessModifier": "Public",
   "clientNamespaceName": "ApiSdk",

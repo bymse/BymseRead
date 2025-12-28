@@ -230,6 +230,7 @@ export function createUpdateCurrentPageRequestFromDiscriminatorValue(parseNode: 
 }
 /**
  * The deserialization information for the current model
+ * @param AddLastPageBookmarkRequest The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -240,6 +241,7 @@ export function deserializeIntoAddLastPageBookmarkRequest(addLastPageBookmarkReq
 }
 /**
  * The deserialization information for the current model
+ * @param BookInfo The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -256,6 +258,7 @@ export function deserializeIntoBookInfo(bookInfo: Partial<BookInfo> | undefined 
 }
 /**
  * The deserialization information for the current model
+ * @param BookmarkInfo The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -267,6 +270,7 @@ export function deserializeIntoBookmarkInfo(bookmarkInfo: Partial<BookmarkInfo> 
 }
 /**
  * The deserialization information for the current model
+ * @param BooksCollectionInfo The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -280,6 +284,7 @@ export function deserializeIntoBooksCollectionInfo(booksCollectionInfo: Partial<
 }
 /**
  * The deserialization information for the current model
+ * @param BookShortInfo The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -293,6 +298,7 @@ export function deserializeIntoBookShortInfo(bookShortInfo: Partial<BookShortInf
 }
 /**
  * The deserialization information for the current model
+ * @param CreateBookRequest The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -304,6 +310,7 @@ export function deserializeIntoCreateBookRequest(createBookRequest: Partial<Crea
 }
 /**
  * The deserialization information for the current model
+ * @param CreatedBookResult The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -314,6 +321,7 @@ export function deserializeIntoCreatedBookResult(createdBookResult: Partial<Crea
 }
 /**
  * The deserialization information for the current model
+ * @param FileInfo The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -325,6 +333,7 @@ export function deserializeIntoFileInfo(fileInfo: Partial<FileInfo> | undefined 
 }
 /**
  * The deserialization information for the current model
+ * @param PreparedFileUploadResult The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -337,6 +346,7 @@ export function deserializeIntoPreparedFileUploadResult(preparedFileUploadResult
 }
 /**
  * The deserialization information for the current model
+ * @param PrepareFileUploadRequest The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -348,6 +358,7 @@ export function deserializeIntoPrepareFileUploadRequest(prepareFileUploadRequest
 }
 /**
  * The deserialization information for the current model
+ * @param ProblemDetails The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -362,6 +373,7 @@ export function deserializeIntoProblemDetails(problemDetails: Partial<ProblemDet
 }
 /**
  * The deserialization information for the current model
+ * @param RedirectProblemDetails The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -377,6 +389,7 @@ export function deserializeIntoRedirectProblemDetails(redirectProblemDetails: Pa
 }
 /**
  * The deserialization information for the current model
+ * @param UpdateBookRequest The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -390,6 +403,7 @@ export function deserializeIntoUpdateBookRequest(updateBookRequest: Partial<Upda
 }
 /**
  * The deserialization information for the current model
+ * @param UpdateCurrentPageRequest The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -434,10 +448,6 @@ export interface PrepareFileUploadRequest extends Parsable {
 }
 export interface ProblemDetails extends AdditionalDataHolder, ApiError, Parsable {
     /**
-     * Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
-     */
-    additionalData?: Record<string, unknown>;
-    /**
      * The detail property
      */
     detail?: string | null;
@@ -459,10 +469,6 @@ export interface ProblemDetails extends AdditionalDataHolder, ApiError, Parsable
     type?: string | null;
 }
 export interface RedirectProblemDetails extends AdditionalDataHolder, ApiError, Parsable {
-    /**
-     * Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
-     */
-    additionalData?: Record<string, unknown>;
     /**
      * The detail property
      */
@@ -490,175 +496,189 @@ export interface RedirectProblemDetails extends AdditionalDataHolder, ApiError, 
 }
 /**
  * Serializes information the current object
+ * @param AddLastPageBookmarkRequest The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeAddLastPageBookmarkRequest(writer: SerializationWriter, addLastPageBookmarkRequest: Partial<AddLastPageBookmarkRequest> | undefined | null = {}) : void {
-    if (addLastPageBookmarkRequest) {
-        writer.writeNumberValue("page", addLastPageBookmarkRequest.page);
-    }
+export function serializeAddLastPageBookmarkRequest(writer: SerializationWriter, addLastPageBookmarkRequest: Partial<AddLastPageBookmarkRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!addLastPageBookmarkRequest || isSerializingDerivedType) { return; }
+    writer.writeNumberValue("page", addLastPageBookmarkRequest.page);
 }
 /**
  * Serializes information the current object
+ * @param BookInfo The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeBookInfo(writer: SerializationWriter, bookInfo: Partial<BookInfo> | undefined | null = {}) : void {
-    if (bookInfo) {
-        writer.writeObjectValue<FileInfo>("bookFile", bookInfo.bookFile, serializeFileInfo);
-        writer.writeGuidValue("bookId", bookInfo.bookId);
-        writer.writeStringValue("coverUrl", bookInfo.coverUrl);
-        writer.writeNumberValue("currentPage", bookInfo.currentPage);
-        writer.writeObjectValue<BookmarkInfo>("lastBookmark", bookInfo.lastBookmark, serializeBookmarkInfo);
-        writer.writeNumberValue("pages", bookInfo.pages);
-        writer.writeStringValue("title", bookInfo.title);
-    }
+export function serializeBookInfo(writer: SerializationWriter, bookInfo: Partial<BookInfo> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!bookInfo || isSerializingDerivedType) { return; }
+    writer.writeObjectValue<FileInfo>("bookFile", bookInfo.bookFile, serializeFileInfo);
+    writer.writeGuidValue("bookId", bookInfo.bookId);
+    writer.writeStringValue("coverUrl", bookInfo.coverUrl);
+    writer.writeNumberValue("currentPage", bookInfo.currentPage);
+    writer.writeObjectValue<BookmarkInfo>("lastBookmark", bookInfo.lastBookmark, serializeBookmarkInfo);
+    writer.writeNumberValue("pages", bookInfo.pages);
+    writer.writeStringValue("title", bookInfo.title);
 }
 /**
  * Serializes information the current object
+ * @param BookmarkInfo The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeBookmarkInfo(writer: SerializationWriter, bookmarkInfo: Partial<BookmarkInfo> | undefined | null = {}) : void {
-    if (bookmarkInfo) {
-        writer.writeDateValue("createdAt", bookmarkInfo.createdAt);
-        writer.writeNumberValue("page", bookmarkInfo.page);
-    }
+export function serializeBookmarkInfo(writer: SerializationWriter, bookmarkInfo: Partial<BookmarkInfo> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!bookmarkInfo || isSerializingDerivedType) { return; }
+    writer.writeDateValue("createdAt", bookmarkInfo.createdAt);
+    writer.writeNumberValue("page", bookmarkInfo.page);
 }
 /**
  * Serializes information the current object
+ * @param BooksCollectionInfo The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeBooksCollectionInfo(writer: SerializationWriter, booksCollectionInfo: Partial<BooksCollectionInfo> | undefined | null = {}) : void {
-    if (booksCollectionInfo) {
-        writer.writeCollectionOfObjectValues<BookShortInfo>("activeBooks", booksCollectionInfo.activeBooks, serializeBookShortInfo);
-        writer.writeCollectionOfObjectValues<BookShortInfo>("archivedBooks", booksCollectionInfo.archivedBooks, serializeBookShortInfo);
-        writer.writeCollectionOfObjectValues<BookShortInfo>("newBooks", booksCollectionInfo.newBooks, serializeBookShortInfo);
-        writer.writeCollectionOfObjectValues<BookShortInfo>("tlDrBooks", booksCollectionInfo.tlDrBooks, serializeBookShortInfo);
-    }
+export function serializeBooksCollectionInfo(writer: SerializationWriter, booksCollectionInfo: Partial<BooksCollectionInfo> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!booksCollectionInfo || isSerializingDerivedType) { return; }
+    writer.writeCollectionOfObjectValues<BookShortInfo>("activeBooks", booksCollectionInfo.activeBooks, serializeBookShortInfo);
+    writer.writeCollectionOfObjectValues<BookShortInfo>("archivedBooks", booksCollectionInfo.archivedBooks, serializeBookShortInfo);
+    writer.writeCollectionOfObjectValues<BookShortInfo>("newBooks", booksCollectionInfo.newBooks, serializeBookShortInfo);
+    writer.writeCollectionOfObjectValues<BookShortInfo>("tlDrBooks", booksCollectionInfo.tlDrBooks, serializeBookShortInfo);
 }
 /**
  * Serializes information the current object
+ * @param BookShortInfo The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeBookShortInfo(writer: SerializationWriter, bookShortInfo: Partial<BookShortInfo> | undefined | null = {}) : void {
-    if (bookShortInfo) {
-        writer.writeGuidValue("bookId", bookShortInfo.bookId);
-        writer.writeStringValue("coverUrl", bookShortInfo.coverUrl);
-        writer.writeNumberValue("percentageFinished", bookShortInfo.percentageFinished);
-        writer.writeStringValue("title", bookShortInfo.title);
-    }
+export function serializeBookShortInfo(writer: SerializationWriter, bookShortInfo: Partial<BookShortInfo> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!bookShortInfo || isSerializingDerivedType) { return; }
+    writer.writeGuidValue("bookId", bookShortInfo.bookId);
+    writer.writeStringValue("coverUrl", bookShortInfo.coverUrl);
+    writer.writeNumberValue("percentageFinished", bookShortInfo.percentageFinished);
+    writer.writeStringValue("title", bookShortInfo.title);
 }
 /**
  * Serializes information the current object
+ * @param CreateBookRequest The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeCreateBookRequest(writer: SerializationWriter, createBookRequest: Partial<CreateBookRequest> | undefined | null = {}) : void {
-    if (createBookRequest) {
-        writer.writeStringValue("fileUploadKey", createBookRequest.fileUploadKey);
-        writer.writeStringValue("title", createBookRequest.title);
-    }
+export function serializeCreateBookRequest(writer: SerializationWriter, createBookRequest: Partial<CreateBookRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!createBookRequest || isSerializingDerivedType) { return; }
+    writer.writeStringValue("fileUploadKey", createBookRequest.fileUploadKey);
+    writer.writeStringValue("title", createBookRequest.title);
 }
 /**
  * Serializes information the current object
+ * @param CreatedBookResult The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeCreatedBookResult(writer: SerializationWriter, createdBookResult: Partial<CreatedBookResult> | undefined | null = {}) : void {
-    if (createdBookResult) {
-        writer.writeGuidValue("bookId", createdBookResult.bookId);
-    }
+export function serializeCreatedBookResult(writer: SerializationWriter, createdBookResult: Partial<CreatedBookResult> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!createdBookResult || isSerializingDerivedType) { return; }
+    writer.writeGuidValue("bookId", createdBookResult.bookId);
 }
 /**
  * Serializes information the current object
+ * @param FileInfo The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeFileInfo(writer: SerializationWriter, fileInfo: Partial<FileInfo> | undefined | null = {}) : void {
-    if (fileInfo) {
-        writer.writeStringValue("fileUrl", fileInfo.fileUrl);
-        writer.writeStringValue("name", fileInfo.name);
-    }
+export function serializeFileInfo(writer: SerializationWriter, fileInfo: Partial<FileInfo> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!fileInfo || isSerializingDerivedType) { return; }
+    writer.writeStringValue("fileUrl", fileInfo.fileUrl);
+    writer.writeStringValue("name", fileInfo.name);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param PreparedFileUploadResult The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializePreparedFileUploadResult(writer: SerializationWriter, preparedFileUploadResult: Partial<PreparedFileUploadResult> | undefined | null = {}) : void {
-    if (preparedFileUploadResult) {
-        writer.writeStringValue("encodedFileName", preparedFileUploadResult.encodedFileName);
-        writer.writeStringValue("fileUploadKey", preparedFileUploadResult.fileUploadKey);
-        writer.writeStringValue("uploadUrl", preparedFileUploadResult.uploadUrl);
-    }
+export function serializePreparedFileUploadResult(writer: SerializationWriter, preparedFileUploadResult: Partial<PreparedFileUploadResult> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!preparedFileUploadResult || isSerializingDerivedType) { return; }
+    writer.writeStringValue("encodedFileName", preparedFileUploadResult.encodedFileName);
+    writer.writeStringValue("fileUploadKey", preparedFileUploadResult.fileUploadKey);
+    writer.writeStringValue("uploadUrl", preparedFileUploadResult.uploadUrl);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param PrepareFileUploadRequest The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializePrepareFileUploadRequest(writer: SerializationWriter, prepareFileUploadRequest: Partial<PrepareFileUploadRequest> | undefined | null = {}) : void {
-    if (prepareFileUploadRequest) {
-        writer.writeStringValue("fileName", prepareFileUploadRequest.fileName);
-        writer.writeNumberValue("fileSize", prepareFileUploadRequest.fileSize);
-    }
+export function serializePrepareFileUploadRequest(writer: SerializationWriter, prepareFileUploadRequest: Partial<PrepareFileUploadRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!prepareFileUploadRequest || isSerializingDerivedType) { return; }
+    writer.writeStringValue("fileName", prepareFileUploadRequest.fileName);
+    writer.writeNumberValue("fileSize", prepareFileUploadRequest.fileSize);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param ProblemDetails The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeProblemDetails(writer: SerializationWriter, problemDetails: Partial<ProblemDetails> | undefined | null = {}) : void {
-    if (problemDetails) {
-        writer.writeStringValue("detail", problemDetails.detail);
-        writer.writeStringValue("instance", problemDetails.instance);
-        writer.writeNumberValue("status", problemDetails.status);
-        writer.writeStringValue("title", problemDetails.title);
-        writer.writeStringValue("type", problemDetails.type);
-        writer.writeAdditionalData(problemDetails.additionalData);
-    }
+export function serializeProblemDetails(writer: SerializationWriter, problemDetails: Partial<ProblemDetails> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!problemDetails || isSerializingDerivedType) { return; }
+    writer.writeStringValue("detail", problemDetails.detail);
+    writer.writeStringValue("instance", problemDetails.instance);
+    writer.writeNumberValue("status", problemDetails.status);
+    writer.writeStringValue("title", problemDetails.title);
+    writer.writeStringValue("type", problemDetails.type);
+    writer.writeAdditionalData(problemDetails.additionalData);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param RedirectProblemDetails The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeRedirectProblemDetails(writer: SerializationWriter, redirectProblemDetails: Partial<RedirectProblemDetails> | undefined | null = {}) : void {
-    if (redirectProblemDetails) {
-        writer.writeStringValue("detail", redirectProblemDetails.detail);
-        writer.writeStringValue("instance", redirectProblemDetails.instance);
-        writer.writeStringValue("redirectUrl", redirectProblemDetails.redirectUrl);
-        writer.writeNumberValue("status", redirectProblemDetails.status);
-        writer.writeStringValue("title", redirectProblemDetails.title);
-        writer.writeStringValue("type", redirectProblemDetails.type);
-        writer.writeAdditionalData(redirectProblemDetails.additionalData);
-    }
+export function serializeRedirectProblemDetails(writer: SerializationWriter, redirectProblemDetails: Partial<RedirectProblemDetails> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!redirectProblemDetails || isSerializingDerivedType) { return; }
+    writer.writeStringValue("detail", redirectProblemDetails.detail);
+    writer.writeStringValue("instance", redirectProblemDetails.instance);
+    writer.writeStringValue("redirectUrl", redirectProblemDetails.redirectUrl);
+    writer.writeNumberValue("status", redirectProblemDetails.status);
+    writer.writeStringValue("title", redirectProblemDetails.title);
+    writer.writeStringValue("type", redirectProblemDetails.type);
+    writer.writeAdditionalData(redirectProblemDetails.additionalData);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param UpdateBookRequest The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeUpdateBookRequest(writer: SerializationWriter, updateBookRequest: Partial<UpdateBookRequest> | undefined | null = {}) : void {
-    if (updateBookRequest) {
-        writer.writeBooleanValue("removeCover", updateBookRequest.removeCover);
-        writer.writeStringValue("title", updateBookRequest.title);
-        writer.writeStringValue("uploadedBookFileKey", updateBookRequest.uploadedBookFileKey);
-        writer.writeStringValue("uploadedCoverFileKey", updateBookRequest.uploadedCoverFileKey);
-    }
+export function serializeUpdateBookRequest(writer: SerializationWriter, updateBookRequest: Partial<UpdateBookRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!updateBookRequest || isSerializingDerivedType) { return; }
+    writer.writeBooleanValue("removeCover", updateBookRequest.removeCover);
+    writer.writeStringValue("title", updateBookRequest.title);
+    writer.writeStringValue("uploadedBookFileKey", updateBookRequest.uploadedBookFileKey);
+    writer.writeStringValue("uploadedCoverFileKey", updateBookRequest.uploadedCoverFileKey);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param UpdateCurrentPageRequest The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeUpdateCurrentPageRequest(writer: SerializationWriter, updateCurrentPageRequest: Partial<UpdateCurrentPageRequest> | undefined | null = {}) : void {
-    if (updateCurrentPageRequest) {
-        writer.writeNumberValue("page", updateCurrentPageRequest.page);
-    }
+export function serializeUpdateCurrentPageRequest(writer: SerializationWriter, updateCurrentPageRequest: Partial<UpdateCurrentPageRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!updateCurrentPageRequest || isSerializingDerivedType) { return; }
+    writer.writeNumberValue("page", updateCurrentPageRequest.page);
 }
 export interface UpdateBookRequest extends Parsable {
     /**

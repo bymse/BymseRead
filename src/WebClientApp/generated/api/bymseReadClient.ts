@@ -4,7 +4,7 @@
 // @ts-ignore
 import { type WebApiRequestBuilder, WebApiRequestBuilderNavigationMetadata } from './webApi/index.js';
 // @ts-ignore
-import { apiClientProxifier, registerDefaultDeserializer, registerDefaultSerializer, type BaseRequestBuilder, type KeysToExcludeForNavigationMetadata, type NavigationMetadata, type RequestAdapter } from '@microsoft/kiota-abstractions';
+import { apiClientProxifier, ParseNodeFactoryRegistry, SerializationWriterFactoryRegistry, type BaseRequestBuilder, type KeysToExcludeForNavigationMetadata, type NavigationMetadata, type RequestAdapter } from '@microsoft/kiota-abstractions';
 // @ts-ignore
 import { FormParseNodeFactory, FormSerializationWriterFactory } from '@microsoft/kiota-serialization-form';
 // @ts-ignore
@@ -29,13 +29,26 @@ export interface BymseReadClient extends BaseRequestBuilder<BymseReadClient> {
  */
 // @ts-ignore
 export function createBymseReadClient(requestAdapter: RequestAdapter) {
-    registerDefaultSerializer(JsonSerializationWriterFactory);
-    registerDefaultSerializer(TextSerializationWriterFactory);
-    registerDefaultSerializer(FormSerializationWriterFactory);
-    registerDefaultSerializer(MultipartSerializationWriterFactory);
-    registerDefaultDeserializer(JsonParseNodeFactory);
-    registerDefaultDeserializer(TextParseNodeFactory);
-    registerDefaultDeserializer(FormParseNodeFactory);
+    if (requestAdapter === undefined) {
+        throw new Error("requestAdapter cannot be undefined");
+    }
+    const serializationWriterFactory = requestAdapter.getSerializationWriterFactory() as SerializationWriterFactoryRegistry;
+    const parseNodeFactoryRegistry = requestAdapter.getParseNodeFactory() as ParseNodeFactoryRegistry;
+    const backingStoreFactory = requestAdapter.getBackingStoreFactory();
+    
+    if (parseNodeFactoryRegistry.registerDefaultDeserializer) {
+        parseNodeFactoryRegistry.registerDefaultDeserializer(JsonParseNodeFactory, backingStoreFactory);
+        parseNodeFactoryRegistry.registerDefaultDeserializer(TextParseNodeFactory, backingStoreFactory);
+        parseNodeFactoryRegistry.registerDefaultDeserializer(FormParseNodeFactory, backingStoreFactory);
+    }
+    
+    if (serializationWriterFactory.registerDefaultSerializer) {
+        serializationWriterFactory.registerDefaultSerializer(JsonSerializationWriterFactory);
+        serializationWriterFactory.registerDefaultSerializer(TextSerializationWriterFactory);
+        serializationWriterFactory.registerDefaultSerializer(FormSerializationWriterFactory);
+        serializationWriterFactory.registerDefaultSerializer(MultipartSerializationWriterFactory);
+    }
+    
     const pathParameters: Record<string, unknown> = {
         "baseurl": requestAdapter.baseUrl,
     };
