@@ -36,6 +36,10 @@ export interface BookInfo extends Parsable {
      */
     pages?: number | null;
     /**
+     * The status property
+     */
+    status?: BookStatus | null;
+    /**
      * The title property
      */
     title?: string | null;
@@ -78,6 +82,10 @@ export interface BookShortInfo extends Parsable {
      */
     coverUrl?: string | null;
     /**
+     * The fileUrl property
+     */
+    fileUrl?: string | null;
+    /**
      * The percentageFinished property
      */
     percentageFinished?: number | null;
@@ -86,6 +94,7 @@ export interface BookShortInfo extends Parsable {
      */
     title?: string | null;
 }
+export type BookStatus = (typeof BookStatusObject)[keyof typeof BookStatusObject];
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
@@ -253,6 +262,7 @@ export function deserializeIntoBookInfo(bookInfo: Partial<BookInfo> | undefined 
         "currentPage": n => { bookInfo.currentPage = n.getNumberValue(); },
         "lastBookmark": n => { bookInfo.lastBookmark = n.getObjectValue<BookmarkInfo>(createBookmarkInfoFromDiscriminatorValue); },
         "pages": n => { bookInfo.pages = n.getNumberValue(); },
+        "status": n => { bookInfo.status = n.getEnumValue<BookStatus>(BookStatusObject); },
         "title": n => { bookInfo.title = n.getStringValue(); },
     }
 }
@@ -292,6 +302,7 @@ export function deserializeIntoBookShortInfo(bookShortInfo: Partial<BookShortInf
     return {
         "bookId": n => { bookShortInfo.bookId = n.getGuidValue(); },
         "coverUrl": n => { bookShortInfo.coverUrl = n.getStringValue(); },
+        "fileUrl": n => { bookShortInfo.fileUrl = n.getStringValue(); },
         "percentageFinished": n => { bookShortInfo.percentageFinished = n.getNumberValue(); },
         "title": n => { bookShortInfo.title = n.getStringValue(); },
     }
@@ -520,6 +531,7 @@ export function serializeBookInfo(writer: SerializationWriter, bookInfo: Partial
     writer.writeNumberValue("currentPage", bookInfo.currentPage);
     writer.writeObjectValue<BookmarkInfo>("lastBookmark", bookInfo.lastBookmark, serializeBookmarkInfo);
     writer.writeNumberValue("pages", bookInfo.pages);
+    writer.writeEnumValue<BookStatus>("status", bookInfo.status);
     writer.writeStringValue("title", bookInfo.title);
 }
 /**
@@ -559,6 +571,7 @@ export function serializeBookShortInfo(writer: SerializationWriter, bookShortInf
     if (!bookShortInfo || isSerializingDerivedType) { return; }
     writer.writeGuidValue("bookId", bookShortInfo.bookId);
     writer.writeStringValue("coverUrl", bookShortInfo.coverUrl);
+    writer.writeStringValue("fileUrl", bookShortInfo.fileUrl);
     writer.writeNumberValue("percentageFinished", bookShortInfo.percentageFinished);
     writer.writeStringValue("title", bookShortInfo.title);
 }
@@ -704,5 +717,11 @@ export interface UpdateCurrentPageRequest extends Parsable {
      */
     page?: number | null;
 }
+export const BookStatusObject = {
+    Active: "Active",
+    NewEscaped: "New",
+    TlDr: "TlDr",
+    Archived: "Archived",
+} as const;
 /* tslint:enable */
 /* eslint-enable */

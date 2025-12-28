@@ -591,6 +591,7 @@
           "currentPage",
           "lastBookmark",
           "pages",
+          "status",
           "title"
         ],
         "type": "object",
@@ -615,6 +616,9 @@
             "format": "uri",
             "nullable": true
           },
+          "status": {
+            "$ref": "#/components/schemas/BookStatus"
+          },
           "currentPage": {
             "type": "integer",
             "format": "int32",
@@ -630,6 +634,7 @@
         "required": [
           "bookId",
           "coverUrl",
+          "fileUrl",
           "percentageFinished",
           "title"
         ],
@@ -650,9 +655,22 @@
             "type": "string",
             "format": "uri",
             "nullable": true
+          },
+          "fileUrl": {
+            "type": "string",
+            "format": "uri"
           }
         },
         "additionalProperties": false
+      },
+      "BookStatus": {
+        "enum": [
+          "Active",
+          "New",
+          "TlDr",
+          "Archived"
+        ],
+        "type": "string"
       },
       "BookmarkInfo": {
         "required": [

@@ -185,4 +185,70 @@ public class BooksTests : ServiceTestBase
         var result = await Actions.Books.CreateBookFromPath(user, FilesActions.FileOtelPdfPath);
         await AssertCover(user, result.BookId!.Value, FilesActions.OtelPdfCoverPath);
     }
+
+    [Test]
+    public async Task Should_ReturnFileUrl_OnBookInCollection()
+    {
+        const string content = "book file content";
+
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+
+        var result = await Actions.Books.CreateBook(user, fileContent: content);
+
+        var collection = await client.WebApi.Books.GetAsync();
+
+        var bookShortInfo = collection!.NewBooks.Should().ContainSingle(e => e.BookId == result.BookId).Subject;
+        bookShortInfo.FileUrl.Should().NotBeNullOrEmpty();
+        await AssertContent(bookShortInfo.FileUrl, content);
+    }
+
+    [Test]
+    public async Task Should_ReturnNewStatus_OnNewBook()
+    {
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+
+        var result = await Actions.Books.CreateBook(user);
+
+        var book = await client
+            .WebApi.Books[result.BookId!.Value]
+            .GetAsync();
+
+        book!.Status.Should().Be(BookStatus.New);
+    }
+
+    [Test]
+    public async Task Should_ReturnActiveStatus_OnBookWithProgress()
+    {
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+
+        var result = await Actions.Books.CreateBook(user);
+        await Actions.Books.UpdateCurrentPage(user, result.BookId!.Value, 5);
+
+        var book = await client
+            .WebApi.Books[result.BookId!.Value]
+            .GetAsync();
+
+        book!.Status.Should().Be(BookStatus.Active);
+    }
+
+    [Test]
+    public async Task Should_ReturnArchivedStatus_OnBookNearCompletion()
+    {
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+
+        var result = await Actions.Books.CreateBookFromPath(user, FilesActions.FileOtelPdfPath);
+        await Task.Delay(10.Seconds());
+
+        await Actions.Books.UpdateCurrentPage(user, result.BookId!.Value, 3);
+
+        var book = await client
+            .WebApi.Books[result.BookId!.Value]
+            .GetAsync();
+
+        book!.Status.Should().Be(BookStatus.Archived);
+    }
 }

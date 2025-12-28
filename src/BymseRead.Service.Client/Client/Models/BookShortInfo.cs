@@ -22,6 +22,14 @@ namespace BymseRead.Service.Client.Models
 #else
         public string CoverUrl { get; set; }
 #endif
+        /// <summary>The fileUrl property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? FileUrl { get; set; }
+#nullable restore
+#else
+        public string FileUrl { get; set; }
+#endif
         /// <summary>The percentageFinished property</summary>
         public int? PercentageFinished { get; set; }
         /// <summary>The title property</summary>
@@ -52,6 +60,7 @@ namespace BymseRead.Service.Client.Models
             {
                 { "bookId", n => { BookId = n.GetGuidValue(); } },
                 { "coverUrl", n => { CoverUrl = n.GetStringValue(); } },
+                { "fileUrl", n => { FileUrl = n.GetStringValue(); } },
                 { "percentageFinished", n => { PercentageFinished = n.GetIntValue(); } },
                 { "title", n => { Title = n.GetStringValue(); } },
             };
@@ -65,6 +74,7 @@ namespace BymseRead.Service.Client.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteGuidValue("bookId", BookId);
             writer.WriteStringValue("coverUrl", CoverUrl);
+            writer.WriteStringValue("fileUrl", FileUrl);
             writer.WriteIntValue("percentageFinished", PercentageFinished);
             writer.WriteStringValue("title", Title);
         }

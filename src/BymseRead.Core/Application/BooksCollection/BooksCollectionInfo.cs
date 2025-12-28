@@ -14,4 +14,5 @@ public class BookShortInfo
     public required string Title { get; init; }
     public required int PercentageFinished { get; init; }
     public required Uri? CoverUrl { get; init; }
+    public required Uri FileUrl { get; init; }
 }

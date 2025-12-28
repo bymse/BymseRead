@@ -1,6 +1,7 @@
 using BymseRead.Core.Common;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
+using BymseRead.Core.Services.Books;
 using BymseRead.Core.Services.Files;
 
 namespace BymseRead.Core.Application.SingleBook;
@@ -24,6 +25,7 @@ public class BookProvider(IBooksQueryRepository repository, IFilesStorageService
             Title = model.Book.Title,
             BookFile = MapFile(model.BookFile),
             CoverUrl = model.CoverFile != null ? filesStorageService.GetUrl(model.CoverFile) : null,
+            Status = BookStatusService.Get(model.Book, model.Progress, model.LastBookmark),
             CurrentPage = model.Progress?.CurrentPage,
         };
     }

@@ -42,6 +42,8 @@ namespace BymseRead.Service.Client.Models
 #endif
         /// <summary>The pages property</summary>
         public int? Pages { get; set; }
+        /// <summary>The status property</summary>
+        public global::BymseRead.Service.Client.Models.BookStatus? Status { get; set; }
         /// <summary>The title property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -74,6 +76,7 @@ namespace BymseRead.Service.Client.Models
                 { "currentPage", n => { CurrentPage = n.GetIntValue(); } },
                 { "lastBookmark", n => { LastBookmark = n.GetObjectValue<global::BymseRead.Service.Client.Models.BookmarkInfo>(global::BymseRead.Service.Client.Models.BookmarkInfo.CreateFromDiscriminatorValue); } },
                 { "pages", n => { Pages = n.GetIntValue(); } },
+                { "status", n => { Status = n.GetEnumValue<global::BymseRead.Service.Client.Models.BookStatus>(); } },
                 { "title", n => { Title = n.GetStringValue(); } },
             };
         }
@@ -90,6 +93,7 @@ namespace BymseRead.Service.Client.Models
             writer.WriteIntValue("currentPage", CurrentPage);
             writer.WriteObjectValue<global::BymseRead.Service.Client.Models.BookmarkInfo>("lastBookmark", LastBookmark);
             writer.WriteIntValue("pages", Pages);
+            writer.WriteEnumValue<global::BymseRead.Service.Client.Models.BookStatus>("status", Status);
             writer.WriteStringValue("title", Title);
         }
     }
