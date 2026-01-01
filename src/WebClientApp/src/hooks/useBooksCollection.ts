@@ -1,18 +1,19 @@
 ﻿import { useEffect, useState } from 'preact/hooks'
-import { BooksCollectionInfo, BookShortInfo } from '@api/models'
+import { BooksCollectionInfo, BookCollectionItem } from '@api/models'
 import { useWebApiClient } from '@hooks/useWebApiClient.ts'
 import { useErrorHandler } from '@hooks/useErrorHandler.ts'
 import { useExecuteWithLoader } from '@utils/useExecuteWithLoader.ts'
-import { getStoredBooks, ensureBooksStored } from '@storage/index'
+import { getStoredBooks, ensureBooksStorage } from '@storage/index'
 
 const maxRetries = 10
 
 interface Books extends BooksCollectionInfo {
-  offlineBooks?: BookShortInfo[]
+  offlineBooks?: BookCollectionItem[]
 }
 
 export const useBooksCollection = () => {
   const [collection, setCollection] = useState<Books>()
+  const [isOffline, setIsOffline] = useState(false)
   const { client } = useWebApiClient()
   const { handleError } = useErrorHandler()
 
@@ -25,7 +26,7 @@ export const useBooksCollection = () => {
       retryCount = 0
 
       if (res) {
-        void ensureBooksStored(res.activeBooks || [])
+        await ensureBooksStorage(res.activeBooks || [])
       }
     } catch (e) {
       const { isBackendUnavailable } = handleError(e as Error, false)
@@ -35,6 +36,7 @@ export const useBooksCollection = () => {
         setCollection({
           offlineBooks: storedBooks,
         })
+        setIsOffline(true)
         return
       }
 
@@ -56,5 +58,6 @@ export const useBooksCollection = () => {
     reload: execute,
     isLoading,
     showSpinner,
+    isOffline,
   }
 }

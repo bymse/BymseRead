@@ -13,6 +13,7 @@ export const NotStarted: Story = {
   args: {
     title: 'Гении и аутсайдеры',
     coverUrl: 'stories-cover.jpg',
+    pages: 300,
   },
 }
 
@@ -20,7 +21,8 @@ export const Started: Story = {
   args: {
     title: 'К себе нежно. Книга о том, как ценить и беречь себя',
     coverUrl: 'stories-cover.jpg',
-    percentageFinished: 30,
+    currentPage: 30,
+    pages: 100,
   },
 }
 
@@ -28,13 +30,15 @@ export const Finished: Story = {
   args: {
     title: 'Гении и аутсайдеры',
     coverUrl: 'stories-cover.jpg',
-    percentageFinished: 100,
+    currentPage: 300,
+    pages: 300,
   },
 }
 
 export const NoCover: Story = {
   args: {
     title: 'Kingdom of the Wicked',
-    percentageFinished: 50,
+    currentPage: 50,
+    pages: 100,
   },
 }

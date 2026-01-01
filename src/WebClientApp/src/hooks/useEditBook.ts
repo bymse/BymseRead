@@ -45,12 +45,12 @@ export const useEditBook = (
       .catch(handleError)
   }
 
-  const handleDeleteBook = () => {
+  const handleDeleteBook = async () => {
     if (!bookId) {
       return Promise.resolve()
     }
 
-    return client.webApi.books.byBookId(bookId).delete().then(onDeleted).catch(handleError)
+    await client.webApi.books.byBookId(bookId).delete().then(onDeleted).catch(handleError)
   }
   return {
     handleEditBook,

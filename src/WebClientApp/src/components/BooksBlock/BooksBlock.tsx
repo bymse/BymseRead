@@ -1,16 +1,10 @@
 ﻿import styles from './BooksBlock.module.scss'
 import { BookCard } from '@components/BookCard/BookCard.tsx'
+import type { BookCollectionItem } from '@api/models'
 
 export type BooksBlockProps = {
   title: string
-  books: BookInfo[]
-}
-
-export type BookInfo = {
-  bookId: string
-  title: string
-  percentageFinished?: number
-  coverUrl?: string
+  books: BookCollectionItem[]
 }
 
 export const BooksBlock = ({ books, title }: BooksBlockProps) => {
@@ -20,7 +14,14 @@ export const BooksBlock = ({ books, title }: BooksBlockProps) => {
       <div className={styles.list}>
         {books.map(book => (
           <div key={book.bookId} className={styles.card}>
-            <BookCard {...book} />
+            <BookCard
+              bookId={book.bookId!}
+              title={book.title!}
+              coverUrl={book.coverUrl ?? undefined}
+              currentPage={book.currentPage}
+              lastBookmark={book.lastBookmark}
+              pages={book.pages}
+            />
           </div>
         ))}
       </div>

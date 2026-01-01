@@ -26,7 +26,10 @@ export const useFileUpload = () => {
         fileName: file.name,
         fileSize: file.size,
       })
-      .catch(handleError)
+      .catch(e => {
+        handleError(e as Error)
+        return
+      })
 
     if (!prepareResponse) return
 

@@ -20,7 +20,7 @@ export const Book = () => {
   const { route } = useLocation()
   const readerRef = useRef<IReader>()
   const { id } = params
-  const { book, isLoading, reload, showSpinner } = useBook(id)
+  const { book, isLoading, reload, showSpinner, isOffline } = useBook(id)
   const { updateCurrentPage, currentPage } = useCurrentPage(book)
   const { handleMarkAsLastPage, lastPageBookmark } = useBookmarks(book)
   const { handleEditBook, handleDeleteBook } = useEditBook(book?.bookId, reload, () => route('/books'))
@@ -60,8 +60,8 @@ export const Book = () => {
       <ReaderHeader
         title={book.title as string}
         onBookmarkClick={bookmarksShowHide.open}
-        onEditBook={editShowHide.open}
-        onDeleteBook={deleteShowHide.open}
+        onEditBook={isOffline ? undefined : editShowHide.open}
+        onDeleteBook={isOffline ? undefined : deleteShowHide.open}
         onCurrentPageChange={updateCurrentPage}
         onResetZoom={handleResetZoom}
         currentPage={currentPage}

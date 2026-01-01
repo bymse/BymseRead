@@ -1,7 +1,7 @@
-﻿import { BookShortInfo } from '@api/models'
+﻿import { BookCollectionItem } from '@api/models'
 import { Header } from '@components/Header/Header'
 import styles from './BooksList.module.scss'
-import { BookInfo, BooksBlock } from '@components/BooksBlock/BooksBlock.tsx'
+import { BooksBlock } from '@components/BooksBlock/BooksBlock.tsx'
 import { useShowHide } from '@hooks/useShowHide.ts'
 import { AddBookForm } from '@components/AddBookForm/AddBookForm.tsx'
 import { useBooksCollection } from '@hooks/useBooksCollection.ts'
@@ -10,12 +10,11 @@ import { useToast } from '@components/Toast/ToastContext.tsx'
 import noBooksIllustration from '@assets/no-books.svg?inline'
 import { Loader } from '@components/Loader/Loader.tsx'
 import { usePageTitle } from '@hooks/usePageTitle.ts'
-import cn from 'classnames'
 
 export const BooksList = () => {
   const { showInfo } = useToast()
   const { open: openBookForm, close: closeBookFrom, visible: bookFromVisible } = useShowHide()
-  const { collection, reload, isLoading, showSpinner } = useBooksCollection()
+  const { collection, reload, isLoading, showSpinner, isOffline } = useBooksCollection()
 
   usePageTitle('Books')
 
@@ -45,7 +44,7 @@ export const BooksList = () => {
 
   return (
     <div className={styles.container}>
-      <Header onAddBook={openBookForm} />
+      <Header onAddBook={isOffline ? undefined : openBookForm} />
       {isEmpty ? (
         <div className={styles.noBooks}>
           <img src={noBooksIllustration} alt="No books" />
@@ -65,9 +64,9 @@ export const BooksList = () => {
   )
 }
 
-const Block = ({ title, books }: { title: string; books: BookShortInfo[] | undefined | null }) => {
+const Block = ({ title, books }: { title: string; books: BookCollectionItem[] | undefined | null }) => {
   if (books && books.length > 0) {
-    return <BooksBlock title={title} books={books as BookInfo[]} />
+    return <BooksBlock title={title} books={books} />
   }
 
   return null
