@@ -590,7 +590,7 @@
           "currentPage",
           "fileUrl",
           "lastBookmark",
-          "percentageFinished",
+          "pages",
           "title"
         ],
         "type": "object",
@@ -601,10 +601,6 @@
           },
           "title": {
             "type": "string"
-          },
-          "percentageFinished": {
-            "type": "integer",
-            "format": "int32"
           },
           "coverUrl": {
             "type": "string",
@@ -622,6 +618,11 @@
           },
           "lastBookmark": {
             "$ref": "#/components/schemas/BookmarkInfo"
+          },
+          "pages": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false

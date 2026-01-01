@@ -155,8 +155,8 @@ public class BooksTests : ServiceTestBase
         collection!
             .NewBooks.Should()
             .BeEquivalentTo([
-                new BookCollectionItem { BookId = result1.BookId, Title = "book1", PercentageFinished = 0, CurrentPage = null, LastBookmark = null },
-                new BookCollectionItem { BookId = result2.BookId, Title = "book2", PercentageFinished = 0, CurrentPage = null, LastBookmark = null },
+                new BookCollectionItem { BookId = result1.BookId, Title = "book1", CurrentPage = null, LastBookmark = null, Pages = null },
+                new BookCollectionItem { BookId = result2.BookId, Title = "book2", CurrentPage = null, LastBookmark = null, Pages = null },
             ], e => e.Excluding(r => r.FileUrl).Excluding(r => r.CoverUrl));
     }
 

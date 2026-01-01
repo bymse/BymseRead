@@ -40,19 +40,15 @@ public class BooksCollectionProvider(IBooksQueryRepository repository, IFilesSto
 
     private BookCollectionItem Build(UserBookModel model)
     {
-        var lastPage = model.LastBookmark?.Page ?? model.Progress?.CurrentPage ?? 0;
-
         return new BookCollectionItem
         {
             BookId = model.Book.Id.Value,
             Title = model.Book.Title,
             CoverUrl = model.CoverFile != null ? filesStorageService.GetUrl(model.CoverFile) : null,
             FileUrl = filesStorageService.GetUrl(model.BookFile),
-            PercentageFinished = lastPage > 0 && model.Book.Pages.HasValue
-                ? (int)Math.Round((double)lastPage / model.Book.Pages.Value * 100)
-                : 0,
             CurrentPage = model.Progress?.CurrentPage,
             LastBookmark = BookmarkInfoMapper.Map(model.LastBookmark),
+            Pages = model.Book.Pages,
         };
     }
 }

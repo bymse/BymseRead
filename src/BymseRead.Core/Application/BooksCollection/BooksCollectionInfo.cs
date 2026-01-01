@@ -15,9 +15,9 @@ public class BookCollectionItem
 {
     public required Guid BookId { get; init; }
     public required string Title { get; init; }
-    public required int PercentageFinished { get; init; }
     public required Uri? CoverUrl { get; init; }
     public required Uri FileUrl { get; init; }
     public required int? CurrentPage { get; init; }
     public required BookmarkInfo? LastBookmark { get; init; }
+    public required int? Pages { get; init; }
 }

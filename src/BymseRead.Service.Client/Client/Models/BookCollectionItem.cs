@@ -40,8 +40,8 @@ namespace BymseRead.Service.Client.Models
 #else
         public global::BymseRead.Service.Client.Models.BookmarkInfo LastBookmark { get; set; }
 #endif
-        /// <summary>The percentageFinished property</summary>
-        public int? PercentageFinished { get; set; }
+        /// <summary>The pages property</summary>
+        public int? Pages { get; set; }
         /// <summary>The title property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -73,7 +73,7 @@ namespace BymseRead.Service.Client.Models
                 { "currentPage", n => { CurrentPage = n.GetIntValue(); } },
                 { "fileUrl", n => { FileUrl = n.GetStringValue(); } },
                 { "lastBookmark", n => { LastBookmark = n.GetObjectValue<global::BymseRead.Service.Client.Models.BookmarkInfo>(global::BymseRead.Service.Client.Models.BookmarkInfo.CreateFromDiscriminatorValue); } },
-                { "percentageFinished", n => { PercentageFinished = n.GetIntValue(); } },
+                { "pages", n => { Pages = n.GetIntValue(); } },
                 { "title", n => { Title = n.GetStringValue(); } },
             };
         }
@@ -89,7 +89,7 @@ namespace BymseRead.Service.Client.Models
             writer.WriteIntValue("currentPage", CurrentPage);
             writer.WriteStringValue("fileUrl", FileUrl);
             writer.WriteObjectValue<global::BymseRead.Service.Client.Models.BookmarkInfo>("lastBookmark", LastBookmark);
-            writer.WriteIntValue("percentageFinished", PercentageFinished);
+            writer.WriteIntValue("pages", Pages);
             writer.WriteStringValue("title", Title);
         }
     }
