@@ -119,6 +119,7 @@ public class BooksTests : ServiceTestBase
                 BookId = result.BookId,
                 Title = title,
                 BookFile = new FileInfo { Name = fileName, },
+                Status = BookStatus.New
             },
                 e => e.Excluding(r => r.BookFile!.FileUrl));
     }

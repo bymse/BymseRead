@@ -2,7 +2,7 @@
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="4.0.16" />
     <PackageReference Include="Dapper" Version="2.1.66" />
-    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.10.0" />
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.10.1" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.1" />
