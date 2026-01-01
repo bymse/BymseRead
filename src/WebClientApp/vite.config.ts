@@ -1,4 +1,4 @@
-import { defineConfig, normalizePath } from 'vite'
+import { defineConfig, normalizePath, ProxyOptions } from 'vite'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import preact from '@preact/preset-vite'
 import path from 'path'
@@ -10,6 +10,27 @@ const cMapsDir = normalizePath(path.join(path.dirname(require.resolve('pdfjs-dis
 const standardFontsDir = normalizePath(
   path.join(path.dirname(require.resolve('pdfjs-dist/package.json')), 'standard_fonts'),
 )
+
+function proxyWithFallback(target: string): ProxyOptions {
+  return {
+    target,
+    changeOrigin: true,
+    configure: proxy => {
+      proxy.on('error', (err, req, res) => {
+        if (!res || res.headersSent) return
+
+        res.writeHead(503, { 'Content-Type': 'application/json' })
+        res.end(
+          JSON.stringify({
+            error: 'Proxy target unavailable',
+            target,
+            details: err.message,
+          }),
+        )
+      })
+    },
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -36,14 +57,8 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/web-api': {
-        target: 'http://localhost:5299',
-        changeOrigin: true,
-      },
-      '/bymse-read/': {
-        target: 'http://minio:9000',
-        changeOrigin: true,
-      },
+      '/web-api': proxyWithFallback('http://localhost:5299'),
+      '/bymse-read/': proxyWithFallback('http://minio:9000'),
     },
   },
 })
