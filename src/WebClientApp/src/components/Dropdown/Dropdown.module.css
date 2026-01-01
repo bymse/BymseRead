@@ -1,44 +1,43 @@
-﻿
-.dropdown {
-    position: relative;
+﻿.dropdown {
+  position: relative;
 }
 
 .list {
-    position: absolute;
-    top: 100%;
-    min-width: 100px;
-    max-width: 320px;
-    background: var(--color-base-01);
-    box-shadow: 0 4px 10px 0 rgba(2, 3, 24, 0.07);
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 8px;
-    list-style: none;
-    margin: 0;
-    z-index: 10;
-    white-space: nowrap;
+  position: absolute;
+  top: 100%;
+  min-width: 100px;
+  max-width: 320px;
+  background: var(--color-base-01);
+  box-shadow: 0 4px 10px 0 rgba(2, 3, 24, 0.07);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  list-style: none;
+  margin: 0;
+  z-index: 10;
+  white-space: nowrap;
 }
 
 .list.right {
-    left: 0;
+  left: 0;
 }
 
 .list.left {
-    right: 0;
+  right: 0;
 }
 
 .item {
-    padding: 10px 8px;
-    font-size: 16px;
-    line-height: 24px;
-    border-radius: 8px;
-    text-align: left;
-    color: var(--color-text-10);
+  padding: 10px 8px;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 8px;
+  text-align: left;
+  color: var(--color-text-10);
 }
 
 .item:hover {
-    background: var(--color-base-02);
-    cursor: pointer;
+  background: var(--color-base-02);
+  cursor: pointer;
 }

@@ -18,14 +18,11 @@
       "@api/*": ["../generated/api/*"],
       "@storage/*": ["./storage/*"]
     },
-    "types": [
-      "vite-plugin-pwa/preact"
-    ],
-    
+    "types": ["vite-plugin-pwa/preact"],
+
     /* For kiota */
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    
 
     /* Bundler mode */
     "moduleResolution": "bundler",

@@ -16,7 +16,11 @@
   box-sizing: border-box;
 
   --fill-percent: 0%;
-  background: linear-gradient(90deg, rgba(209, 217, 243, 0.40) var(--fill-percent), rgba(247, 248, 251, 1) var(--fill-percent));
+  background: linear-gradient(
+    90deg,
+    rgba(209, 217, 243, 0.4) var(--fill-percent),
+    rgba(247, 248, 251, 1) var(--fill-percent)
+  );
   text-decoration: none;
   min-height: 171px;
   height: 100%;
@@ -51,7 +55,7 @@
 }
 
 .defaultCover {
-  background: #AFC3FF;
+  background: #afc3ff;
   width: 100px;
   height: 158px;
   border-radius: 2px;
@@ -63,7 +67,7 @@
 .coverLetter {
   font-family: var(--font-family);
   font-size: 240px;
-  color: rgba(255, 255, 255, 0.20);
+  color: rgba(255, 255, 255, 0.2);
   font-weight: 700;
   line-height: 184px;
   position: absolute;
@@ -81,7 +85,7 @@
     width: 47px;
     height: 75px;
   }
-  
+
   .coverLetter {
     font-size: 116px;
     line-height: 88px;
@@ -92,7 +96,7 @@
   .card {
     min-height: 108px;
   }
-  
+
   .card .cover {
     min-width: unset;
   }

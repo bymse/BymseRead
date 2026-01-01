@@ -1,72 +1,73 @@
 ﻿:root {
-    --color-base-01: #FFFFFF;
-    --color-base-02: #F2F3F8;
-    --color-base-03: #E0E0E3;
-    --color-base-04: #E0E0E0;
-    --base-border-normal: #DEE2F0;
-    --base-border-active: #5A81FA;
-    --color-base-primary-normal: #5A81FA;
-    --color-base-primary-active: #295DFF;
-    --color-base-primary-hover: #84A2FF;
-    
-    --color-base-card-hover: #E5E6EE;
-    --color-base-card-hover-transparent: rgba(229, 230, 238, 0.5);
-    --color-base-card-active: rgba(254, 254, 254, 0.1);
+  --color-base-01: #ffffff;
+  --color-base-02: #f2f3f8;
+  --color-base-03: #e0e0e3;
+  --color-base-04: #e0e0e0;
+  --base-border-normal: #dee2f0;
+  --base-border-active: #5a81fa;
+  --color-base-primary-normal: #5a81fa;
+  --color-base-primary-active: #295dff;
+  --color-base-primary-hover: #84a2ff;
 
-    --color-base-secondary: #0000000D;
-    --color-base-secondary-hover: #0000001A;
-    --color-base-secondary-active: #00000026;
+  --color-base-card-hover: #e5e6ee;
+  --color-base-card-hover-transparent: rgba(229, 230, 238, 0.5);
+  --color-base-card-active: rgba(254, 254, 254, 0.1);
 
-    --color-text-01: #F8F9FD;
-    --color-text-02: #060A2A;
-    --color-text-03: #6A6E83;
-    --color-text-04: #B5B9CD;
-    --color-text-10: #5A81FA;
+  --color-base-secondary: #0000000d;
+  --color-base-secondary-hover: #0000001a;
+  --color-base-secondary-active: #00000026;
 
-    --color-status-error: #CE2900;
+  --color-text-01: #f8f9fd;
+  --color-text-02: #060a2a;
+  --color-text-03: #6a6e83;
+  --color-text-04: #b5b9cd;
+  --color-text-10: #5a81fa;
 
-    --font-family: 'Manrope', sans-serif;
-    --font-family-monospace: 'PTMono', monospace;
+  --color-status-error: #ce2900;
 
-    font-family: var(--font-family);
-    line-height: 1.5;
-    font-weight: 400;
+  --font-family: 'Manrope', sans-serif;
+  --font-family-monospace: 'PTMono', monospace;
+
+  font-family: var(--font-family);
+  line-height: 1.5;
+  font-weight: 400;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
 #app {
-    height: 100%;
+  height: 100%;
 }
 
 @font-face {
-    font-family: 'Manrope';
-    src: url("./assets/Manrope-Regular.woff2") format('woff2');
-    font-weight: 400;
-    font-style: normal;
+  font-family: 'Manrope';
+  src: url('./assets/Manrope-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Manrope';
-    src: url("./assets/Manrope-Medium.woff2") format('woff2');
-    font-weight: 500;
-    font-style: normal;
+  font-family: 'Manrope';
+  src: url('./assets/Manrope-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Manrope';
-    src: url("./assets/Manrope-Bold.woff2") format('woff2');
-    font-weight: 700;
-    font-style: normal;
+  font-family: 'Manrope';
+  src: url('./assets/Manrope-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'PTMono';
-    src: url("./assets/pt-mono-latin-400-normal.woff2") format('woff2');
-    font-weight: 400;
-    font-style: normal;
+  font-family: 'PTMono';
+  src: url('./assets/pt-mono-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
 }

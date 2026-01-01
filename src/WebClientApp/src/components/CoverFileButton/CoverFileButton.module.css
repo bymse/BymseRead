@@ -1,48 +1,47 @@
-﻿
-.container {
-    display: flex;
-    gap: 8px;
-    align-items: stretch;
-    max-width: 122px;
+﻿.container {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  max-width: 122px;
 }
 
 .button {
-    background: var(--color-base-02);
-    border-radius: 12px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 46px 32px 46px 32px;
-    gap: 8px;
-    box-sizing: border-box;
-    white-space: nowrap;
-    width: fit-content;
-    max-width: 122px;
-    font-size: 12px;
-    line-height: 16px;
+  background: var(--color-base-02);
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 46px 32px 46px 32px;
+  gap: 8px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  width: fit-content;
+  max-width: 122px;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .button:hover {
-    background: var(--color-base-card-hover);
+  background: var(--color-base-card-hover);
 }
 
 .button:active {
-    background: var(--color-base-card-active);
+  background: var(--color-base-card-active);
 }
 
 .cover {
-    display: flex;
-    position: relative;
+  display: flex;
+  position: relative;
 }
 
 .close {
-    position: absolute;
-    top: 7px;
-    right: 7px;
-    cursor: pointer;
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  cursor: pointer;
 }
 
 .canvas {
-    border-radius: 12px;
+  border-radius: 12px;
 }

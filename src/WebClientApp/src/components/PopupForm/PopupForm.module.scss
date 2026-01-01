@@ -40,14 +40,14 @@
 .small {
   flex-grow: 0;
   min-width: 360px;
-  
+
   & .title {
     text-align: center;
   }
-  
+
   & .formActions {
     margin-top: 0;
-    
+
     & button {
       flex: 1;
     }
@@ -109,7 +109,7 @@
     border-radius: 20px 20px 0 0;
     padding: 28px 24px;
   }
-  
+
   .formActions button {
     flex: 1;
   }

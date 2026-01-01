@@ -54,8 +54,8 @@ export const ReaderHeader = ({
         {hasDropdown && (
           <Dropdown side="left">
             <DropdownItem onClick={onResetZoom}>Reset zoom</DropdownItem>
-            <DropdownItem onClick={onEditBook}>Edit book</DropdownItem>
-            <DropdownItem onClick={onDeleteBook}>Delete</DropdownItem>
+            {onEditBook && <DropdownItem onClick={onEditBook}>Edit book</DropdownItem>}
+            {onDeleteBook && <DropdownItem onClick={onDeleteBook}>Delete</DropdownItem>}
           </Dropdown>
         )}
       </div>

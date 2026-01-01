@@ -9,7 +9,7 @@ export const pwaConfig = () =>
     registerType: 'autoUpdate',
     devOptions: {
       enabled: true,
-      navigateFallbackAllowlist: [/.*/],
+      type: 'module',
     },
     workbox: {
       globPatterns: ['assets/*.{woff2,mjs,svg}', '**\/*.{js,wasm,css,html}'],

@@ -17,7 +17,15 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ['eslint.config.mjs', 'generated/**/*'],
+    ignores: [
+      'eslint.config.mjs',
+      'generated/**/*',
+      '.storybook/**/*',
+      'dev-dist/**/*',
+      'dist/**/*',
+      'pwa.config.ts',
+      'vite.config.ts',
+    ],
   },
   ...compat.extends(
     'eslint:recommended',
@@ -45,8 +53,8 @@ export default [
       sourceType: 'commonjs',
 
       parserOptions: {
-        project: 'tsconfig.app.json',
-        tsconfigRootDir: '.',
+        project: 'tsconfig.json',
+        tsconfigRootDir: __dirname,
       },
     },
 

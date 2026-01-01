@@ -1,66 +1,66 @@
 ﻿.button.primary {
-    --color-normal: var(--color-base-primary-normal);
-    --color-hover: var(--color-base-primary-hover);
-    --color-active: var(--color-base-primary-active);
-    --color-text: var(--color-text-01);
+  --color-normal: var(--color-base-primary-normal);
+  --color-hover: var(--color-base-primary-hover);
+  --color-active: var(--color-base-primary-active);
+  --color-text: var(--color-text-01);
 }
 
 .button.flat {
-    --color-normal: transparent;
-    --color-hover: var(--color-base-secondary-hover);
-    --color-active: var(--color-base-secondary-active);
-    --color-text: var(--color-text-10);
+  --color-normal: transparent;
+  --color-hover: var(--color-base-secondary-hover);
+  --color-active: var(--color-base-secondary-active);
+  --color-text: var(--color-text-10);
 }
 
 .button.secondary {
-    --color-normal: var(--color-base-secondary);
-    --color-hover: var(--color-base-secondary-hover);
-    --color-active: var(--color-base-secondary-active);
-    --color-text: var(--color-text-10);
+  --color-normal: var(--color-base-secondary);
+  --color-hover: var(--color-base-secondary-hover);
+  --color-active: var(--color-base-secondary-active);
+  --color-text: var(--color-text-10);
 }
 
 .button.outline {
-    outline: 1px solid var(--color-base-04);
-    --color-normal: transparent;
-    --color-hover: var(--color-base-secondary-hover);
-    --color-active: var(--color-base-secondary-active);
-    --color-text: var(--color-text-10);
+  outline: 1px solid var(--color-base-04);
+  --color-normal: transparent;
+  --color-hover: var(--color-base-secondary-hover);
+  --color-active: var(--color-base-secondary-active);
+  --color-text: var(--color-text-10);
 }
 
 .button {
-    background: var(--color-normal);
-    border-radius: 100px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    cursor: pointer;
-    padding: 10px 10px;
-    white-space: nowrap;
-    text-decoration: none;
+  background: var(--color-normal);
+  border-radius: 100px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  padding: 10px 10px;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
 .button:hover {
-    background: var(--color-hover)
+  background: var(--color-hover);
 }
 
 .button:active {
-    background: var(--color-active);
+  background: var(--color-active);
 }
 
 .disabled,
 .button:disabled {
-    opacity: 0.56;
-    background: var(--color-normal);
-    cursor: default;
-    pointer-events: none;
+  opacity: 0.56;
+  background: var(--color-normal);
+  cursor: default;
+  pointer-events: none;
 }
 
 .text {
-    font-weight: 500;
-    font-family: var(--font-family);
-    color: var(--color-text);
-    padding: 0 8px;
-    font-size: 16px;
-    line-height: 24px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  color: var(--color-text);
+  padding: 0 8px;
+  font-size: 16px;
+  line-height: 24px;
 }

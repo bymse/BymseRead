@@ -18,8 +18,8 @@ interface ToastContextType {
 export const useToast = () => useContext(ToastContext)
 
 const ToastContext = createContext<ToastContextType>({
-  showError: () => { },
-  showInfo: () => { },
+  showError: () => {},
+  showInfo: () => {},
 })
 
 interface ToastProviderProps {
@@ -75,7 +75,9 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   return (
     <ToastContext.Provider value={{ showError, showInfo }}>
       {children}
-      {toast.visible && <Toast {...toast} onClose={toast.variant === 'error' && !toast.link ? hideToast : undefined} position="top" />}
+      {toast.visible && (
+        <Toast {...toast} onClose={toast.variant === 'error' && !toast.link ? hideToast : undefined} position="top" />
+      )}
     </ToastContext.Provider>
   )
 }

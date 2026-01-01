@@ -14,15 +14,7 @@ export type ToastProps = {
   linkText?: string
 }
 
-export const Toast = ({ 
-  message, 
-  variant, 
-  link, 
-  onClose, 
-  onClick, 
-  position,
-  linkText
-}: ToastProps) => {
+export const Toast = ({ message, variant, link, onClose, onClick, position, linkText }: ToastProps) => {
   return (
     <div className={cn(styles.toast, styles[variant], styles[position])}>
       <span className={cn(onClick && styles.button)} onClick={onClick}>

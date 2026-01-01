@@ -1,17 +1,16 @@
-﻿
-.fileWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+﻿.fileWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .fileName {
-    color: var(--color-text-10);
-    font-family: var(--font-family);
-    font-size: 16px;
-    line-height: 24px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    text-decoration: none;
+  color: var(--color-text-10);
+  font-family: var(--font-family);
+  font-size: 16px;
+  line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
 }
