@@ -15,7 +15,6 @@ try
         "setupstorage" => await SetupStorageTool.RunAsync(),
         "setupkeycloak" => await SetupKeycloakTool.RunAsync(),
         "setupdevconfig" => await SetupDevConfigTool.RunAsync(),
-        "setuplocal" => await SetupLocalTool.RunAsync(),
         "compileservice" => await CompileServiceTool.RunAsync(),
         "generatedoc" => await GenerateDocTool.RunAsync(),
         "generateclients" => await GenerateClientsTool.RunAsync(),

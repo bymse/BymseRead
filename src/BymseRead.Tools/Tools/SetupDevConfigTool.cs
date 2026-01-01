@@ -51,10 +51,6 @@ public static class SetupDevConfigTool
                 ReturnUrlAllowList = new[]
                 {
                     "http://localhost:5173"
-                },
-                S3FilesStorage = new
-                {
-                    PublicUrlBase = "http://localhost:5173"
                 }
             };
 

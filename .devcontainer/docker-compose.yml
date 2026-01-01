@@ -5,7 +5,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "15432:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -44,8 +44,8 @@ services:
       MINIO_ROOT_PASSWORD: minioadmin
       MINIO_SERVER_URL: http://minio:9000
     ports:
-      - "19000:9000"
-      - "19001:9001"
+      - "9000:9000"
+      - "9001:9001"
     volumes:
       - minio_data:/data
     command: server --console-address :9001 /data
@@ -134,6 +134,8 @@ services:
       POSTGRES_HOST: postgres
       MINIO_HOST: minio
       KEYCLOAK_HOST: keycloak
+    profiles:
+      - devcontainer
 
 volumes:
   postgres_data:
