@@ -10,6 +10,36 @@ export interface AddLastPageBookmarkRequest extends Parsable {
      */
     page?: number | null;
 }
+export interface BookCollectionItem extends Parsable {
+    /**
+     * The bookId property
+     */
+    bookId?: Guid | null;
+    /**
+     * The coverUrl property
+     */
+    coverUrl?: string | null;
+    /**
+     * The currentPage property
+     */
+    currentPage?: number | null;
+    /**
+     * The fileUrl property
+     */
+    fileUrl?: string | null;
+    /**
+     * The lastBookmark property
+     */
+    lastBookmark?: BookmarkInfo | null;
+    /**
+     * The percentageFinished property
+     */
+    percentageFinished?: number | null;
+    /**
+     * The title property
+     */
+    title?: string | null;
+}
 export interface BookInfo extends Parsable {
     /**
      * The bookFile property
@@ -58,41 +88,19 @@ export interface BooksCollectionInfo extends Parsable {
     /**
      * The activeBooks property
      */
-    activeBooks?: BookShortInfo[] | null;
+    activeBooks?: BookCollectionItem[] | null;
     /**
      * The archivedBooks property
      */
-    archivedBooks?: BookShortInfo[] | null;
+    archivedBooks?: BookCollectionItem[] | null;
     /**
      * The newBooks property
      */
-    newBooks?: BookShortInfo[] | null;
+    newBooks?: BookCollectionItem[] | null;
     /**
      * The tlDrBooks property
      */
-    tlDrBooks?: BookShortInfo[] | null;
-}
-export interface BookShortInfo extends Parsable {
-    /**
-     * The bookId property
-     */
-    bookId?: Guid | null;
-    /**
-     * The coverUrl property
-     */
-    coverUrl?: string | null;
-    /**
-     * The fileUrl property
-     */
-    fileUrl?: string | null;
-    /**
-     * The percentageFinished property
-     */
-    percentageFinished?: number | null;
-    /**
-     * The title property
-     */
-    title?: string | null;
+    tlDrBooks?: BookCollectionItem[] | null;
 }
 export type BookStatus = (typeof BookStatusObject)[keyof typeof BookStatusObject];
 /**
@@ -103,6 +111,15 @@ export type BookStatus = (typeof BookStatusObject)[keyof typeof BookStatusObject
 // @ts-ignore
 export function createAddLastPageBookmarkRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoAddLastPageBookmarkRequest;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {BookCollectionItem}
+ */
+// @ts-ignore
+export function createBookCollectionItemFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoBookCollectionItem;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -140,15 +157,6 @@ export interface CreateBookRequest extends Parsable {
 // @ts-ignore
 export function createBooksCollectionInfoFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoBooksCollectionInfo;
-}
-/**
- * Creates a new instance of the appropriate class based on discriminator value
- * @param parseNode The parse node to use to read the discriminator value and create the object
- * @returns {BookShortInfo}
- */
-// @ts-ignore
-export function createBookShortInfoFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
-    return deserializeIntoBookShortInfo;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -250,6 +258,23 @@ export function deserializeIntoAddLastPageBookmarkRequest(addLastPageBookmarkReq
 }
 /**
  * The deserialization information for the current model
+ * @param BookCollectionItem The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoBookCollectionItem(bookCollectionItem: Partial<BookCollectionItem> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "bookId": n => { bookCollectionItem.bookId = n.getGuidValue(); },
+        "coverUrl": n => { bookCollectionItem.coverUrl = n.getStringValue(); },
+        "currentPage": n => { bookCollectionItem.currentPage = n.getNumberValue(); },
+        "fileUrl": n => { bookCollectionItem.fileUrl = n.getStringValue(); },
+        "lastBookmark": n => { bookCollectionItem.lastBookmark = n.getObjectValue<BookmarkInfo>(createBookmarkInfoFromDiscriminatorValue); },
+        "percentageFinished": n => { bookCollectionItem.percentageFinished = n.getNumberValue(); },
+        "title": n => { bookCollectionItem.title = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
  * @param BookInfo The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
@@ -286,25 +311,10 @@ export function deserializeIntoBookmarkInfo(bookmarkInfo: Partial<BookmarkInfo> 
 // @ts-ignore
 export function deserializeIntoBooksCollectionInfo(booksCollectionInfo: Partial<BooksCollectionInfo> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
-        "activeBooks": n => { booksCollectionInfo.activeBooks = n.getCollectionOfObjectValues<BookShortInfo>(createBookShortInfoFromDiscriminatorValue); },
-        "archivedBooks": n => { booksCollectionInfo.archivedBooks = n.getCollectionOfObjectValues<BookShortInfo>(createBookShortInfoFromDiscriminatorValue); },
-        "newBooks": n => { booksCollectionInfo.newBooks = n.getCollectionOfObjectValues<BookShortInfo>(createBookShortInfoFromDiscriminatorValue); },
-        "tlDrBooks": n => { booksCollectionInfo.tlDrBooks = n.getCollectionOfObjectValues<BookShortInfo>(createBookShortInfoFromDiscriminatorValue); },
-    }
-}
-/**
- * The deserialization information for the current model
- * @param BookShortInfo The instance to deserialize into.
- * @returns {Record<string, (node: ParseNode) => void>}
- */
-// @ts-ignore
-export function deserializeIntoBookShortInfo(bookShortInfo: Partial<BookShortInfo> | undefined = {}) : Record<string, (node: ParseNode) => void> {
-    return {
-        "bookId": n => { bookShortInfo.bookId = n.getGuidValue(); },
-        "coverUrl": n => { bookShortInfo.coverUrl = n.getStringValue(); },
-        "fileUrl": n => { bookShortInfo.fileUrl = n.getStringValue(); },
-        "percentageFinished": n => { bookShortInfo.percentageFinished = n.getNumberValue(); },
-        "title": n => { bookShortInfo.title = n.getStringValue(); },
+        "activeBooks": n => { booksCollectionInfo.activeBooks = n.getCollectionOfObjectValues<BookCollectionItem>(createBookCollectionItemFromDiscriminatorValue); },
+        "archivedBooks": n => { booksCollectionInfo.archivedBooks = n.getCollectionOfObjectValues<BookCollectionItem>(createBookCollectionItemFromDiscriminatorValue); },
+        "newBooks": n => { booksCollectionInfo.newBooks = n.getCollectionOfObjectValues<BookCollectionItem>(createBookCollectionItemFromDiscriminatorValue); },
+        "tlDrBooks": n => { booksCollectionInfo.tlDrBooks = n.getCollectionOfObjectValues<BookCollectionItem>(createBookCollectionItemFromDiscriminatorValue); },
     }
 }
 /**
@@ -518,6 +528,23 @@ export function serializeAddLastPageBookmarkRequest(writer: SerializationWriter,
 }
 /**
  * Serializes information the current object
+ * @param BookCollectionItem The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeBookCollectionItem(writer: SerializationWriter, bookCollectionItem: Partial<BookCollectionItem> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!bookCollectionItem || isSerializingDerivedType) { return; }
+    writer.writeGuidValue("bookId", bookCollectionItem.bookId);
+    writer.writeStringValue("coverUrl", bookCollectionItem.coverUrl);
+    writer.writeNumberValue("currentPage", bookCollectionItem.currentPage);
+    writer.writeStringValue("fileUrl", bookCollectionItem.fileUrl);
+    writer.writeObjectValue<BookmarkInfo>("lastBookmark", bookCollectionItem.lastBookmark, serializeBookmarkInfo);
+    writer.writeNumberValue("percentageFinished", bookCollectionItem.percentageFinished);
+    writer.writeStringValue("title", bookCollectionItem.title);
+}
+/**
+ * Serializes information the current object
  * @param BookInfo The instance to serialize from.
  * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
@@ -555,25 +582,10 @@ export function serializeBookmarkInfo(writer: SerializationWriter, bookmarkInfo:
 // @ts-ignore
 export function serializeBooksCollectionInfo(writer: SerializationWriter, booksCollectionInfo: Partial<BooksCollectionInfo> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
     if (!booksCollectionInfo || isSerializingDerivedType) { return; }
-    writer.writeCollectionOfObjectValues<BookShortInfo>("activeBooks", booksCollectionInfo.activeBooks, serializeBookShortInfo);
-    writer.writeCollectionOfObjectValues<BookShortInfo>("archivedBooks", booksCollectionInfo.archivedBooks, serializeBookShortInfo);
-    writer.writeCollectionOfObjectValues<BookShortInfo>("newBooks", booksCollectionInfo.newBooks, serializeBookShortInfo);
-    writer.writeCollectionOfObjectValues<BookShortInfo>("tlDrBooks", booksCollectionInfo.tlDrBooks, serializeBookShortInfo);
-}
-/**
- * Serializes information the current object
- * @param BookShortInfo The instance to serialize from.
- * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
- * @param writer Serialization writer to use to serialize this model
- */
-// @ts-ignore
-export function serializeBookShortInfo(writer: SerializationWriter, bookShortInfo: Partial<BookShortInfo> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
-    if (!bookShortInfo || isSerializingDerivedType) { return; }
-    writer.writeGuidValue("bookId", bookShortInfo.bookId);
-    writer.writeStringValue("coverUrl", bookShortInfo.coverUrl);
-    writer.writeStringValue("fileUrl", bookShortInfo.fileUrl);
-    writer.writeNumberValue("percentageFinished", bookShortInfo.percentageFinished);
-    writer.writeStringValue("title", bookShortInfo.title);
+    writer.writeCollectionOfObjectValues<BookCollectionItem>("activeBooks", booksCollectionInfo.activeBooks, serializeBookCollectionItem);
+    writer.writeCollectionOfObjectValues<BookCollectionItem>("archivedBooks", booksCollectionInfo.archivedBooks, serializeBookCollectionItem);
+    writer.writeCollectionOfObjectValues<BookCollectionItem>("newBooks", booksCollectionInfo.newBooks, serializeBookCollectionItem);
+    writer.writeCollectionOfObjectValues<BookCollectionItem>("tlDrBooks", booksCollectionInfo.tlDrBooks, serializeBookCollectionItem);
 }
 /**
  * Serializes information the current object

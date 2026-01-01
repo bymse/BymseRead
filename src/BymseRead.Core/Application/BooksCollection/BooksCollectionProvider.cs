@@ -1,4 +1,5 @@
 using BymseRead.Core.Common;
+using BymseRead.Core.Common.Models;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
 using BymseRead.Core.Services.Books;
@@ -28,7 +29,7 @@ public class BooksCollectionProvider(IBooksQueryRepository repository, IFilesSto
             ArchivedBooks = ByStatus(BookStatus.Archived),
         };
 
-        BookShortInfo[] ByStatus(BookStatus status)
+        BookCollectionItem[] ByStatus(BookStatus status)
         {
             return groups
                 .FirstOrDefault(e => e.Key == status)
@@ -37,11 +38,11 @@ public class BooksCollectionProvider(IBooksQueryRepository repository, IFilesSto
         }
     }
 
-    private BookShortInfo Build(UserBookModel model)
+    private BookCollectionItem Build(UserBookModel model)
     {
         var lastPage = model.LastBookmark?.Page ?? model.Progress?.CurrentPage ?? 0;
 
-        return new BookShortInfo
+        return new BookCollectionItem
         {
             BookId = model.Book.Id.Value,
             Title = model.Book.Title,
@@ -50,6 +51,8 @@ public class BooksCollectionProvider(IBooksQueryRepository repository, IFilesSto
             PercentageFinished = lastPage > 0 && model.Book.Pages.HasValue
                 ? (int)Math.Round((double)lastPage / model.Book.Pages.Value * 100)
                 : 0,
+            CurrentPage = model.Progress?.CurrentPage,
+            LastBookmark = BookmarkInfoMapper.Map(model.LastBookmark),
         };
     }
 }

@@ -583,6 +583,49 @@
         },
         "additionalProperties": false
       },
+      "BookCollectionItem": {
+        "required": [
+          "bookId",
+          "coverUrl",
+          "currentPage",
+          "fileUrl",
+          "lastBookmark",
+          "percentageFinished",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "bookId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "percentageFinished": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "coverUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "fileUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "lastBookmark": {
+            "$ref": "#/components/schemas/BookmarkInfo"
+          }
+        },
+        "additionalProperties": false
+      },
       "BookInfo": {
         "required": [
           "bookFile",
@@ -630,39 +673,6 @@
         },
         "additionalProperties": false
       },
-      "BookShortInfo": {
-        "required": [
-          "bookId",
-          "coverUrl",
-          "fileUrl",
-          "percentageFinished",
-          "title"
-        ],
-        "type": "object",
-        "properties": {
-          "bookId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "percentageFinished": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "coverUrl": {
-            "type": "string",
-            "format": "uri",
-            "nullable": true
-          },
-          "fileUrl": {
-            "type": "string",
-            "format": "uri"
-          }
-        },
-        "additionalProperties": false
-      },
       "BookStatus": {
         "enum": [
           "Active",
@@ -702,25 +712,25 @@
           "activeBooks": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BookShortInfo"
+              "$ref": "#/components/schemas/BookCollectionItem"
             }
           },
           "newBooks": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BookShortInfo"
+              "$ref": "#/components/schemas/BookCollectionItem"
             }
           },
           "tlDrBooks": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BookShortInfo"
+              "$ref": "#/components/schemas/BookCollectionItem"
             }
           },
           "archivedBooks": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/BookShortInfo"
+              "$ref": "#/components/schemas/BookCollectionItem"
             }
           }
         },

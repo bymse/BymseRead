@@ -1,5 +1,5 @@
 {
-  "descriptionHash": "28DB7BCC8F05E5CCE67F2EA2739F04369F925FD7336ADF1E793604A4EFC83BD7706F54789232A59BE71EB6EDDA1016289E2BF705EC32E13D0B0F4DA3E6356AE7",
+  "descriptionHash": "1A4FBDB120B67D7FABBA5108DC131314F9E37FFC53B9A545BC86922727CB64630CE47EE3EC9579047A0635C7CAC1E7EB7EF6B3897149F85C39C487232F4A8888",
   "descriptionLocation": "../../../BymseRead.Service.Client/openapi.json",
   "lockFileVersion": "1.0.0",
   "kiotaVersion": "1.29.0",
@@ -8,7 +8,7 @@
   "clientNamespaceName": "ApiSdk",
   "language": "TypeScript",
   "usesBackingStore": false,
-  "excludeBackwardCompatible": false,
+  "excludeBackwardCompatible": true,
   "includeAdditionalData": true,
   "disableSSLValidation": false,
   "serializers": [

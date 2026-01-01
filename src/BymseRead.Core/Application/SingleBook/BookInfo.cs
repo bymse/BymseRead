@@ -1,3 +1,4 @@
+using BymseRead.Core.Common.Models;
 using BymseRead.Core.Services.Books;
 
 namespace BymseRead.Core.Application.SingleBook;
@@ -19,10 +20,4 @@ public class FileInfo
 {
     public required Uri FileUrl { get; init; }
     public required string Name { get; init; }
-}
-
-public class BookmarkInfo
-{
-    public required int Page { get; init; }
-    public required DateTimeOffset CreatedAt { get; init; }
 }

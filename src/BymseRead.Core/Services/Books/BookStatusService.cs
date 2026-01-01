@@ -20,8 +20,8 @@ public static class BookStatusService
             return BookStatus.Archived;
         }
 
-        if ((bookmark?.CreatedAt != null && IsMoreThen2Weeks(bookmark.CreatedAt)) ||
-            (bookProgress?.CurrentPageChangeAt != null && IsMoreThen2Weeks(bookProgress.CurrentPageChangeAt.Value)))
+        if ((bookmark?.CreatedAt != null && IsMoreThan4Weeks(bookmark.CreatedAt)) ||
+            (bookProgress?.CurrentPageChangeAt != null && IsMoreThan4Weeks(bookProgress.CurrentPageChangeAt.Value)))
         {
             return BookStatus.TlDr;
         }
@@ -34,9 +34,9 @@ public static class BookStatusService
         return totalPages > 3 && totalPages - lastPage < 3;
     }
 
-    private static bool IsMoreThen2Weeks(DateTimeOffset lastRead)
+    private static bool IsMoreThan4Weeks(DateTimeOffset lastRead)
     {
-        return DateTimeOffset.UtcNow - lastRead > TimeSpan.FromDays(14);
+        return DateTimeOffset.UtcNow - lastRead > TimeSpan.FromDays(28);
     }
 }
 

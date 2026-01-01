@@ -89,7 +89,7 @@ public static class GenerateClientsTool
         string? namespaceName,
         string outputPath)
     {
-        var args = $"tool run kiota generate -d \"{openApiDoc}\" -l {language} -c {className} -o \"{outputPath}\"";
+        var args = $"tool run kiota generate -d \"{openApiDoc}\" -l {language} -c {className} -o \"{outputPath}\" --exclude-backward-compatible --clean-output";
 
         if (!string.IsNullOrEmpty(namespaceName))
         {

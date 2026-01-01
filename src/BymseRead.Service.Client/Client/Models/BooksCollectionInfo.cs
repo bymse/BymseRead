@@ -15,34 +15,34 @@ namespace BymseRead.Service.Client.Models
         /// <summary>The activeBooks property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::BymseRead.Service.Client.Models.BookShortInfo>? ActiveBooks { get; set; }
+        public List<global::BymseRead.Service.Client.Models.BookCollectionItem>? ActiveBooks { get; set; }
 #nullable restore
 #else
-        public List<global::BymseRead.Service.Client.Models.BookShortInfo> ActiveBooks { get; set; }
+        public List<global::BymseRead.Service.Client.Models.BookCollectionItem> ActiveBooks { get; set; }
 #endif
         /// <summary>The archivedBooks property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::BymseRead.Service.Client.Models.BookShortInfo>? ArchivedBooks { get; set; }
+        public List<global::BymseRead.Service.Client.Models.BookCollectionItem>? ArchivedBooks { get; set; }
 #nullable restore
 #else
-        public List<global::BymseRead.Service.Client.Models.BookShortInfo> ArchivedBooks { get; set; }
+        public List<global::BymseRead.Service.Client.Models.BookCollectionItem> ArchivedBooks { get; set; }
 #endif
         /// <summary>The newBooks property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::BymseRead.Service.Client.Models.BookShortInfo>? NewBooks { get; set; }
+        public List<global::BymseRead.Service.Client.Models.BookCollectionItem>? NewBooks { get; set; }
 #nullable restore
 #else
-        public List<global::BymseRead.Service.Client.Models.BookShortInfo> NewBooks { get; set; }
+        public List<global::BymseRead.Service.Client.Models.BookCollectionItem> NewBooks { get; set; }
 #endif
         /// <summary>The tlDrBooks property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::BymseRead.Service.Client.Models.BookShortInfo>? TlDrBooks { get; set; }
+        public List<global::BymseRead.Service.Client.Models.BookCollectionItem>? TlDrBooks { get; set; }
 #nullable restore
 #else
-        public List<global::BymseRead.Service.Client.Models.BookShortInfo> TlDrBooks { get; set; }
+        public List<global::BymseRead.Service.Client.Models.BookCollectionItem> TlDrBooks { get; set; }
 #endif
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
@@ -62,10 +62,10 @@ namespace BymseRead.Service.Client.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "activeBooks", n => { ActiveBooks = n.GetCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookShortInfo>(global::BymseRead.Service.Client.Models.BookShortInfo.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "archivedBooks", n => { ArchivedBooks = n.GetCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookShortInfo>(global::BymseRead.Service.Client.Models.BookShortInfo.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "newBooks", n => { NewBooks = n.GetCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookShortInfo>(global::BymseRead.Service.Client.Models.BookShortInfo.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "tlDrBooks", n => { TlDrBooks = n.GetCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookShortInfo>(global::BymseRead.Service.Client.Models.BookShortInfo.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "activeBooks", n => { ActiveBooks = n.GetCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookCollectionItem>(global::BymseRead.Service.Client.Models.BookCollectionItem.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "archivedBooks", n => { ArchivedBooks = n.GetCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookCollectionItem>(global::BymseRead.Service.Client.Models.BookCollectionItem.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "newBooks", n => { NewBooks = n.GetCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookCollectionItem>(global::BymseRead.Service.Client.Models.BookCollectionItem.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "tlDrBooks", n => { TlDrBooks = n.GetCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookCollectionItem>(global::BymseRead.Service.Client.Models.BookCollectionItem.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -75,10 +75,10 @@ namespace BymseRead.Service.Client.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookShortInfo>("activeBooks", ActiveBooks);
-            writer.WriteCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookShortInfo>("archivedBooks", ArchivedBooks);
-            writer.WriteCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookShortInfo>("newBooks", NewBooks);
-            writer.WriteCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookShortInfo>("tlDrBooks", TlDrBooks);
+            writer.WriteCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookCollectionItem>("activeBooks", ActiveBooks);
+            writer.WriteCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookCollectionItem>("archivedBooks", ArchivedBooks);
+            writer.WriteCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookCollectionItem>("newBooks", NewBooks);
+            writer.WriteCollectionOfObjectValues<global::BymseRead.Service.Client.Models.BookCollectionItem>("tlDrBooks", TlDrBooks);
         }
     }
 }

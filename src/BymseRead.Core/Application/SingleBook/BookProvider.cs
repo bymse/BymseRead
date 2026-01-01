@@ -1,4 +1,5 @@
 using BymseRead.Core.Common;
+using BymseRead.Core.Common.Models;
 using BymseRead.Core.Entities;
 using BymseRead.Core.Repositories;
 using BymseRead.Core.Services.Books;
@@ -20,7 +21,7 @@ public class BookProvider(IBooksQueryRepository repository, IFilesStorageService
         return new BookInfo
         {
             BookId = model.Book.Id.Value,
-            LastBookmark = MapBookmark(model.LastBookmark),
+            LastBookmark = BookmarkInfoMapper.Map(model.LastBookmark),
             Pages = model.Book.Pages,
             Title = model.Book.Title,
             BookFile = MapFile(model.BookFile),
@@ -28,16 +29,6 @@ public class BookProvider(IBooksQueryRepository repository, IFilesStorageService
             Status = BookStatusService.Get(model.Book, model.Progress, model.LastBookmark),
             CurrentPage = model.Progress?.CurrentPage,
         };
-    }
-
-    private static BookmarkInfo? MapBookmark(Bookmark? bookmark)
-    {
-        if (bookmark == null)
-        {
-            return null;
-        }
-
-        return new BookmarkInfo { Page = bookmark.Page, CreatedAt = bookmark.CreatedAt, };
     }
 
     private FileInfo MapFile(File file)

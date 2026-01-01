@@ -9,7 +9,7 @@ namespace BymseRead.Service.Client.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
-    public partial class BookShortInfo : IParsable
+    public partial class BookCollectionItem : IParsable
     #pragma warning restore CS1591
     {
         /// <summary>The bookId property</summary>
@@ -22,6 +22,8 @@ namespace BymseRead.Service.Client.Models
 #else
         public string CoverUrl { get; set; }
 #endif
+        /// <summary>The currentPage property</summary>
+        public int? CurrentPage { get; set; }
         /// <summary>The fileUrl property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -29,6 +31,14 @@ namespace BymseRead.Service.Client.Models
 #nullable restore
 #else
         public string FileUrl { get; set; }
+#endif
+        /// <summary>The lastBookmark property</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public global::BymseRead.Service.Client.Models.BookmarkInfo? LastBookmark { get; set; }
+#nullable restore
+#else
+        public global::BymseRead.Service.Client.Models.BookmarkInfo LastBookmark { get; set; }
 #endif
         /// <summary>The percentageFinished property</summary>
         public int? PercentageFinished { get; set; }
@@ -43,12 +53,12 @@ namespace BymseRead.Service.Client.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::BymseRead.Service.Client.Models.BookShortInfo"/></returns>
+        /// <returns>A <see cref="global::BymseRead.Service.Client.Models.BookCollectionItem"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::BymseRead.Service.Client.Models.BookShortInfo CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::BymseRead.Service.Client.Models.BookCollectionItem CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::BymseRead.Service.Client.Models.BookShortInfo();
+            return new global::BymseRead.Service.Client.Models.BookCollectionItem();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -60,7 +70,9 @@ namespace BymseRead.Service.Client.Models
             {
                 { "bookId", n => { BookId = n.GetGuidValue(); } },
                 { "coverUrl", n => { CoverUrl = n.GetStringValue(); } },
+                { "currentPage", n => { CurrentPage = n.GetIntValue(); } },
                 { "fileUrl", n => { FileUrl = n.GetStringValue(); } },
+                { "lastBookmark", n => { LastBookmark = n.GetObjectValue<global::BymseRead.Service.Client.Models.BookmarkInfo>(global::BymseRead.Service.Client.Models.BookmarkInfo.CreateFromDiscriminatorValue); } },
                 { "percentageFinished", n => { PercentageFinished = n.GetIntValue(); } },
                 { "title", n => { Title = n.GetStringValue(); } },
             };
@@ -74,7 +86,9 @@ namespace BymseRead.Service.Client.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteGuidValue("bookId", BookId);
             writer.WriteStringValue("coverUrl", CoverUrl);
+            writer.WriteIntValue("currentPage", CurrentPage);
             writer.WriteStringValue("fileUrl", FileUrl);
+            writer.WriteObjectValue<global::BymseRead.Service.Client.Models.BookmarkInfo>("lastBookmark", LastBookmark);
             writer.WriteIntValue("percentageFinished", PercentageFinished);
             writer.WriteStringValue("title", Title);
         }

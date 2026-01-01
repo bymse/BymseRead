@@ -154,9 +154,9 @@ public class BooksTests : ServiceTestBase
         collection!
             .NewBooks.Should()
             .BeEquivalentTo([
-                new BookShortInfo { BookId = result1.BookId, Title = "book1", PercentageFinished = 0 },
-                new BookShortInfo { BookId = result2.BookId, Title = "book2", PercentageFinished = 0 },
-            ]);
+                new BookCollectionItem { BookId = result1.BookId, Title = "book1", PercentageFinished = 0, CurrentPage = null, LastBookmark = null },
+                new BookCollectionItem { BookId = result2.BookId, Title = "book2", PercentageFinished = 0, CurrentPage = null, LastBookmark = null },
+            ], e => e.Excluding(r => r.FileUrl).Excluding(r => r.CoverUrl));
     }
 
     [Test]
@@ -198,9 +198,9 @@ public class BooksTests : ServiceTestBase
 
         var collection = await client.WebApi.Books.GetAsync();
 
-        var bookShortInfo = collection!.NewBooks.Should().ContainSingle(e => e.BookId == result.BookId).Subject;
-        bookShortInfo.FileUrl.Should().NotBeNullOrEmpty();
-        await AssertContent(bookShortInfo.FileUrl, content);
+        var bookCollectionItem = collection!.NewBooks.Should().ContainSingle(e => e.BookId == result.BookId).Subject;
+        bookCollectionItem.FileUrl.Should().NotBeNullOrEmpty();
+        await AssertContent(bookCollectionItem.FileUrl, content);
     }
 
     [Test]
@@ -250,5 +250,23 @@ public class BooksTests : ServiceTestBase
             .GetAsync();
 
         book!.Status.Should().Be(BookStatus.Archived);
+    }
+
+    [Test]
+    public async Task Should_ReturnCurrentPageAndLastBookmark_InCollection()
+    {
+        var user = Actions.Users.CreateUser();
+        var client = GetServiceClient(user);
+
+        var result = await Actions.Books.CreateBook(user);
+        await Actions.Books.UpdateCurrentPage(user, result.BookId!.Value, 5);
+        await Actions.Books.AddLastPageBookmark(user, result.BookId!.Value, 3);
+
+        var collection = await client.WebApi.Books.GetAsync();
+
+        var bookItem = collection!.ActiveBooks.Should().ContainSingle(e => e.BookId == result.BookId).Subject;
+        bookItem.CurrentPage.Should().Be(5);
+        bookItem.LastBookmark.Should().NotBeNull();
+        bookItem.LastBookmark!.Page.Should().Be(3);
     }
 }
