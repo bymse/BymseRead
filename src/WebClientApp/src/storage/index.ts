@@ -1,77 +1,103 @@
-import type { BookInfo, BooksCollectionInfo, BookShortInfo } from '@api/models'
+import type { BookCollectionItem, BookInfo } from '@api/models'
+import { BookMeta } from '@storage/db.ts'
+import { evaluateForStorageUpdate } from '@storage/utils.ts'
 import { BookFiles, cacheBookFiles, removeBookFilesCache } from './filesCache.ts'
 import { deleteBooksMeta, readAllBooksMeta, readBookMeta, writeBooksMeta } from './metaStore.ts'
 
-const isSameUrl = (url1?: string | null, url2?: string | null): boolean => {
+export const ensureBookStorage = async (book: BookInfo): Promise<void> => {
   try {
-    const url1Url = new URL(url1!)
-    const url2Url = new URL(url2!)
-    return url1Url.origin === url2Url.origin && url1Url.pathname === url2Url.pathname
+    const storedBook = await readBookMeta(book.bookId!)
+    if (book.status !== 'Active') {
+      if (!storedBook) return
+      const filesToRemove = {
+        bookId: storedBook.bookId,
+        fileUrl: storedBook.fileUrl,
+        coverUrl: storedBook.coverUrl,
+      }
+
+      await Promise.allSettled([deleteBooksMeta([storedBook.bookId]), removeBookFilesCache([filesToRemove])])
+      return
+    }
+    const { newBook, newFiles, oldFiles } = evaluateForStorageUpdate(book, storedBook)
+
+    if (oldFiles) await removeBookFilesCache([oldFiles])
+    if (newBook) await writeBooksMeta([newBook])
+    if (newFiles) await cacheBookFiles([newFiles])
   } catch {
-    return false
+    /* empty */
   }
 }
 
-export const ensureBooksStored = async (books: BookShortInfo[]): Promise<void> => {
+export const ensureBooksStorage = async (books: BookCollectionItem[]): Promise<void> => {
   try {
-    const cachedBooks = await readAllBooksMeta()
+    const storedBooks = await readAllBooksMeta()
 
     const activeBookById = new Map(books.map(book => [book.bookId, book]))
-    const cachedBookById = new Map(cachedBooks.map(book => [book.bookId, book]))
+    const storedBookById = new Map(storedBooks.map(book => [book.bookId, book]))
 
     const filesToAdd: BookFiles[] = []
-    const bookToAdd: BookShortInfo[] = []
+    const booksToAdd: BookMeta[] = []
     const filesToRemove: BookFiles[] = []
+    const booksToRemove: string[] = []
 
-    for (let activeBook of books) {
-      const cachedBook = cachedBookById.get(activeBook.bookId!)
-      if (!cachedBook) {
-        filesToAdd.push({ bookId: activeBook.bookId!, fileUrl: activeBook.fileUrl, coverUrl: activeBook.coverUrl })
-        bookToAdd.push(activeBook)
-        continue
-      }
-
-      const isSameFile = isSameUrl(cachedBook.fileUrl, activeBook.fileUrl)
-      const isSameCover = isSameUrl(cachedBook.coverUrl, activeBook.coverUrl)
-
-      if (!isSameFile || !isSameCover) {
-        filesToRemove.push({
-          bookId: activeBook.bookId!,
-          fileUrl: isSameFile ? null : cachedBook.fileUrl,
-          coverUrl: isSameCover ? null : cachedBook.coverUrl,
-        })
-        filesToAdd.push({
-          bookId: activeBook.bookId!,
-          fileUrl: isSameFile ? null : activeBook.fileUrl,
-          coverUrl: isSameCover ? null : activeBook.coverUrl,
-        })
-        bookToAdd.push(activeBook)
-      }
+    for (const activeBook of books) {
+      const storedBook = storedBookById.get(activeBook.bookId!)
+      const { newBook, newFiles, oldFiles } = evaluateForStorageUpdate(activeBook, storedBook)
+      if (newBook) booksToAdd.push(newBook)
+      if (newFiles) filesToAdd.push(newFiles)
+      if (oldFiles) filesToRemove.push(oldFiles)
     }
 
-    for (let cachedBook of cachedBooks) {
-      const activeBook = activeBookById.get(cachedBook.bookId)
+    for (const storedBook of storedBooks) {
+      const activeBook = activeBookById.get(storedBook.bookId)
       if (!activeBook) {
-        filesToRemove.push({ bookId: cachedBook.bookId!, fileUrl: cachedBook.fileUrl, coverUrl: cachedBook.coverUrl })
+        booksToRemove.push(storedBook.bookId)
+        filesToRemove.push({ bookId: storedBook.bookId, fileUrl: storedBook.fileUrl, coverUrl: storedBook.coverUrl })
       }
     }
 
-    await Promise.allSettled([deleteBooksMeta(filesToRemove.map(file => file.bookId!)), writeBooksMeta(bookToAdd)])
-    await Promise.allSettled([cacheBookFiles(filesToAdd), removeBookFilesCache(filesToRemove)])
-  } catch {}
+    await Promise.allSettled([deleteBooksMeta(booksToRemove), removeBookFilesCache(filesToRemove)])
+    await writeBooksMeta(booksToAdd)
+    await cacheBookFiles(filesToAdd)
+  } catch {
+    /* empty */
+  }
 }
 
-export const ensureBookStored = async (book: BookInfo): Promise<void> => {
-  try {
-  } catch {}
-}
-
-export const getStoredBooks = async (): Promise<BookShortInfo[]> => {
-  const books = await readAllBooksMeta()
-  return books.filter(book => book.fileUrl)
+export const getStoredBooks = async (): Promise<BookCollectionItem[]> => {
+  const metas = await readAllBooksMeta()
+  const books: BookCollectionItem[] = []
+  for (const meta of metas) {
+    books.push({
+      bookId: meta.bookId,
+      fileUrl: meta.fileUrl,
+      coverUrl: meta.coverUrl,
+      title: meta.title,
+      lastBookmark: meta.lastBookmark,
+      currentPage: meta.currentPage,
+      pages: meta.pages,
+    })
+  }
+  return books
 }
 
 export const getStoredBook = async (bookId: string): Promise<BookInfo | undefined> => {
-  const book = await readBookMeta(bookId)
-  return book?.fileUrl ? book : undefined
+  const bookMeta = await readBookMeta(bookId)
+  if (!bookMeta?.fileUrl) {
+    return undefined
+  }
+
+  return {
+    bookId: bookMeta.bookId,
+    currentPage: bookMeta.currentPage,
+    title: bookMeta.title,
+    coverUrl: bookMeta.coverUrl,
+    status: 'Active',
+    lastBookmark: bookMeta.lastBookmark,
+    bookFile: {
+      name: 'offline',
+      fileUrl: bookMeta.fileUrl,
+    },
+    pages: bookMeta.pages,
+  }
 }

@@ -1,45 +1,16 @@
-import type { BookInfo, BookShortInfo } from '@api/models'
-import { openDB, type IDBPDatabase } from 'idb'
+import { type BookMeta, BOOKS_STORE, getDB } from './db.ts'
 
-const DB_NAME = 'bymse-read-offline'
-const DB_VERSION = 1
-const STORE_NAME = 'books'
-
-interface BookMeta {
-  fileUrl?: string
-  coverUrl?: string
-  title: string
-  bookId: string
-}
-
-interface BookMetaDB {
-  [STORE_NAME]: {
-    key: string
-    value: BookMeta
-  }
-}
-
-let dbPromise: Promise<IDBPDatabase<BookMetaDB>> | null = null
-
-const getDB = (): Promise<IDBPDatabase<BookMetaDB>> => {
-  if (!dbPromise) {
-    dbPromise = openDB<BookMetaDB>(DB_NAME, DB_VERSION, {
-      upgrade(db) {
-        if (!db.objectStoreNames.contains(STORE_NAME)) {
-          db.createObjectStore(STORE_NAME, { keyPath: 'bookId' })
-        }
-      },
-    })
-  }
-  return dbPromise
-}
-
-export const writeBooksMeta = async (books: BookInfo[]): Promise<void> => {
+export const writeBooksMeta = async (books: BookMeta[]): Promise<void> => {
   try {
     const db = await getDB()
-    const transaction = db.transaction(STORE_NAME, 'readwrite')
-    books.forEach(book => transaction.objectStore(STORE_NAME).put({ filesCached: false, ...book }))
+    const transaction = db.transaction(BOOKS_STORE, 'readwrite')
+    const store = transaction.objectStore(BOOKS_STORE)
+    for (const book of books) {
+      await store.put(book)
+    }
+    await transaction.done
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Failed to save books meta:', error)
   }
 }
@@ -47,9 +18,13 @@ export const writeBooksMeta = async (books: BookInfo[]): Promise<void> => {
 export const deleteBooksMeta = async (bookIds: string[]): Promise<void> => {
   try {
     const db = await getDB()
-    const transaction = db.transaction(STORE_NAME, 'readwrite')
-    bookIds.forEach(bookId => transaction.objectStore(STORE_NAME).delete(bookId))
+    const transaction = db.transaction(BOOKS_STORE, 'readwrite')
+    const store = transaction.objectStore(BOOKS_STORE)
+    for (const bookId of bookIds) {
+      await store.delete(bookId)
+    }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Failed to remove book meta:', error)
   }
 }
@@ -57,8 +32,9 @@ export const deleteBooksMeta = async (bookIds: string[]): Promise<void> => {
 export const readBookMeta = async (bookId: string): Promise<BookMeta | undefined> => {
   try {
     const db = await getDB()
-    return await db.get(STORE_NAME, bookId)
+    return await db.get(BOOKS_STORE, bookId)
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Failed to get book meta:', error)
     return undefined
   }
@@ -67,21 +43,19 @@ export const readBookMeta = async (bookId: string): Promise<BookMeta | undefined
 export const readAllBooksMeta = async (): Promise<BookMeta[]> => {
   try {
     const db = await getDB()
-    return await db.getAll(STORE_NAME)
+    return await db.getAll(BOOKS_STORE)
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Failed to get all books:', error)
     return []
   }
 }
 
-export const setBookFilesMeta = async (
-  bookId: string,
-  fileUrl?: string | null,
-  coverUrl?: string | null,
-): Promise<void> => {
+export const setBookFilesMeta = async (bookId: string, fileUrl?: string, coverUrl?: string): Promise<void> => {
   const db = await getDB()
-  const transaction = db.transaction(STORE_NAME, 'readwrite')
-  const book: BookMeta | undefined = await transaction.objectStore(STORE_NAME).get(bookId)
+  const transaction = db.transaction(BOOKS_STORE, 'readwrite')
+  const store = transaction.objectStore(BOOKS_STORE)
+  const book = await store.get(bookId)
   if (!book) {
     return
   }
@@ -93,5 +67,27 @@ export const setBookFilesMeta = async (
   if (coverUrl) {
     book.coverUrl = coverUrl
   }
-  transaction.objectStore(STORE_NAME).put(book)
+  await store.put(book)
+  await transaction.done
+}
+
+export const resetBookFilesMeta = async (bookId: string, fileUrl?: string, coverUrl?: string): Promise<void> => {
+  const db = await getDB()
+  const transaction = db.transaction(BOOKS_STORE, 'readwrite')
+  const store = transaction.objectStore(BOOKS_STORE)
+  const book = await store.get(bookId)
+  if (!book) {
+    return
+  }
+
+  if (fileUrl && book.fileUrl === fileUrl) {
+    book.fileUrl = undefined
+  }
+
+  if (coverUrl && book.coverUrl === coverUrl) {
+    book.coverUrl = undefined
+  }
+
+  await store.put(book)
+  await transaction.done
 }

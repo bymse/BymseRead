@@ -1,9 +1,7 @@
-import { BookShortInfo } from '@api/models'
-
 export interface BookFiles {
   bookId: string
-  fileUrl?: string | null
-  coverUrl?: string | null
+  fileUrl?: string
+  coverUrl?: string
 }
 
 export interface CacheAddFilesMessage {
@@ -46,8 +44,13 @@ const waitForServiceWorker = async (): Promise<ServiceWorker> => {
 }
 
 const postMessageToServiceWorker = async (message: ServiceWorkerMessage): Promise<void> => {
-  const sw = await waitForServiceWorker()
-  sw.postMessage(message)
+  try {
+    const sw = await waitForServiceWorker()
+    sw.postMessage(message)
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to postMessage for cache', e, message)
+  }
 }
 
 export const cacheBookFiles = async (files: BookFiles[]): Promise<void> => {
