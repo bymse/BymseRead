@@ -1,6 +1,7 @@
 ﻿import { ApiError } from '@microsoft/kiota-abstractions'
-import { ProblemDetails, RedirectProblemDetails } from '@api/models'
+import { ProblemDetails } from '@api/models'
 import { useToast } from '@components/Toast/ToastContext.tsx'
+import { AuthHandler } from '@utils/authHandler.ts'
 import { useCallback } from 'preact/hooks'
 
 interface Result {
@@ -10,42 +11,25 @@ interface Result {
 export const useErrorHandler = () => {
   const { showError } = useToast()
 
-  const handleError = useCallback(
-    (
-      error: string | Error | ApiError | ProblemDetails | RedirectProblemDetails,
-      showToastFor401: boolean = true,
-    ): Result => {
-      if (typeof error === 'string') {
-        showError(error, undefined, 5000)
-        return { isBackendUnavailable: false }
-      }
-
-      if (!('responseStatusCode' in error)) {
-        // eslint-disable-next-line no-console
-        console.error('JS error', error)
-        showError(error.message, undefined, 5000)
-        return { isBackendUnavailable: false }
-      }
-
-      if (
-        !navigator.onLine ||
-        error.responseStatusCode === 503 ||
-        error.responseStatusCode === 502 ||
-        error.responseStatusCode === 504
-      ) {
-        showError('Backend is unavailable', undefined, 5000)
+  const handleFetchError = useCallback(
+    (error: Error | ApiError | ProblemDetails): Result => {
+      if (!navigator.onLine) {
         return { isBackendUnavailable: true }
       }
 
-      if (error.responseStatusCode === 401 && 'redirectUrl' in error) {
-        const redirectUrl = new URL(error.redirectUrl as string, window.location.origin)
-        redirectUrl.searchParams.set('returnUrl', window.location.href)
+      if (!('responseStatusCode' in error)) {
+        return { isBackendUnavailable: true }
+      }
 
-        if (showToastFor401) {
-          showError('You are not authenticated', redirectUrl.toString(), 0, 'Login')
-        } else {
-          window.location.href = redirectUrl.toString()
-        }
+      if (error.responseStatusCode === 503 || error.responseStatusCode === 502 || error.responseStatusCode === 504) {
+        showError(`Backend code: ${error.responseStatusCode}`, undefined, 5000)
+        return { isBackendUnavailable: true }
+      }
+
+      if (error.responseStatusCode === 401) {
+        const location = error.responseHeaders!['Location'][0]
+        const redirectUrl = AuthHandler.getRedirectUrl(location)
+        showError('You are not authenticated', redirectUrl, 0, 'Login')
         return { isBackendUnavailable: false }
       }
 
@@ -61,6 +45,6 @@ export const useErrorHandler = () => {
   )
 
   return {
-    handleError,
+    handleFetchError,
   }
 }

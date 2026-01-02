@@ -10,7 +10,7 @@ export const useEditBook = (
 ) => {
   const { client } = useWebApiClient()
   const { uploadFile } = useFileUpload()
-  const { handleError } = useErrorHandler()
+  const { handleFetchError } = useErrorHandler()
 
   const handleEditBook = async (form: EditBookFormValues) => {
     if (!bookId) {
@@ -33,7 +33,7 @@ export const useEditBook = (
       coverUploadKey = uploadResult.fileUploadKey
     }
 
-    client.webApi.books
+    void client.webApi.books
       .byBookId(bookId)
       .update.post({
         title: form.title,
@@ -42,7 +42,7 @@ export const useEditBook = (
         uploadedCoverFileKey: coverUploadKey,
       })
       .then(onEdited)
-      .catch(handleError)
+      .catch(handleFetchError)
   }
 
   const handleDeleteBook = async () => {
@@ -50,7 +50,7 @@ export const useEditBook = (
       return Promise.resolve()
     }
 
-    await client.webApi.books.byBookId(bookId).delete().then(onDeleted).catch(handleError)
+    await client.webApi.books.byBookId(bookId).delete().then(onDeleted).catch(handleFetchError)
   }
   return {
     handleEditBook,

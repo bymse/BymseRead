@@ -19,14 +19,7 @@ function proxyWithFallback(target: string): ProxyOptions {
       proxy.on('error', (err, req, res) => {
         if (!res || res.headersSent) return
 
-        res.writeHead(503, { 'Content-Type': 'application/json' })
-        res.end(
-          JSON.stringify({
-            error: 'Proxy target unavailable',
-            target,
-            details: err.message,
-          }),
-        )
+        res.destroy()
       })
     },
   }

@@ -6,7 +6,7 @@ import { useErrorHandler } from '@hooks/useErrorHandler.ts'
 export const useCreateBook = (onCreated: (bookId: string) => void) => {
   const { client } = useWebApiClient()
   const { uploadFile } = useFileUpload()
-  const { handleError } = useErrorHandler()
+  const { handleFetchError } = useErrorHandler()
 
   const handleCreateBook = async (form: BookFormValues) => {
     const uploadResult = await uploadFile(form.bookFile)
@@ -17,10 +17,10 @@ export const useCreateBook = (onCreated: (bookId: string) => void) => {
         title: form.title,
         fileUploadKey: uploadResult.fileUploadKey,
       })
-      .catch(handleError)
+      .catch(handleFetchError)
 
-    if (createResponse) {
-      onCreated(createResponse?.bookId as string)
+    if (createResponse && 'bookId' in createResponse) {
+      onCreated(createResponse.bookId as string)
     }
   }
 

@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BymseRead.Service.WebApi;
@@ -6,7 +8,7 @@ namespace BymseRead.Service.WebApi;
 [Route("web-api/[controller]")]
 public class AuthController(IConfiguration configuration) : Controller
 {
-
+    [AllowAnonymous]
     [HttpGet("login")]
     public IActionResult Login(string? returnUrl = null)
     {
@@ -16,7 +18,7 @@ public class AuthController(IConfiguration configuration) : Controller
         return Challenge(new AuthenticationProperties
         {
             RedirectUri = isValidReturnUrl ? returnUrl : "/",
-        });
+        }, OpenIdConnectDefaults.AuthenticationScheme);
     }
 
     [HttpGet("logout")]

@@ -5,7 +5,7 @@ import { BookInfo } from '@api/models'
 
 export const useCurrentPage = (book?: BookInfo) => {
   const { client } = useWebApiClient()
-  const { handleError } = useErrorHandler()
+  const { handleFetchError } = useErrorHandler()
   const debounceTimer = useRef<number | undefined>(undefined)
   const [currentPage, setCurrentPage] = useState<number>(1)
 
@@ -14,7 +14,7 @@ export const useCurrentPage = (book?: BookInfo) => {
       return
     }
 
-    client.webApi.books.byBookId(book?.bookId).progress.currentPage.put({ page }).catch(handleError)
+    void client.webApi.books.byBookId(book?.bookId).progress.currentPage.put({ page }).catch(handleFetchError)
   }
 
   const updateCurrentPage = (page: number) => {

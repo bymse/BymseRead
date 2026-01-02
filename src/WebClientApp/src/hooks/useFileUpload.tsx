@@ -1,4 +1,5 @@
-﻿import { useWebApiClient } from '@hooks/useWebApiClient.ts'
+﻿import { useToast } from '@components/Toast/ToastContext.tsx'
+import { useWebApiClient } from '@hooks/useWebApiClient.ts'
 import { useErrorHandler } from '@hooks/useErrorHandler.ts'
 import { useRef } from 'preact/hooks'
 
@@ -8,12 +9,13 @@ type UploadResult = {
 
 export const useFileUpload = () => {
   const { client } = useWebApiClient()
-  const { handleError } = useErrorHandler()
+  const { handleFetchError } = useErrorHandler()
+  const { showError } = useToast()
   const uploadedFiles = useRef(new Map<File, string>())
 
   const uploadFile = async (file?: File): Promise<UploadResult | undefined> => {
     if (!file) {
-      handleError('File is required')
+      showError('File is required', undefined, 5000)
       return
     }
 
@@ -27,7 +29,7 @@ export const useFileUpload = () => {
         fileSize: file.size,
       })
       .catch(e => {
-        handleError(e as Error)
+        handleFetchError(e as Error)
         return
       })
 
@@ -40,7 +42,10 @@ export const useFileUpload = () => {
         'x-amz-meta-originalFileName': prepareResponse.encodedFileName || file.name,
         'Content-Type': 'application/octet-stream',
       },
-    }).catch(handleError)
+    }).catch(e => {
+      handleFetchError(e as Error)
+      return
+    })
 
     if (response) {
       uploadedFiles.current.set(file, prepareResponse?.fileUploadKey as string)

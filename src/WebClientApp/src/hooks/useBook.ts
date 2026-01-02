@@ -9,7 +9,7 @@ export const useBook = (bookId?: string) => {
   const [book, setBook] = useState<BookInfo | undefined>()
   const [isOffline, setIsOffline] = useState(false)
   const { client } = useWebApiClient()
-  const { handleError } = useErrorHandler()
+  const { handleFetchError } = useErrorHandler()
 
   const load = async () => {
     if (!bookId) {
@@ -23,7 +23,7 @@ export const useBook = (bookId?: string) => {
       }
       return setBook(book)
     } catch (e) {
-      const { isBackendUnavailable } = handleError(e as Error, false)
+      const { isBackendUnavailable } = handleFetchError(e as Error)
       if (!isBackendUnavailable) {
         return
       }
@@ -40,7 +40,7 @@ export const useBook = (bookId?: string) => {
 
   useEffect(() => {
     void execute()
-  }, [bookId, client, handleError])
+  }, [bookId, client, handleFetchError])
 
   return {
     book,

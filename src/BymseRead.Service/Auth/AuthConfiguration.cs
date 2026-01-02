@@ -1,15 +1,14 @@
 using System.Security.Claims;
 using BymseRead.Core.Application.SyncUser;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BymseRead.Service.Auth;
 
 public static class AuthConfiguration
 {
-    private const string ProxyScheme = "Proxy";
-
     public static IServiceCollection AddAuthN(
         this IServiceCollection services,
         IConfiguration configuration,
@@ -21,10 +20,14 @@ public static class AuthConfiguration
             .AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = ProxyScheme;
             })
-            .AddScheme<AuthenticationSchemeOptions, ProxyAuthenticationHandler>(ProxyScheme, null)
-            .AddCookie(options => { options.SlidingExpiration = true; })
+            .AddCookie(options =>
+            {
+                options.SlidingExpiration = true;
+                options.LoginPath = "/web-api/auth/login";
+                options.LogoutPath = "/web-api/auth/logout";
+                options.ReturnUrlParameter = "returnUrl";
+            })
             .AddOpenIdConnect(e =>
             {
                 var settings = configuration

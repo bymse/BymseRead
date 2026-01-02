@@ -10,7 +10,7 @@ type LastPageBookmark = {
 
 export const useBookmarks = (book?: BookInfo) => {
   const { client } = useWebApiClient()
-  const { handleError } = useErrorHandler()
+  const { handleFetchError } = useErrorHandler()
   const [lastPageBookmark, setLastPageBookmark] = useState<LastPageBookmark | undefined>(undefined)
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export const useBookmarks = (book?: BookInfo) => {
         if (prevLastPageBookmark) {
           setLastPageBookmark(prevLastPageBookmark)
         }
-        handleError(e as Error)
+        handleFetchError(e as Error)
       })
   }
 

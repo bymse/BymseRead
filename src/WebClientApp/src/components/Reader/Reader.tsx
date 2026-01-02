@@ -1,10 +1,10 @@
-﻿import { MutableRef, useEffect, useImperativeHandle, useRef } from 'preact/hooks'
+﻿import { useToast } from '@components/Toast/ToastContext.tsx'
+import { MutableRef, useEffect, useImperativeHandle, useRef } from 'preact/hooks'
 import styles from './Reader.module.scss'
 import { PdfReader } from '@components/Reader/PdfReader.ts'
 import { useExecuteWithLoader } from '@utils/useExecuteWithLoader'
 import cn from 'classnames'
 import { Loader } from '@components/Loader/Loader.tsx'
-import { useErrorHandler } from '@hooks/useErrorHandler.ts'
 import { handleZoom } from '@utils/handleZoom.ts'
 
 export interface IReader {
@@ -23,7 +23,7 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange, reade
   const containerRef = useRef<HTMLDivElement>(null)
   const pdfReader = useRef<PdfReader | null>(null)
   const currentPageRef = useRef<number>(currentPage)
-  const { handleError } = useErrorHandler()
+  const { showError } = useToast()
 
   useImperativeHandle(readerRef, () => {
     return {
@@ -60,7 +60,7 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange, reade
           onCurrentPageChange?.(page)
         },
         onError: error => {
-          handleError(error)
+          showError(error.message)
           reject(error)
         },
       })

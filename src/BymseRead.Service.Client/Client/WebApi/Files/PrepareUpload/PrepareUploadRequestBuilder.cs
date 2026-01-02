@@ -38,7 +38,6 @@ namespace BymseRead.Service.Client.WebApi.Files.PrepareUpload
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
         /// <exception cref="global::BymseRead.Service.Client.Models.ProblemDetails">When receiving a 400 status code</exception>
-        /// <exception cref="global::BymseRead.Service.Client.Models.RedirectProblemDetails">When receiving a 401 status code</exception>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public async Task<global::BymseRead.Service.Client.Models.PreparedFileUploadResult?> PutAsync(global::BymseRead.Service.Client.Models.PrepareFileUploadRequest body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
@@ -53,7 +52,6 @@ namespace BymseRead.Service.Client.WebApi.Files.PrepareUpload
             var errorMapping = new Dictionary<string, ParsableFactory<IParsable>>
             {
                 { "400", global::BymseRead.Service.Client.Models.ProblemDetails.CreateFromDiscriminatorValue },
-                { "401", global::BymseRead.Service.Client.Models.RedirectProblemDetails.CreateFromDiscriminatorValue },
             };
             return await RequestAdapter.SendAsync<global::BymseRead.Service.Client.Models.PreparedFileUploadResult>(requestInfo, global::BymseRead.Service.Client.Models.PreparedFileUploadResult.CreateFromDiscriminatorValue, errorMapping, cancellationToken).ConfigureAwait(false);
         }
