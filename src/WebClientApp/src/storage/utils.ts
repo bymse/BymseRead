@@ -1,6 +1,6 @@
 import type { BookCollectionItem, BookInfo } from '@api/models'
 import { BookMeta } from '@storage/db.ts'
-import { BookFiles } from '@storage/filesCache.ts'
+import { BookFiles } from '@storage/filesCacheMessages.ts'
 
 export interface EvalResult {
   newBook?: BookMeta

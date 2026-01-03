@@ -1,76 +1,104 @@
-export interface BookFiles {
-  bookId: string
-  fileUrl?: string
-  coverUrl?: string
-}
+import { BookFiles, ServiceWorkerMessage } from './filesCacheMessages'
+import { resetBookFilesMeta, setBookFilesMeta } from './metaStore'
+import { registerRoute } from 'workbox-routing'
+import { createPartialResponse } from 'workbox-range-requests'
 
-export interface CacheAddFilesMessage {
-  type: 'CACHE_ADD_FILES'
-  payload: {
-    files: Array<BookFiles>
-  }
-}
+declare let self: ServiceWorkerGlobalScope
 
-export interface CacheRemoveFilesMessage {
-  type: 'CACHE_REMOVE_FILES'
-  payload: {
-    files: Array<BookFiles>
-  }
-}
+const CACHE_NAME = 'bymse-read-files-v1'
 
-export type ServiceWorkerMessage = CacheAddFilesMessage | CacheRemoveFilesMessage
+export const initFilesCache = (): void => {
+  registerRoute(
+    request => request.url.pathname.includes('bymse-read/file'),
+    async ({ request }) => {
+      const cache = await caches.open(CACHE_NAME)
+      const cachedResponse = await cache.match(request, { ignoreSearch: true })
 
-const waitForServiceWorker = async (): Promise<ServiceWorker> => {
-  if (!('serviceWorker' in navigator)) {
-    throw new Error('Service Worker not supported')
-  }
+      if (cachedResponse) {
+        return request.headers.has('range') ? createPartialResponse(request, cachedResponse) : cachedResponse
+      }
 
-  return new Promise((resolve, reject) => {
-    const timeout = setTimeout(() => {
-      reject(new Error('Service Worker registration timeout'))
-    }, 5000)
+      return fetch(request)
+    },
+  )
 
-    navigator.serviceWorker.ready
-      .then(registration => {
-        clearTimeout(timeout)
-        if (registration.active) {
-          resolve(registration.active)
-        } else {
-          reject(new Error('Service Worker not active'))
-        }
+  self.addEventListener('message', event => {
+    const data = event.data as ServiceWorkerMessage
+
+    let promise: Promise<void> | null = null
+    if (data.type === 'CACHE_ADD_FILES') {
+      promise = handleAddFiles(data.payload.files)
+    } else if (data.type === 'CACHE_REMOVE_FILES') {
+      promise = handleRemoveFiles(data.payload.files)
+    }
+
+    if (promise !== null) {
+      promise = promise.catch(e => {
+        // eslint-disable-next-line no-console
+        console.error('Failed to handle service worker message', e, data)
       })
-      .catch(reject)
+      event.waitUntil(promise)
+    }
   })
 }
 
-const postMessageToServiceWorker = async (message: ServiceWorkerMessage): Promise<void> => {
-  try {
-    const sw = await waitForServiceWorker()
-    sw.postMessage(message)
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error('Failed to postMessage for cache', e, message)
-  }
-}
-
-export const cacheBookFiles = async (files: BookFiles[]): Promise<void> => {
+const handleAddFiles = async (files: BookFiles[]): Promise<void> => {
   if (!files || files.length === 0) {
     return
   }
 
-  await postMessageToServiceWorker({
-    type: 'CACHE_ADD_FILES',
-    payload: { files },
-  })
+  const cache = await caches.open(CACHE_NAME)
+
+  await Promise.all(
+    files.map(async ({ bookId, fileUrl, coverUrl }) => {
+      const fileUrlCached = await cacheIfNeed(cache, fileUrl)
+      const coverUrlCached = await cacheIfNeed(cache, coverUrl)
+
+      await setBookFilesMeta(bookId, fileUrlCached ? fileUrl : undefined, coverUrlCached ? coverUrl : undefined)
+    }),
+  )
 }
 
-export const removeBookFilesCache = async (files: BookFiles[]): Promise<void> => {
+const handleRemoveFiles = async (files: BookFiles[]): Promise<void> => {
   if (!files || files.length === 0) {
     return
   }
 
-  await postMessageToServiceWorker({
-    type: 'CACHE_REMOVE_FILES',
-    payload: { files },
-  })
+  const cache = await caches.open(CACHE_NAME)
+
+  await Promise.all(
+    files.map(async ({ bookId, fileUrl, coverUrl }) => {
+      if (!bookId || (!fileUrl && !coverUrl)) {
+        return
+      }
+
+      if (fileUrl) {
+        await cache.delete(fileUrl)
+      }
+
+      if (coverUrl) {
+        await cache.delete(coverUrl)
+      }
+
+      await resetBookFilesMeta(bookId, fileUrl, coverUrl)
+    }),
+  )
+}
+
+async function cacheIfNeed(cache: Cache, url?: string): Promise<boolean> {
+  if (!url) {
+    return Promise.resolve(false)
+  }
+
+  const match = await cache.match(url, { ignoreSearch: true })
+  if (match?.ok) {
+    return Promise.resolve(true)
+  }
+
+  const response = await fetch(url)
+  if (response.ok) {
+    await cache.put(url, response)
+    return Promise.resolve(true)
+  }
+  return Promise.resolve(false)
 }

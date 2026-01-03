@@ -1,7 +1,7 @@
 import type { BookCollectionItem, BookInfo } from '@api/models'
 import { BookMeta } from '@storage/db.ts'
 import { evaluateForStorageUpdate } from '@storage/utils.ts'
-import { BookFiles, cacheBookFiles, removeBookFilesCache } from './filesCache.ts'
+import { BookFiles, cacheBookFiles, removeBookFilesCache } from './filesCacheMessages.ts'
 import {
   deleteBooksMeta,
   readAllBooksMeta,
