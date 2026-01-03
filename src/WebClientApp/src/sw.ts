@@ -1,6 +1,7 @@
 import { forceSync, handlePostponedUpdates } from '@storage/postponedUpdatesHandler.ts'
 import { ServiceWorkerMessage } from '@storage/serviceWorkerMessages.ts'
-import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching'
+import { precacheAndRoute, cleanupOutdatedCaches, createHandlerBoundToURL } from 'workbox-precaching'
+import { NavigationRoute, registerRoute } from 'workbox-routing'
 import { handleAddFiles, handleRemoveFiles, initFilesCache } from './storage/filesCache'
 
 declare let self: ServiceWorkerGlobalScope
@@ -9,6 +10,7 @@ cleanupOutdatedCaches()
 
 if (import.meta.env.PROD) {
   precacheAndRoute(self.__WB_MANIFEST)
+  registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')))
 }
 
 initFilesCache()

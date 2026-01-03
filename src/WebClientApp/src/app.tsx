@@ -5,7 +5,6 @@ import { useEffect } from 'preact/hooks'
 import { ToastProvider } from '@components/Toast/ToastContext.tsx'
 import { NotFound } from './pages/NotFound/NotFound.tsx'
 import { Book } from './pages/Book/Book.tsx'
-import { useRegisterSW } from 'virtual:pwa-register/preact'
 
 export function App() {
   return (
@@ -20,8 +19,6 @@ export function App() {
 }
 
 const Routes = () => {
-  useRegisterSW()
-
   return (
     <Router>
       <Route path="/" component={Home} />
