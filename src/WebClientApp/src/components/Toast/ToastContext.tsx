@@ -76,7 +76,12 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
     <ToastContext.Provider value={{ showError, showInfo }}>
       {children}
       {toast.visible && (
-        <Toast {...toast} onClose={toast.variant === 'error' && !toast.link ? hideToast : undefined} position="top" />
+        <Toast
+          {...toast}
+          onClose={toast.variant === 'error' && !toast.link ? hideToast : undefined}
+          hideToast={hideToast}
+          position="top"
+        />
       )}
     </ToastContext.Provider>
   )
