@@ -1,6 +1,5 @@
 ﻿import type { FetchResponse } from '@microsoft/kiota-http-fetchlibrary/dist/es/src/utils/fetchDefinitions'
 import { AuthHandler } from '@utils/authHandler.ts'
-import { useRef } from 'preact/hooks'
 import { AnonymousAuthenticationProvider } from '@microsoft/kiota-abstractions'
 import {
   FetchRequestAdapter,

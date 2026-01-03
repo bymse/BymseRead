@@ -1,4 +1,4 @@
-import { BookFiles, ServiceWorkerMessage } from './filesCacheMessages'
+import { BookFiles, ServiceWorkerMessage } from './serviceWorkerMessages.ts'
 import { resetBookFilesMeta, setBookFilesMeta } from './metaStore'
 import { registerRoute } from 'workbox-routing'
 import { createPartialResponse } from 'workbox-range-requests'
