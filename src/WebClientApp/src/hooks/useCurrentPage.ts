@@ -2,6 +2,7 @@
 import { useWebApiClient } from '@hooks/useWebApiClient.ts'
 import { useErrorHandler } from '@hooks/useErrorHandler.ts'
 import { BookInfo } from '@api/models'
+import { updateBookCurrentPage } from '@storage/index.ts'
 
 export const useCurrentPage = (book?: BookInfo) => {
   const { client } = useWebApiClient()
@@ -14,7 +15,10 @@ export const useCurrentPage = (book?: BookInfo) => {
       return
     }
 
-    void client.webApi.books.byBookId(book?.bookId).progress.currentPage.put({ page }).catch(handleFetchError)
+    const changedAt = new Date(Date.now())
+    void updateBookCurrentPage(book.bookId, { page, changedAt })
+
+    void client.webApi.books.byBookId(book.bookId).progress.currentPage.put({ page, changedAt }).catch(handleFetchError)
   }
 
   const updateCurrentPage = (page: number) => {

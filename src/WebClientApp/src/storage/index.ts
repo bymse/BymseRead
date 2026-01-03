@@ -2,7 +2,16 @@ import type { BookCollectionItem, BookInfo } from '@api/models'
 import { BookMeta } from '@storage/db.ts'
 import { evaluateForStorageUpdate } from '@storage/utils.ts'
 import { BookFiles, cacheBookFiles, removeBookFilesCache } from './filesCache.ts'
-import { deleteBooksMeta, readAllBooksMeta, readBookMeta, writeBooksMeta } from './metaStore.ts'
+import {
+  deleteBooksMeta,
+  readAllBooksMeta,
+  readBookMeta,
+  writeBooksMeta,
+  updateBookCurrentPage,
+  updateBookLastBookmark,
+} from './metaStore.ts'
+
+export { updateBookCurrentPage, updateBookLastBookmark }
 
 export const ensureBookStorage = async (book: BookInfo): Promise<void> => {
   try {
@@ -74,7 +83,7 @@ export const getStoredBooks = async (): Promise<BookCollectionItem[]> => {
       coverUrl: meta.coverUrl,
       title: meta.title,
       lastBookmark: meta.lastBookmark,
-      currentPage: meta.currentPage,
+      currentPage: meta.currentPage?.page,
       pages: meta.pages,
     })
   }
@@ -89,7 +98,7 @@ export const getStoredBook = async (bookId: string): Promise<BookInfo | undefine
 
   return {
     bookId: bookMeta.bookId,
-    currentPage: bookMeta.currentPage,
+    currentPage: bookMeta.currentPage?.page,
     title: bookMeta.title,
     coverUrl: bookMeta.coverUrl,
     status: 'Active',

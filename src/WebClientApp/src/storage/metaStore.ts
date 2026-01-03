@@ -1,4 +1,4 @@
-import { type BookMeta, BOOKS_STORE, getDB } from './db.ts'
+import { type BookMeta, type CurrentPageInfo, type Bookmark, BOOKS_STORE, getDB } from './db.ts'
 
 export const writeBooksMeta = async (books: BookMeta[]): Promise<void> => {
   try {
@@ -90,4 +90,42 @@ export const resetBookFilesMeta = async (bookId: string, fileUrl?: string, cover
 
   await store.put(book)
   await transaction.done
+}
+
+export const updateBookCurrentPage = async (bookId: string, currentPage: CurrentPageInfo): Promise<void> => {
+  try {
+    const db = await getDB()
+    const transaction = db.transaction(BOOKS_STORE, 'readwrite')
+    const store = transaction.objectStore(BOOKS_STORE)
+    const book = await store.get(bookId)
+    if (!book) {
+      return
+    }
+
+    book.currentPage = currentPage
+    await store.put(book)
+    await transaction.done
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to update current page:', error)
+  }
+}
+
+export const updateBookLastBookmark = async (bookId: string, bookmark: Bookmark): Promise<void> => {
+  try {
+    const db = await getDB()
+    const transaction = db.transaction(BOOKS_STORE, 'readwrite')
+    const store = transaction.objectStore(BOOKS_STORE)
+    const book = await store.get(bookId)
+    if (!book) {
+      return
+    }
+
+    book.lastBookmark = bookmark
+    await store.put(book)
+    await transaction.done
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to update last bookmark:', error)
+  }
 }

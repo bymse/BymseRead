@@ -1,8 +1,13 @@
 import { openDB, type IDBPDatabase, DBSchema } from 'idb'
 
 export const DB_NAME = 'bymse-read-offline'
-export const DB_VERSION = 2
+export const DB_VERSION = 3
 export const BOOKS_STORE = 'books'
+
+export interface CurrentPageInfo {
+  page: number
+  changedAt?: Date
+}
 
 export interface BookMeta {
   fileUrl?: string
@@ -11,7 +16,7 @@ export interface BookMeta {
   bookId: string
   pages?: number
 
-  currentPage?: number
+  currentPage?: CurrentPageInfo
   lastBookmark?: Bookmark
 }
 

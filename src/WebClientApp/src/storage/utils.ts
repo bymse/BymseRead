@@ -44,7 +44,7 @@ export const evaluateForStorageUpdate = (
   }
 
   if (
-    storedBook.currentPage !== activeBook.currentPage ||
+    storedBook.currentPage?.page !== activeBook.currentPage ||
     storedBook.lastBookmark?.page !== activeBook.lastBookmark?.page ||
     storedBook.title !== activeBook.title ||
     storedBook.pages !== activeBook.pages
@@ -90,6 +90,6 @@ export const mapWithFiles = (book: BookInfo | BookCollectionItem, fileUrl?: stri
           createdAt: book.lastBookmark.createdAt!,
         }
       : undefined,
-    currentPage: book.currentPage ?? undefined,
+    currentPage: book.currentPage ? { page: book.currentPage } : undefined,
   }
 }
