@@ -10,7 +10,12 @@ cleanupOutdatedCaches()
 
 if (import.meta.env.PROD) {
   precacheAndRoute(self.__WB_MANIFEST)
-  registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')))
+  registerRoute(
+    new NavigationRoute(createHandlerBoundToURL('index.html'), {
+      allowlist: [/.*/],
+      denylist: [/^\/web-api\//, /^\/bymse-read\//],
+    }),
+  )
 }
 
 initFilesCache()
