@@ -24,7 +24,7 @@ public class LastPageBookmarkHandler(
             ValidationError.Throw("Invalid page number. Page must be greater than 0");
         }
 
-        var bookmark = Bookmark.Create(bookId, userId, request.Page, request.ChangedAt);
+        var bookmark = Bookmark.Create(bookId, userId, request.Page, request.CreatedAt);
 
         var rowsAffected = await bookmarksRepository.Add(bookmark);
         if (rowsAffected == 0)

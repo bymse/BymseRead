@@ -1,5 +1,6 @@
 import type { BookCollectionItem, BookInfo } from '@api/models'
 import { BookMeta } from '@storage/db.ts'
+import { postponeBookmarkUpdate, postponeCurrentPageUpdate } from '@storage/postponedUpdatesStore.ts'
 import { evaluateForStorageUpdate } from '@storage/utils.ts'
 import { BookFiles, cacheBookFiles, removeBookFilesCache } from './filesCacheMessages.ts'
 import {
@@ -11,7 +12,7 @@ import {
   updateBookLastBookmark,
 } from './metaStore.ts'
 
-export { updateBookCurrentPage, updateBookLastBookmark }
+export { updateBookCurrentPage, updateBookLastBookmark, postponeBookmarkUpdate, postponeCurrentPageUpdate }
 
 export const ensureBookStorage = async (book: BookInfo): Promise<void> => {
   try {

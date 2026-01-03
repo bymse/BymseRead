@@ -2,7 +2,7 @@
 import { useWebApiClient } from '@hooks/useWebApiClient.ts'
 import { useErrorHandler } from '@hooks/useErrorHandler.ts'
 import { BookInfo } from '@api/models'
-import { updateBookCurrentPage } from '@storage/index.ts'
+import { updateBookCurrentPage, postponeCurrentPageUpdate } from '@storage/index.ts'
 
 export const useCurrentPage = (book?: BookInfo) => {
   const { client } = useWebApiClient()
@@ -15,10 +15,18 @@ export const useCurrentPage = (book?: BookInfo) => {
       return
     }
 
-    const changedAt = new Date(Date.now())
-    void updateBookCurrentPage(book.bookId, { page, createdAt: changedAt })
+    const createdAt = new Date(Date.now())
+    void updateBookCurrentPage(book.bookId, { page, createdAt })
 
-    void client.webApi.books.byBookId(book.bookId).progress.currentPage.put({ page, changedAt }).catch(handleFetchError)
+    void client.webApi.books
+      .byBookId(book.bookId)
+      .progress.currentPage.put({ page, createdAt })
+      .catch(e => {
+        const { isBackendUnavailable } = handleFetchError(e as Error)
+        if (isBackendUnavailable) {
+          void postponeCurrentPageUpdate(book.bookId!, { page, createdAt })
+        }
+      })
   }
 
   const updateCurrentPage = (page: number) => {

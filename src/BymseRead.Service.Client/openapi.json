@@ -472,7 +472,7 @@
     "schemas": {
       "AddLastPageBookmarkRequest": {
         "required": [
-          "changedAt",
+          "createdAt",
           "page"
         ],
         "type": "object",
@@ -481,7 +481,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "changedAt": {
+          "createdAt": {
             "type": "string",
             "format": "date-time"
           }
@@ -793,7 +793,7 @@
       },
       "UpdateCurrentPageRequest": {
         "required": [
-          "changedAt",
+          "createdAt",
           "page"
         ],
         "type": "object",
@@ -802,7 +802,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "changedAt": {
+          "createdAt": {
             "type": "string",
             "format": "date-time"
           }

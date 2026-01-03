@@ -21,7 +21,7 @@ public class UpdateCurrentPageHandler(IBooksQueryRepository booksQueryRepository
             ValidationError.Throw("Invalid page number. Page must be greater than 0");
         }
 
-        var progress = BookProgress.Create(bookId, userId, request.Page, request.ChangedAt);
+        var progress = BookProgress.Create(bookId, userId, request.Page, request.CreatedAt);
         var rowsAffected = await bookProgressRepository.Upsert(progress);
         if (rowsAffected == 0)
         {

@@ -12,8 +12,8 @@ namespace BymseRead.Service.Client.Models
     public partial class UpdateCurrentPageRequest : IParsable
     #pragma warning restore CS1591
     {
-        /// <summary>The changedAt property</summary>
-        public DateTimeOffset? ChangedAt { get; set; }
+        /// <summary>The createdAt property</summary>
+        public DateTimeOffset? CreatedAt { get; set; }
         /// <summary>The page property</summary>
         public int? Page { get; set; }
         /// <summary>
@@ -34,7 +34,7 @@ namespace BymseRead.Service.Client.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "changedAt", n => { ChangedAt = n.GetDateTimeOffsetValue(); } },
+                { "createdAt", n => { CreatedAt = n.GetDateTimeOffsetValue(); } },
                 { "page", n => { Page = n.GetIntValue(); } },
             };
         }
@@ -45,7 +45,7 @@ namespace BymseRead.Service.Client.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteDateTimeOffsetValue("changedAt", ChangedAt);
+            writer.WriteDateTimeOffsetValue("createdAt", CreatedAt);
             writer.WriteIntValue("page", Page);
         }
     }

@@ -35,29 +35,31 @@ const handleSync = async (): Promise<void> => {
       return
     }
 
-    try {
-      if (nextUpdate.currentPage) {
-        try {
+    const promises = [
+      async () => {
+        if (nextUpdate.currentPage) {
           await bymseReadClient.webApi.books.byBookId(nextUpdate.bookId).progress.currentPage.put({
             page: nextUpdate.currentPage.page,
-            changedAt: nextUpdate.currentPage.createdAt,
+            createdAt: nextUpdate.currentPage.createdAt,
           })
-        } catch (e) {
-          handleError(e)
         }
-      }
-
-      if (nextUpdate.lastBookmark) {
-        try {
+      },
+      async () => {
+        if (nextUpdate.lastBookmark) {
           await bymseReadClient.webApi.books.byBookId(nextUpdate.bookId).bookmarks.lastPage.post({
             page: nextUpdate.lastBookmark.page,
-            changedAt: nextUpdate.lastBookmark.createdAt,
+            createdAt: nextUpdate.lastBookmark.createdAt,
           })
-        } catch (e) {
-          handleError(e)
         }
-      }
-    } catch {
+      },
+    ]
+
+    try {
+      await Promise.all(promises.map(e => e()))
+
+      await removePostponedUpdate(nextUpdate.bookId)
+    } catch (e) {
+      handleError(e)
       const dateStr = nextUpdate.currentPage?.createdAt ?? nextUpdate.lastBookmark?.createdAt
       if (!dateStr) {
         await removePostponedUpdate(nextUpdate.bookId)

@@ -17,7 +17,7 @@ public class BooksActions(ServiceClientProvider provider, FilesActions filesActi
             .Progress.CurrentPage.PutAsync(new UpdateCurrentPageRequest
             {
                 Page = page,
-                ChangedAt = changedAt ?? DateTimeOffset.UtcNow
+                CreatedAt = changedAt ?? DateTimeOffset.UtcNow
             });
     }
 
@@ -30,7 +30,7 @@ public class BooksActions(ServiceClientProvider provider, FilesActions filesActi
             .Bookmarks.LastPage.PostAsync(new AddLastPageBookmarkRequest
             {
                 Page = page,
-                ChangedAt = changedAt ?? DateTimeOffset.UtcNow
+                CreatedAt = changedAt ?? DateTimeOffset.UtcNow
             });
     }
 
