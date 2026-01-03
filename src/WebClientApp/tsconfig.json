@@ -18,7 +18,7 @@
       "@api/*": ["../generated/api/*"],
       "@storage/*": ["./storage/*"]
     },
-    "types": ["vite-plugin-pwa/preact", "src/types/background-sync"],
+    "types": ["vite-plugin-pwa/preact"],
 
     /* For kiota */
     "esModuleInterop": true,

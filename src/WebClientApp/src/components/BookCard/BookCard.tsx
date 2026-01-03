@@ -1,21 +1,22 @@
 ﻿import styles from './BookCard.module.scss'
 import { useState } from 'preact/hooks'
+import type { CurrentPageInfo } from '@api/models'
 
 export type BookCardProps = {
   title: string
   coverUrl?: string
-  currentPage?: number | null
+  currentPage?: CurrentPageInfo | null
   lastBookmark?: { page?: number | null } | null
   pages?: number | null
   bookId: string
 }
 
 const calculatePercentageFinished = (
-  currentPage: number | null | undefined,
+  currentPage: CurrentPageInfo | null | undefined,
   lastBookmark: { page?: number | null } | null | undefined,
   pages: number | null | undefined,
 ): number => {
-  const lastPage = lastBookmark?.page ?? currentPage ?? 0
+  const lastPage = lastBookmark?.page ?? currentPage?.page ?? 0
   return lastPage > 0 && pages != null ? Math.round((lastPage / pages) * 100) : 0
 }
 
