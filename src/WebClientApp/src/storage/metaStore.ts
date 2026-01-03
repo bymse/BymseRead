@@ -1,6 +1,8 @@
 import { type BookMeta, type CurrentPage, type Bookmark, BOOKS_STORE, getDB } from './db.ts'
 
 export const writeBooksMeta = async (books: BookMeta[]): Promise<void> => {
+  if (books.length === 0) return
+
   try {
     const db = await getDB()
     const transaction = db.transaction(BOOKS_STORE, 'readwrite')
@@ -16,6 +18,8 @@ export const writeBooksMeta = async (books: BookMeta[]): Promise<void> => {
 }
 
 export const deleteBooksMeta = async (bookIds: string[]): Promise<void> => {
+  if (bookIds.length === 0) return
+
   try {
     const db = await getDB()
     const transaction = db.transaction(BOOKS_STORE, 'readwrite')
@@ -43,7 +47,9 @@ export const readBookMeta = async (bookId: string): Promise<BookMeta | undefined
 export const readAllBooksMeta = async (): Promise<BookMeta[]> => {
   try {
     const db = await getDB()
-    return await db.getAll(BOOKS_STORE)
+    const transaction = db.transaction(BOOKS_STORE, 'readonly')
+    const store = transaction.objectStore(BOOKS_STORE)
+    return await store.getAll()
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Failed to get all books:', error)

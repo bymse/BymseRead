@@ -1,9 +1,7 @@
-import { BookFiles, ServiceWorkerMessage } from './serviceWorkerMessages.ts'
+import { BookFiles } from './serviceWorkerMessages.ts'
 import { resetBookFilesMeta, setBookFilesMeta } from './metaStore'
 import { registerRoute } from 'workbox-routing'
 import { createPartialResponse } from 'workbox-range-requests'
-
-declare let self: ServiceWorkerGlobalScope
 
 const CACHE_NAME = 'bymse-read-files-v1'
 
@@ -21,28 +19,9 @@ export const initFilesCache = (): void => {
       return fetch(request)
     },
   )
-
-  self.addEventListener('message', event => {
-    const data = event.data as ServiceWorkerMessage
-
-    let promise: Promise<void> | null = null
-    if (data.type === 'CACHE_ADD_FILES') {
-      promise = handleAddFiles(data.payload.files)
-    } else if (data.type === 'CACHE_REMOVE_FILES') {
-      promise = handleRemoveFiles(data.payload.files)
-    }
-
-    if (promise !== null) {
-      promise = promise.catch(e => {
-        // eslint-disable-next-line no-console
-        console.error('Failed to handle service worker message', e, data)
-      })
-      event.waitUntil(promise)
-    }
-  })
 }
 
-const handleAddFiles = async (files: BookFiles[]): Promise<void> => {
+export const handleAddFiles = async (files: BookFiles[]): Promise<void> => {
   if (!files || files.length === 0) {
     return
   }
@@ -59,7 +38,7 @@ const handleAddFiles = async (files: BookFiles[]): Promise<void> => {
   )
 }
 
-const handleRemoveFiles = async (files: BookFiles[]): Promise<void> => {
+export const handleRemoveFiles = async (files: BookFiles[]): Promise<void> => {
   if (!files || files.length === 0) {
     return
   }

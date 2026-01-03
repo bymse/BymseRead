@@ -1,6 +1,7 @@
-import { handlePostponedUpdates } from '@storage/postponedUpdatesHandler.ts'
+import { forceSync, handlePostponedUpdates } from '@storage/postponedUpdatesHandler.ts'
+import { ServiceWorkerMessage } from '@storage/serviceWorkerMessages.ts'
 import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching'
-import { initFilesCache } from './storage/filesCache'
+import { handleAddFiles, handleRemoveFiles, initFilesCache } from './storage/filesCache'
 
 declare let self: ServiceWorkerGlobalScope
 
@@ -13,5 +14,30 @@ if (import.meta.env.PROD) {
 initFilesCache()
 
 handlePostponedUpdates()
+
+self.addEventListener('message', event => {
+  const data = event.data as ServiceWorkerMessage
+
+  let promise: Promise<void> | null = null
+  switch (data.type) {
+    case 'CACHE_ADD_FILES':
+      promise = handleAddFiles(data.payload.files)
+      break
+    case 'CACHE_REMOVE_FILES':
+      promise = handleRemoveFiles(data.payload.files)
+      break
+    case 'FORCE_SYNC':
+      promise = forceSync()
+      break
+  }
+
+  if (promise !== null) {
+    promise = promise.catch(e => {
+      // eslint-disable-next-line no-console
+      console.error('Failed to handle service worker message', e, data)
+    })
+    event.waitUntil(promise)
+  }
+})
 
 void self.skipWaiting()

@@ -9,6 +9,7 @@ import {
   RetryHandlerOptions,
 } from '@microsoft/kiota-http-fetchlibrary'
 import { createBymseReadClient } from '@api/bymseReadClient'
+import { ForceSyncHandler } from '@utils/forceSyncHandler.ts'
 
 const handlers = MiddlewareFactory.getDefaultMiddlewares()
 if (handlers[0] instanceof RetryHandler) {
@@ -21,7 +22,7 @@ if (handlers[0] instanceof RetryHandler) {
   handlers[0] = new RetryHandler(options)
 }
 
-handlers.unshift(new AuthHandler())
+handlers.unshift(new ForceSyncHandler(), new AuthHandler())
 
 const httpClient = KiotaClientFactory.create(undefined, handlers)
 const authProvider = new AnonymousAuthenticationProvider()

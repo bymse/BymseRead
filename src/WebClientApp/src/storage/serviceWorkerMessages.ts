@@ -18,9 +18,13 @@ export interface CacheRemoveFilesMessage {
   }
 }
 
+export interface ForceSync {
+  type: 'FORCE_SYNC'
+}
+
 export const POSTPONED_UPDATE_TAG = 'bymse-read-postponed'
 
-export type ServiceWorkerMessage = CacheAddFilesMessage | CacheRemoveFilesMessage
+export type ServiceWorkerMessage = CacheAddFilesMessage | CacheRemoveFilesMessage | ForceSync
 
 const waitForServiceWorker = async (): Promise<ServiceWorkerRegistration> => {
   if (!('serviceWorker' in navigator)) {
@@ -56,9 +60,7 @@ const postMessageToServiceWorker = async (message: ServiceWorkerMessage): Promis
 }
 
 export const cacheBookFiles = async (files: BookFiles[]): Promise<void> => {
-  if (!files || files.length === 0) {
-    return
-  }
+  if (files.length === 0) return
 
   await postMessageToServiceWorker({
     type: 'CACHE_ADD_FILES',
@@ -67,13 +69,17 @@ export const cacheBookFiles = async (files: BookFiles[]): Promise<void> => {
 }
 
 export const removeBookFilesCache = async (files: BookFiles[]): Promise<void> => {
-  if (!files || files.length === 0) {
-    return
-  }
+  if (files.length === 0) return
 
   await postMessageToServiceWorker({
     type: 'CACHE_REMOVE_FILES',
     payload: { files },
+  })
+}
+
+export const forceSync = async (): Promise<void> => {
+  await postMessageToServiceWorker({
+    type: 'FORCE_SYNC',
   })
 }
 

@@ -16,9 +16,11 @@ export const handlePostponedUpdates = () => {
         event.waitUntil(syncComplete())
       }
     })
-  } else {
-    void handleSync()
   }
+}
+
+export const forceSync = async (): Promise<void> => {
+  await handleSync()
 }
 
 const handleSync = async (): Promise<void> => {
@@ -49,25 +51,12 @@ const handleSync = async (): Promise<void> => {
 
     try {
       await Promise.all(promises.map(e => e()))
-
-      await removePostponedUpdate(nextUpdate.bookId)
     } catch (e) {
       if (shouldRetryLater(e)) {
-        continue
-      }
-
-      const dateStr = nextUpdate.currentPage?.createdAt ?? nextUpdate.lastBookmark?.createdAt
-      if (!dateStr) {
-        await removePostponedUpdate(nextUpdate.bookId)
-        continue
-      }
-
-      const date = new Date(dateStr)
-      const fiveDaysAgo = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
-      if (date > fiveDaysAgo) {
-        await removePostponedUpdate(nextUpdate.bookId)
+        return
       }
     }
+    await removePostponedUpdate(nextUpdate.bookId)
   }
 }
 
