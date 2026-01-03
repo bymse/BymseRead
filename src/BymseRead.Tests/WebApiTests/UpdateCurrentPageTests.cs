@@ -1,6 +1,7 @@
 using BymseRead.Service.Client.Models;
 using BymseRead.Tests.Infrastructure;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 
 namespace BymseRead.Tests.WebApiTests;
 
@@ -64,7 +65,7 @@ public class UpdateCurrentPageTests : ServiceTestBase
         await Actions.Books.UpdateCurrentPage(user, bookResult.BookId!.Value, 10);
 
         var book = await Actions.Books.GetBook(user, bookResult.BookId!.Value);
-        book!.CurrentPage.Should().Be(10);
+        book!.CurrentPage!.Page.Should().Be(10);
     }
 
     [Test]
@@ -77,7 +78,7 @@ public class UpdateCurrentPageTests : ServiceTestBase
         await Actions.Books.UpdateCurrentPage(user, bookResult.BookId!.Value, 20);
 
         var book = await Actions.Books.GetBook(user, bookResult.BookId!.Value);
-        book!.CurrentPage.Should().Be(20);
+        book!.CurrentPage!.Page.Should().Be(20);
     }
 
     [Test]
@@ -94,7 +95,8 @@ public class UpdateCurrentPageTests : ServiceTestBase
 
         var book = await Actions.Books.GetBook(user, bookResult.BookId!.Value);
 
-        book!.CurrentPage.Should().Be(20);
+        book!.CurrentPage!.Page.Should().Be(20);
+        book!.CurrentPage!.CreatedAt.Should().BeCloseTo(t2, 100.Milliseconds());
     }
 
     [Test]

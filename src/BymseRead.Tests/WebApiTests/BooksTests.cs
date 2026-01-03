@@ -259,15 +259,18 @@ public class BooksTests : ServiceTestBase
         var user = Actions.Users.CreateUser();
         var client = GetServiceClient(user);
 
+        var changedAt = DateTimeOffset.UtcNow;
         var result = await Actions.Books.CreateBook(user);
-        await Actions.Books.UpdateCurrentPage(user, result.BookId!.Value, 5);
-        await Actions.Books.AddLastPageBookmark(user, result.BookId!.Value, 3);
+        await Actions.Books.UpdateCurrentPage(user, result.BookId!.Value, 5, changedAt);
+        await Actions.Books.AddLastPageBookmark(user, result.BookId!.Value, 3, changedAt);
 
         var collection = await client.WebApi.Books.GetAsync();
 
         var bookItem = collection!.ActiveBooks.Should().ContainSingle(e => e.BookId == result.BookId).Subject;
-        bookItem.CurrentPage.Should().Be(5);
+        bookItem.CurrentPage!.Page.Should().Be(5);
+        bookItem.CurrentPage!.CreatedAt.Should().BeCloseTo(changedAt, 100.Milliseconds());
         bookItem.LastBookmark.Should().NotBeNull();
         bookItem.LastBookmark!.Page.Should().Be(3);
+        bookItem.LastBookmark!.CreatedAt.Should().BeCloseTo(changedAt, 100.Milliseconds());
     }
 }

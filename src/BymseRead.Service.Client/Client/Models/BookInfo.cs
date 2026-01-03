@@ -31,7 +31,13 @@ namespace BymseRead.Service.Client.Models
         public string CoverUrl { get; set; }
 #endif
         /// <summary>The currentPage property</summary>
-        public int? CurrentPage { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public global::BymseRead.Service.Client.Models.CurrentPageInfo? CurrentPage { get; set; }
+#nullable restore
+#else
+        public global::BymseRead.Service.Client.Models.CurrentPageInfo CurrentPage { get; set; }
+#endif
         /// <summary>The lastBookmark property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -73,7 +79,7 @@ namespace BymseRead.Service.Client.Models
                 { "bookFile", n => { BookFile = n.GetObjectValue<global::BymseRead.Service.Client.Models.FileInfo>(global::BymseRead.Service.Client.Models.FileInfo.CreateFromDiscriminatorValue); } },
                 { "bookId", n => { BookId = n.GetGuidValue(); } },
                 { "coverUrl", n => { CoverUrl = n.GetStringValue(); } },
-                { "currentPage", n => { CurrentPage = n.GetIntValue(); } },
+                { "currentPage", n => { CurrentPage = n.GetObjectValue<global::BymseRead.Service.Client.Models.CurrentPageInfo>(global::BymseRead.Service.Client.Models.CurrentPageInfo.CreateFromDiscriminatorValue); } },
                 { "lastBookmark", n => { LastBookmark = n.GetObjectValue<global::BymseRead.Service.Client.Models.BookmarkInfo>(global::BymseRead.Service.Client.Models.BookmarkInfo.CreateFromDiscriminatorValue); } },
                 { "pages", n => { Pages = n.GetIntValue(); } },
                 { "status", n => { Status = n.GetEnumValue<global::BymseRead.Service.Client.Models.BookStatus>(); } },
@@ -90,7 +96,7 @@ namespace BymseRead.Service.Client.Models
             writer.WriteObjectValue<global::BymseRead.Service.Client.Models.FileInfo>("bookFile", BookFile);
             writer.WriteGuidValue("bookId", BookId);
             writer.WriteStringValue("coverUrl", CoverUrl);
-            writer.WriteIntValue("currentPage", CurrentPage);
+            writer.WriteObjectValue<global::BymseRead.Service.Client.Models.CurrentPageInfo>("currentPage", CurrentPage);
             writer.WriteObjectValue<global::BymseRead.Service.Client.Models.BookmarkInfo>("lastBookmark", LastBookmark);
             writer.WriteIntValue("pages", Pages);
             writer.WriteEnumValue<global::BymseRead.Service.Client.Models.BookStatus>("status", Status);

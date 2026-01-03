@@ -16,7 +16,7 @@ export const useCurrentPage = (book?: BookInfo) => {
     }
 
     const changedAt = new Date(Date.now())
-    void updateBookCurrentPage(book.bookId, { page, changedAt })
+    void updateBookCurrentPage(book.bookId, { page, createdAt: changedAt })
 
     void client.webApi.books.byBookId(book.bookId).progress.currentPage.put({ page, changedAt }).catch(handleFetchError)
   }
@@ -35,7 +35,7 @@ export const useCurrentPage = (book?: BookInfo) => {
 
   useEffect(() => {
     if (book?.currentPage) {
-      setCurrentPage(book.currentPage)
+      setCurrentPage(book.currentPage.page!)
     }
   }, [book])
 

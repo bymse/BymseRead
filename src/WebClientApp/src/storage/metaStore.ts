@@ -1,4 +1,4 @@
-import { type BookMeta, type CurrentPageInfo, type Bookmark, BOOKS_STORE, getDB } from './db.ts'
+import { type BookMeta, type CurrentPage, type Bookmark, BOOKS_STORE, getDB } from './db.ts'
 
 export const writeBooksMeta = async (books: BookMeta[]): Promise<void> => {
   try {
@@ -92,7 +92,7 @@ export const resetBookFilesMeta = async (bookId: string, fileUrl?: string, cover
   await transaction.done
 }
 
-export const updateBookCurrentPage = async (bookId: string, currentPage: CurrentPageInfo): Promise<void> => {
+export const updateBookCurrentPage = async (bookId: string, currentPage: CurrentPage): Promise<void> => {
   try {
     const db = await getDB()
     const transaction = db.transaction(BOOKS_STORE, 'readwrite')

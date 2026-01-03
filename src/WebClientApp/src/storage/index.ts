@@ -82,9 +82,19 @@ export const getStoredBooks = async (): Promise<BookCollectionItem[]> => {
       fileUrl: meta.fileUrl,
       coverUrl: meta.coverUrl,
       title: meta.title,
-      lastBookmark: meta.lastBookmark,
-      currentPage: meta.currentPage?.page,
       pages: meta.pages,
+      lastBookmark: meta.lastBookmark
+        ? {
+            page: meta.lastBookmark.page,
+            createdAt: meta.lastBookmark.createdAt,
+          }
+        : undefined,
+      currentPage: meta.currentPage
+        ? {
+            page: meta.currentPage.page,
+            createdAt: meta.currentPage.createdAt,
+          }
+        : undefined,
     })
   }
   return books
@@ -98,15 +108,25 @@ export const getStoredBook = async (bookId: string): Promise<BookInfo | undefine
 
   return {
     bookId: bookMeta.bookId,
-    currentPage: bookMeta.currentPage?.page,
     title: bookMeta.title,
     coverUrl: bookMeta.coverUrl,
     status: 'Active',
-    lastBookmark: bookMeta.lastBookmark,
     bookFile: {
       name: 'offline',
       fileUrl: bookMeta.fileUrl,
     },
     pages: bookMeta.pages,
+    lastBookmark: bookMeta.lastBookmark
+      ? {
+          page: bookMeta.lastBookmark.page,
+          createdAt: bookMeta.lastBookmark.createdAt,
+        }
+      : undefined,
+    currentPage: bookMeta.currentPage
+      ? {
+          page: bookMeta.currentPage.page,
+          createdAt: bookMeta.currentPage.createdAt,
+        }
+      : undefined,
   }
 }

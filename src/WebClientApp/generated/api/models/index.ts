@@ -26,7 +26,7 @@ export interface BookCollectionItem extends Parsable {
     /**
      * The currentPage property
      */
-    currentPage?: number | null;
+    currentPage?: CurrentPageInfo | null;
     /**
      * The fileUrl property
      */
@@ -60,7 +60,7 @@ export interface BookInfo extends Parsable {
     /**
      * The currentPage property
      */
-    currentPage?: number | null;
+    currentPage?: CurrentPageInfo | null;
     /**
      * The lastBookmark property
      */
@@ -180,6 +180,15 @@ export function createCreateBookRequestFromDiscriminatorValue(parseNode: ParseNo
 export function createCreatedBookResultFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoCreatedBookResult;
 }
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {CurrentPageInfo}
+ */
+// @ts-ignore
+export function createCurrentPageInfoFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoCurrentPageInfo;
+}
 export interface CreatedBookResult extends Parsable {
     /**
      * The bookId property
@@ -240,6 +249,16 @@ export function createUpdateBookRequestFromDiscriminatorValue(parseNode: ParseNo
 export function createUpdateCurrentPageRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoUpdateCurrentPageRequest;
 }
+export interface CurrentPageInfo extends Parsable {
+    /**
+     * The createdAt property
+     */
+    createdAt?: Date | null;
+    /**
+     * The page property
+     */
+    page?: number | null;
+}
 /**
  * The deserialization information for the current model
  * @param AddLastPageBookmarkRequest The instance to deserialize into.
@@ -262,7 +281,7 @@ export function deserializeIntoBookCollectionItem(bookCollectionItem: Partial<Bo
     return {
         "bookId": n => { bookCollectionItem.bookId = n.getGuidValue(); },
         "coverUrl": n => { bookCollectionItem.coverUrl = n.getStringValue(); },
-        "currentPage": n => { bookCollectionItem.currentPage = n.getNumberValue(); },
+        "currentPage": n => { bookCollectionItem.currentPage = n.getObjectValue<CurrentPageInfo>(createCurrentPageInfoFromDiscriminatorValue); },
         "fileUrl": n => { bookCollectionItem.fileUrl = n.getStringValue(); },
         "lastBookmark": n => { bookCollectionItem.lastBookmark = n.getObjectValue<BookmarkInfo>(createBookmarkInfoFromDiscriminatorValue); },
         "pages": n => { bookCollectionItem.pages = n.getNumberValue(); },
@@ -280,7 +299,7 @@ export function deserializeIntoBookInfo(bookInfo: Partial<BookInfo> | undefined 
         "bookFile": n => { bookInfo.bookFile = n.getObjectValue<FileInfo>(createFileInfoFromDiscriminatorValue); },
         "bookId": n => { bookInfo.bookId = n.getGuidValue(); },
         "coverUrl": n => { bookInfo.coverUrl = n.getStringValue(); },
-        "currentPage": n => { bookInfo.currentPage = n.getNumberValue(); },
+        "currentPage": n => { bookInfo.currentPage = n.getObjectValue<CurrentPageInfo>(createCurrentPageInfoFromDiscriminatorValue); },
         "lastBookmark": n => { bookInfo.lastBookmark = n.getObjectValue<BookmarkInfo>(createBookmarkInfoFromDiscriminatorValue); },
         "pages": n => { bookInfo.pages = n.getNumberValue(); },
         "status": n => { bookInfo.status = n.getEnumValue<BookStatus>(BookStatusObject); },
@@ -334,6 +353,18 @@ export function deserializeIntoCreateBookRequest(createBookRequest: Partial<Crea
 export function deserializeIntoCreatedBookResult(createdBookResult: Partial<CreatedBookResult> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
         "bookId": n => { createdBookResult.bookId = n.getGuidValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @param CurrentPageInfo The instance to deserialize into.
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoCurrentPageInfo(currentPageInfo: Partial<CurrentPageInfo> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "createdAt": n => { currentPageInfo.createdAt = n.getDateValue(); },
+        "page": n => { currentPageInfo.page = n.getNumberValue(); },
     }
 }
 /**
@@ -493,7 +524,7 @@ export function serializeBookCollectionItem(writer: SerializationWriter, bookCol
     if (!bookCollectionItem || isSerializingDerivedType) { return; }
     writer.writeGuidValue("bookId", bookCollectionItem.bookId);
     writer.writeStringValue("coverUrl", bookCollectionItem.coverUrl);
-    writer.writeNumberValue("currentPage", bookCollectionItem.currentPage);
+    writer.writeObjectValue<CurrentPageInfo>("currentPage", bookCollectionItem.currentPage, serializeCurrentPageInfo);
     writer.writeStringValue("fileUrl", bookCollectionItem.fileUrl);
     writer.writeObjectValue<BookmarkInfo>("lastBookmark", bookCollectionItem.lastBookmark, serializeBookmarkInfo);
     writer.writeNumberValue("pages", bookCollectionItem.pages);
@@ -511,7 +542,7 @@ export function serializeBookInfo(writer: SerializationWriter, bookInfo: Partial
     writer.writeObjectValue<FileInfo>("bookFile", bookInfo.bookFile, serializeFileInfo);
     writer.writeGuidValue("bookId", bookInfo.bookId);
     writer.writeStringValue("coverUrl", bookInfo.coverUrl);
-    writer.writeNumberValue("currentPage", bookInfo.currentPage);
+    writer.writeObjectValue<CurrentPageInfo>("currentPage", bookInfo.currentPage, serializeCurrentPageInfo);
     writer.writeObjectValue<BookmarkInfo>("lastBookmark", bookInfo.lastBookmark, serializeBookmarkInfo);
     writer.writeNumberValue("pages", bookInfo.pages);
     writer.writeEnumValue<BookStatus>("status", bookInfo.status);
@@ -565,6 +596,18 @@ export function serializeCreateBookRequest(writer: SerializationWriter, createBo
 export function serializeCreatedBookResult(writer: SerializationWriter, createdBookResult: Partial<CreatedBookResult> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
     if (!createdBookResult || isSerializingDerivedType) { return; }
     writer.writeGuidValue("bookId", createdBookResult.bookId);
+}
+/**
+ * Serializes information the current object
+ * @param CurrentPageInfo The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeCurrentPageInfo(writer: SerializationWriter, currentPageInfo: Partial<CurrentPageInfo> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!currentPageInfo || isSerializingDerivedType) { return; }
+    writer.writeDateValue("createdAt", currentPageInfo.createdAt);
+    writer.writeNumberValue("page", currentPageInfo.page);
 }
 /**
  * Serializes information the current object

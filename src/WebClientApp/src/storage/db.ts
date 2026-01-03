@@ -4,9 +4,9 @@ export const DB_NAME = 'bymse-read-offline'
 export const DB_VERSION = 3
 export const BOOKS_STORE = 'books'
 
-export interface CurrentPageInfo {
+export interface CurrentPage {
   page: number
-  changedAt?: Date
+  createdAt: Date
 }
 
 export interface BookMeta {
@@ -16,7 +16,7 @@ export interface BookMeta {
   bookId: string
   pages?: number
 
-  currentPage?: CurrentPageInfo
+  currentPage?: CurrentPage
   lastBookmark?: Bookmark
 }
 

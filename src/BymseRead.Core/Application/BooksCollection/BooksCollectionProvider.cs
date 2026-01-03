@@ -46,7 +46,7 @@ public class BooksCollectionProvider(IBooksQueryRepository repository, IFilesSto
             Title = model.Book.Title,
             CoverUrl = model.CoverFile != null ? filesStorageService.GetUrl(model.CoverFile) : null,
             FileUrl = filesStorageService.GetUrl(model.BookFile),
-            CurrentPage = model.Progress?.CurrentPage,
+            CurrentPage = CurrentPageInfoMapper.Map(model.Progress),
             LastBookmark = BookmarkInfoMapper.Map(model.LastBookmark),
             Pages = model.Book.Pages,
         };

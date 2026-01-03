@@ -17,7 +17,7 @@ public class BookCollectionItem
     public required string Title { get; init; }
     public required Uri? CoverUrl { get; init; }
     public required Uri FileUrl { get; init; }
-    public required int? CurrentPage { get; init; }
+    public required CurrentPageInfo? CurrentPage { get; init; }
     public required BookmarkInfo? LastBookmark { get; init; }
     public required int? Pages { get; init; }
 }

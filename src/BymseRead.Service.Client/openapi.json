@@ -517,9 +517,7 @@
             "format": "uri"
           },
           "currentPage": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "$ref": "#/components/schemas/CurrentPageInfo"
           },
           "lastBookmark": {
             "$ref": "#/components/schemas/BookmarkInfo"
@@ -569,9 +567,7 @@
             "$ref": "#/components/schemas/BookStatus"
           },
           "currentPage": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "$ref": "#/components/schemas/CurrentPageInfo"
           },
           "lastBookmark": {
             "$ref": "#/components/schemas/BookmarkInfo"
@@ -667,6 +663,24 @@
           "bookId": {
             "type": "string",
             "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CurrentPageInfo": {
+        "required": [
+          "createdAt",
+          "page"
+        ],
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false

@@ -90,6 +90,11 @@ export const mapWithFiles = (book: BookInfo | BookCollectionItem, fileUrl?: stri
           createdAt: book.lastBookmark.createdAt!,
         }
       : undefined,
-    currentPage: book.currentPage ? { page: book.currentPage } : undefined,
+    currentPage: book.currentPage
+      ? {
+          page: book.currentPage.page!,
+          createdAt: book.currentPage.createdAt!,
+        }
+      : undefined,
   }
 }

@@ -27,7 +27,7 @@ public class BookProvider(IBooksQueryRepository repository, IFilesStorageService
             BookFile = MapFile(model.BookFile),
             CoverUrl = model.CoverFile != null ? filesStorageService.GetUrl(model.CoverFile) : null,
             Status = BookStatusService.Get(model.Book, model.Progress, model.LastBookmark),
-            CurrentPage = model.Progress?.CurrentPage,
+            CurrentPage = CurrentPageInfoMapper.Map(model.Progress),
         };
     }
 

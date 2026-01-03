@@ -23,7 +23,13 @@ namespace BymseRead.Service.Client.Models
         public string CoverUrl { get; set; }
 #endif
         /// <summary>The currentPage property</summary>
-        public int? CurrentPage { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public global::BymseRead.Service.Client.Models.CurrentPageInfo? CurrentPage { get; set; }
+#nullable restore
+#else
+        public global::BymseRead.Service.Client.Models.CurrentPageInfo CurrentPage { get; set; }
+#endif
         /// <summary>The fileUrl property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -70,7 +76,7 @@ namespace BymseRead.Service.Client.Models
             {
                 { "bookId", n => { BookId = n.GetGuidValue(); } },
                 { "coverUrl", n => { CoverUrl = n.GetStringValue(); } },
-                { "currentPage", n => { CurrentPage = n.GetIntValue(); } },
+                { "currentPage", n => { CurrentPage = n.GetObjectValue<global::BymseRead.Service.Client.Models.CurrentPageInfo>(global::BymseRead.Service.Client.Models.CurrentPageInfo.CreateFromDiscriminatorValue); } },
                 { "fileUrl", n => { FileUrl = n.GetStringValue(); } },
                 { "lastBookmark", n => { LastBookmark = n.GetObjectValue<global::BymseRead.Service.Client.Models.BookmarkInfo>(global::BymseRead.Service.Client.Models.BookmarkInfo.CreateFromDiscriminatorValue); } },
                 { "pages", n => { Pages = n.GetIntValue(); } },
@@ -86,7 +92,7 @@ namespace BymseRead.Service.Client.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteGuidValue("bookId", BookId);
             writer.WriteStringValue("coverUrl", CoverUrl);
-            writer.WriteIntValue("currentPage", CurrentPage);
+            writer.WriteObjectValue<global::BymseRead.Service.Client.Models.CurrentPageInfo>("currentPage", CurrentPage);
             writer.WriteStringValue("fileUrl", FileUrl);
             writer.WriteObjectValue<global::BymseRead.Service.Client.Models.BookmarkInfo>("lastBookmark", LastBookmark);
             writer.WriteIntValue("pages", Pages);
