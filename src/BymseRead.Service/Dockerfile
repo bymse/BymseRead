@@ -4,21 +4,21 @@ WORKDIR /app
 
 # Copy the solution file and project files first to leverage Docker cache for dependencies
 COPY BymseRead.sln ./
-COPY BymseRead.Core/*.csproj ./BymseRead.Core/
-COPY BymseRead.Infrastructure/*.csproj ./BymseRead.Infrastructure/
-COPY BymseRead.Service/*.csproj ./BymseRead.Service/
-COPY Directory.Build.props ./
+COPY src/BymseRead.Core/*.csproj ./src/BymseRead.Core/
+COPY src/BymseRead.Infrastructure/*.csproj ./src/BymseRead.Infrastructure/
+COPY src/BymseRead.Service/*.csproj ./src/BymseRead.Service/
+COPY src/Directory.Build.props ./src/
 
 # Restore dependencies
-RUN dotnet restore BymseRead.Service/BymseRead.Service.csproj
+RUN dotnet restore src/BymseRead.Service/BymseRead.Service.csproj
 
 # Copy the rest of the source code
-COPY BymseRead.Core/. ./BymseRead.Core/
-COPY BymseRead.Infrastructure/. ./BymseRead.Infrastructure/
-COPY BymseRead.Service/. ./BymseRead.Service/
+COPY src/BymseRead.Core/. ./src/BymseRead.Core/
+COPY src/BymseRead.Infrastructure/. ./src/BymseRead.Infrastructure/
+COPY src/BymseRead.Service/. ./src/BymseRead.Service/
 
 # Build and publish the application
-RUN dotnet publish BymseRead.Service/BymseRead.Service.csproj -c Release -o /app/publish --no-restore
+RUN dotnet publish src/BymseRead.Service/BymseRead.Service.csproj -c Release -o /app/publish --no-restore
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
