@@ -28,7 +28,7 @@ export const removePostponedUpdate = async (bookId: string): Promise<void> => {
   }
 }
 
-export const postponeCurrentPageUpdate = async (bookId: string, currentPage: CurrentPage): Promise<void> => {
+export const writePostponedCurrentPage = async (bookId: string, currentPage: CurrentPage): Promise<void> => {
   try {
     const db = await getDB()
     const transaction = db.transaction(POSTPONED_UPDATES_STORE, 'readwrite')
@@ -47,7 +47,7 @@ export const postponeCurrentPageUpdate = async (bookId: string, currentPage: Cur
   }
 }
 
-export const postponeBookmarkUpdate = async (bookId: string, bookmark: Bookmark): Promise<void> => {
+export const writePostponedBookmark = async (bookId: string, bookmark: Bookmark): Promise<void> => {
   try {
     const db = await getDB()
     const transaction = db.transaction(POSTPONED_UPDATES_STORE, 'readwrite')

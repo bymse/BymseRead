@@ -1,22 +1,15 @@
 import { ProblemDetails } from '@api/models'
 import { bymseReadClient } from '@hooks/useWebApiClient.ts'
 import { ApiError } from '@microsoft/kiota-abstractions'
+import { POSTPONED_UPDATE_TAG } from '@storage/serviceWorkerMessages.ts'
 import { getNextPostponedUpdate, removePostponedUpdate } from '@storage/postponedUpdatesStore.ts'
 
 declare let self: ServiceWorkerGlobalScope
 
-interface SyncEvent extends ExtendableEvent {
-  tag: string
-  lastChance: boolean
-}
-
-const TAG = 'bymse-read-postponed'
-
 export const handlePostponedUpdates = () => {
   if ('sync' in self.registration) {
-    // @ts-expect-error sync is unknown
-    self.addEventListener('sync', (event: SyncEvent) => {
-      if (event.tag === TAG) {
+    self.addEventListener('sync', event => {
+      if (event.tag === POSTPONED_UPDATE_TAG) {
         const syncComplete = async () => {
           await handleSync()
         }
@@ -59,7 +52,10 @@ const handleSync = async (): Promise<void> => {
 
       await removePostponedUpdate(nextUpdate.bookId)
     } catch (e) {
-      handleError(e)
+      if (shouldRetryLater(e)) {
+        continue
+      }
+
       const dateStr = nextUpdate.currentPage?.createdAt ?? nextUpdate.lastBookmark?.createdAt
       if (!dateStr) {
         await removePostponedUpdate(nextUpdate.bookId)
@@ -75,18 +71,15 @@ const handleSync = async (): Promise<void> => {
   }
 }
 
-const handleError = (error: unknown) => {
+const shouldRetryLater = (error: unknown) => {
   const typedError = error as ApiError | ProblemDetails | Error
   if (!('responseStatusCode' in typedError)) {
-    throw error
+    return true
   }
 
-  if (
-    typedError.responseStatusCode &&
-    (typedError.responseStatusCode === 401 || typedError.responseStatusCode >= 500)
-  ) {
-    return
-  }
-
-  throw error
+  return (
+    typedError.responseStatusCode! > 500 ||
+    typedError.responseStatusCode === 429 ||
+    typedError.responseStatusCode === 401
+  )
 }

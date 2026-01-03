@@ -18,9 +18,11 @@ export interface CacheRemoveFilesMessage {
   }
 }
 
+export const POSTPONED_UPDATE_TAG = 'bymse-read-postponed'
+
 export type ServiceWorkerMessage = CacheAddFilesMessage | CacheRemoveFilesMessage
 
-const waitForServiceWorker = async (): Promise<ServiceWorker> => {
+const waitForServiceWorker = async (): Promise<ServiceWorkerRegistration> => {
   if (!('serviceWorker' in navigator)) {
     throw new Error('Service Worker not supported')
   }
@@ -34,7 +36,7 @@ const waitForServiceWorker = async (): Promise<ServiceWorker> => {
       .then(registration => {
         clearTimeout(timeout)
         if (registration.active) {
-          resolve(registration.active)
+          resolve(registration)
         } else {
           reject(new Error('Service Worker not active'))
         }
@@ -45,8 +47,8 @@ const waitForServiceWorker = async (): Promise<ServiceWorker> => {
 
 const postMessageToServiceWorker = async (message: ServiceWorkerMessage): Promise<void> => {
   try {
-    const sw = await waitForServiceWorker()
-    sw.postMessage(message)
+    const registration = await waitForServiceWorker()
+    registration.active!.postMessage(message)
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error('Failed to postMessage for cache', e, message)
@@ -73,4 +75,14 @@ export const removeBookFilesCache = async (files: BookFiles[]): Promise<void> =>
     type: 'CACHE_REMOVE_FILES',
     payload: { files },
   })
+}
+
+export const postponeUpdate = async (): Promise<void> => {
+  try {
+    const registration = await waitForServiceWorker()
+    await registration.sync.register(POSTPONED_UPDATE_TAG)
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to register sync', e)
+  }
 }

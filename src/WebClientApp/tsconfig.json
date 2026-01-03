@@ -18,7 +18,7 @@
       "@api/*": ["../generated/api/*"],
       "@storage/*": ["./storage/*"]
     },
-    "types": ["vite-plugin-pwa/preact"],
+    "types": ["vite-plugin-pwa/preact", "src/types/background-sync"],
 
     /* For kiota */
     "esModuleInterop": true,
@@ -40,5 +40,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src", "src/types/background-sync.d.ts"]
 }
