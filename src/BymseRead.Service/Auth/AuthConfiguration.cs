@@ -1,8 +1,6 @@
 using System.Security.Claims;
 using BymseRead.Core.Application.SyncUser;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BymseRead.Service.Auth;

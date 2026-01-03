@@ -6,6 +6,10 @@ import { type AdditionalDataHolder, type ApiError, type Guid, type Parsable, typ
 
 export interface AddLastPageBookmarkRequest extends Parsable {
     /**
+     * The changedAt property
+     */
+    changedAt?: Date | null;
+    /**
      * The page property
      */
     page?: number | null;
@@ -244,6 +248,7 @@ export function createUpdateCurrentPageRequestFromDiscriminatorValue(parseNode: 
 // @ts-ignore
 export function deserializeIntoAddLastPageBookmarkRequest(addLastPageBookmarkRequest: Partial<AddLastPageBookmarkRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
+        "changedAt": n => { addLastPageBookmarkRequest.changedAt = n.getDateValue(); },
         "page": n => { addLastPageBookmarkRequest.page = n.getNumberValue(); },
     }
 }
@@ -405,6 +410,7 @@ export function deserializeIntoUpdateBookRequest(updateBookRequest: Partial<Upda
 // @ts-ignore
 export function deserializeIntoUpdateCurrentPageRequest(updateCurrentPageRequest: Partial<UpdateCurrentPageRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
+        "changedAt": n => { updateCurrentPageRequest.changedAt = n.getDateValue(); },
         "page": n => { updateCurrentPageRequest.page = n.getNumberValue(); },
     }
 }
@@ -473,6 +479,7 @@ export interface ProblemDetails extends AdditionalDataHolder, ApiError, Parsable
 // @ts-ignore
 export function serializeAddLastPageBookmarkRequest(writer: SerializationWriter, addLastPageBookmarkRequest: Partial<AddLastPageBookmarkRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
     if (!addLastPageBookmarkRequest || isSerializingDerivedType) { return; }
+    writer.writeDateValue("changedAt", addLastPageBookmarkRequest.changedAt);
     writer.writeNumberValue("page", addLastPageBookmarkRequest.page);
 }
 /**
@@ -635,6 +642,7 @@ export function serializeUpdateBookRequest(writer: SerializationWriter, updateBo
 // @ts-ignore
 export function serializeUpdateCurrentPageRequest(writer: SerializationWriter, updateCurrentPageRequest: Partial<UpdateCurrentPageRequest> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
     if (!updateCurrentPageRequest || isSerializingDerivedType) { return; }
+    writer.writeDateValue("changedAt", updateCurrentPageRequest.changedAt);
     writer.writeNumberValue("page", updateCurrentPageRequest.page);
 }
 export interface UpdateBookRequest extends Parsable {
@@ -656,6 +664,10 @@ export interface UpdateBookRequest extends Parsable {
     uploadedCoverFileKey?: string | null;
 }
 export interface UpdateCurrentPageRequest extends Parsable {
+    /**
+     * The changedAt property
+     */
+    changedAt?: Date | null;
     /**
      * The page property
      */

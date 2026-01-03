@@ -18,13 +18,14 @@ public class BookProgress
         UserId = null!;
     }
 
-    public static BookProgress Create(BookId book, UserId user, int page)
+    public static BookProgress Create(BookId book, UserId user, int page, DateTimeOffset currentPageChangeAt)
     {
         return new BookProgress
         {
             BookId = book,
             UserId = user,
             CurrentPage = page,
+            CurrentPageChangeAt = currentPageChangeAt,
         };
     }
 }

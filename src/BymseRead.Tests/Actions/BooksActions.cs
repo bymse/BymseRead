@@ -8,22 +8,30 @@ namespace BymseRead.Tests.Actions;
 [AutoRegistration(Lifetime = ServiceLifetime.Singleton)]
 public class BooksActions(ServiceClientProvider provider, FilesActions filesActions)
 {
-    public async Task UpdateCurrentPage(Guid userId, Guid bookId, int page)
+    public async Task UpdateCurrentPage(Guid userId, Guid bookId, int page, DateTimeOffset? changedAt = null)
     {
         var client = provider.Get(userId);
 
         await client
             .WebApi.Books[bookId]
-            .Progress.CurrentPage.PutAsync(new UpdateCurrentPageRequest { Page = page });
+            .Progress.CurrentPage.PutAsync(new UpdateCurrentPageRequest
+            {
+                Page = page,
+                ChangedAt = changedAt ?? DateTimeOffset.UtcNow
+            });
     }
 
-    public async Task AddLastPageBookmark(Guid userId, Guid bookId, int page)
+    public async Task AddLastPageBookmark(Guid userId, Guid bookId, int page, DateTimeOffset? changedAt = null)
     {
         var client = provider.Get(userId);
 
         await client
             .WebApi.Books[bookId]
-            .Bookmarks.LastPage.PostAsync(new AddLastPageBookmarkRequest { Page = page });
+            .Bookmarks.LastPage.PostAsync(new AddLastPageBookmarkRequest
+            {
+                Page = page,
+                ChangedAt = changedAt ?? DateTimeOffset.UtcNow
+            });
     }
 
     public async Task<BookInfo?> GetBook(Guid userId, Guid bookId)

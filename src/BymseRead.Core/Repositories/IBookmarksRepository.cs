@@ -4,5 +4,5 @@ namespace BymseRead.Core.Repositories;
 
 public interface IBookmarksRepository
 {
-    Task Add(Bookmark bookmark);
+    Task<int> Add(Bookmark bookmark);
 }

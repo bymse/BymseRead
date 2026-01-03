@@ -24,8 +24,12 @@ public class LastPageBookmarkHandler(
             ValidationError.Throw("Invalid page number. Page must be greater than 0");
         }
 
-        var bookmark = Bookmark.Create(bookId, userId, request.Page);
+        var bookmark = Bookmark.Create(bookId, userId, request.Page, request.ChangedAt);
 
-        await bookmarksRepository.Add(bookmark);
+        var rowsAffected = await bookmarksRepository.Add(bookmark);
+        if (rowsAffected == 0)
+        {
+            ValidationError.Throw("A newer bookmark already exists");
+        }
     }
 }

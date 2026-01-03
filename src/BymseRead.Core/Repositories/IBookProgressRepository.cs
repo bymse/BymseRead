@@ -4,5 +4,5 @@ namespace BymseRead.Core.Repositories;
 
 public interface IBookProgressRepository
 {
-    Task Upsert(BookProgress bookProgress);
+    Task<int> Upsert(BookProgress bookProgress);
 }

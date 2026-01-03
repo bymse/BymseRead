@@ -79,4 +79,60 @@ public class UpdateCurrentPageTests : ServiceTestBase
         var book = await Actions.Books.GetBook(user, bookResult.BookId!.Value);
         book!.CurrentPage.Should().Be(20);
     }
+
+    [Test]
+    public async Task UpdateCurrentPage_WithNewerTimestamp_UpdatesProgress()
+    {
+        var user = Actions.Users.CreateUser();
+        var bookResult = await Actions.Books.CreateBook(user);
+
+        var t1 = DateTimeOffset.UtcNow;
+        await Actions.Books.UpdateCurrentPage(user, bookResult.BookId!.Value, 10, t1);
+
+        var t2 = t1.AddSeconds(1);
+        await Actions.Books.UpdateCurrentPage(user, bookResult.BookId!.Value, 20, t2);
+
+        var book = await Actions.Books.GetBook(user, bookResult.BookId!.Value);
+
+        book!.CurrentPage.Should().Be(20);
+    }
+
+    [Test]
+    public async Task UpdateCurrentPage_WithOlderTimestamp_RejectsUpdate()
+    {
+        var user = Actions.Users.CreateUser();
+        var bookResult = await Actions.Books.CreateBook(user);
+
+        var t1 = DateTimeOffset.UtcNow;
+        await Actions.Books.UpdateCurrentPage(user, bookResult.BookId!.Value, 10, t1);
+
+        var t0 = t1.AddSeconds(-1);
+        var problem = await Actions
+            .Books.Invoking(e => e.UpdateCurrentPage(user, bookResult.BookId!.Value, 20, t0))
+            .Should()
+            .ThrowAsync<ProblemDetails>();
+
+        problem
+            .Which.Detail.Should()
+            .Contain("A newer progress already exists");
+    }
+
+    [Test]
+    public async Task UpdateCurrentPage_WithEqualTimestamp_RejectsUpdate()
+    {
+        var user = Actions.Users.CreateUser();
+        var bookResult = await Actions.Books.CreateBook(user);
+
+        var t1 = DateTimeOffset.UtcNow;
+        await Actions.Books.UpdateCurrentPage(user, bookResult.BookId!.Value, 10, t1);
+
+        var problem = await Actions
+            .Books.Invoking(e => e.UpdateCurrentPage(user, bookResult.BookId!.Value, 20, t1))
+            .Should()
+            .ThrowAsync<ProblemDetails>();
+
+        problem
+            .Which.Detail.Should()
+            .Contain("A newer progress already exists");
+    }
 }

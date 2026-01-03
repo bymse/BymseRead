@@ -19,13 +19,14 @@ public class Bookmark
         UserId = null!;
     }
 
-    public static Bookmark Create(BookId bookId, UserId userId, int page)
+    public static Bookmark Create(BookId bookId, UserId userId, int page, DateTimeOffset createdAt)
     {
         return new Bookmark
         {
             BookId = bookId,
             UserId = userId,
             Page = page,
+            CreatedAt = createdAt,
         };
     }
 }
