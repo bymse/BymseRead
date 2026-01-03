@@ -21,10 +21,11 @@ export const pwaConfig = () =>
       name: 'BymseRead',
       short_name: 'BymseRead',
       description: 'Web application that lets users manage and read their PDF books seamlessly in one place.',
-      start_url: '/?from=pwa',
+      start_url: '/',
       display: 'standalone',
       background_color: '#F2F3F8',
       theme_color: '#F2F3F8',
+      scope: '/',
       icons: [
         {
           src: '/icons/pwa-512x512.svg',
