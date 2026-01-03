@@ -3,11 +3,7 @@ import { openDB, type IDBPDatabase, DBSchema } from 'idb'
 export const DB_NAME = 'bymse-read-offline'
 export const DB_VERSION = 3
 export const BOOKS_STORE = 'books'
-
-export interface CurrentPage {
-  page: number
-  createdAt: Date
-}
+export const POSTPONED_UPDATES_STORE = 'postponed-updates'
 
 export interface BookMeta {
   fileUrl?: string
@@ -25,10 +21,25 @@ export interface Bookmark {
   createdAt: Date
 }
 
+export interface CurrentPage {
+  page: number
+  createdAt: Date
+}
+
+export interface PostponedUpdates {
+  bookId: string
+  lastBookmark?: Bookmark
+  currentPage?: CurrentPage
+}
+
 interface OfflineDB extends DBSchema {
   [BOOKS_STORE]: {
     key: string
     value: BookMeta
+  }
+  [POSTPONED_UPDATES_STORE]: {
+    key: string
+    value: PostponedUpdates
   }
 }
 
@@ -40,6 +51,9 @@ export const getDB = (): Promise<IDBPDatabase<OfflineDB>> => {
       upgrade(db) {
         if (!db.objectStoreNames.contains(BOOKS_STORE)) {
           db.createObjectStore(BOOKS_STORE, { keyPath: 'bookId' })
+        }
+        if (!db.objectStoreNames.contains(POSTPONED_UPDATES_STORE)) {
+          db.createObjectStore(POSTPONED_UPDATES_STORE, { keyPath: 'bookId' })
         }
       },
     })
