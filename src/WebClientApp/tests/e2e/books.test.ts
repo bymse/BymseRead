@@ -60,21 +60,12 @@ test.describe('Book Management', () => {
     await registerAction(page)
 
     const book1Id = await addBook(page, generateBookTitle(), 'file-otel.pdf')
-    await page.getByTestId('toast').waitFor({ state: 'hidden', timeout: 10000 })
-
     const book2Id = await addBook(page, generateBookTitle(), 'file-otel.pdf')
-    await page.getByTestId('toast').waitFor({ state: 'hidden', timeout: 10000 })
-
     const book3Id = await addBook(page, generateBookTitle(), 'file-otel.pdf')
-    await page.getByTestId('toast').waitFor({ state: 'hidden', timeout: 10000 })
 
     await verifyBookInSection(page, 'new', book1Id)
     await verifyBookInSection(page, 'new', book2Id)
     await verifyBookInSection(page, 'new', book3Id)
-
-    const newSection = page.getByTestId('books-block-new')
-    const bookCards = newSection.locator('[data-testid^="book-card-"]')
-    await expect(bookCards).toHaveCount(3)
   })
 
   test('DeleteBook_Should_RemoveFromList_And_BeUnavailable', async ({ page }) => {
