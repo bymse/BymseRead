@@ -48,11 +48,68 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
         var realm = new
         {
             realm = realmName,
-            enabled = true
+            enabled = true,
+            registrationAllowed = true,
+            registrationEmailAsUsername = true,
+            editUsernameAllowed = false,
+            attributes = new Dictionary<string, string>
+            {
+                ["userProfileEnabled"] = "true"
+            }
         };
 
         var response = await httpClient.PostAsJsonAsync("admin/realms", realm);
         if (response.StatusCode != HttpStatusCode.Conflict)
+        {
+            response.EnsureSuccessStatusCode();
+            await ConfigureUserProfileAsync(realmName);
+        }
+    }
+
+    private async Task ConfigureUserProfileAsync(string realmName)
+    {
+        var userProfile = new UserProfileConfiguration
+        {
+            Attributes =
+            [
+                new UserProfileAttribute
+                {
+                    Name = "email",
+                    DisplayName = "${email}",
+                    Validations = new Dictionary<string, object>
+                    {
+                        ["email"] = new { }
+                    },
+                    Required = new UserProfileRequired
+                    {
+                        Roles = ["user"]
+                    },
+                    Permissions = new UserProfilePermissions
+                    {
+                        View = ["admin", "user"],
+                        Edit = ["admin", "user"]
+                    }
+                },
+
+                new UserProfileAttribute
+                {
+                    Name = "username",
+                    DisplayName = "${username}",
+                    Required = new UserProfileRequired
+                    {
+                        Roles = ["user"]
+                    },
+                    Permissions = new UserProfilePermissions
+                    {
+                        View = ["admin", "user"],
+                        Edit = ["admin"]
+                    }
+                }
+            ]
+        };
+
+        var response = await httpClient.PutAsJsonAsync($"admin/realms/{realmName}/users/profile", userProfile);
+        if (response.StatusCode != HttpStatusCode.NotFound)
         {
             response.EnsureSuccessStatusCode();
         }
@@ -100,8 +157,6 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
             username,
             email = $"{username}@example.com",
             emailVerified = true,
-            firstName = username,
-            lastName = username,
             enabled = true,
             credentials = new[]
             {
@@ -129,6 +184,31 @@ public class KeycloakHelper(string url, string adminUsername, string adminPasswo
     private class ClientRepresentation
     {
         [JsonPropertyName("secret")] public string Secret { get; set; }
+    }
+
+    private class UserProfileConfiguration
+    {
+        [JsonPropertyName("attributes")] public List<UserProfileAttribute> Attributes { get; set; }
+    }
+
+    private class UserProfileAttribute
+    {
+        [JsonPropertyName("name")] public string Name { get; set; }
+        [JsonPropertyName("displayName")] public string DisplayName { get; set; }
+        [JsonPropertyName("validations")] public Dictionary<string, object> Validations { get; set; }
+        [JsonPropertyName("required")] public UserProfileRequired Required { get; set; }
+        [JsonPropertyName("permissions")] public UserProfilePermissions Permissions { get; set; }
+    }
+
+    private class UserProfileRequired
+    {
+        [JsonPropertyName("roles")] public string[] Roles { get; set; }
+    }
+
+    private class UserProfilePermissions
+    {
+        [JsonPropertyName("view")] public string[] View { get; set; }
+        [JsonPropertyName("edit")] public string[] Edit { get; set; }
     }
 
     public void Dispose()
