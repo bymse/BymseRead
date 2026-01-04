@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
+import { SITE_URL } from './tests/utils/constants'
 
 export default defineConfig({
   testDir: './tests',
@@ -8,10 +9,10 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://read.bymse.local:5173',
+    baseURL: SITE_URL,
     trace: 'on-first-retry',
     launchOptions: {
-      args: ['--unsafely-treat-insecure-origin-as-secure=http://read.bymse.local:5173'],
+      args: [`--unsafely-treat-insecure-origin-as-secure=${SITE_URL}`],
     },
   },
 
