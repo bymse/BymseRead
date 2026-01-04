@@ -29,7 +29,12 @@ public static class SetupKeycloakTool
                 Constants.Keycloak.Realm,
                 Constants.Keycloak.ClientId,
                 localUrl,
-                [Constants.Keycloak.OidcCallbackPath, Constants.Keycloak.OidcSignoutCallbackPath],
+                [
+                    Constants.Keycloak.OidcCallbackPath,
+                    Constants.Keycloak.OidcSignoutCallbackPath,
+                    "http://read.bymse.local:5299" + Constants.Keycloak.OidcCallbackPath,
+                    "http://read.bymse.local:5173" + Constants.Keycloak.OidcCallbackPath
+                ],
                 Constants.Keycloak.DefaultUsername,
                 Constants.Keycloak.DefaultPassword
             );

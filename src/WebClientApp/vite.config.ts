@@ -14,7 +14,6 @@ const standardFontsDir = normalizePath(
 function proxyWithFallback(target: string): ProxyOptions {
   return {
     target,
-    changeOrigin: true,
     configure: proxy => {
       proxy.on('error', (err, req, res) => {
         if (!res || res.headersSent) return
@@ -49,9 +48,11 @@ export default defineConfig({
     },
   },
   server: {
+    host: 'read.bymse.local',
     proxy: {
       '/web-api': proxyWithFallback('http://localhost:5299'),
       '/bymse-read/': proxyWithFallback('http://minio:9000'),
     },
+    allowedHosts: ['read.bymse.local', 'localhost'],
   },
 })

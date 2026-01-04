@@ -50,7 +50,8 @@ public static class SetupDevConfigTool
                 },
                 ReturnUrlAllowList = new[]
                 {
-                    "http://localhost:5173"
+                    "http://localhost:5173",
+                    "http://read.bymse.local:5173"
                 }
             };
 

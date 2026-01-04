@@ -50,6 +50,14 @@ public static class AuthConfiguration
                     ValidateIssuerSigningKey = true,
                 };
 
+                if (environment.IsDevelopment())
+                {
+                    e.NonceCookie.SecurePolicy = CookieSecurePolicy.None;
+                    e.NonceCookie.SameSite = SameSiteMode.Lax;
+                    e.CorrelationCookie.SecurePolicy = CookieSecurePolicy.None;
+                    e.CorrelationCookie.SameSite = SameSiteMode.Lax;
+                }
+
                 e.Events.OnTokenValidated = async context =>
                 {
                     var syncUserHandler = context.HttpContext.RequestServices.GetRequiredService<SyncUserHandler>();

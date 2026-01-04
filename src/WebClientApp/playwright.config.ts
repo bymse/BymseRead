@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
   testDir: './tests',
@@ -8,8 +8,11 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:5173',
+    baseURL: 'http://read.bymse.local:5173',
     trace: 'on-first-retry',
+    launchOptions: {
+      args: ['--unsafely-treat-insecure-origin-as-secure=http://read.bymse.local:5173'],
+    },
   },
 
   projects: [
@@ -18,4 +21,4 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
   ],
-});
+})
