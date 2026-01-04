@@ -18,7 +18,7 @@
       "@api/*": ["../generated/api/*"],
       "@storage/*": ["./storage/*"]
     },
-    "types": ["vite-plugin-pwa/preact"],
+    "types": ["vite-plugin-pwa/preact", "@types/node"],
 
     /* For kiota */
     "esModuleInterop": true,
