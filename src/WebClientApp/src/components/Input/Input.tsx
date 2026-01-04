@@ -40,6 +40,7 @@ export const Input = ({ type, placeholder, onSubmit, name, label, defaultValue }
           name={name}
           id={id}
           defaultValue={defaultValue}
+          data-testid={name ? `input-${name}` : undefined}
         />
       </div>
     </div>

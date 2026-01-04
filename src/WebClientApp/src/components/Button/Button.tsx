@@ -14,6 +14,7 @@ export type ButtonProps = {
   children?: ComponentChildren
   loading?: boolean
   href?: string
+  'data-testid'?: string
 }
 
 export const Button = ({
@@ -26,6 +27,7 @@ export const Button = ({
   children,
   loading,
   href,
+  'data-testid': dataTestId,
 }: ButtonProps) => {
   // noinspection UnnecessaryLocalVariableJS
   const Icon = icon
@@ -45,6 +47,7 @@ export const Button = ({
         className={cn(styles.button, { [styles[appearance]]: true, [styles.disabled]: disabled || loading })}
         onClick={onClick}
         aria-label={title}
+        data-testid={dataTestId}
       >
         {content}
       </label>
@@ -57,6 +60,7 @@ export const Button = ({
         className={cn(styles.button, { [styles[appearance]]: true, [styles.disabled]: disabled || loading })}
         onClick={onClick}
         href={href}
+        data-testid={dataTestId}
       >
         {content}
       </a>
@@ -70,6 +74,7 @@ export const Button = ({
       disabled={disabled || loading}
       aria-label={title}
       type={type}
+      data-testid={dataTestId}
     >
       {content}
     </button>

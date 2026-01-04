@@ -13,11 +13,17 @@ export type DropdownProps = {
   children: ComponentChildren
   button?: FunctionalComponent<DropdownButtonProps>
   side: 'right' | 'left'
+  'data-testid'?: string
 }
 
 const DropdownContext = createContext<{ closeDropdown: () => void } | null>(null)
 
-export const Dropdown: FunctionalComponent<DropdownProps> = ({ children, button, side }: DropdownProps) => {
+export const Dropdown: FunctionalComponent<DropdownProps> = ({
+  children,
+  button,
+  side,
+  'data-testid': dataTestId,
+}: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -46,7 +52,12 @@ export const Dropdown: FunctionalComponent<DropdownProps> = ({ children, button,
       {PassedButton ? (
         <PassedButton onClick={handleToggle} />
       ) : (
-        <Button icon={() => <MoreHorIcon color="var(--color-text-10)" />} appearance="flat" onClick={handleToggle} />
+        <Button
+          icon={() => <MoreHorIcon color="var(--color-text-10)" />}
+          appearance="flat"
+          onClick={handleToggle}
+          data-testid={dataTestId}
+        />
       )}
       {isOpen && (
         <DropdownContext.Provider value={{ closeDropdown }}>
@@ -60,9 +71,14 @@ export const Dropdown: FunctionalComponent<DropdownProps> = ({ children, button,
 type DropdownItemProps = {
   children: ComponentChildren
   onClick?: () => void
+  'data-testid'?: string
 }
 
-export const DropdownItem: FunctionalComponent<DropdownItemProps> = ({ children, onClick }: DropdownItemProps) => {
+export const DropdownItem: FunctionalComponent<DropdownItemProps> = ({
+  children,
+  onClick,
+  'data-testid': dataTestId,
+}: DropdownItemProps) => {
   const context = useContext(DropdownContext)
 
   const handleClick = () => {
@@ -71,7 +87,7 @@ export const DropdownItem: FunctionalComponent<DropdownItemProps> = ({ children,
   }
 
   return (
-    <li className={styles.item} onClick={handleClick}>
+    <li className={styles.item} onClick={handleClick} data-testid={dataTestId}>
       {children}
     </li>
   )

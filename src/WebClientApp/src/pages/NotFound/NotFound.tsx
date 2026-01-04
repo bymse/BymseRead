@@ -10,7 +10,7 @@ export const NotFound = () => {
   return (
     <>
       <Header />
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} data-testid="not-found-page">
         <h2 className={styles.text}>
           We couldn’t find the page
           <br />

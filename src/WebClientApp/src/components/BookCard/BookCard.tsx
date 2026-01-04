@@ -26,7 +26,12 @@ export const BookCard = ({ title, coverUrl, currentPage, lastBookmark, pages, bo
 
   return (
     <div className={styles.cardWrapper}>
-      <a style={{ ['--fill-percent']: `${percentageFinished}%` }} className={styles.card} href={`/books/${bookId}`}>
+      <a
+        style={{ ['--fill-percent']: `${percentageFinished}%` }}
+        className={styles.card}
+        href={`/books/${bookId}`}
+        data-testid={`book-card-${bookId}`}
+      >
         {coverUrl && (
           <>
             <img

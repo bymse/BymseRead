@@ -21,7 +21,13 @@ export const AddBookForm = ({ onSubmit, onCancel }: AddBookFormProps) => {
   }
 
   return (
-    <PopupForm title="Add new book" onCancel={onCancel} onSubmit={handleSubmit} submitTitle="Add book">
+    <PopupForm
+      title="Add new book"
+      onCancel={onCancel}
+      onSubmit={handleSubmit}
+      submitTitle="Add book"
+      data-testid="add-book-form"
+    >
       <FileButton inputName="bookFile" />
       <Input type="text" name="title" label="Title" />
     </PopupForm>

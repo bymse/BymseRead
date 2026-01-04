@@ -25,7 +25,7 @@ export const Header = ({ onAddBook, onLogout, onSearchSubmit, onMobileSearchClic
         <img alt="BymseRead" src={logo} />
       </a>
       <div className={styles.actions}>
-        {onAddBook && <Button title="Add new book" onClick={onAddBook} />}
+        {onAddBook && <Button title="Add new book" onClick={onAddBook} data-testid="header-add-book-button" />}
         {onSearchSubmit && <Input type="search" placeholder="Search" onSubmit={handleSearchSubmit} />}
         {onLogout && <Button title="Log out" appearance="flat" onClick={onLogout} />}
       </div>

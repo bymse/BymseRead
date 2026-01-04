@@ -11,5 +11,14 @@ export const DeleteBookModal = ({ onDelete, bookId, onClose }: Props) => {
     void onDelete(bookId).then(() => onClose())
   }
 
-  return <PopupForm noClose title="Delete this book?" onCancel={onClose} onSubmit={handleDelete} submitTitle="Delete" />
+  return (
+    <PopupForm
+      noClose
+      title="Delete this book?"
+      onCancel={onClose}
+      onSubmit={handleDelete}
+      submitTitle="Delete"
+      data-testid="delete-book-modal"
+    />
+  )
 }

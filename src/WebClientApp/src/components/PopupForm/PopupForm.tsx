@@ -12,9 +12,18 @@ export type PopupFormProps = {
   children?: ComponentChildren
   submitTitle: string
   noClose?: boolean
+  'data-testid'?: string
 }
 
-export const PopupForm = ({ title, onCancel, onSubmit, children, submitTitle, noClose }: PopupFormProps) => {
+export const PopupForm = ({
+  title,
+  onCancel,
+  onSubmit,
+  children,
+  submitTitle,
+  noClose,
+  'data-testid': dataTestId,
+}: PopupFormProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const handleCancel = () => {
     onCancel()
@@ -40,6 +49,7 @@ export const PopupForm = ({ title, onCancel, onSubmit, children, submitTitle, no
           [styles.popup]: true,
           [styles.small]: isSmall,
         })}
+        data-testid={dataTestId}
       >
         <h2 className={styles.title}>{title}</h2>
         {!noClose && (
@@ -51,7 +61,13 @@ export const PopupForm = ({ title, onCancel, onSubmit, children, submitTitle, no
           <fieldset disabled={isLoading}>
             {!isSmall && <div className={styles.formContent}>{children}</div>}
             <div className={styles.formActions}>
-              <Button type="submit" appearance="primary" title={submitTitle} loading={isLoading} />
+              <Button
+                type="submit"
+                appearance="primary"
+                title={submitTitle}
+                loading={isLoading}
+                data-testid="popup-form-submit"
+              />
               <Button onClick={handleCancel} appearance="secondary" title="Cancel" />
             </div>
           </fieldset>

@@ -32,7 +32,14 @@ export const FileButton = ({ fileUrl, fileName, inputName }: FileButtonProps) =>
         </a>
       )}
       <Button type="label" title={file ? 'Change file' : 'Select file'} appearance="outline">
-        <input type="file" name={inputName} style={{ display: 'none' }} onChange={handleFileChange} accept=".pdf" />
+        <input
+          type="file"
+          name={inputName}
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+          accept=".pdf"
+          data-testid="file-button-input"
+        />
       </Button>
     </div>
   )

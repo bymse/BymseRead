@@ -49,7 +49,7 @@ export const Book = () => {
   if (isLoading || !book) {
     return (
       <div className={styles.container}>
-        <ReaderHeader />
+        <ReaderHeader data-testid="book-page-header-loading" />
         <Loader showSpinner={showSpinner} text={<>We&lsquo;re loading the book</>} />
       </div>
     )
@@ -58,6 +58,7 @@ export const Book = () => {
   return (
     <div className={styles.container}>
       <ReaderHeader
+        data-testid="book-page-header"
         title={book.title as string}
         onBookmarkClick={bookmarksShowHide.open}
         onEditBook={isOffline ? undefined : editShowHide.open}

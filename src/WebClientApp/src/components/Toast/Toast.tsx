@@ -17,12 +17,12 @@ export type ToastProps = {
 
 export const Toast = ({ message, variant, link, onClose, onClick, position, linkText, hideToast }: ToastProps) => {
   return (
-    <div className={cn(styles.toast, styles[variant], styles[position])}>
+    <div className={cn(styles.toast, styles[variant], styles[position])} data-testid="toast">
       <span className={cn(onClick && styles.button)} onClick={onClick}>
         {message}
       </span>
       {link && (
-        <a href={link} rel="noopener noreferrer" className={styles.open} onClick={hideToast}>
+        <a href={link} rel="noopener noreferrer" className={styles.open} onClick={hideToast} data-testid="toast-link">
           {linkText || 'Open'}
         </a>
       )}

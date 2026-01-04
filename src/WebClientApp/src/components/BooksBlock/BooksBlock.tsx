@@ -9,7 +9,7 @@ export type BooksBlockProps = {
 
 export const BooksBlock = ({ books, title }: BooksBlockProps) => {
   return (
-    <section className={styles.block}>
+    <section className={styles.block} data-testid={`books-block-${title.toLowerCase()}`}>
       <h2>{title}</h2>
       <div className={styles.list}>
         {books.map(book => (

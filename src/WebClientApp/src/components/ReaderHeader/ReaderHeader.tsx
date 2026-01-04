@@ -14,6 +14,7 @@ export type ReaderHeaderProps = {
   onEditBook?: () => void
   onDeleteBook?: () => void
   onCurrentPageChange?: (page: number) => void
+  'data-testid'?: string
 }
 
 export const ReaderHeader = ({
@@ -25,6 +26,7 @@ export const ReaderHeader = ({
   totalPages,
   currentPage,
   onCurrentPageChange,
+  'data-testid': dataTestId,
 }: ReaderHeaderProps) => {
   const handleCurrentPageChange = (value: number) => {
     if (onCurrentPageChange) {
@@ -36,7 +38,7 @@ export const ReaderHeader = ({
   const hasPages = totalPages
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-testid={dataTestId}>
       <div className={styles.left}>
         <Button href="/books" appearance="flat" icon={ArrowLeftIcon} />
         <span className={styles.title}>{title}</span>
@@ -52,10 +54,14 @@ export const ReaderHeader = ({
       <div className={styles.right}>
         {onBookmarkClick && <Button icon={BookmarkIcon} appearance="flat" onClick={onBookmarkClick} />}
         {hasDropdown && (
-          <Dropdown side="left">
+          <Dropdown side="left" data-testid="reader-header-dropdown-button">
             <DropdownItem onClick={onResetZoom}>Reset zoom</DropdownItem>
             {onEditBook && <DropdownItem onClick={onEditBook}>Edit book</DropdownItem>}
-            {onDeleteBook && <DropdownItem onClick={onDeleteBook}>Delete</DropdownItem>}
+            {onDeleteBook && (
+              <DropdownItem onClick={onDeleteBook} data-testid="reader-header-delete-button">
+                Delete
+              </DropdownItem>
+            )}
           </Dropdown>
         )}
       </div>
