@@ -26,6 +26,7 @@ export default [
       'pwa.config.ts',
       'vite.config.ts',
       'playwright.config.ts',
+      'tests/**/*',
     ],
   },
   ...compat.extends(

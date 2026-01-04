@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
-import { loginAction, registerAction } from '../actions/authActions'
-import { SITE_URL } from '../utils/constants'
+import { loginAction, registerAction } from '../actions/authActions.js'
+import { SITE_URL } from '../utils/constants.js'
 
 test.describe('Authentication', () => {
   test('Register_Should_Succeed', async ({ page }) => {

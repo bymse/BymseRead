@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test'
-import { SITE_URL } from '../utils/constants'
+import { SITE_URL } from '../utils/constants.js'
 
 export interface LoginCredentials {
   email: string
@@ -17,7 +17,7 @@ export async function loginAction(page: Page, credentials: LoginCredentials): Pr
   await page.locator('#kc-login').click()
 
   const expectedOrigin = new URL(SITE_URL).origin
-  await page.waitForURL(url => url.origin === expectedOrigin, { waitUntil: 'networkidle' })
+  await page.waitForURL(url => url.origin === expectedOrigin, { waitUntil: 'domcontentloaded' })
 }
 
 export async function registerAction(page: Page): Promise<LoginCredentials> {
@@ -30,9 +30,10 @@ export async function registerAction(page: Page): Promise<LoginCredentials> {
     await page.waitForURL(url => url.href.includes('login-actions/registration'))
   }
 
+  const randomId = Math.random().toString(36).substring(2, 15)
   const credentials: LoginCredentials = {
-    email: `test-${Date.now()}@example.com`,
-    password: `TestPass${Date.now()}!`,
+    email: `test-${randomId}@example.com`,
+    password: `TestPass${randomId}!`,
   }
 
   await page.locator('#email').fill(credentials.email)
@@ -42,7 +43,7 @@ export async function registerAction(page: Page): Promise<LoginCredentials> {
   await page.locator('#kc-form-buttons input[type="submit"]').click()
 
   const expectedOrigin = new URL(SITE_URL).origin
-  await page.waitForURL(url => url.origin === expectedOrigin, { waitUntil: 'networkidle' })
+  await page.waitForURL(url => url.origin === expectedOrigin, { waitUntil: 'domcontentloaded' })
 
   return credentials
 }

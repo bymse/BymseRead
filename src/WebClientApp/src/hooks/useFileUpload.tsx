@@ -30,7 +30,7 @@ export const useFileUpload = () => {
       })
       .catch(e => {
         handleFetchError(e as Error)
-        return
+        return undefined
       })
 
     if (!prepareResponse) return
@@ -42,10 +42,18 @@ export const useFileUpload = () => {
         'x-amz-meta-originalFileName': prepareResponse.encodedFileName || file.name,
         'Content-Type': 'application/octet-stream',
       },
-    }).catch(e => {
-      handleFetchError(e as Error)
-      return
     })
+      .then(response => {
+        if (!response.ok) {
+          showError(`Failed to upload file: ${response.statusText}`, undefined, 5000)
+          return undefined
+        }
+        return response
+      })
+      .catch(e => {
+        handleFetchError(e as Error)
+        return undefined
+      })
 
     if (response) {
       uploadedFiles.current.set(file, prepareResponse?.fileUploadKey as string)
