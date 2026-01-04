@@ -49,6 +49,9 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange, reade
         onInitialized: reader => {
           if (currentPageRef.current) {
             reader.page = currentPageRef.current
+          } else {
+            currentPageRef.current = reader.page
+            onCurrentPageChange?.(currentPageRef.current)
           }
           handleZoom(
             e => reader.zoomIn(e),
