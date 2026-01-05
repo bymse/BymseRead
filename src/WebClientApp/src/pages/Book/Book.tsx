@@ -12,7 +12,7 @@ import styles from './Book.module.scss'
 import { IReader, Reader } from '@components/Reader/Reader.tsx'
 import { useBookmarks } from '@hooks/useBookmarks.ts'
 import { Loader } from '@components/Loader/Loader.tsx'
-import { useRef, useState } from 'preact/hooks'
+import { useEffect, useRef, useState } from 'preact/hooks'
 import { usePageTitle } from '@hooks/usePageTitle.ts'
 
 export const Book = () => {
@@ -42,6 +42,23 @@ export const Book = () => {
     await handleEditBook(form)
     return editShowHide.close()
   }
+
+  useEffect(() => {
+    const handleKeys = (e: KeyboardEvent) => {
+      const active = document.activeElement
+      if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA')) {
+        return
+      }
+
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'PageDown' || e.key === 'PageUp') {
+        readerRef.current?.focusReader()
+      }
+    }
+    window.addEventListener('keydown', handleKeys)
+    return () => {
+      window.removeEventListener('keydown', handleKeys)
+    }
+  }, [])
 
   if (!id || (!isLoading && !book)) {
     return <NotFound />

@@ -8,6 +8,9 @@
   display: flex;
   justify-content: center;
   background: var(--color-base-03);
+  &:focus {
+    outline: none;
+  }
 }
 
 .loading {

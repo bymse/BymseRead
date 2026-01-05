@@ -9,6 +9,7 @@ import { handleZoom } from '@utils/handleZoom.ts'
 
 export interface IReader {
   resetZoom(): void
+  focusReader(): void
 }
 
 export type ReaderProps = {
@@ -30,6 +31,9 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange, reade
     return {
       resetZoom: () => {
         pdfReader.current?.resetZoom()
+      },
+      focusReader: () => {
+        containerRef.current?.focus({ preventScroll: true })
       },
     }
   })
@@ -90,6 +94,7 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange, reade
       <Loader showSpinner={showSpinner} text={<>We&lsquo;re loading the reader</>} />
       <div
         id="viewerContainer"
+        tabIndex={0}
         ref={containerRef}
         className={cn({
           [styles.viewerContainer]: true,
