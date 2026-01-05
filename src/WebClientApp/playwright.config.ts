@@ -10,7 +10,7 @@ export default defineConfig({
   reporter: 'html',
   use: {
     baseURL: SITE_URL,
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
     launchOptions: {
       args: [`--unsafely-treat-insecure-origin-as-secure=${SITE_URL}`],
     },

@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test'
-import { loginAction, registerAction } from '../actions/authActions.js'
+import { loginAction, registerUser } from '../actions/authActions.js'
 import { SITE_URL } from '../utils/constants.js'
 
 test.describe('Authentication', () => {
   test('Register_Should_Succeed', async ({ page }) => {
     await page.goto(SITE_URL)
 
-    const credentials = await registerAction(page)
+    const credentials = await registerUser(page)
 
     expect(credentials.email).toBeTruthy()
     expect(credentials.password).toBeTruthy()
@@ -16,7 +16,7 @@ test.describe('Authentication', () => {
   test('Register_Should_MaintainAuth_When_OpeningNewPage', async ({ page }) => {
     await page.goto(SITE_URL)
 
-    await registerAction(page)
+    await registerUser(page)
 
     await page.goto(SITE_URL)
 
@@ -30,7 +30,7 @@ test.describe('Authentication', () => {
     const firstPage = await firstContext.newPage()
 
     await firstPage.goto(SITE_URL)
-    const credentials = await registerAction(firstPage)
+    const credentials = await registerUser(firstPage)
     await firstContext.close()
 
     const secondContext = await browser.newContext()

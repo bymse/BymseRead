@@ -41,7 +41,9 @@ export const ReaderHeader = ({
     <header className={styles.header} data-testid={dataTestId}>
       <div className={styles.left}>
         <Button href="/books" appearance="flat" icon={ArrowLeftIcon} />
-        <span className={styles.title}>{title}</span>
+        <span data-testid="reader-header-title" className={styles.title}>
+          {title}
+        </span>
       </div>
       <div className={styles.center}>
         {hasPages && (

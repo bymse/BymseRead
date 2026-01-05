@@ -1,90 +1,80 @@
 import { test, expect } from '@playwright/test'
-import { registerAction } from '../actions/authActions.js'
+import { registerUser } from '../actions/authActions.js'
 import {
   addBook,
-  clickToastLink,
-  clickBookCard,
-  verifyBookInSection,
+  addBookThenOpenReader,
   deleteBook,
-  verifyBookNotExists,
-  generateBookTitle,
-} from '../actions/bookActions.js'
+  goToBookFromList,
+  ensureBookInSection,
+  ensureBookNotExists,
+} from '../actions/booksActions.js'
+import { clickToastLink } from '../actions/coomonActions.js'
+import { ensureBookLoaded } from '../actions/readerActions.js'
 import { SITE_URL } from '../utils/constants.js'
 
 test.describe('Book Management', () => {
   test('AddBook_Should_ShowInList_And_ShowToast_When_SubmittedViaForm', async ({ page }) => {
     await page.goto(SITE_URL)
-    await registerAction(page)
+    await registerUser(page)
 
-    const title = generateBookTitle()
-    const bookId = await addBook(page, title, 'file-otel.pdf')
+    const { bookId, title } = await addBook(page, 'file-otel.pdf')
 
     const toast = page.getByTestId('toast')
     await expect(toast).toBeVisible()
     await expect(toast).toContainText('New book was added')
 
-    const toastLink = page.getByTestId('toast-link')
-    await expect(toastLink).toBeVisible()
-
-    await verifyBookInSection(page, 'new', bookId)
+    await ensureBookInSection(page, 'new', bookId, title)
   })
 
   test('AddBook_Should_NavigateToBookPage_When_ClickingToastLink', async ({ page }) => {
     await page.goto(SITE_URL)
-    await registerAction(page)
+    await registerUser(page)
 
-    const title = generateBookTitle()
-    const bookId = await addBook(page, title, 'file-otel.pdf')
-
+    const { bookId, title } = await addBook(page, 'file-otel.pdf')
     await clickToastLink(page)
-
-    expect(page.url()).toContain(`/books/${bookId}`)
+    await ensureBookLoaded(page, bookId, title)
   })
 
   test('AddBook_Should_NavigateToBookPage_When_ClickingBookCard', async ({ page }) => {
     await page.goto(SITE_URL)
-    await registerAction(page)
+    await registerUser(page)
 
-    const title = generateBookTitle()
-    const bookId = await addBook(page, title, 'file-otel.pdf')
+    const { bookId, title } = await addBook(page, 'file-otel.pdf')
 
-    await page.getByTestId('toast').waitFor({ state: 'hidden', timeout: 10000 })
-
-    await clickBookCard(page, bookId)
-
-    expect(page.url()).toContain(`/books/${bookId}`)
+    await goToBookFromList(page, bookId, title)
+    await ensureBookLoaded(page, bookId, title)
   })
 
   test('AddMultipleBooks_Should_AppearInNewSection', async ({ page }) => {
     await page.goto(SITE_URL)
-    await registerAction(page)
+    await registerUser(page)
 
-    const book1Id = await addBook(page, generateBookTitle(), 'file-otel.pdf')
-    const book2Id = await addBook(page, generateBookTitle(), 'file-otel.pdf')
-    const book3Id = await addBook(page, generateBookTitle(), 'file-otel.pdf')
+    const book1 = await addBook(page, 'file-otel.pdf')
+    const book2 = await addBook(page, 'file-otel.pdf')
+    const book3 = await addBook(page, 'file-otel.pdf')
 
-    await verifyBookInSection(page, 'new', book1Id)
-    await verifyBookInSection(page, 'new', book2Id)
-    await verifyBookInSection(page, 'new', book3Id)
+    await ensureBookInSection(page, 'new', book1.bookId, book1.title)
+    await ensureBookInSection(page, 'new', book2.bookId, book2.title)
+    await ensureBookInSection(page, 'new', book3.bookId, book3.title)
   })
 
   test('DeleteBook_Should_RemoveFromList_And_BeUnavailable', async ({ page }) => {
     await page.goto(SITE_URL)
-    await registerAction(page)
+    await registerUser(page)
 
-    const book1Id = await addBook(page, generateBookTitle(), 'file-otel.pdf')
-    const book2Id = await addBook(page, generateBookTitle(), 'file-otel.pdf')
-    const book3Id = await addBook(page, generateBookTitle(), 'file-otel.pdf')
+    const book1 = await addBook(page, 'file-otel.pdf')
+    const book2 = await addBook(page, 'file-otel.pdf')
+    const book3 = await addBook(page, 'file-otel.pdf')
 
-    await verifyBookInSection(page, 'new', book1Id)
-    await verifyBookInSection(page, 'new', book2Id)
-    await verifyBookInSection(page, 'new', book3Id)
+    await ensureBookInSection(page, 'new', book1.bookId, book1.title)
+    await ensureBookInSection(page, 'new', book2.bookId, book2.title)
+    await ensureBookInSection(page, 'new', book3.bookId, book3.title)
 
-    await deleteBook(page, book2Id)
+    await deleteBook(page, book2.bookId)
 
-    await verifyBookInSection(page, 'new', book1Id)
-    await verifyBookInSection(page, 'new', book3Id)
+    await ensureBookInSection(page, 'new', book1.bookId, book1.title)
+    await ensureBookInSection(page, 'new', book3.bookId, book3.title)
 
-    await verifyBookNotExists(page, book2Id)
+    await ensureBookNotExists(page, book2.bookId)
   })
 })

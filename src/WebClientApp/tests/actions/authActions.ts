@@ -20,7 +20,7 @@ export async function loginAction(page: Page, credentials: LoginCredentials): Pr
   await page.waitForURL(url => url.origin === expectedOrigin, { waitUntil: 'domcontentloaded' })
 }
 
-export async function registerAction(page: Page): Promise<LoginCredentials> {
+export async function registerUser(page: Page): Promise<LoginCredentials> {
   await page.waitForURL(url => url.pathname.startsWith('/realms/bymse-read'))
 
   const currentUrl = page.url()

@@ -1,30 +1,23 @@
 import { test, expect } from '@playwright/test'
-import { SITE_URL } from '../utils/constants.js'
-import { registerAction } from '../actions/authActions.js'
 import {
-  generateBookTitle,
-  scrollToPage,
-  openBookmarksPanel,
-  markAsLastPage,
-  getLastPageBookmark,
-  goToBooks,
-  clickBookCard,
-  expectPageVisible,
-  getCurrentPage,
   clickLastPageBookmark,
-  createAndOpenBook,
-  waitForPdfLoaded,
-} from '../actions/bookActions.js'
+  getLastPageBookmark,
+  markAsLastPage,
+  openBookmarksPanel,
+} from '../actions/bookmarksActions.js'
+import { addBookThenOpenReader, goToBookFromList, goToBooks } from '../actions/booksActions.js'
+import { ensureBookLoaded, expectPageVisible, getPageFromHeader, setPageInHeader } from '../actions/readerActions.js'
+import { SITE_URL } from '../utils/constants.js'
+import { registerUser } from '../actions/authActions.js'
 
 test.describe('Bookmarks', () => {
   test('Bookmark_Should_PersistAndDisplay', async ({ page }) => {
     await page.goto(SITE_URL)
-    await registerAction(page)
+    await registerUser(page)
 
-    const title = generateBookTitle()
-    const bookId = await createAndOpenBook(page, title, '10-page.pdf')
+    const { bookId, title } = await addBookThenOpenReader(page, '10-page.pdf')
 
-    await scrollToPage(page, 5)
+    await setPageInHeader(page, 5)
 
     await openBookmarksPanel(page)
 
@@ -39,35 +32,30 @@ test.describe('Bookmarks', () => {
     await goToBooks(page)
     await page.reload()
 
-    await clickBookCard(page, bookId)
-
-    await waitForPdfLoaded(page)
+    await goToBookFromList(page, bookId, title)
 
     await openBookmarksPanel(page)
 
     const bookmarkAfterReturn = await getLastPageBookmark(page)
     expect(bookmarkAfterReturn.exists).toBe(true)
     expect(bookmarkAfterReturn.pageNumber).toBe(5)
-
-    await page.getByTestId('bookmarks-close-button').click()
   })
 
   test('Bookmark_Should_NavigateToPage_When_Clicked', async ({ page }) => {
     await page.goto(SITE_URL)
-    await registerAction(page)
+    await registerUser(page)
 
-    const title = generateBookTitle()
-    await createAndOpenBook(page, title, '10-page.pdf')
+    await addBookThenOpenReader(page, '10-page.pdf')
 
-    await scrollToPage(page, 5)
+    await setPageInHeader(page, 5)
 
     await openBookmarksPanel(page)
 
     await markAsLastPage(page)
 
-    await scrollToPage(page, 1)
+    await setPageInHeader(page, 1)
 
-    const currentPage = await getCurrentPage(page)
+    const currentPage = await getPageFromHeader(page)
     expect(currentPage).toBe(1)
 
     await openBookmarksPanel(page)
@@ -80,7 +68,7 @@ test.describe('Bookmarks', () => {
 
     await expectPageVisible(page, 5)
 
-    const currentPageAfterClick = await getCurrentPage(page)
+    const currentPageAfterClick = await getPageFromHeader(page)
     expect(currentPageAfterClick).toBe(5)
   })
 })
