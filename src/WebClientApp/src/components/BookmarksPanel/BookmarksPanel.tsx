@@ -61,19 +61,26 @@ export const BookmarksPanel = ({
   const date = lastPageDate ? lastPageDate.toISOString().split('T')[0].replace(/-/g, '.') : ''
   return (
     <>
-      <div className={styles.container}>
+      <div className={styles.container} data-testid="bookmarks-panel">
         <h2 className={styles.title}>Bookmarks</h2>
         <div className={styles.close}>
-          <Button icon={RemoveIcon} onClick={onClose} appearance="flat" />
+          <Button icon={RemoveIcon} onClick={onClose} appearance="flat" data-testid="bookmarks-close-button" />
         </div>
         <div className={styles.button}>
-          <Button appearance="primary" onClick={handleMarkAsLastPage} title="Mark as last page" />
+          <Button
+            appearance="primary"
+            onClick={handleMarkAsLastPage}
+            title="Mark as last page"
+            data-testid="bookmarks-mark-as-last-page-button"
+          />
         </div>
         {lastPage && (
-          <div className={styles.card} onClick={handleLastPageClick}>
+          <div className={styles.card} onClick={handleLastPageClick} data-testid="bookmarks-last-page-card">
             <span className={styles.cardName}>Last page</span>
             <span className={styles.date}>{date}</span>
-            <span className={styles.page}>{lastPage}</span>
+            <span className={styles.page} data-testid="bookmarks-last-page-number">
+              {lastPage}
+            </span>
           </div>
         )}
       </div>

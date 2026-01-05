@@ -5,9 +5,10 @@ export type PageInputProps = {
   defaultValue?: number
   maxNumber?: number
   onValueChange?: (value: number) => void
+  'data-testid'?: string
 }
 
-export const PageInput = ({ defaultValue, maxNumber, onValueChange }: PageInputProps) => {
+export const PageInput = ({ defaultValue, maxNumber, onValueChange, 'data-testid': dataTestId }: PageInputProps) => {
   const [inputWidth, setInputWidth] = useState('auto')
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -61,6 +62,7 @@ export const PageInput = ({ defaultValue, maxNumber, onValueChange }: PageInputP
         onInput={updateWidth}
         style={{ width: inputWidth }}
         placeholder={defaultValue?.toString()}
+        data-testid={dataTestId || 'page-input'}
       />
     </label>
   )

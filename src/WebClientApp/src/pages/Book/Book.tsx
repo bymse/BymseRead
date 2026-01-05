@@ -12,7 +12,7 @@ import styles from './Book.module.scss'
 import { IReader, Reader } from '@components/Reader/Reader.tsx'
 import { useBookmarks } from '@hooks/useBookmarks.ts'
 import { Loader } from '@components/Loader/Loader.tsx'
-import { useRef } from 'preact/hooks'
+import { useRef, useState } from 'preact/hooks'
 import { usePageTitle } from '@hooks/usePageTitle.ts'
 
 export const Book = () => {
@@ -21,6 +21,7 @@ export const Book = () => {
   const readerRef = useRef<IReader>()
   const { id } = params
   const { book, isLoading, reload, showSpinner, isOffline } = useBook(id)
+  const [totalPages, setTotalPages] = useState<number | undefined>(undefined)
   const { updateCurrentPage, currentPage } = useCurrentPage(book)
   const { handleMarkAsLastPage, lastPageBookmark } = useBookmarks(book)
   const { handleEditBook, handleDeleteBook } = useEditBook(book?.bookId, reload, () => route('/books'))
@@ -66,7 +67,7 @@ export const Book = () => {
         onCurrentPageChange={updateCurrentPage}
         onResetZoom={handleResetZoom}
         currentPage={currentPage}
-        totalPages={book.pages as number}
+        totalPages={book.pages ?? totalPages}
       />
 
       <Reader
@@ -75,6 +76,7 @@ export const Book = () => {
         currentPage={currentPage}
         onCurrentPageChange={updateCurrentPage}
         readerRef={readerRef}
+        setTotalPages={setTotalPages}
       />
 
       {bookmarksShowHide.visible && (

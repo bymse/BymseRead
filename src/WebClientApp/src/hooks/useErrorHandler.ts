@@ -27,7 +27,7 @@ export const useErrorHandler = () => {
       }
 
       if (error.responseStatusCode === 401) {
-        const location = error.responseHeaders!['Location'][0]
+        const location = error.responseHeaders!['location'][0]
         const redirectUrl = AuthHandler.getRedirectUrl(location)
         showError('You are not authenticated', redirectUrl, 0, 'Login')
         return { isBackendUnavailable: false }

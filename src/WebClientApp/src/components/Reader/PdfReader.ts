@@ -31,6 +31,7 @@ export class PdfReader {
   private loadingTask?: pdfjsLib.PDFDocumentLoadingTask
   private loadParams?: LoadParams
   public lastPage?: number
+  public totalPages: number = 0
 
   constructor(container: HTMLDivElement) {
     this.eventBus = new EventBus()
@@ -52,6 +53,7 @@ export class PdfReader {
 
     this.eventBus.on('pagesinit', () => {
       if (!this.pdfViewer) return
+      this.totalPages = this.pdfViewer.pagesCount
 
       this.pdfViewer.currentScaleValue = this.getSavedScale() || DEFAULT_SCALE_VALUE
       if (this.loadParams?.onInitialized) {

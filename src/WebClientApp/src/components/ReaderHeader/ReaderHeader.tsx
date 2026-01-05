@@ -52,7 +52,14 @@ export const ReaderHeader = ({
         )}
       </div>
       <div className={styles.right}>
-        {onBookmarkClick && <Button icon={BookmarkIcon} appearance="flat" onClick={onBookmarkClick} />}
+        {onBookmarkClick && (
+          <Button
+            icon={BookmarkIcon}
+            appearance="flat"
+            onClick={onBookmarkClick}
+            data-testid="reader-header-bookmark-button"
+          />
+        )}
         {hasDropdown && (
           <Dropdown side="left" data-testid="reader-header-dropdown-button">
             <DropdownItem onClick={onResetZoom}>Reset zoom</DropdownItem>

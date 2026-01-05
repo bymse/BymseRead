@@ -17,9 +17,10 @@ export type ReaderProps = {
   currentPage: number
   onCurrentPageChange?: (page: number) => void
   readerRef: MutableRef<IReader | undefined>
+  setTotalPages?: (totalPages: number) => void
 }
 
-export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange, readerRef }: ReaderProps) => {
+export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange, readerRef, setTotalPages }: ReaderProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const pdfReader = useRef<PdfReader | null>(null)
   const currentPageRef = useRef<number>(currentPage)
@@ -53,6 +54,7 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange, reade
             currentPageRef.current = reader.page
             onCurrentPageChange?.(currentPageRef.current)
           }
+          setTotalPages?.(reader.totalPages)
           handleZoom(
             e => reader.zoomIn(e),
             e => reader.zoomOut(e),
@@ -93,6 +95,7 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange, reade
           [styles.viewerContainer]: true,
           [styles.loading]: isLoading,
         })}
+        data-testid="pdf-viewer-container"
       >
         <div id="viewer" className="pdfViewer"></div>
       </div>

@@ -15,7 +15,7 @@ export class ForceSyncHandler implements Middleware {
       const response = await this.next?.execute(url, requestInit, requestOptions)
       if (response?.ok && needSync) {
         needSync = false
-        void forceSync()
+        void forceSync().catch()
       }
       if (response?.status && response.status > 500) {
         needSync = true
