@@ -11,15 +11,18 @@ export default defineConfig({
   use: {
     baseURL: SITE_URL,
     trace: 'retain-on-failure',
-    launchOptions: {
-      args: [`--unsafely-treat-insecure-origin-as-secure=${SITE_URL}`],
-    },
   },
 
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: {
+          headless: false, //todo move to https
+          args: [`--unsafely-treat-insecure-origin-as-secure=${SITE_URL}`],
+        },
+      },
     },
   ],
 })

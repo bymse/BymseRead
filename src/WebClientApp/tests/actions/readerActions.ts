@@ -15,20 +15,25 @@ export async function getPageFromHeader(page: Page): Promise<number> {
   return parseInt(value, 10)
 }
 
-export async function setPageInHeader(page: Page, pageNumber: number): Promise<void> {
+export async function setPageInHeader(
+  page: Page,
+  pageNumber: number,
+  waitCurrentPageResponse: boolean = true,
+): Promise<void> {
   const pageInput = page.getByTestId('page-input')
   await pageInput.waitFor({ state: 'visible' })
   await pageInput.clear()
   await pageInput.fill(pageNumber.toString())
   await pageInput.press('Enter')
-  await Promise.all([page.waitForResponse('**/current-page'), await expectPageVisible(page, pageNumber)])
+  await expectPageVisible(page, pageNumber)
+  if (waitCurrentPageResponse) await page.waitForResponse('**/current-page')
 }
 
 export async function scrollToPageNumber(page: Page, pageNumber: number): Promise<void> {
   await Promise.all([page.waitForResponse('**/current-page'), await page.mouse.wheel(0, pageNumber * 1000)])
 }
 
-export async function ensurePage(page: Page, pageNumber: number): Promise<void> {
+export async function ensurePageNumber(page: Page, pageNumber: number): Promise<void> {
   expect(await getPageFromHeader(page)).toBe(pageNumber)
   await expectPageVisible(page, pageNumber)
 }
