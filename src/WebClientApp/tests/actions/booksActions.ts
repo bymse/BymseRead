@@ -106,3 +106,29 @@ export async function makeBookActive(page: Page, bookId: string): Promise<void> 
   await ensureBookLoaded(page, bookId)
   await setPageInHeader(page, 3)
 }
+
+export async function ensureCoverLoaded(page: Page, bookId: string) {
+  const selector = `[data-testid="book-cover-${bookId}"]`
+  for (let attempt = 1; attempt <= 10; attempt++) {
+    const locator = page.locator(selector)
+    if (await locator.isVisible()) {
+      const isLoaded = await isImageLoaded(page, selector)
+      if (isLoaded) return
+    }
+    await page.waitForTimeout(1000)
+    await page.reload({ waitUntil: 'networkidle' })
+  }
+
+  await page.pause()
+  throw new Error('Cover image not loaded')
+}
+
+const isImageLoaded = async (page: Page, selector: string) => {
+  return (
+    (await page.evaluate(selector => {
+      const img = document.querySelector(selector)
+      // @ts-ignore
+      return img && img.complete && img.naturalWidth > 0
+    }, selector)) ?? false
+  )
+}

@@ -56,6 +56,15 @@ export const getDB = (): Promise<IDBPDatabase<OfflineDB>> => {
           db.createObjectStore(POSTPONED_UPDATES_STORE, { keyPath: 'bookId' })
         }
       },
+      terminated() {
+        dbPromise = null
+      },
+    }).then(db => {
+      db.onversionchange = () => {
+        db.close()
+        dbPromise = null
+      }
+      return db
     })
   }
   return dbPromise

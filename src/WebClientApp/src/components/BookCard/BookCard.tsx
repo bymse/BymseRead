@@ -40,6 +40,7 @@ export const BookCard = ({ title, coverUrl, currentPage, lastBookmark, pages, bo
               alt={title}
               style={{ display: imageLoaded ? 'block' : 'none' }}
               onLoad={() => setImageLoaded(true)}
+              data-testid={`book-cover-${bookId}`}
             />
             {!imageLoaded && <DefaultBookCover title={title} />}
           </>

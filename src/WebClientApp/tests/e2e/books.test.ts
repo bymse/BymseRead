@@ -8,6 +8,7 @@ import {
   ensureBookNotExists,
   makeBookActive,
   goToBooks,
+  ensureCoverLoaded,
 } from '../actions/booksActions.js'
 import { clickToastLink } from '../actions/coomonActions.js'
 import { ensureBookLoaded } from '../actions/readerActions.js'
@@ -92,5 +93,14 @@ test.describe('Book Management', () => {
     await goToBooks(page)
 
     await ensureBookInSection(page, 'active', bookId, title)
+  })
+
+  test('Book_Should_HaveCover', async ({ page }) => {
+    await page.goto(SITE_URL)
+    await registerUser(page)
+    await goToBooks(page)
+
+    const { bookId } = await addBook(page, 'file-otel.pdf')
+    await ensureCoverLoaded(page, bookId)
   })
 })
