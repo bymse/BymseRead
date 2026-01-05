@@ -88,6 +88,7 @@ export const getStoredBooks = async (): Promise<BookCollectionItem[]> => {
   const metas = await readAllBooksMeta()
   const books: BookCollectionItem[] = []
   for (const meta of metas) {
+    if (!meta.fileUrl) continue
     books.push({
       bookId: meta.bookId,
       fileUrl: meta.fileUrl,
