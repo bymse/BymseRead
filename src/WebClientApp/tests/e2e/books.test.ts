@@ -2,11 +2,12 @@ import { test, expect } from '@playwright/test'
 import { registerUser } from '../actions/authActions.js'
 import {
   addBook,
-  addBookThenOpenReader,
   deleteBook,
   goToBookFromList,
   ensureBookInSection,
   ensureBookNotExists,
+  makeBookActive,
+  goToBooks,
 } from '../actions/booksActions.js'
 import { clickToastLink } from '../actions/coomonActions.js'
 import { ensureBookLoaded } from '../actions/readerActions.js'
@@ -76,5 +77,20 @@ test.describe('Book Management', () => {
     await ensureBookInSection(page, 'new', book3.bookId, book3.title)
 
     await ensureBookNotExists(page, book2.bookId)
+  })
+
+  test('Book_Should_BeInActiveSection_When_ProgressMade', async ({ page }) => {
+    await page.goto(SITE_URL)
+    await registerUser(page)
+
+    const { bookId, title } = await addBook(page, '10-page.pdf')
+
+    await ensureBookInSection(page, 'new', bookId, title)
+
+    await makeBookActive(page, bookId)
+
+    await goToBooks(page)
+
+    await ensureBookInSection(page, 'active', bookId, title)
   })
 })

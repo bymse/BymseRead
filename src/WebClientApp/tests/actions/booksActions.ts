@@ -1,7 +1,7 @@
 import { expect, Page } from '@playwright/test'
 import { fileURLToPath } from 'node:url'
 import { clickToastLink } from './coomonActions.js'
-import { ensureBookLoaded } from './readerActions.js'
+import { ensureBookLoaded, setPageInHeader } from './readerActions.js'
 
 const getFilePath = (fileName: string) => {
   return fileURLToPath(new URL(`../testData/${fileName}`, import.meta.url))
@@ -99,4 +99,10 @@ export async function ensureBookNotExists(page: Page, bookId: string): Promise<v
 export async function goToBooks(page: Page): Promise<void> {
   await page.goto('/books')
   await page.waitForFunction(() => document.title === 'Books — BymseRead')
+}
+
+export async function makeBookActive(page: Page, bookId: string): Promise<void> {
+  await page.goto(`/books/${bookId}`)
+  await ensureBookLoaded(page, bookId)
+  await setPageInHeader(page, 3)
 }
