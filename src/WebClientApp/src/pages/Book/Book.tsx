@@ -84,6 +84,7 @@ export const Book = () => {
         onCurrentPageChange={updateCurrentPage}
         onResetZoom={handleResetZoom}
         currentPage={currentPage}
+        lastPageBookmark={lastPageBookmark?.page}
         totalPages={book.pages ?? totalPages}
       />
 

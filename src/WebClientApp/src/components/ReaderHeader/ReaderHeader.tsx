@@ -3,11 +3,13 @@ import { Button } from '@components/Button/Button.tsx'
 import { ArrowLeftIcon } from '@icons/ArrowLeftIcon.tsx'
 import { Dropdown, DropdownItem } from '@components/Dropdown/Dropdown.tsx'
 import { BookmarkIcon } from '@icons/BookmarkIcon.tsx'
+import { BookmarkSolidIcon } from '@icons/BookmarkSolidIcon.tsx'
 import { PageInput } from '@components/PageInput/PageInput.tsx'
 
 export type ReaderHeaderProps = {
   totalPages?: number
   currentPage?: number
+  lastPageBookmark?: number
   title?: string
   onBookmarkClick?: () => void
   onResetZoom?: () => void
@@ -25,6 +27,7 @@ export const ReaderHeader = ({
   onResetZoom,
   totalPages,
   currentPage,
+  lastPageBookmark,
   onCurrentPageChange,
   'data-testid': dataTestId,
 }: ReaderHeaderProps) => {
@@ -56,7 +59,7 @@ export const ReaderHeader = ({
       <div className={styles.right}>
         {onBookmarkClick && (
           <Button
-            icon={BookmarkIcon}
+            icon={currentPage === lastPageBookmark ? BookmarkSolidIcon : BookmarkIcon}
             appearance="flat"
             onClick={onBookmarkClick}
             data-testid="reader-header-bookmark-button"
