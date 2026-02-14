@@ -64,12 +64,13 @@ secrets:
   authn:
     clientSecret: ""
 
-ingress:
+httpRoute:
   enabled: true
-  className: "nginx"
   host: "example.com"
-  tls: true
-  tlsSecretName: "example-tls-secret"
+  gatewayRef:
+    name: "default-gateway"
+    namespace: ""
+    sectionName: ""
   annotations: {}
 
 authn:
