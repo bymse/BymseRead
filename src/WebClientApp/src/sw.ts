@@ -13,7 +13,7 @@ if (import.meta.env.PROD) {
   registerRoute(
     new NavigationRoute(createHandlerBoundToURL('index.html'), {
       allowlist: [/.*/],
-      denylist: [/^\/web-api\//, /^\/bymse-read\//],
+      denylist: [/^\/web-api\//, /^\/bymse-read\//, /^\/7e967059-bymse-read\//],
     }),
   )
 }
