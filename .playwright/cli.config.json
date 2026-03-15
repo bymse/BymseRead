@@ -1,0 +1,12 @@
+{
+  "browser": {
+    "browserName": "chromium",
+    "launchOptions": {
+      "channel": "chromium"
+    },
+    "args": ["--unsafely-treat-insecure-origin-as-secure=http://read.bymse.local:5173", "--allow-running-insecure-content"],
+    "contextOptions": {
+      "ignoreHTTPSErrors": true
+    }
+  }
+}

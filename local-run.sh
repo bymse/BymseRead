@@ -4,7 +4,7 @@ set -e
 
 SCRIPT_DIR="$(dirname "$0")"
 COMPOSE_FILE="$SCRIPT_DIR/.devcontainer/docker-compose.yml"
-COMPOSE_CMD="docker compose -f $COMPOSE_FILE --profile local-run"
+COMPOSE_CMD="docker compose -f $COMPOSE_FILE -p bymse-read --profile local-run"
 
 case "${1:-}" in
   --stop)
