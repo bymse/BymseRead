@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using BymseRead.Core.Application.SyncUser;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BymseRead.Service.Auth;
@@ -56,6 +57,7 @@ public static class AuthConfiguration
                     e.NonceCookie.SameSite = SameSiteMode.Lax;
                     e.CorrelationCookie.SecurePolicy = CookieSecurePolicy.None;
                     e.CorrelationCookie.SameSite = SameSiteMode.Lax;
+                    e.ResponseMode = OpenIdConnectResponseMode.Query;
                 }
 
                 e.Events.OnTokenValidated = async context =>
