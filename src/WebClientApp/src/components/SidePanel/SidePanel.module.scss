@@ -57,7 +57,7 @@
 @media (max-width: v.$mobile-width) {
   .container {
     --side-panel-padding-x: 24px;
-    height: min(100%, calc(100dvh - var(--reader-header-offset)));
+    height: unset;
     position: absolute;
     left: 0;
     bottom: 0;
