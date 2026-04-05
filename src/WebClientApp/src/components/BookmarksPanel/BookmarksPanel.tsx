@@ -1,9 +1,9 @@
 ﻿import styles from './BookmarksPanel.module.scss'
 import { Button } from '@components/Button/Button.tsx'
-import { RemoveIcon } from '@icons/RemoveIcon.tsx'
 import { useRef, useState } from 'preact/hooks'
 import { useEffect } from 'react'
 import { Toast } from '@components/Toast/Toast.tsx'
+import { SidePanel } from '@components/SidePanel/SidePanel.tsx'
 
 export type BookmarksPanelProps = {
   onMarkAsLastPage: (page: number) => void
@@ -61,11 +61,12 @@ export const BookmarksPanel = ({
   const date = lastPageDate ? lastPageDate.toISOString().split('T')[0].replace(/-/g, '.') : ''
   return (
     <>
-      <div className={styles.container} data-testid="bookmarks-panel">
-        <h2 className={styles.title}>Bookmarks</h2>
-        <div className={styles.close}>
-          <Button icon={RemoveIcon} onClick={onClose} appearance="flat" data-testid="bookmarks-close-button" />
-        </div>
+      <SidePanel
+        title="Bookmarks"
+        onClose={onClose}
+        testId="bookmarks-panel"
+        closeButtonTestId="bookmarks-close-button"
+      >
         <div className={styles.button}>
           <Button
             appearance="primary"
@@ -83,7 +84,7 @@ export const BookmarksPanel = ({
             </span>
           </div>
         )}
-      </div>
+      </SidePanel>
       {showReturnToPage && (
         <div className={styles.returnToPageToast}>
           <Toast
