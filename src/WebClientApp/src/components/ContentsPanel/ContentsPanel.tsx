@@ -5,8 +5,7 @@ import {
   findBestActiveOutlineId,
   getOutlinePath,
 } from '@components/Reader/readerOutline.ts'
-import { RemoveIcon } from '@icons/RemoveIcon.tsx'
-import { Button } from '@components/Button/Button.tsx'
+import { SidePanel } from '@components/SidePanel/SidePanel.tsx'
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks'
 import { OutlineTree } from './OutlineTree.tsx'
 
@@ -69,12 +68,8 @@ export const ContentsPanel = ({ items, currentPage, onNavigate, onClose }: Conte
   }
 
   return (
-    <aside className={styles.container} data-testid="contents-panel" ref={rootRef}>
-      <h2 className={styles.heading}>Contents</h2>
-      <div className={styles.close}>
-        <Button icon={RemoveIcon} onClick={onClose} appearance="flat" data-testid="contents-close-button" />
-      </div>
-      <div className={styles.rows}>
+    <SidePanel title="Contents" onClose={onClose} testId="contents-panel" closeButtonTestId="contents-close-button">
+      <div className={styles.rows} ref={rootRef}>
         <OutlineTree
           items={items}
           activeItemId={activeItemId}
@@ -84,6 +79,6 @@ export const ContentsPanel = ({ items, currentPage, onNavigate, onClose }: Conte
           onNavigate={handleNavigate}
         />
       </div>
-    </aside>
+    </SidePanel>
   )
 }
