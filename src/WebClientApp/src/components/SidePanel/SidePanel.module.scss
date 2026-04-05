@@ -6,7 +6,6 @@
   position: fixed;
   top: var(--reader-header-offset);
   right: 0;
-  width: 400px;
   height: calc(100% - var(--reader-header-offset));
   z-index: 3;
   overflow: hidden;
@@ -51,7 +50,6 @@
 @media (max-width: v.$tablet-width) {
   .container {
     --reader-header-offset: 68px;
-    width: 300px;
     box-shadow: -4px 4px 10px -4px rgba(14, 18, 77, 0.07);
   }
 }
@@ -59,7 +57,6 @@
 @media (max-width: v.$mobile-width) {
   .container {
     --side-panel-padding-x: 24px;
-    width: 100%;
     height: min(100%, calc(100dvh - var(--reader-header-offset)));
     position: absolute;
     left: 0;
