@@ -22,6 +22,8 @@ export const Default: Story = {
     currentPage: 10,
     totalPages: 100,
     onBookmarkClick: fn(),
+    onContentsClick: fn(),
+    showContentsButton: true,
     onEditBook: fn(),
     onDeleteBook: fn(),
     onCurrentPageChange: fn(),

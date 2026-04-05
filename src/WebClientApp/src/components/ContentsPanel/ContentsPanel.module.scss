@@ -1,0 +1,194 @@
+@use '../../_variables' as v;
+
+.container {
+  position: fixed;
+  top: 72px;
+  right: 0;
+  width: 668px;
+  height: calc(100% - 72px);
+  z-index: 1;
+  overflow-y: auto;
+  background: var(--color-base-01);
+  box-shadow: -4px 0px 10px 0px rgba(14, 18, 77, 0.07);
+  display: flex;
+  flex-direction: column;
+  padding: 28px 32px 24px;
+  box-sizing: border-box;
+}
+
+.heading {
+  padding: 0;
+  color: var(--color-text-02);
+  font-family: var(--font-family);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px;
+  margin: 0;
+}
+
+.close {
+  position: absolute;
+  top: 18px;
+  right: 17px;
+}
+
+.rows {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.row {
+  min-height: 44px;
+  position: relative;
+}
+
+.withGuide::before {
+  content: '';
+  position: absolute;
+  left: calc((var(--outline-depth) * 16px) + 12px);
+  top: 2px;
+  bottom: 2px;
+  width: 1px;
+  background: rgba(106, 110, 131, 0.28);
+}
+
+.rowContent {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  padding-right: 8px;
+}
+
+.chevronSlot {
+  width: 24px;
+  min-width: 24px;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.chevronButton {
+  border: 0;
+  background: transparent;
+  color: var(--color-text-02);
+  cursor: pointer;
+  border-radius: 12px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chevronButton:hover {
+  background: var(--color-base-secondary-hover);
+}
+
+.chevronButton:active {
+  background: var(--color-base-secondary-active);
+}
+
+.chevronIcon {
+  transition: transform 0.15s ease;
+}
+
+.expanded {
+  transform: rotate(90deg);
+}
+
+.linkArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+button.linkArea {
+  cursor: pointer;
+}
+
+.linkArea:hover {
+  background: rgba(86, 116, 255, 0.06);
+  border-radius: 12px;
+}
+
+.rowTitle {
+  color: var(--color-text-02);
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  overflow-wrap: anywhere;
+}
+
+.dots {
+  flex: 1;
+  border-bottom: 1px dotted rgba(106, 110, 131, 0.6);
+  margin: 0 8px;
+  transform: translateY(2px);
+}
+
+.pageNumber {
+  color: var(--color-text-02);
+  font-family: var(--font-family);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.active .rowTitle,
+.active .pageNumber {
+  font-weight: 700;
+  color: var(--color-text-10);
+}
+
+.active .rowContent {
+  background: rgba(28, 46, 112, 0.08);
+}
+
+.activePath .rowTitle {
+  color: var(--color-text-02);
+  font-weight: 500;
+}
+
+.disabled .rowTitle {
+  color: var(--color-text-04);
+}
+
+@media (max-width: v.$tablet-width) {
+  .container {
+    width: calc(100% - 52px);
+  }
+}
+
+@media (max-width: v.$mobile-width) {
+  .container {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    box-shadow: 0px -4px 10px 0px rgba(2, 3, 24, 0.07);
+    padding: 24px 16px 20px;
+    animation: slideUp 0.2s ease;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

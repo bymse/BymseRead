@@ -1,10 +1,11 @@
-﻿import styles from './ReaderHeader.module.scss'
-import { Button } from '@components/Button/Button.tsx'
-import { ArrowLeftIcon } from '@icons/ArrowLeftIcon.tsx'
+﻿import { Button } from '@components/Button/Button.tsx'
 import { Dropdown, DropdownItem } from '@components/Dropdown/Dropdown.tsx'
+import { PageInput } from '@components/PageInput/PageInput.tsx'
+import { ArrowLeftIcon } from '@icons/ArrowLeftIcon.tsx'
 import { BookmarkIcon } from '@icons/BookmarkIcon.tsx'
 import { BookmarkSolidIcon } from '@icons/BookmarkSolidIcon.tsx'
-import { PageInput } from '@components/PageInput/PageInput.tsx'
+import { ContentsIcon } from '@icons/ContentsIcon.tsx'
+import styles from './ReaderHeader.module.scss'
 
 export type ReaderHeaderProps = {
   totalPages?: number
@@ -12,6 +13,9 @@ export type ReaderHeaderProps = {
   lastPageBookmark?: number
   title?: string
   onBookmarkClick?: () => void
+  onContentsClick?: () => void
+  showContentsButton?: boolean
+  isContentsOpen?: boolean
   onResetZoom?: () => void
   onEditBook?: () => void
   onDeleteBook?: () => void
@@ -22,6 +26,9 @@ export type ReaderHeaderProps = {
 export const ReaderHeader = ({
   title,
   onBookmarkClick,
+  onContentsClick,
+  showContentsButton,
+  isContentsOpen,
   onEditBook,
   onDeleteBook,
   onResetZoom,
@@ -38,7 +45,6 @@ export const ReaderHeader = ({
   }
 
   const hasDropdown = Boolean(onEditBook || onDeleteBook || onResetZoom)
-  const hasPages = totalPages
 
   return (
     <header className={styles.header} data-testid={dataTestId}>
@@ -49,7 +55,7 @@ export const ReaderHeader = ({
         </span>
       </div>
       <div className={styles.center}>
-        {hasPages && (
+        {totalPages && (
           <>
             <PageInput defaultValue={currentPage} onValueChange={handleCurrentPageChange} maxNumber={totalPages} />
             <span className={styles.totalPages}>/{totalPages}</span>
@@ -57,6 +63,14 @@ export const ReaderHeader = ({
         )}
       </div>
       <div className={styles.right}>
+        {showContentsButton && onContentsClick && (
+          <Button
+            icon={ContentsIcon}
+            appearance={isContentsOpen ? 'secondary' : 'flat'}
+            onClick={onContentsClick}
+            data-testid="reader-header-contents-button"
+          />
+        )}
         {onBookmarkClick && (
           <Button
             icon={currentPage === lastPageBookmark ? BookmarkSolidIcon : BookmarkIcon}

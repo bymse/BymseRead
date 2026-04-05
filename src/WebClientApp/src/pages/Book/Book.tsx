@@ -1,4 +1,4 @@
-﻿import { useLocation, useRoute } from 'preact-iso'
+import { useLocation, useRoute } from 'preact-iso'
 import { ReaderHeader } from '@components/ReaderHeader/ReaderHeader.tsx'
 import { NotFound } from '../NotFound/NotFound.tsx'
 import { useBook } from '@hooks/useBook.ts'
@@ -9,11 +9,12 @@ import { useEditBook } from '@hooks/useEditBook.ts'
 import { DeleteBookModal } from '@components/DeleteBookModal/DeleteBookModal.tsx'
 import { useCurrentPage } from '@hooks/useCurrentPage.ts'
 import styles from './Book.module.scss'
-import { IReader, Reader } from '@components/Reader/Reader.tsx'
+import { IReader, Reader, ReaderOutlineItem } from '@components/Reader/Reader.tsx'
 import { useBookmarks } from '@hooks/useBookmarks.ts'
 import { Loader } from '@components/Loader/Loader.tsx'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { usePageTitle } from '@hooks/usePageTitle.ts'
+import { ContentsPanel } from '@components/ContentsPanel/ContentsPanel.tsx'
 
 export const Book = () => {
   const { params } = useRoute()
@@ -22,6 +23,7 @@ export const Book = () => {
   const { id } = params
   const { book, isLoading, reload, showSpinner, isOffline } = useBook(id)
   const [totalPages, setTotalPages] = useState<number | undefined>(undefined)
+  const [outlineItems, setOutlineItems] = useState<ReaderOutlineItem[]>([])
   const { updateCurrentPage, currentPage } = useCurrentPage(book)
   const { handleMarkAsLastPage, lastPageBookmark } = useBookmarks(book)
   const { handleEditBook, handleDeleteBook } = useEditBook(book?.bookId, reload, () => route('/books'))
@@ -29,18 +31,41 @@ export const Book = () => {
   usePageTitle(book?.title)
 
   const bookmarksShowHide = useShowHide()
+  const contentsShowHide = useShowHide()
   const editShowHide = useShowHide()
   const deleteShowHide = useShowHide()
 
+  const showContentsButton = outlineItems.length > 0
+  const isContentsPanelVisible = contentsShowHide.visible && showContentsButton
+
   const handleResetZoom = () => {
-    if (readerRef.current) {
-      readerRef.current.resetZoom()
-    }
+    readerRef.current?.resetZoom()
   }
 
   const handleEditBookFormSubmit = async (form: EditBookFormValues) => {
     await handleEditBook(form)
     return editShowHide.close()
+  }
+
+  const handleBookmarkClick = () => {
+    contentsShowHide.close()
+    bookmarksShowHide.open()
+  }
+
+  const handleContentsClick = () => {
+    if (contentsShowHide.visible) {
+      contentsShowHide.close()
+    } else {
+      bookmarksShowHide.close()
+      contentsShowHide.open()
+    }
+  }
+
+  const handleOutlineReady = (items: ReaderOutlineItem[]) => {
+    setOutlineItems(items)
+    if (!items.length) {
+      contentsShowHide.close()
+    }
   }
 
   useEffect(() => {
@@ -78,7 +103,10 @@ export const Book = () => {
       <ReaderHeader
         data-testid="book-page-header"
         title={book.title as string}
-        onBookmarkClick={bookmarksShowHide.open}
+        onBookmarkClick={handleBookmarkClick}
+        onContentsClick={handleContentsClick}
+        showContentsButton={showContentsButton}
+        isContentsOpen={isContentsPanelVisible}
         onEditBook={isOffline ? undefined : editShowHide.open}
         onDeleteBook={isOffline ? undefined : deleteShowHide.open}
         onCurrentPageChange={updateCurrentPage}
@@ -95,6 +123,7 @@ export const Book = () => {
         onCurrentPageChange={updateCurrentPage}
         readerRef={readerRef}
         setTotalPages={setTotalPages}
+        onOutlineReady={handleOutlineReady}
       />
 
       {bookmarksShowHide.visible && (
@@ -106,6 +135,15 @@ export const Book = () => {
           currentPage={currentPage}
           onMarkAsLastPage={handleMarkAsLastPage}
           onReturnToPageClick={updateCurrentPage}
+        />
+      )}
+
+      {isContentsPanelVisible && (
+        <ContentsPanel
+          items={outlineItems}
+          currentPage={currentPage}
+          onNavigate={updateCurrentPage}
+          onClose={contentsShowHide.close}
         />
       )}
 

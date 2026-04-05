@@ -6,6 +6,7 @@ import { useExecuteWithLoader } from '@utils/useExecuteWithLoader'
 import cn from 'classnames'
 import { Loader } from '@components/Loader/Loader.tsx'
 import { handleZoom } from '@utils/handleZoom.ts'
+import { ReaderOutlineItem } from '@components/Reader/readerOutline.ts'
 
 export interface IReader {
   resetZoom(): void
@@ -19,9 +20,20 @@ export type ReaderProps = {
   onCurrentPageChange?: (page: number) => void
   readerRef: MutableRef<IReader | undefined>
   setTotalPages?: (totalPages: number) => void
+  onOutlineReady?: (items: ReaderOutlineItem[]) => void
 }
 
-export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange, readerRef, setTotalPages }: ReaderProps) => {
+export type { ReaderOutlineItem }
+
+export const Reader = ({
+  pdfUrl,
+  currentPage,
+  bookId,
+  onCurrentPageChange,
+  readerRef,
+  setTotalPages,
+  onOutlineReady,
+}: ReaderProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const pdfReader = useRef<PdfReader | null>(null)
   const currentPageRef = useRef<number>(currentPage)
@@ -68,6 +80,7 @@ export const Reader = ({ pdfUrl, currentPage, bookId, onCurrentPageChange, reade
         onPageChange: page => {
           onCurrentPageChange?.(page)
         },
+        onOutlineReady,
         onError: error => {
           showError(error.message)
           reject(error)

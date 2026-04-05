@@ -2,6 +2,8 @@ import { expect, Page } from '@playwright/test'
 import { fileURLToPath } from 'node:url'
 import { clickToastLink } from './coomonActions.js'
 import { ensureBookLoaded, setPageInHeader } from './readerActions.js'
+import { existsSync } from 'node:fs'
+import path from 'node:path'
 
 const getFilePath = (fileName: string) => {
   return fileURLToPath(new URL(`../testData/${fileName}`, import.meta.url))
