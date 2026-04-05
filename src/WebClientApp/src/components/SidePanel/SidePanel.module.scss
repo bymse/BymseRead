@@ -1,19 +1,28 @@
 @use '../../variables' as v;
 
 .container {
+  --reader-header-offset: 84px;
+  --side-panel-padding-x: 32px;
   position: fixed;
-  top: 0;
+  top: var(--reader-header-offset);
   right: 0;
   width: 400px;
-  height: 100%;
+  height: calc(100% - var(--reader-header-offset));
   z-index: 3;
-  overflow-y: auto;
+  overflow: hidden;
   background: var(--color-base-01);
   box-shadow: -4px 0px 10px 0px rgba(14, 18, 77, 0.07);
   display: flex;
   flex-direction: column;
-  padding: 28px 32px;
   box-sizing: border-box;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--color-base-01);
+  padding: 28px var(--side-panel-padding-x) 20px;
 }
 
 .title {
@@ -23,7 +32,7 @@
   font-size: 24px;
   font-weight: 500;
   line-height: 28px;
-  margin: 0 0 40px;
+  margin: 0;
 }
 
 .close {
@@ -32,16 +41,26 @@
   right: 17px;
 }
 
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 var(--side-panel-padding-x) 28px;
+  box-sizing: border-box;
+}
+
 @media (max-width: v.$tablet-width) {
   .container {
+    --reader-header-offset: 68px;
     width: 300px;
+    box-shadow: -4px 4px 10px -4px rgba(14, 18, 77, 0.07);
   }
 }
 
 @media (max-width: v.$mobile-width) {
   .container {
+    --side-panel-padding-x: 24px;
     width: 100%;
-    height: unset;
+    height: min(100%, calc(100dvh - var(--reader-header-offset)));
     position: absolute;
     left: 0;
     bottom: 0;
@@ -49,7 +68,6 @@
     top: unset;
     animation: slideUp 0.3s ease;
     border-radius: 20px 20px 0 0;
-    padding: 28px 24px;
     box-shadow: 0px -4px 10px 0px rgba(2, 3, 24, 0.07);
     align-items: stretch;
   }

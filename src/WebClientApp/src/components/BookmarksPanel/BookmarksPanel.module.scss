@@ -12,6 +12,10 @@
   cursor: pointer;
 }
 
+.button {
+  margin-top: 20px;
+}
+
 .card:hover {
   background: var(--color-base-card-hover);
 }

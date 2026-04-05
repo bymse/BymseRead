@@ -14,11 +14,13 @@ export type SidePanelProps = {
 export const SidePanel = ({ title, onClose, children, testId, closeButtonTestId }: SidePanelProps) => {
   return (
     <div className={styles.container} data-testid={testId}>
-      <h2 className={styles.title}>{title}</h2>
-      <div className={styles.close}>
-        <Button icon={RemoveIcon} onClick={onClose} appearance="flat" data-testid={closeButtonTestId} />
+      <div className={styles.header}>
+        <h2 className={styles.title}>{title}</h2>
+        <div className={styles.close}>
+          <Button icon={RemoveIcon} onClick={onClose} appearance="flat" data-testid={closeButtonTestId} />
+        </div>
       </div>
-      {children}
+      <div className={styles.content}>{children}</div>
     </div>
   )
 }
