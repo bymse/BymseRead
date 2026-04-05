@@ -84,7 +84,6 @@ button.linkArea {
 }
 
 .linkArea:hover {
-  background: rgba(86, 116, 255, 0.06);
   border-radius: 12px;
 }
 
@@ -99,6 +98,7 @@ button.linkArea {
 
 .dots {
   flex: 1;
+  margin: 0 10px;
   height: 1px; /* thickness area */
   background: repeating-linear-gradient(
       to right,
@@ -115,14 +115,12 @@ button.linkArea {
   line-height: 24px;
 }
 
-.active .rowTitle,
-.active .pageNumber {
-  font-weight: 700;
-  color: var(--color-text-10);
+.active .rowContent {
+  background: var(--color-base-secondary-hover);
 }
 
-.active .rowContent {
-  background: rgba(28, 46, 112, 0.08);
+.row:not(.disabled):hover .rowContent {
+  background: var(--color-base-secondary-hover);
 }
 
 .activePath .rowTitle {
