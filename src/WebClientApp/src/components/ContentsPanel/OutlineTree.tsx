@@ -1,3 +1,4 @@
+import { Button } from '@components/Button/Button.tsx'
 import styles from './ContentsPanel.module.scss'
 import { ReaderOutlineItem } from '@components/Reader/readerOutline.ts'
 import { ChevronIcon } from '@icons/ChevronIcon.tsx'
@@ -45,16 +46,19 @@ const OutlineRow = ({ item, ...context }: OutlineRowProps) => {
         <div className={styles.rowContent} style={{ paddingLeft: `${item.depth * 16}px` }}>
           <div className={styles.chevronSlot}>
             {hasChildren && (
-              <button
-                type="button"
-                className={styles.chevronButton}
+              <Button
+                appearance="text"
+                icon={() => (
+                  <ChevronIcon
+                    className={cn(styles.chevronIcon, { [styles.expanded]: isExpanded })}
+                    color="currentColor"
+                  />
+                )}
                 data-testid="contents-outline-chevron"
                 data-outline-id={item.id}
                 onClick={() => onToggleExpand(item.id)}
-                aria-label={isExpanded ? 'Collapse section' : 'Expand section'}
-              >
-                <ChevronIcon className={cn(styles.chevronIcon, { [styles.expanded]: isExpanded })} />
-              </button>
+                type="button"
+              />
             )}
           </div>
           <OutlineLink item={item} onNavigate={onNavigate} />

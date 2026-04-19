@@ -1,7 +1,7 @@
 @use '../../variables' as v;
 
 .container {
-  --reader-header-offset: 84px;
+  --reader-header-offset: 80px;
   --side-panel-padding-x: 32px;
   position: fixed;
   top: var(--reader-header-offset);

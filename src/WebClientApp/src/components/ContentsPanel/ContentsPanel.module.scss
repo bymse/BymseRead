@@ -3,7 +3,7 @@
 .rows {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  min-width: 668px;
 }
 
 .row {
@@ -11,27 +11,15 @@
   position: relative;
 }
 
-.withGuide::before {
-  content: '';
-  position: absolute;
-  left: calc((var(--outline-depth) * 16px) + 12px);
-  top: 2px;
-  bottom: 2px;
-  width: 1px;
-  background: rgba(106, 110, 131, 0.28);
-}
-
 .rowContent {
   min-height: 44px;
   display: flex;
   align-items: center;
-  border-radius: 12px;
-  padding-right: 8px;
 }
 
 .chevronSlot {
-  width: 24px;
-  min-width: 24px;
+  width: 36px;
+  min-width: 36px;
   margin-right: 8px;
   display: flex;
   align-items: center;
@@ -75,16 +63,13 @@
   text-decoration: none;
   border: 0;
   background: transparent;
-  padding: 0;
   color: inherit;
+  border-radius: 8px;
+  padding: 10px 4px;
 }
 
 button.linkArea {
   cursor: pointer;
-}
-
-.linkArea:hover {
-  border-radius: 12px;
 }
 
 .rowTitle {
@@ -115,11 +100,11 @@ button.linkArea {
   line-height: 24px;
 }
 
-.active .rowContent {
-  background: var(--color-base-secondary-hover);
+.active .linkArea {
+  background: var(--color-base-secondary-active);
 }
 
-.row:not(.disabled):hover .rowContent {
+.row:not(.disabled) .linkArea:hover {
   background: var(--color-base-secondary-hover);
 }
 

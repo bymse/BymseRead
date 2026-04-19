@@ -66,7 +66,7 @@ export const ReaderHeader = ({
         {showContentsButton && onContentsClick && (
           <Button
             icon={ContentsIcon}
-            appearance={isContentsOpen ? 'secondary' : 'flat'}
+            appearance="flat"
             onClick={onContentsClick}
             data-testid="reader-header-contents-button"
           />
