@@ -9,7 +9,7 @@ import { SidePanel } from '@components/SidePanel/SidePanel.tsx'
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks'
 import { OutlineTree } from './OutlineTree.tsx'
 
-const MOBILE_MEDIA_QUERY = '(max-width: 414px)'
+const TABLET_MEDIA_QUERY = '(max-width: 820px)'
 
 export type ContentsPanelProps = {
   items: ReaderOutlineItem[]
@@ -62,7 +62,7 @@ export const ContentsPanel = ({ items, currentPage, onNavigate, onClose }: Conte
       onNavigate(item.pageNumber)
     }
 
-    if (navigated && window.matchMedia(MOBILE_MEDIA_QUERY).matches) {
+    if (navigated && window.matchMedia(TABLET_MEDIA_QUERY).matches) {
       onClose()
     }
   }
