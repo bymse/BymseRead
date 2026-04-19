@@ -1,34 +1,43 @@
 ﻿.button.primary {
-  --color-normal: var(--color-base-primary-normal);
-  --color-hover: var(--color-base-primary-hover);
-  --color-active: var(--color-base-primary-active);
-  --color-text: var(--color-text-01);
+  --bg-color-normal: var(--color-base-primary-normal);
+  --bg-color-hover: var(--color-base-primary-hover);
+  --bg-color-active: var(--color-base-primary-active);
+  --color-title: var(--color-text-01);
 }
 
 .button.flat {
-  --color-normal: transparent;
-  --color-hover: var(--color-base-secondary-hover);
-  --color-active: var(--color-base-secondary-active);
-  --color-text: var(--color-text-10);
+  --bg-color-normal: transparent;
+  --bg-color-hover: var(--color-base-secondary-hover);
+  --bg-color-active: var(--color-base-secondary-active);
+  --color-title: var(--color-text-10);
 }
 
 .button.secondary {
-  --color-normal: var(--color-base-secondary);
-  --color-hover: var(--color-base-secondary-hover);
-  --color-active: var(--color-base-secondary-active);
-  --color-text: var(--color-text-10);
+  --bg-color-normal: var(--color-base-secondary);
+  --bg-color-hover: var(--color-base-secondary-hover);
+  --bg-color-active: var(--color-base-secondary-active);
+  --color-title: var(--color-text-10);
 }
 
 .button.outline {
   outline: 1px solid var(--color-base-04);
-  --color-normal: transparent;
-  --color-hover: var(--color-base-secondary-hover);
-  --color-active: var(--color-base-secondary-active);
-  --color-text: var(--color-text-10);
+  --bg-color-normal: transparent;
+  --bg-color-hover: var(--color-base-secondary-hover);
+  --bg-color-active: var(--color-base-secondary-active);
+  --color-title: var(--color-text-10);
+}
+
+.button.text {
+  --bg-color-normal: transparent;
+  --bg-color-hover: transparent;
+  --bg-color-active: transparent;
+  --color-title: var(--color-text-02);
+  --color-title-hover: var(--color-title);
+  color: var(--color-text-03);
 }
 
 .button {
-  background: var(--color-normal);
+  background: var(--bg-color-normal);
   border-radius: 100px;
   display: inline-flex;
   justify-content: center;
@@ -41,25 +50,26 @@
 }
 
 .button:hover {
-  background: var(--color-hover);
+  background: var(--bg-color-hover);
+  color: var(--color-title-hover, var(--color-title))
 }
 
 .button:active {
-  background: var(--color-active);
+  background: var(--bg-color-active);
 }
 
 .disabled,
 .button:disabled {
   opacity: 0.56;
-  background: var(--color-normal);
+  background: var(--bg-color-normal);
   cursor: default;
   pointer-events: none;
 }
 
-.text {
+.title {
   font-weight: 500;
   font-family: var(--font-family);
-  color: var(--color-text);
+  color: var(--color-title);
   padding: 0 8px;
   font-size: 16px;
   line-height: 24px;

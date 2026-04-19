@@ -5,7 +5,7 @@ import { Spinner } from '@components/Spinner/Spinner.tsx'
 
 export type ButtonProps = {
   title?: string
-  appearance?: 'primary' | 'flat' | 'secondary' | 'outline'
+  appearance?: 'primary' | 'flat' | 'secondary' | 'outline' | 'text'
   size?: 'medium'
   onClick?: () => void
   icon?: ComponentType
@@ -35,7 +35,7 @@ export const Button = ({
   const content = (
     <>
       {!loading && Icon && <Icon />}
-      {title && <span className={styles.text}>{title}</span>}
+      {title && <span className={styles.title}>{title}</span>}
       {children}
       {loading && <Spinner size="small" color="var(--color-text)" />}
     </>

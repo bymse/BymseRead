@@ -72,3 +72,14 @@ export const Outline: Story = {
     loading: false,
   },
 }
+
+export const Text: Story = {
+  args: {
+    appearance: 'text',
+    size: 'medium',
+    disabled: false,
+    type: 'button',
+    loading: false,
+    icon: () => <CheckIcon color="currentColor" />,
+  },
+}
