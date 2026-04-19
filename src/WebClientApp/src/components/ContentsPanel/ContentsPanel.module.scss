@@ -1,9 +1,12 @@
 @use '../../_variables' as v;
 
+.container {
+  min-width: 680px;
+}
+
 .rows {
   display: flex;
   flex-direction: column;
-  min-width: 668px;
 }
 
 .row {
@@ -66,6 +69,7 @@
   color: inherit;
   border-radius: 8px;
   padding: 10px 4px;
+  text-align: left;
 }
 
 button.linkArea {
@@ -115,4 +119,10 @@ button.linkArea {
 
 .disabled .rowTitle {
   color: var(--color-text-04);
+}
+
+@media (max-width: v.$tablet-width) {
+  .container {
+    min-width: min(100%, 680px);
+  }
 }

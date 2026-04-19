@@ -68,7 +68,14 @@ export const ContentsPanel = ({ items, currentPage, onNavigate, onClose }: Conte
   }
 
   return (
-    <SidePanel title="Contents" onClose={onClose} testId="contents-panel" closeButtonTestId="contents-close-button">
+    <SidePanel
+      title="Contents"
+      onClose={onClose}
+      fullHeight
+      className={styles.container}
+      testId="contents-panel"
+      closeButtonTestId="contents-close-button"
+    >
       <div className={styles.rows} ref={rootRef}>
         <OutlineTree
           items={items}

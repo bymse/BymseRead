@@ -15,7 +15,6 @@ export type ReaderHeaderProps = {
   onBookmarkClick?: () => void
   onContentsClick?: () => void
   showContentsButton?: boolean
-  isContentsOpen?: boolean
   onResetZoom?: () => void
   onEditBook?: () => void
   onDeleteBook?: () => void
@@ -28,7 +27,6 @@ export const ReaderHeader = ({
   onBookmarkClick,
   onContentsClick,
   showContentsButton,
-  isContentsOpen,
   onEditBook,
   onDeleteBook,
   onResetZoom,
@@ -44,7 +42,9 @@ export const ReaderHeader = ({
     }
   }
 
-  const hasDropdown = Boolean(onEditBook || onDeleteBook || onResetZoom)
+  const showContentsAction = Boolean(showContentsButton && onContentsClick)
+  const hasDesktopDropdown = Boolean(onEditBook || onDeleteBook || onResetZoom)
+  const hasMobileDropdown = Boolean(showContentsAction || onEditBook || onDeleteBook || onResetZoom)
 
   return (
     <header className={styles.header} data-testid={dataTestId}>
@@ -63,13 +63,15 @@ export const ReaderHeader = ({
         )}
       </div>
       <div className={styles.right}>
-        {showContentsButton && onContentsClick && (
-          <Button
-            icon={ContentsIcon}
-            appearance="flat"
-            onClick={onContentsClick}
-            data-testid="reader-header-contents-button"
-          />
+        {showContentsAction && (
+          <div className={styles.desktopOnly}>
+            <Button
+              icon={ContentsIcon}
+              appearance="flat"
+              onClick={onContentsClick}
+              data-testid="reader-header-contents-button"
+            />
+          </div>
         )}
         {onBookmarkClick && (
           <Button
@@ -79,16 +81,36 @@ export const ReaderHeader = ({
             data-testid="reader-header-bookmark-button"
           />
         )}
-        {hasDropdown && (
-          <Dropdown side="left" data-testid="reader-header-dropdown-button">
-            <DropdownItem onClick={onResetZoom}>Reset zoom</DropdownItem>
-            {onEditBook && <DropdownItem onClick={onEditBook}>Edit book</DropdownItem>}
-            {onDeleteBook && (
-              <DropdownItem onClick={onDeleteBook} data-testid="reader-header-delete-button">
-                Delete
-              </DropdownItem>
-            )}
-          </Dropdown>
+        {hasDesktopDropdown && (
+          <div className={styles.desktopOnly}>
+            <Dropdown side="left" data-testid="reader-header-dropdown-button">
+              <DropdownItem onClick={onResetZoom}>Reset zoom</DropdownItem>
+              {onEditBook && <DropdownItem onClick={onEditBook}>Edit book</DropdownItem>}
+              {onDeleteBook && (
+                <DropdownItem onClick={onDeleteBook} data-testid="reader-header-delete-button">
+                  Delete
+                </DropdownItem>
+              )}
+            </Dropdown>
+          </div>
+        )}
+        {hasMobileDropdown && (
+          <div className={styles.mobileOnly}>
+            <Dropdown side="left" data-testid="reader-header-mobile-dropdown-button">
+              {showContentsAction && (
+                <DropdownItem onClick={onContentsClick} data-testid="reader-header-contents-dropdown-item">
+                  Contents
+                </DropdownItem>
+              )}
+              <DropdownItem onClick={onResetZoom}>Reset zoom</DropdownItem>
+              {onEditBook && <DropdownItem onClick={onEditBook}>Edit book</DropdownItem>}
+              {onDeleteBook && (
+                <DropdownItem onClick={onDeleteBook} data-testid="reader-header-delete-button">
+                  Delete
+                </DropdownItem>
+              )}
+            </Dropdown>
+          </div>
         )}
       </div>
     </header>

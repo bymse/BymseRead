@@ -106,7 +106,6 @@ export const Book = () => {
         onBookmarkClick={handleBookmarkClick}
         onContentsClick={handleContentsClick}
         showContentsButton={showContentsButton}
-        isContentsOpen={isContentsPanelVisible}
         onEditBook={isOffline ? undefined : editShowHide.open}
         onDeleteBook={isOffline ? undefined : deleteShowHide.open}
         onCurrentPageChange={updateCurrentPage}

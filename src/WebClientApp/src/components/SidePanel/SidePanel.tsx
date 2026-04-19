@@ -11,11 +11,20 @@ export type SidePanelProps = {
   testId?: string
   closeButtonTestId?: string
   className?: string
+  fullHeight?: boolean
 }
 
-export const SidePanel = ({ title, onClose, children, testId, closeButtonTestId, className }: SidePanelProps) => {
+export const SidePanel = ({
+  title,
+  onClose,
+  children,
+  testId,
+  closeButtonTestId,
+  className,
+  fullHeight,
+}: SidePanelProps) => {
   return (
-    <div className={cn(styles.container, className)} data-testid={testId}>
+    <div className={cn(styles.container, className, { [styles.fullHeight]: fullHeight })} data-testid={testId}>
       <div className={styles.header}>
         <h2 className={styles.title}>{title}</h2>
         <div className={styles.close}>

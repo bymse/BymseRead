@@ -27,6 +27,14 @@
   gap: 4px;
 }
 
+.desktopOnly {
+  display: flex;
+}
+
+.mobileOnly {
+  display: none;
+}
+
 .center {
   display: flex;
   justify-content: center;
@@ -62,6 +70,14 @@
 }
 
 @media (max-width: v.$mobile-width) {
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: flex;
+  }
+
   .title {
     display: none;
   }
