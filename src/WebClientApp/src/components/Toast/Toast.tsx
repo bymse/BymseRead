@@ -2,7 +2,7 @@
 import cn from 'classnames'
 import { CloseIcon } from '@icons/CloseIcon.tsx'
 
-export type ToastVariant = 'info' | 'error'
+export type ToastVariant = 'info' | 'error' | 'primary'
 
 export type ToastProps = {
   message: string

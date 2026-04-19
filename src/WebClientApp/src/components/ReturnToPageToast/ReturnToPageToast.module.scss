@@ -1,0 +1,15 @@
+@use '../../variables' as v;
+
+.root {
+  position: fixed;
+  bottom: max(48px, 5%);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+@media (max-width: v.$mobile-width) {
+  .root {
+    bottom: 270px;
+  }
+}

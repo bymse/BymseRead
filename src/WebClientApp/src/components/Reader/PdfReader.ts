@@ -1,8 +1,8 @@
 import * as pdfjsLib from 'pdfjs-dist'
 import 'pdfjs-dist/web/pdf_viewer.css'
 import { ReaderOutlineItem } from '@components/Reader/readerOutline.ts'
-import type { RefProxy } from 'pdfjs-dist/types/src/display/api'
-import { EventBus, LinkTarget, PDFLinkService, PDFViewer } from 'pdfjs-dist/web/pdf_viewer.mjs'
+import { ReaderLinkService } from '@components/Reader/ReaderLinkService.ts'
+import { EventBus, LinkTarget, PDFViewer } from 'pdfjs-dist/web/pdf_viewer.mjs'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString()
 
@@ -21,6 +21,7 @@ type LoadParams = {
   onInitialized?: (p: PdfReader) => void
   bookId: string
   onPageChange?: (page: number) => void
+  onInternalLinkNavigation?: (page: number) => void
   onError: (error: Error) => void
   onOutlineReady?: (items: ReaderOutlineItem[]) => void
 }
@@ -32,10 +33,15 @@ type RawOutlineItem = {
   items: RawOutlineItem[]
 }
 
+type PdfRef = {
+  num: number
+  gen: number
+}
+
 export class PdfReader {
   private readonly eventBus: EventBus
   private readonly pdfViewer: PDFViewer
-  private readonly pdfLinkService: PDFLinkService
+  private readonly pdfLinkService: ReaderLinkService
   private pdfDocument?: pdfjsLib.PDFDocumentProxy
   private loadingTask?: pdfjsLib.PDFDocumentLoadingTask
   private loadParams?: LoadParams
@@ -45,11 +51,14 @@ export class PdfReader {
 
   constructor(container: HTMLDivElement) {
     this.eventBus = new EventBus()
-    this.pdfLinkService = new PDFLinkService({
-      eventBus: this.eventBus,
-      externalLinkTarget: LinkTarget.BLANK,
-      externalLinkRel: 'noopener noreferrer',
-    })
+    this.pdfLinkService = new ReaderLinkService(
+      {
+        eventBus: this.eventBus,
+        externalLinkTarget: LinkTarget.BLANK,
+        externalLinkRel: 'noopener noreferrer',
+      },
+      page => this.loadParams?.onInternalLinkNavigation?.(page),
+    )
 
     this.pdfViewer = new PDFViewer({
       container,
@@ -336,21 +345,20 @@ export class PdfReader {
     }
   }
 
-  private isPdfRef(value: unknown): value is RefProxy {
+  private toPdfRef(value: unknown): PdfRef | null {
     if (!value || typeof value !== 'object') {
-      return false
-    }
-
-    const maybeRef = value as { num?: unknown; gen?: unknown }
-    return typeof maybeRef.num === 'number' && typeof maybeRef.gen === 'number'
-  }
-
-  private toPdfRef(value: unknown): RefProxy | null {
-    if (!this.isPdfRef(value)) {
       return null
     }
 
-    return value
+    const maybeRef = value as { num?: unknown; gen?: unknown }
+    if (typeof maybeRef.num !== 'number' || typeof maybeRef.gen !== 'number') {
+      return null
+    }
+
+    return {
+      num: maybeRef.num,
+      gen: maybeRef.gen,
+    }
   }
 
   private toRawDestination(value: unknown): string | Array<unknown> | null {

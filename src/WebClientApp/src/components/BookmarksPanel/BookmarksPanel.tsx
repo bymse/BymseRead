@@ -2,7 +2,7 @@
 import { Button } from '@components/Button/Button.tsx'
 import { useRef, useState } from 'preact/hooks'
 import { useEffect } from 'react'
-import { Toast } from '@components/Toast/Toast.tsx'
+import { ReturnToPageToast } from '@components/ReturnToPageToast/ReturnToPageToast.tsx'
 import { SidePanel } from '@components/SidePanel/SidePanel.tsx'
 
 export type BookmarksPanelProps = {
@@ -86,15 +86,11 @@ export const BookmarksPanel = ({
         )}
       </SidePanel>
       {showReturnToPage && (
-        <div className={styles.returnToPageToast}>
-          <Toast
-            message={`Return to page ${pageToReturnRef.current}`}
-            variant="info"
-            position="relative"
-            onClick={handleReturnToPage}
-            onClose={() => setShowReturnToPage(false)}
-          />
-        </div>
+        <ReturnToPageToast
+          page={pageToReturnRef.current as number}
+          onReturn={handleReturnToPage}
+          onClose={() => setShowReturnToPage(false)}
+        />
       )}
     </>
   )

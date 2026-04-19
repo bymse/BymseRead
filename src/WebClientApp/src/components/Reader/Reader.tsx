@@ -1,5 +1,6 @@
 ﻿import { useToast } from '@components/Toast/ToastContext.tsx'
-import { MutableRef, useEffect, useImperativeHandle, useRef } from 'preact/hooks'
+import { MutableRef, useEffect, useImperativeHandle, useRef, useState } from 'preact/hooks'
+import { ReturnToPageToast } from '@components/ReturnToPageToast/ReturnToPageToast.tsx'
 import styles from './Reader.module.scss'
 import { PdfReader } from '@components/Reader/PdfReader.ts'
 import { useExecuteWithLoader } from '@utils/useExecuteWithLoader'
@@ -37,6 +38,8 @@ export const Reader = ({
   const containerRef = useRef<HTMLDivElement>(null)
   const pdfReader = useRef<PdfReader | null>(null)
   const currentPageRef = useRef<number>(currentPage)
+  const pendingReturnToPageRef = useRef<number | null>(null)
+  const [returnToPage, setReturnToPage] = useState<number | null>(null)
   const { showError } = useToast()
 
   useImperativeHandle(readerRef, () => {
@@ -80,6 +83,9 @@ export const Reader = ({
         onPageChange: page => {
           onCurrentPageChange?.(page)
         },
+        onInternalLinkNavigation: page => {
+          pendingReturnToPageRef.current = page
+        },
         onOutlineReady,
         onError: error => {
           showError(error.message)
@@ -102,6 +108,27 @@ export const Reader = ({
     }
   }, [currentPage])
 
+  useEffect(() => {
+    if (returnToPage !== null && currentPage === returnToPage) {
+      setReturnToPage(null)
+    }
+
+    if (pendingReturnToPageRef.current !== null && currentPage !== pendingReturnToPageRef.current) {
+      setReturnToPage(pendingReturnToPageRef.current)
+      pendingReturnToPageRef.current = null
+    }
+  }, [currentPage, returnToPage])
+
+  const handleReturnToPage = () => {
+    if (returnToPage === null) {
+      return
+    }
+
+    onCurrentPageChange?.(returnToPage)
+    setReturnToPage(null)
+    pendingReturnToPageRef.current = null
+  }
+
   return (
     <section className={styles.root}>
       <Loader showSpinner={showSpinner} text={<>We&lsquo;re loading the reader</>} />
@@ -117,6 +144,9 @@ export const Reader = ({
       >
         <div id="viewer" className="pdfViewer"></div>
       </div>
+      {returnToPage !== null && (
+        <ReturnToPageToast page={returnToPage} onReturn={handleReturnToPage} onClose={() => setReturnToPage(null)} />
+      )}
     </section>
   )
 }
